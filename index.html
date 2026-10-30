@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>PT MUGGO INDONESIA | Mall Food Court Online & Karir</title>
+  <meta name="description" content="Mall Food Court Online Tempat Bertemunya 30+ Brand Kuliner dalam Satu Tempat. Visi, Brand, Food R&D, Platform, dan Karir MUGGO Indonesia." />
+
+  <!-- ⑩ 메타 정보: WhatsApp 및 SNS 공유 미리보기 (Open Graph) 설정 -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mfgkoreaceo-ops.github.io/muggo-corporate-site/" />
+  <meta property="og:site_name" content="PT MUGGO INDONESIA" />
+  <meta property="og:title" content="PT MUGGO INDONESIA | 30+ Brands Online Food Court Mall" />
+  <meta property="og:description" content="Mall Food Court Online Tempat Bertemunya 30+ Brand Kuliner dalam Satu Tempat. Visi, Brand, Food R&D, Platform, dan Karir (11 Bidang Posisi)." />
+  <meta property="og:image" content="https://mfgkoreaceo-ops.github.io/muggo-corporate-site/assets/og-preview.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#E84A27" />
+
+  <!-- 파비콘 (제안요청서 6번 반영) -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <!-- 스타일시트 -->
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+  <!-- ① 본문 바로가기 링크 (Skip to Content) -->
+  <a href="#main-content" class="skip-link">본문 바로가기 (Skip to main content)</a>
+
+  <!-- 대표님·디렉터님·인사담당자 검수용 실시간 프리뷰 컨트롤 바 -->
+  <div id="rfp-control-bar" class="rfp-control-bar"></div>
+
+  <!-- ① 헤더 (로고 2종, 메뉴 5개 + 문의 조건부, 언어 전환 기본 숨김) -->
+  <header id="site-header" class="site-header"></header>
+
+  <!-- 메인 콘텐츠 영역 (홈 ②~⑧ 섹션 및 서브페이지 전환) -->
+  <main id="main-content" tabindex="-1"></main>
+
+  <!-- ⑨ 푸터 (로고, 인스타그램·틱톡, 메뉴 재노출, 한국 본사 링크 ON/OFF, 개인정보처리방침/이용약관, 저작권) -->
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <!-- 5-1. 모바일 하단 고정 버튼 바 (인스타그램, 틱톡, 채용 지원) -->
+  <div id="mobile-sticky-bar" class="mobile-sticky-bar"></div>
+
+  <!-- 5-6. 비개발자용 관리 화면 (CMS) 모달: 총괄 관리자 / 인사 담당자 권한 분리 -->
+  <div id="admin-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <span class="rfp-badge">제안요청서 5-6 반영</span>
+          <strong id="admin-modal-title" style="margin-left:8px; font-size:16px;">비개발자용 관리 화면 (CMS) 및 권한 구분</strong>
+        </div>
+        <button class="ctrl-btn" onclick="closeAdminModal()" style="font-size:14px;">✕ 닫기</button>
+      </div>
+      <div class="modal-body" id="admin-modal-content"></div>
+    </div>
+  </div>
+
+  <!-- 6 & 7. 최종 이미지 목록표 & 기술 제안서 모달 (착수 단계 제출 필수 문서) -->
+  <div id="spec-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="spec-modal-title">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <span class="rfp-badge" style="background:#2563EB;">착수 단계 제출 문서</span>
+          <strong id="spec-modal-title" style="margin-left:8px; font-size:16px;">최종 이미지 목록표(규격서) & 기술·검수 기준 제안서</strong>
+        </div>
+        <button class="ctrl-btn" onclick="closeSpecModal()" style="font-size:14px;">✕ 닫기</button>
+      </div>
+      <div class="modal-body" id="spec-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- 5-5. 온라인 채용 지원 폼 모달 (barasustainable@gmail.com 연동 및 확장 폼 구조) -->
+  <div id="apply-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="apply-modal-title">
+    <div class="modal-box" style="max-width:540px;">
+      <div class="modal-header">
+        <strong id="apply-modal-title">📝 MUGGO 인도네시아 온라인 입사지원 폼 (확장 모듈)</strong>
+        <button class="ctrl-btn" onclick="closeApplyModal()">✕ 닫기</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:13px; color:var(--text-secondary); margin-bottom:16px;">
+          제안요청서 5-5 요건에 따라 기본 이메일(barasustainable@gmail.com) 연결과 함께 추후 즉시 사용 가능한 지원 폼 확장 구조입니다.
+        </p>
+        <form onsubmit="submitCareerForm(event)">
+          <div class="form-group">
+            <label>지원 직군 (11개 모집 직군 중 선택/입력)</label>
+            <input type="text" class="form-control" id="apply-role-input" required />
+          </div>
+          <div class="form-group">
+            <label>지원자 성명 (Nama Lengkap)</label>
+            <input type="text" class="form-control" id="apply-name-input" placeholder="성명을 입력하세요" required />
+          </div>
+          <div class="form-group">
+            <label>연락처 / WhatsApp / 이메일</label>
+            <input type="text" class="form-control" id="apply-contact-input" placeholder="+62 812-... / email@..." required />
+          </div>
+          <div class="form-group">
+            <label>간단한 경력 요약 및 지원 동기</label>
+            <textarea class="form-control" id="apply-msg-input" rows="4" placeholder="경력 사항 및 지원 동기를 작성해 주세요." required></textarea>
+          </div>
+          <div style="display:flex; gap:10px; justify-content:flex-end;">
+            <button type="button" class="ctrl-btn" style="padding:10px 16px;" onclick="closeApplyModal()">취소</button>
+            <button type="submit" class="btn-primary" style="padding:10px 20px;">📧 지원 내용 전송하기</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 데이터 및 스크립트 로드 -->
+  <script src="data/site-data.js"></script>
+  <script src="data/i18n.js"></script>
+  <script src="scripts/app.js"></script>
+</body>
+</html>

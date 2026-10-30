@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#18181B"/>
+      <stop offset="60%" stop-color="#271713"/>
+      <stop offset="100%" stop-color="#7C2D12"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1050" cy="120" r="240" fill="#E84A27" fill-opacity="0.18"/>
+  <circle cx="180" cy="540" r="200" fill="#F59E0B" fill-opacity="0.12"/>
+  <rect x="80" y="80" width="64" height="64" rx="16" fill="#E84A27"/>
+  <path d="M96 126V102L106 115.5L112 106L118 115.5L128 102V126" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="164" y="122" font-family="sans-serif" font-size="36" font-weight="800" fill="#FFFFFF">MUGGO INDONESIA</text>
+  <text x="80" y="270" font-family="sans-serif" font-size="52" font-weight="800" fill="#FFFFFF">30+ Culinary Brands in One</text>
+  <text x="80" y="340" font-family="sans-serif" font-size="52" font-weight="800" fill="#FF7849">Online Food Court Mall</text>
+  <text x="80" y="430" font-family="sans-serif" font-size="26" font-weight="500" fill="#D4D4D8">Visi · Brand · Food R&amp;D · Platform · Karir</text>
+  <rect x="80" y="485" width="340" height="58" rx="29" fill="#E84A27"/>
+  <text x="125" y="522" font-family="sans-serif" font-size="22" font-weight="700" fill="#FFFFFF">@muggo.indonesia</text>
+</svg>
