@@ -1,4 +1,4 @@
-// MUGGO Official 30 Brands & 300 Menus Catalog (Synced with kind-euclid.vercel.app & Localized for ID/EN/KO No-Pork Halal-Friendly Standard)
+// MUGGO Official 30 Brands & 300 Menus Catalog (Synced with kind-euclid.vercel.app & Localized for ID/EN/KO Halal-Friendly Standard)
 window.MUGGO_CATALOG = [
   {
     "id": "sotdak",
