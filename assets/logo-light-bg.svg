@@ -1,9 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 52" fill="none">
-  <!-- MUGGO Emblem: Modern Food Dome & M Monogram -->
-  <rect x="2" y="6" width="40" height="40" rx="12" fill="#E84A27"/>
-  <path d="M11 34V18L17.5 27L22 20.5L26.5 27L33 18V34" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="22" cy="13.5" r="2" fill="#FFD166"/>
-  <!-- Brand Wordmark (For Light Background) -->
-  <text x="52" y="31" font-family="'Pretendard', 'Plus Jakarta Sans', sans-serif" font-size="24" font-weight="800" letter-spacing="-0.5" fill="#18181B">MUGGO</text>
-  <text x="53" y="43" font-family="'Pretendard', 'Plus Jakarta Sans', sans-serif" font-size="8.5" font-weight="600" letter-spacing="1.8" fill="#71717A">ONLINE FOOD COURT</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 52" fill="none">
+  <rect x="2" y="6" width="40" height="40" rx="9" fill="#0B604F"/>
+  <text x="22" y="30" text-anchor="middle" font-family="Pretendard, -apple-system, BlinkMacSystemFont, sans-serif" font-size="11.5" font-weight="800" letter-spacing="0.4" fill="#FFFFFF">MUGGO</text>
+  <text x="54" y="27" font-family="Pretendard, -apple-system, BlinkMacSystemFont, sans-serif" font-size="21" font-weight="800" letter-spacing="-0.3" fill="#0B2B26">먹고</text>
+  <text x="95" y="27" font-family="Pretendard, -apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="800" letter-spacing="1.2" fill="#0B2B26">MUGGO</text>
+  <text x="54" y="42" font-family="Pretendard, -apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="600" letter-spacing="2" fill="#0C7D67">MUGGO / JAKARTA</text>
 </svg>

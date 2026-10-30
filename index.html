@@ -1,114 +1,160 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>PT MUGGO INDONESIA | Mall Food Court Online & Karir</title>
-  <meta name="description" content="Mall Food Court Online Tempat Bertemunya 30+ Brand Kuliner dalam Satu Tempat. Visi, Brand, Food R&D, Platform, dan Karir MUGGO Indonesia." />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>MUGGO · JAKARTA</title>
+  <meta name="description" content="PT MUGGO INDONESIA · Mall Food Court Online 30 Brand Kuliner & 300 Menu dalam Satu Tempat." />
+  <meta name="theme-color" content="#4CDBBE" />
 
-  <!-- ⑩ 메타 정보: WhatsApp 및 SNS 공유 미리보기 (Open Graph) 설정 -->
+  <!-- Open Graph / WhatsApp Preview -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://mfgkoreaceo-ops.github.io/muggo-corporate-site/" />
-  <meta property="og:site_name" content="PT MUGGO INDONESIA" />
-  <meta property="og:title" content="PT MUGGO INDONESIA | 30+ Brands Online Food Court Mall" />
-  <meta property="og:description" content="Mall Food Court Online Tempat Bertemunya 30+ Brand Kuliner dalam Satu Tempat. Visi, Brand, Food R&D, Platform, dan Karir (11 Bidang Posisi)." />
-  <meta property="og:image" content="https://mfgkoreaceo-ops.github.io/muggo-corporate-site/assets/og-preview.svg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="MUGGO · JAKARTA" />
+  <meta property="og:title" content="MUGGO · JAKARTA | 30 Culinary Brands Online Food Court" />
+  <meta property="og:description" content="30 Culinary Brands & 300 Menus in One Central Kitchen. Vision, Brands, Food R&D, Platform, and Careers." />
+  <meta property="og:image" content="https://mfgkoreaceo-ops.github.io/muggo-corporate-site/assets/muggo-brand-hero.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="theme-color" content="#E84A27" />
 
-  <!-- 파비콘 (제안요청서 6번 반영) -->
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="icon" href="assets/icon-192.png" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
 
-  <!-- 스타일시트 -->
+  <!-- Theme initialization before paint (matching mokgo-hr-staging.vercel.app) -->
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem("muggo-theme"); } catch (e) {}
+      if (t !== "dark" && t !== "light") {
+        t = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+
   <link rel="stylesheet" href="styles/main.css" />
 </head>
 <body>
-  <!-- ① 본문 바로가기 링크 (Skip to Content) -->
-  <a href="#main-content" class="skip-link">본문 바로가기 (Skip to main content)</a>
+  <a href="#main-content" id="skip-link" class="skip-link">Langsung ke konten utama</a>
 
-  <!-- 대표님·디렉터님·인사담당자 검수용 실시간 프리뷰 컨트롤 바 -->
-  <div id="rfp-control-bar" class="rfp-control-bar"></div>
-
-  <!-- ① 헤더 (로고 2종, 메뉴 5개 + 문의 조건부, 언어 전환 기본 숨김) -->
   <header id="site-header" class="site-header"></header>
 
-  <!-- 메인 콘텐츠 영역 (홈 ②~⑧ 섹션 및 서브페이지 전환) -->
   <main id="main-content" tabindex="-1"></main>
 
-  <!-- ⑨ 푸터 (로고, 인스타그램·틱톡, 메뉴 재노출, 한국 본사 링크 ON/OFF, 개인정보처리방침/이용약관, 저작권) -->
   <footer id="site-footer" class="site-footer"></footer>
 
-  <!-- 5-1. 모바일 하단 고정 버튼 바 (인스타그램, 틱톡, 채용 지원) -->
   <div id="mobile-sticky-bar" class="mobile-sticky-bar"></div>
 
-  <!-- 5-6. 비개발자용 관리 화면 (CMS) 모달: 총괄 관리자 / 인사 담당자 권한 분리 -->
+  <!-- Admin CMS Dialog (Accessible from Footer) -->
   <div id="admin-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
-    <div class="modal-box">
-      <div class="modal-header">
-        <div>
-          <span class="rfp-badge">제안요청서 5-6 반영</span>
-          <strong id="admin-modal-title" style="margin-left:8px; font-size:16px;">비개발자용 관리 화면 (CMS) 및 권한 구분</strong>
-        </div>
-        <button class="ctrl-btn" onclick="closeAdminModal()" style="font-size:14px;">✕ 닫기</button>
+    <div class="modal-dialog">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h2 id="admin-modal-title" style="margin:0;">MUGGO · Admin Settings</h2>
+        <button type="button" class="btn btn-secondary" style="min-height:36px; padding:6px 12px;" onclick="closeAdminModal()">✕</button>
       </div>
-      <div class="modal-body" id="admin-modal-content"></div>
+      <div id="admin-modal-content"></div>
     </div>
   </div>
 
-  <!-- 6 & 7. 최종 이미지 목록표 & 기술 제안서 모달 (착수 단계 제출 필수 문서) -->
+  <!-- Image Specification Sheet Dialog (Accessible from Footer) -->
   <div id="spec-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="spec-modal-title">
-    <div class="modal-box">
-      <div class="modal-header">
-        <div>
-          <span class="rfp-badge" style="background:#2563EB;">착수 단계 제출 문서</span>
-          <strong id="spec-modal-title" style="margin-left:8px; font-size:16px;">최종 이미지 목록표(규격서) & 기술·검수 기준 제안서</strong>
-        </div>
-        <button class="ctrl-btn" onclick="closeSpecModal()" style="font-size:14px;">✕ 닫기</button>
+    <div class="modal-dialog">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h2 id="spec-modal-title" style="margin:0;">Image Specification Sheet</h2>
+        <button type="button" class="btn btn-secondary" style="min-height:36px; padding:6px 12px;" onclick="closeSpecModal()">✕</button>
       </div>
-      <div class="modal-body" id="spec-modal-body"></div>
+      <div style="overflow-x:auto; font-size:13.5px; line-height:1.65;">
+        <table style="width:100%; border-collapse:collapse;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--portal-line); text-align:left;">
+              <th style="padding:10px;">Item</th>
+              <th style="padding:10px;">Location</th>
+              <th style="padding:10px;">Device</th>
+              <th style="padding:10px;">Ratio / Size</th>
+              <th style="padding:10px;">Format</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--portal-line);">
+              <td style="padding:10px;"><strong>Logo (Light & Dark)</strong></td>
+              <td style="padding:10px;">Header, Footer</td>
+              <td style="padding:10px;">Mobile / PC</td>
+              <td style="padding:10px;">230 × 52 px · 192 × 192 px</td>
+              <td style="padding:10px;">SVG / PNG</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--portal-line);">
+              <td style="padding:10px;"><strong>Hero Main Visual</strong></td>
+              <td style="padding:10px;">Home Hero</td>
+              <td style="padding:10px;">Mobile (4:5) / PC (16:9 or 1:1)</td>
+              <td style="padding:10px;">1080 × 1350 px / 1920 × 1080 px</td>
+              <td style="padding:10px;">WebP / JPG (≤150KB)</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--portal-line);">
+              <td style="padding:10px;"><strong>Pillar Icons (4)</strong></td>
+              <td style="padding:10px;">Home Pillars</td>
+              <td style="padding:10px;">Mobile / PC</td>
+              <td style="padding:10px;">24 × 24 px</td>
+              <td style="padding:10px;">SVG Stroke</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--portal-line);">
+              <td style="padding:10px;"><strong>30 Brand Thumbnails</strong></td>
+              <td style="padding:10px;">Brands Page, Home</td>
+              <td style="padding:10px;">Mobile / PC</td>
+              <td style="padding:10px;">800 × 600 px (4:3) / 400 × 400 px (1:1)</td>
+              <td style="padding:10px;">WebP / JPG (≤80KB)</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--portal-line);">
+              <td style="padding:10px;"><strong>Culture Main Visual</strong></td>
+              <td style="padding:10px;">Home, People Page</td>
+              <td style="padding:10px;">Mobile / PC</td>
+              <td style="padding:10px;">1440 × 960 px (3:2)</td>
+              <td style="padding:10px;">WebP / JPG (≤150KB)</td>
+            </tr>
+            <tr>
+              <td style="padding:10px;"><strong>WhatsApp OG Image</strong></td>
+              <td style="padding:10px;">Link Sharing Preview</td>
+              <td style="padding:10px;">WhatsApp / SNS</td>
+              <td style="padding:10px;">1200 × 630 px (1.91:1)</td>
+              <td style="padding:10px;">JPG / PNG (≤250KB)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
-  <!-- 5-5. 온라인 채용 지원 폼 모달 (barasustainable@gmail.com 연동 및 확장 폼 구조) -->
+  <!-- Online Career Application Form Modal -->
   <div id="apply-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="apply-modal-title">
-    <div class="modal-box" style="max-width:540px;">
-      <div class="modal-header">
-        <strong id="apply-modal-title">📝 MUGGO 인도네시아 온라인 입사지원 폼 (확장 모듈)</strong>
-        <button class="ctrl-btn" onclick="closeApplyModal()">✕ 닫기</button>
+    <div class="modal-dialog" style="max-width:520px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h2 id="apply-modal-title" style="margin:0;">MUGGO · Application</h2>
+        <button type="button" class="btn btn-secondary" style="min-height:36px; padding:6px 12px;" onclick="closeApplyModal()">✕</button>
       </div>
-      <div class="modal-body">
-        <p style="font-size:13px; color:var(--text-secondary); margin-bottom:16px;">
-          제안요청서 5-5 요건에 따라 기본 이메일(barasustainable@gmail.com) 연결과 함께 추후 즉시 사용 가능한 지원 폼 확장 구조입니다.
-        </p>
-        <form onsubmit="submitCareerForm(event)">
-          <div class="form-group">
-            <label>지원 직군 (11개 모집 직군 중 선택/입력)</label>
-            <input type="text" class="form-control" id="apply-role-input" required />
-          </div>
-          <div class="form-group">
-            <label>지원자 성명 (Nama Lengkap)</label>
-            <input type="text" class="form-control" id="apply-name-input" placeholder="성명을 입력하세요" required />
-          </div>
-          <div class="form-group">
-            <label>연락처 / WhatsApp / 이메일</label>
-            <input type="text" class="form-control" id="apply-contact-input" placeholder="+62 812-... / email@..." required />
-          </div>
-          <div class="form-group">
-            <label>간단한 경력 요약 및 지원 동기</label>
-            <textarea class="form-control" id="apply-msg-input" rows="4" placeholder="경력 사항 및 지원 동기를 작성해 주세요." required></textarea>
-          </div>
-          <div style="display:flex; gap:10px; justify-content:flex-end;">
-            <button type="button" class="ctrl-btn" style="padding:10px 16px;" onclick="closeApplyModal()">취소</button>
-            <button type="submit" class="btn-primary" style="padding:10px 20px;">📧 지원 내용 전송하기</button>
-          </div>
-        </form>
-      </div>
+      <form onsubmit="submitCareerForm(event)">
+        <div class="form-field">
+          <label>Posisi / Role / 지원 직군</label>
+          <input type="text" id="apply-role-input" required />
+        </div>
+        <div class="form-field">
+          <label>Nama / Name / 성명</label>
+          <input type="text" id="apply-name-input" required />
+        </div>
+        <div class="form-field">
+          <label>WhatsApp / Email</label>
+          <input type="text" id="apply-contact-input" required />
+        </div>
+        <div class="form-field">
+          <label>Ringkasan / Summary / 지원 동기 및 경력</label>
+          <textarea id="apply-msg-input" rows="4" required></textarea>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px;">
+          <button type="button" class="btn btn-secondary" onclick="closeApplyModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
     </div>
   </div>
 
-  <!-- 데이터 및 스크립트 로드 -->
+  <script src="data/catalog-data.js"></script>
   <script src="data/site-data.js"></script>
   <script src="data/i18n.js"></script>
   <script src="scripts/app.js"></script>
