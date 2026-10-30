@@ -1,4 +1,5 @@
 // MUGGO · JAKARTA Corporate Site Data (ID / EN / KO Complete Trilingual Structure)
+// Pre-launch / Planned Business Status Unified Across All Languages
 
 window.DEFAULT_SITE_DATA = {
   config: {
@@ -7,7 +8,7 @@ window.DEFAULT_SITE_DATA = {
     currentLang: "id", // 'id' | 'en' | 'ko'
     showKoreaHq: true,
     koreaHqName: "MUGGO Korea HQ",
-    koreaHqUrl: "https://muggo.kr",
+    koreaHqUrl: "", // External URL left empty until official Korea HQ web domain is active
     brandCountLabel: "30",
     firstStoreDate: "2026",
     showRegionalRoadmap: true,
@@ -16,12 +17,12 @@ window.DEFAULT_SITE_DATA = {
     tiktokHandle: "@muggo1",
     tiktokUrl: "https://www.tiktok.com/@muggo1",
     whatsappNumber: "",
-    contactEmail: "",
+    contactEmail: "barasustainable@gmail.com",
     officeAddress: "Jl. Tebet Barat IX No. 04, Kel. Tebet Barat, Kec. Tebet, Jakarta Selatan, DKI Jakarta 12810",
     deliveryAppMode: "coming_soon", // 'coming_soon' | 'hidden' | 'active'
     deliveryAppUrl: "",
     careerEmail: "barasustainable@gmail.com",
-    enableCareerForm: false
+    enableCareerForm: true
   },
 
   metrics: [
@@ -30,60 +31,60 @@ window.DEFAULT_SITE_DATA = {
       numberId: "11 Bidang",
       numberEn: "11 Roles",
       numberKo: "11개 직군",
-      labelId: "Rekrutmen Terbuka",
-      labelEn: "Open Job Categories",
-      labelKo: "모집 직군",
-      badgeId: "Target Rekrutmen",
-      badgeEn: "Hiring Target",
+      labelId: "Rekrutmen Pra-Peluncuran",
+      labelEn: "Pre-Launch Open Roles",
+      labelKo: "오픈 준비 모집 직군",
+      badgeId: "Rekrutmen Dibuka",
+      badgeEn: "Hiring Now",
       badgeKo: "채용 진행·예정",
-      descId: "Rekrutmen tim operasional dapur, R&D, platform, pemasaran, dan manajemen di Jakarta.",
-      descEn: "Active recruitment across kitchen operations, R&D, platform, marketing, and management in Jakarta.",
-      descKo: "자카르타 센트럴 키친 조리, R&D, 매장 운영, 마케팅, 인사·재무 등 실제 채용 중인 직군"
+      descId: "Rekrutmen tim pendiri operasional dapur, R&D, platform, pemasaran, dan manajemen untuk persiapan peluncuran di Jakarta.",
+      descEn: "Founding team recruitment across kitchen operations, R&D, platform, marketing, and management ahead of our Jakarta launch.",
+      descKo: "자카르타 1호 센트럴 키친 및 본부 오픈 준비를 위해 실제 채용을 진행·예정 중인 11개 직군"
     },
     {
       id: "m2",
       numberId: "5 Kategori",
       numberEn: "5 Categories",
       numberKo: "5개 카테고리",
-      labelId: "Kategori Kuliner",
-      labelEn: "Food Categories",
-      labelKo: "푸드 카테고리",
+      labelId: "Rencana Kategori Kuliner",
+      labelEn: "Planned Food Categories",
+      labelKo: "푸드 카테고리 (계획)",
       badgeId: "Rencana",
       badgeEn: "Planned",
       badgeKo: "목표·예정",
-      descId: "Ayam (Chicken), Masakan Korea, Pizza·Burger·Sandwich, Salad, serta Minuman & Dessert.",
-      descEn: "Chicken, Korean Cuisine, Pizza·Burger·Sandwich, Salad, and Beverage & Dessert.",
-      descKo: "치킨, 한식, 피자·버거·샌드위치, 샐러드, 음료·디저트 5대 핵심 카테고리"
+      descId: "Rencana lini kategori Ayam (Chicken), Masakan Korea, Pizza·Burger·Sandwich, Salad, serta Minuman & Dessert.",
+      descEn: "Planned lineup across Chicken, Korean Cuisine, Pizza·Burger·Sandwich, Salad, and Beverage & Dessert.",
+      descKo: "치킨, 한식, 피자·버거·샌드위치, 샐러드, 음료·디저트 5대 핵심 카테고리 구성 계획"
     },
     {
       id: "m3",
       numberId: "30 Brand",
       numberEn: "30 Brands",
       numberKo: "30개 브랜드",
-      labelId: "Brand Kuliner Internal",
-      labelEn: "In-House Virtual Brands",
-      labelKo: "자체 브랜드 (300개 메뉴)",
+      labelId: "Target Brand Internal",
+      labelEn: "Planned In-House Brands",
+      labelKo: "자체 브랜드 (300개 메뉴 예정)",
       badgeId: "Target Rencana",
       badgeEn: "Target Plan",
       badgeKo: "목표·예정",
-      descId: "30 brand kuliner spesialis (SOTDAK, SEONGSU DAK, JUMOK, PANTRY 12, BING HA, dll.) dengan total 300 menu.",
-      descEn: "30 specialized culinary brands (SOTDAK, SEONGSU DAK, JUMOK, PANTRY 12, BING HA, etc.) featuring 300 menus.",
-      descKo: "솥닭(SOTDAK), 성수닭, 주목, 펜트리12, 빙하 등 브랜드당 10개 메뉴씩 총 300개 메뉴 라인업"
+      descId: "Target peluncuran 30 brand kuliner spesialis (SOTDAK, SEONGSU DAK, JUMOK, PANTRY 12, BING HA, dll.) dengan rencana 300 menu.",
+      descEn: "Planned portfolio of 30 specialized culinary brands (SOTDAK, SEONGSU DAK, JUMOK, PANTRY 12, BING HA, etc.) featuring 300 planned menus.",
+      descKo: "솥닭(SOTDAK), 성수닭, 주목, 펜트리12, 빙하 등 브랜드당 10개 메뉴씩 총 300개 메뉴 런칭 목표"
     },
     {
       id: "m4",
       numberId: "5 Genre",
       numberEn: "5 Genres",
       numberKo: "5개 장르",
-      labelId: "Genre Masakan R&D",
-      labelEn: "Culinary R&D Genres",
-      labelKo: "요리 장르",
+      labelId: "Cakupan Genre R&D",
+      labelEn: "Planned R&D Genres",
+      labelKo: "요리 장르 R&D (예정)",
       badgeId: "Rencana R&D",
       badgeEn: "R&D Plan",
       badgeKo: "목표·예정",
-      descId: "Pengembangan resep terstandarisasi lintas masakan Korea, Tiongkok, Jepang, Indonesia, dan Barat.",
-      descEn: "Standardized recipe development across Korean, Chinese, Japanese, Indonesian, and Western cuisines.",
-      descKo: "한식, 중식, 일식, 인도네시아, 양식을 아우르는 센트럴 키친 메뉴 R&D"
+      descId: "Pengembangan resep terstandarisasi yang disiapkan lintas masakan Korea, Tiongkok, Jepang, Indonesia, dan Barat.",
+      descEn: "Standardized recipe development planned across Korean, Chinese, Japanese, Indonesian, and Western cuisines.",
+      descKo: "한식, 중식, 일식, 인도네시아, 양식을 아우르는 센트럴 키친 표준 레시피 R&D 계획"
     },
     {
       id: "m5",
@@ -96,24 +97,24 @@ window.DEFAULT_SITE_DATA = {
       badgeId: "Target Bisnis",
       badgeEn: "Target Goal",
       badgeKo: "목표",
-      descId: "Target rencana ekspansi jangka menengah-panjang di Jakarta dan kota-kota utama Indonesia.",
-      descEn: "Mid-to-long-term smart food court hub expansion target across Jakarta and major Indonesian cities.",
-      descKo: "자카르타 거점을 시작으로 인도네시아 주요 도시 100개 이상 지점 확장 목표"
+      descId: "Target rencana ekspansi bertahap jangka menengah-panjang di Jakarta dan kota-kota utama Indonesia.",
+      descEn: "Mid-to-long-term phased smart kitchen hub expansion target across Jakarta and major Indonesian cities.",
+      descKo: "자카르타 1호 거점 오픈 이후 인도네시아 주요 도시 100개 이상 지점 단계별 확장 목표"
     },
     {
       id: "m6",
       numberId: "Jakarta Hub",
       numberEn: "Jakarta Hub",
       numberKo: "자카르타 1호점",
-      labelId: "Pembukaan Gerai Pertama",
-      labelEn: "1st Flagship Hub Opening",
-      labelKo: "1호점 오픈 예정",
+      labelId: "Persiapan Gerai Pertama",
+      labelEn: "1st Flagship Hub Preparation",
+      labelKo: "1호점 오픈 준비",
       badgeId: "Segera Hadir",
       badgeEn: "Upcoming",
       badgeKo: "오픈 예정",
-      descId: "Peluncuran dapur pintar terpusat & mall food court online pertama di Jakarta Selatan.",
-      descEn: "Upcoming launch of our first central smart kitchen and online food court hub in South Jakarta.",
-      descKo: "자카르타 남부(Tebet / SCBD 권역) 1호 센트럴 스마트 키친 및 푸드코트 오픈 예정"
+      descId: "Persiapan pembukaan dapur pintar terpusat & mall food court online pertama di Jakarta Selatan.",
+      descEn: "Preparing for the upcoming launch of our first central smart kitchen and online food court hub in South Jakarta.",
+      descKo: "자카르타 남부(Tebet / SCBD 권역) 1호 센트럴 스마트 키친 및 온라인 푸드코트 오픈 예정"
     }
   ],
 
@@ -124,15 +125,15 @@ window.DEFAULT_SITE_DATA = {
       categoryId: "Karir & HR",
       categoryEn: "Careers & HR",
       categoryKo: "채용·인사",
-      titleId: "Rekrutmen Terbuka MUGGO Indonesia untuk 11 Bidang Posisi Strategis",
-      titleEn: "MUGGO Indonesia Open Recruitment Across 11 Strategic Job Categories",
-      titleKo: "MUGGO 인도네시아 법인 11개 직군 신입 및 경력 공개 채용 안내",
-      summaryId: "Bergabunglah bersama tim MUGGO di Jakarta untuk membangun ekosistem mall food court online 30 brand.",
-      summaryEn: "Join MUGGO's Jakarta team to build Indonesia's next-generation 30-brand online food court ecosystem.",
-      summaryKo: "자카르타 센트럴 키친 및 온라인 푸드코트 몰 오픈을 함께할 11개 직군의 동료를 모집합니다.",
-      contentId: "PT MUGGO INDONESIA membuka rekrutmen untuk 11 bidang posisi menjelang peluncuran gerai pertama dan platform food court online kami di Jakarta.\n\nBidang yang dibuka meliputi Operasional Dapur (Head of Kitchen & Line Cook), Food R&D, Operasional Gerai, QA & Halal Coordinator, SCM & Pengadaan, Pemasaran Digital (Instagram & TikTok), Desain Brand, Operasional Platform, HR & GA, serta Keuangan & Akuntansi.\n\nKirimkan CV terbaru Anda ke barasustainable@gmail.com.",
-      contentEn: "PT MUGGO INDONESIA is recruiting across 11 key job categories ahead of our flagship hub and online food court launch in Jakarta.\n\nOpen roles span Kitchen Operations, Food R&D, Store Operations, QA & Halal Coordination, SCM & Procurement, Digital Marketing, Brand Design, Platform Operations, HR & GA, and Finance & Accounting.\n\nSend your CV and application to barasustainable@gmail.com.",
-      contentKo: "PT MUGGO INDONESIA가 자카르타 1호 거점 및 온라인 푸드코트 몰 오픈을 앞두고 11개 핵심 직군에서 채용을 진행합니다.\n\n모집 분야는 주방 총괄(Head of Kitchen), 멀티 브랜드 조리사(Line Cook), 메뉴 R&D, 매장 운영 매니저, 품질·위생(QA/Halal), 구매·물류(SCM), 디지털 마케팅, 브랜드 디자인, 플랫폼 운영, 인사·총무(HR/GA), 재무·회계입니다.\n\n입사 지원은 barasustainable@gmail.com으로 접수해 주시기 바랍니다."
+      titleId: "Rekrutmen Tim Pendiri MUGGO Indonesia untuk 11 Bidang Posisi Strategis",
+      titleEn: "MUGGO Indonesia Pre-Launch Recruitment Across 11 Strategic Job Categories",
+      titleKo: "MUGGO 인도네시아 법인 오픈 준비 11개 직군 신입·경력 채용 안내",
+      summaryId: "Bergabunglah bersama tim pendiri MUGGO di Jakarta untuk mempersiapkan peluncuran mall food court online 30 brand.",
+      summaryEn: "Join MUGGO's founding Jakarta team to prepare the upcoming launch of our 30-brand online food court ecosystem.",
+      summaryKo: "자카르타 1호 센트럴 키친 및 온라인 푸드코트 몰 오픈을 함께 준비할 11개 직군의 창립 동료를 모집합니다.",
+      contentId: "PT MUGGO INDONESIA membuka rekrutmen tahap pra-peluncuran untuk 11 bidang posisi menjelang pembukaan gerai pertama dan platform food court online kami di Jakarta.\n\nBidang yang dibuka meliputi Operasional Dapur (Head of Kitchen & Line Cook), Food R&D, Operasional Gerai, QA & Halal Coordinator, SCM & Pengadaan, Pemasaran Digital (Instagram & TikTok), Desain Brand, Operasional Platform, HR & GA, serta Keuangan & Akuntansi.\n\nKirimkan CV terbaru Anda melalui email rekrutmen resmi kami di barasustainable@gmail.com.",
+      contentEn: "PT MUGGO INDONESIA is conducting pre-launch recruitment across 11 key job categories ahead of our flagship hub and online food court opening in Jakarta.\n\nOpen roles span Kitchen Operations, Food R&D, Store Operations, QA & Halal Coordination, SCM & Procurement, Digital Marketing, Brand Design, Platform Operations, HR & GA, and Finance & Accounting.\n\nPlease send your CV and application to our official recruitment email at barasustainable@gmail.com.",
+      contentKo: "PT MUGGO INDONESIA가 자카르타 1호 거점 및 온라인 푸드코트 몰 오픈을 앞두고 11개 핵심 직군에서 창립 멤버 채용을 진행합니다.\n\n모집 분야는 주방 총괄(Head of Kitchen), 멀티 브랜드 조리사(Line Cook), 메뉴 R&D, 매장 운영 매니저, 품질·위생(QA/Halal), 구매·물류(SCM), 디지털 마케팅, 브랜드 디자인, 플랫폼 운영, 인사·총무(HR/GA), 재무·회계입니다.\n\n입사 지원은 공식 채용 이메일(barasustainable@gmail.com)로 이력서(CV)를 첨부하여 보내주시기 바랍니다."
     },
     {
       id: "art-2",
@@ -140,15 +141,15 @@ window.DEFAULT_SITE_DATA = {
       categoryId: "Brand & Menu",
       categoryEn: "Brands & Menus",
       categoryKo: "브랜드·R&D",
-      titleId: "30 Brand Kuliner & 300 Menu Siap Hadir dalam Satu Keranjang Pesanan",
-      titleEn: "30 Culinary Brands & 300 Menus Integrated into a Single Order Basket",
-      titleKo: "솥닭(SOTDAK)·성수닭·펜트리12·빙하 등 30개 브랜드 300개 메뉴 라인업 구축",
-      summaryId: "Mulai dari ayam panggang SOTDAK, deopbap BAP CLUB, burger SMOKY SALOON, hingga bingsu BING HA dalam 1x ongkir.",
-      summaryEn: "From SOTDAK roasted chicken and BAP CLUB rice bowls to SMOKY SALOON burgers and BING HA snow ice in one delivery.",
-      summaryKo: "치킨, 한식, 피자·버거·샌드위치, 샐러드, 음료·디저트 5대 카테고리 30개 전문 브랜드를 한 번의 배달로 제공합니다.",
-      contentId: "MUGGO mengoperasikan 30 brand kuliner spesialis dengan masing-masing 10 menu andalan (total 300 menu) yang dimasak melalui 6 stasiun dapur profesional (Fryer, Grill, Soup, Assembly, Bakery, Beverage Bar).\n\nPelanggan dapat memesan menu dari berbagai brand berbeda dalam satu transaksi dan menerimanya secara bersamaan dalam satu pengiriman terpadu.",
-      contentEn: "MUGGO operates 30 specialized virtual brands with 10 signature menus each (300 menus total), prepared across 6 dedicated kitchen stations (Fryer, Grill, Soup, Assembly, Bakery, Beverage Bar).\n\nCustomers can mix and match dishes across any brand in a single cart with one unified delivery.",
-      contentKo: "MUGGO는 치킨(솥닭, 성수닭, 소울후라이드), 한식(주목, 미각, 밥클럽, 비빔밥, 얹다, 뭇국, 담온, 우가, 온탕, 온담, 냉탕, 말다, 두야), 양식(펜트리12, 스모키살루온, 우드앤브릭, 베이스오븐, 번아웃, 케바바), 샐러드(샐러드픽), 디저트·음료(나씨보스, 빙하, 묵자, 유림, 티와, 베이글걸, 솔트룸)까지 총 30개 브랜드 300개 메뉴를 6대 전문 조리 스테이션에서 동시에 조리하여 단일 배달로 제공합니다."
+      titleId: "Rencana Lini 30 Brand Kuliner & 300 Menu dalam Satu Keranjang Pesanan",
+      titleEn: "Planned Lineup of 30 Culinary Brands & 300 Menus in a Single Order Basket",
+      titleKo: "솥닭(SOTDAK)·성수닭·펜트리12·빙하 등 30개 브랜드 300개 메뉴 라인업 기획 안내",
+      summaryId: "Merancang integrasi 30 brand spesialis—mulai dari ayam panggang SOTDAK, rice bowl BAP CLUB, burger SMOKY SALOON, hingga bingsu BING HA—dalam 1x ongkir.",
+      summaryEn: "Designing a unified lineup from SOTDAK roasted chicken and BAP CLUB rice bowls to SMOKY SALOON burgers and BING HA snow ice in one delivery.",
+      summaryKo: "치킨, 한식, 피자·버거·샌드위치, 샐러드, 음료·디저트 5대 카테고리 30개 전문 브랜드를 단일 장바구니로 선보일 예정입니다.",
+      contentId: "MUGGO tengah mempersiapkan peluncuran 30 brand kuliner spesialis dengan masing-masing 10 menu andalan (target 300 menu) yang dirancang untuk dimasak melalui 6 stasiun dapur profesional (Fryer, Grill, Soup, Assembly, Bakery, Beverage Bar).\n\nSeluruh resep disusun dengan prinsip ramah Halal (Tanpa Babi & Tanpa Minyak Babi / No Pork, No Lard) menggunakan daging ayam, sapi, dan bahan baku pilihan yang sesuai dengan budaya kuliner masyarakat Indonesia.",
+      contentEn: "MUGGO is preparing to launch 30 specialized virtual brands with 10 signature menus each (300 planned menus), engineered to be cooked across 6 dedicated kitchen stations (Fryer, Grill, Soup, Assembly, Bakery, Beverage Bar).\n\nAll menu recipes are developed under a strict No-Pork & No-Lard (Halal-friendly) standard using beef, poultry, and localized ingredients tailored for Indonesian diners.",
+      contentKo: "MUGGO는 치킨(솥닭, 성수닭, 소울후라이드), 한식(주목, 미각, 밥클럽, 비빔밥, 얹다, 뭇국, 담온, 우가, 온탕, 온담, 냉탕, 말다, 두야), 양식(펜트리12, 스모키살루온, 우드앤브릭, 베이스오븐, 번아웃, 케바바), 샐러드(샐러드픽), 디저트·음료(나씨보스, 빙하, 묵자, 유림, 티와, 베이글걸, 솔트룸)까지 총 30개 브랜드 300개 메뉴의 오픈 라인업을 준비하고 있습니다.\n\n모든 메뉴는 인도네시아 현지 식문화를 존중하여 돼지고기 및 돈지(No Pork, No Lard)를 배제한 소고기·닭고기·해산물 기반의 할랄 친화(Halal-friendly) 레시피로 구성됩니다."
     },
     {
       id: "art-3",
@@ -156,15 +157,15 @@ window.DEFAULT_SITE_DATA = {
       categoryId: "Platform",
       categoryEn: "Platform",
       categoryKo: "플랫폼",
-      titleId: "Sistem Dapur Terpusat 6 Stasiun & Persiapan Aplikasi Delivery MUGGO",
+      titleId: "Persiapan Sistem Dapur Terpusat 6 Stasiun & Aplikasi Delivery MUGGO",
       titleEn: "6-Station Central Kitchen System & Proprietary Delivery App Preparation",
       titleKo: "6대 전문 스테이션 스마트 키친 시스템 및 자체 배달 앱 오픈 준비",
-      summaryId: "Standarisasi 조리 SOP dan kemasan termal khusus untuk menjaga suhu serta kerenyahan hidangan saat tiba di tangan pelanggan.",
-      summaryEn: "Standardized cooking SOPs and thermal/cooler dual packaging to preserve taste and temperature upon delivery.",
-      summaryKo: "온도와 식감을 유지하는 보온·보냉 분리 합포장 시스템과 딜리버리·픽업 특화 플랫폼을 구축하고 있습니다.",
-      contentId: "Setiap pesanan multi-brand di MUGGO disinkronkan melalui sistem KDS 6 stasiun sehingga makanan panas dan minuman/dessert dingin selesai tepat waktu dan dikemas terpisah dalam Thermal Bag serta Insulated Cooler Bag.",
-      contentEn: "Every multi-brand order at MUGGO is synchronized across our 6-station KDS so hot dishes and chilled beverages/desserts finish together and are packed separately in Thermal and Insulated Cooler bags.",
-      contentKo: "MUGGO의 모든 주문은 6대 조리 스테이션(튀김, 그릴, 탕·찌개, 조립·포장, 베이커리·디저트, 음료 바) KDS로 실시간 연동되며, 따뜻한 요리와 차가운 빙수·음료를 보온백과 보냉백으로 분리 합포장하여 최상의 품질로 전달합니다."
+      summaryId: "Standarisasi SOP memasak dan rencana kemasan termal terpisah untuk menjaga suhu serta kerenyahan hidangan saat tiba di tangan pelanggan.",
+      summaryEn: "Standardizing cooking SOPs and thermal/cooler dual packaging to preserve taste and temperature upon delivery.",
+      summaryKo: "온도와 식감을 유지하는 보온·보냉 분리 합포장 시스템과 딜리버리·픽업 특화 플랫폼을 준비하고 있습니다.",
+      contentId: "Menjelang peluncuran gerai pertama di Jakarta Selatan, MUGGO menyiapkan sistem KDS 6 stasiun agar pesanan makanan panas dan minuman/dessert dingin dapat diselesaikan secara sinkron dan dikemas terpisah dalam Thermal Bag serta Insulated Cooler Bag.",
+      contentEn: "Ahead of our first flagship hub opening in South Jakarta, MUGGO is building a 6-station KDS workflow so hot dishes and chilled beverages/desserts finish synchronously and are packed separately in Thermal and Insulated Cooler bags.",
+      contentKo: "자카르타 남부 1호 거점 오픈을 앞두고 6대 조리 스테이션(튀김, 그릴, 탕·찌개, 조립·포장, 베이커리·디저트, 음료 바) KDS 연동 및 보온백·보냉백 분리 합포장 프로세스를 구축하고 있습니다."
     }
   ],
 
@@ -181,9 +182,9 @@ window.DEFAULT_SITE_DATA = {
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
       location: "Jakarta Selatan",
-      descId: "Memimpin operasional 6 stasiun dapur terpusat (30 brand), menjaga kepatuhan SOP resep, kualitas, dan manajemen tim dapur.",
-      descEn: "Lead operations across our 6-station central kitchen (30 brands), ensuring recipe SOP compliance, quality control, and kitchen team leadership.",
-      descKo: "30개 브랜드 6대 스테이션 센트럴 키친 총괄, 표준 조리 매뉴얼(SOP) 준수 및 주방 인력 관리"
+      descId: "Memimpin persiapan dan operasional 6 stasiun dapur terpusat (30 brand), menjaga kepatuhan SOP resep, kualitas, dan manajemen tim dapur.",
+      descEn: "Lead pre-launch setup and operations across our 6-station central kitchen (30 brands), ensuring recipe SOP compliance and kitchen team leadership.",
+      descKo: "30개 브랜드 6대 스테이션 센트럴 키친 오픈 세팅 및 총괄, 표준 조리 매뉴얼(SOP) 준수 및 주방 인력 관리"
     },
     {
       id: "job-2",
@@ -213,9 +214,9 @@ window.DEFAULT_SITE_DATA = {
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
       location: "Jakarta Selatan",
-      descId: "Mengembangkan dan menguji resep di 5 genre masakan (Korea, Tiongkok, Jepang, Indonesia, Barat) serta lokalisasi bahan baku.",
-      descEn: "Develop and test recipes across 5 culinary genres (Korean, Chinese, Japanese, Indonesian, Western) and localize ingredients.",
-      descKo: "한식·중식·일식·인도네시아·양식 5대 장르 메뉴 고도화 및 현지 식자재 테스트"
+      descId: "Mengembangkan dan menguji resep di 5 genre masakan (Korea, Tiongkok, Jepang, Indonesia, Barat) serta lokalisasi bahan baku ramah Halal.",
+      descEn: "Develop and test recipes across 5 culinary genres (Korean, Chinese, Japanese, Indonesian, Western) and localize Halal-friendly ingredients.",
+      descKo: "한식·중식·일식·인도네시아·양식 5대 장르 메뉴 고도화 및 현지 할랄 친화 식자재 테스트"
     },
     {
       id: "job-4",
@@ -229,9 +230,9 @@ window.DEFAULT_SITE_DATA = {
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
       location: "Jakarta Selatan",
-      descId: "Mengelola alur kerja Expediter (packing gabungan), SLA waktu masak, area pickup pelanggan, dan serah terima kurir 3PL.",
-      descEn: "Manage multi-brand Expediter packing workflows, SLA targets, customer pickup zones, and 3PL courier handover.",
-      descKo: "멀티 브랜드 합포장(Expediter), 조리 SLA 관리, 고객 픽업 및 3PL 배달 라이더 출고 총괄"
+      descId: "Mengelola alur kerja Expediter (packing gabungan), SLA waktu masak, area pickup pelanggan, dan serah terima kurir pengiriman.",
+      descEn: "Manage multi-brand Expediter packing workflows, SLA targets, customer pickup zones, and delivery courier handover.",
+      descKo: "멀티 브랜드 합포장(Expediter), 조리 SLA 관리, 고객 픽업 및 배달 라이더 출고 총괄"
     },
     {
       id: "job-5",
@@ -245,9 +246,9 @@ window.DEFAULT_SITE_DATA = {
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
       location: "Jakarta Selatan",
-      descId: "Memastikan standar keamanan pangan, audit kebersihan harian dapur, serta kepatuhan standar Halal (No Pork / No Lard).",
-      descEn: "Oversee food safety standards, daily kitchen hygiene audits, and strict Halal compliance (100% No Pork / No Lard).",
-      descKo: "식자재 및 주방 위생 점검, 식품 안전 기준 관리 및 할랄(No Pork/No Lard) 프로세스 전담"
+      descId: "Mempersiapkan standar keamanan pangan, audit kebersihan dapur harian, serta pengelolaan bahan baku ramah Halal (Tanpa Babi / Minyak Babi) dan proses sertifikasi.",
+      descEn: "Establish food safety standards, daily kitchen hygiene audits, No-Pork/No-Lard ingredient verification, and Halal certification preparation.",
+      descKo: "식자재 및 주방 위생 점검 체계 구축, 할랄 친화(No Pork / No Lard) 원료 검수 및 인증 절차 준비 전담"
     },
     {
       id: "job-6",
@@ -261,8 +262,8 @@ window.DEFAULT_SITE_DATA = {
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
       location: "Jakarta Selatan",
-      descId: "Mengelola rantai pasok bahan baku untuk 300 SKU menu, manajemen stok harian,BOM, dan pengadaan kemasan.",
-      descEn: "Manage ingredient supply chains for 300 menu SKUs, daily inventory control, BOM costing, and thermal packaging procurement.",
+      descId: "Mengelola rantai pasok bahan baku untuk 300 SKU menu, manajemen stok harian, BOM, dan pengadaan kemasan termal.",
+      descEn: "Manage ingredient supply chains for 300 planned menu SKUs, daily inventory control, BOM costing, and thermal packaging procurement.",
       descKo: "30개 브랜드 300개 메뉴 식자재 수급, BOM 원가·재고 관리 및 전용 보온·보냉 패키지 조달"
     },
     {
@@ -277,9 +278,9 @@ window.DEFAULT_SITE_DATA = {
       typeEn: "Full-time · Entry / Experienced",
       typeKo: "정규직 · 신입/경력",
       location: "Jakarta Selatan",
-      descId: "Mengelola konten kreatif @muggo.indonesia dan @muggo1, kampanye KOL lokal, serta promosi paket hemat multi-brand.",
-      descEn: "Drive creative content for @muggo.indonesia and @muggo1, local KOL partnerships, and multi-brand bundle campaigns.",
-      descKo: "공식 인스타그램(@muggo.indonesia) 및 틱톡(@muggo1) 콘텐츠 기획, 현지 인플루언서 협업 및 프로모션 운영"
+      descId: "Mengelola konten kreatif @muggo.indonesia dan @muggo1, kampanye KOL lokal, serta promosi peluncuran multi-brand.",
+      descEn: "Drive creative content for @muggo.indonesia and @muggo1, local KOL partnerships, and multi-brand launch campaigns.",
+      descKo: "공식 인스타그램(@muggo.indonesia) 및 틱톡(@muggo1) 콘텐츠 기획, 현지 인플루언서 협업 및 오픈 프로모션 운영"
     },
     {
       id: "job-8",
@@ -309,9 +310,9 @@ window.DEFAULT_SITE_DATA = {
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
       location: "Jakarta Selatan",
-      descId: "Mengelola katalog 300 menu di platform online MUGGO, pengaturan paket combo, voucher, dan integrasi pengiriman 3PL.",
-      descEn: "Manage the 300-menu digital catalog on MUGGO's platform, cross-brand combos, vouchers, and 3PL delivery dispatch.",
-      descKo: "온라인 푸드코트 몰 및 자체 배달 앱 300개 메뉴 카탈로그, 멀티 브랜드 콤보, 프로모션 및 배달 연동 운영"
+      descId: "Mempersiapkan dan mengelola katalog 300 menu di platform online MUGGO, pengaturan paket combo, voucher, dan integrasi pengiriman.",
+      descEn: "Prepare and manage the 300-menu digital catalog on MUGGO's platform, cross-brand combos, vouchers, and delivery dispatch.",
+      descKo: "온라인 푸드코트 몰 및 자체 배달 앱(오픈 예정) 300개 메뉴 카탈로그, 멀티 브랜드 콤보 및 배달 연동 운영"
     },
     {
       id: "job-10",
@@ -350,39 +351,39 @@ window.DEFAULT_SITE_DATA = {
   footnotes: [
     {
       id: "fn-1",
-      titleId: "1. Catatan Target Rencana Bisnis",
-      titleEn: "1. Business Plan Target Notice",
-      titleKo: "1. 사업 계획 및 목표 수치 안내",
-      descId: "Seluruh angka yang tercantum di situs ini merupakan target rencana bisnis pra-peluncuran dan dapat disesuaikan mengikuti perkembangan operasional.",
-      descEn: "All figures presented on this website represent pre-launch business plan targets and may be adjusted according to operational progress.",
-      descKo: "본 사이트에 기재된 모든 수치는 오픈 전 법인의 사업 계획상 목표 및 예정 기준이며, 사업 추진 상황에 따라 변동될 수 있습니다."
+      titleId: "1. Catatan Target Rencana Bisnis Pra-Peluncuran",
+      titleEn: "1. Pre-Launch Business Plan Target Notice",
+      titleKo: "1. 오픈 전 사업 계획 및 목표 수치 안내",
+      descId: "PT MUGGO INDONESIA saat ini berada dalam tahap persiapan peluncuran. Seluruh angka yang tercantum di situs ini merupakan target rencana bisnis dan dapat disesuaikan mengikuti perkembangan operasional.",
+      descEn: "PT MUGGO INDONESIA is currently in the pre-launch preparation phase. All figures presented on this website represent business plan targets and may be adjusted according to operational progress.",
+      descKo: "PT MUGGO INDONESIA는 현재 오픈 준비 단계의 법인으로, 본 사이트에 기재된 모든 수치는 사업 계획상 목표 및 예정 기준이며 추진 상황에 따라 변동될 수 있습니다."
     },
     {
       id: "fn-2",
-      titleId: "2. Dasar Perhitungan Jumlah Brand & Cabang",
-      titleEn: "2. Basis for Brand & Store Counts",
-      titleKo: "2. 자체 브랜드 수 및 확장 지점 수 기준",
-      descId: "Jumlah 30 brand internal (300 menu) dan target ekspansi 100+ cabang merupakan peta jalan perencanaan bertahap.",
-      descEn: "The 30 in-house brands (300 menus) and 100+ hub expansion figures reflect our phased business roadmap rather than historical results.",
-      descKo: "자체 브랜드 수(30개 브랜드 · 300개 메뉴)와 확장 목표 지점 수(100개 이상)는 단계별 런칭 계획 기준입니다."
+      titleId: "2. Dasar Perhitungan Jumlah Brand, Menu & Cabang",
+      titleEn: "2. Basis for Brand, Menu & Hub Counts",
+      titleKo: "2. 자체 브랜드·메뉴 수 및 확장 지점 수 기준",
+      descId: "Jumlah 30 brand internal (300 menu) dan target ekspansi 100+ cabang merupakan peta jalan perencanaan bertahap yang disiapkan menjelang pembukaan resmi.",
+      descEn: "The 30 in-house brands (300 menus) and 100+ hub expansion figures reflect our phased launch roadmap rather than completed historical results.",
+      descKo: "자체 브랜드 수(30개 브랜드 · 300개 메뉴)와 확장 목표 지점 수(100개 이상)는 정식 오픈을 앞두고 준비 중인 단계별 런칭 로드맵 기준입니다."
     },
     {
       id: "fn-3",
-      titleId: "3. Informasi Rekrutmen & Pembukaan Gerai Pertama",
-      titleEn: "3. Recruitment & First Hub Opening Schedule",
-      titleKo: "3. 채용 직군 및 1호점 오픈 일정 기준",
-      descId: "11 bidang rekrutmen adalah posisi yang sedang dibuka untuk peluncuran operasional Jakarta. Jadwal pembukaan resmi akan diumumkan melalui berita situs.",
-      descEn: "The 11 job categories reflect active hiring for our Jakarta launch. Official opening dates will be announced in the news section.",
-      descKo: "모집 직군 11개는 자카르타 1호 거점 및 본부 구성을 위해 실제 채용 중인 분야이며, 오픈 일정은 확정 시 소식란을 통해 공지됩니다."
+      titleId: "3. Standar Bahan Baku Ramah Halal (No Pork, No Lard)",
+      titleEn: "3. Halal-Friendly Ingredient Standard (No Pork, No Lard)",
+      titleKo: "3. 할랄 친화(No Pork, No Lard) 원료 및 레시피 적용 기준",
+      descId: "Seluruh menu dikembangkan tanpa daging babi, minyak babi, maupun alkohol (No Pork, No Lard, Non-Alcohol). Proses sertifikasi Halal resmi akan dijalankan sesuai tahapan operasional gerai.",
+      descEn: "All menus are formulated without pork, lard, or alcohol (No Pork, No Lard, Non-Alcohol). Official Halal certification procedures will be progressed in line with hub operations.",
+      descKo: "전 메뉴는 돼지고기, 돈지(라드), 주류를 일절 사용하지 않는 No Pork · No Lard 기준으로 설계되었으며, 거점 오픈 절차에 맞추어 현지 공식 할랄 인증을 추진할 예정입니다."
     },
     {
       id: "fn-4",
-      titleId: "4. Tujuan Informasi Umum",
-      titleEn: "4. General Information Purpose",
-      titleKo: "4. 일반 정보 제공 목적",
-      descId: "Situs web ini disediakan untuk memberikan informasi umum mengenai visi, brand, dan karir PT MUGGO INDONESIA kepada pelanggan, pelamar kerja, dan mitra.",
-      descEn: "This website is provided for general informational purposes regarding PT MUGGO INDONESIA's vision, brands, and careers.",
-      descKo: "본 사이트는 인도네시아 현지 고객, 구직자, 파트너에게 법인의 비전과 브랜드, 채용 정보를 제공할 목적으로 제작되었습니다."
+      titleId: "4. Informasi Rekrutmen & Tujuan Informasi Umum",
+      titleEn: "4. Recruitment & General Information Purpose",
+      titleKo: "4. 채용 직군 안내 및 일반 정보 제공 목적",
+      descId: "11 bidang rekrutmen adalah posisi yang sedang dibuka untuk persiapan peluncuran Jakarta. Situs ini disediakan untuk memberikan informasi umum kepada pelanggan, pelamar kerja, dan calon mitra.",
+      descEn: "The 11 job categories reflect active hiring for our Jakarta launch preparation. This website is provided for general informational purposes for customers, applicants, and prospective partners.",
+      descKo: "모집 직군 11개는 자카르타 1호 거점 및 본부 구성을 위해 실제 채용 중인 분야이며, 본 사이트는 현지 고객·구직자·파트너에게 일반 정보를 제공할 목적으로 제작되었습니다."
     }
   ]
 };

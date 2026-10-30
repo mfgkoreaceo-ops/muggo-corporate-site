@@ -1,15 +1,10 @@
 /* ==========================================================================
    MUGGO · JAKARTA CORPORATE SITE
    Design System unified with https://mokgo-hr-staging.vercel.app/ (ui-tokens.css & portal-shell.css)
+   Mobile-First Responsive Header & Dynamic Subset Font Optimization
    ========================================================================== */
 
-@font-face {
-  font-family: Pretendard;
-  src: url('../assets/PretendardVariable.woff2') format('woff2');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
 
 :root {
   --mint-50: #EDFCF9;
@@ -23,7 +18,7 @@
   --mint-800: #0B604F;
   --mint-900: #084438;
 
-  --ui-font: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ui-font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --ui-title-size: 24px;
   --ui-body-size: 16px;
   --ui-caption-size: 13px;
@@ -75,6 +70,11 @@ html[data-theme="dark"] {
   padding: 0;
 }
 
+html, body {
+  overflow-x: clip;
+  max-width: 100%;
+}
+
 html, body, button, input, select, textarea, pre, code {
   font-family: var(--ui-font);
   font-synthesis: none;
@@ -108,45 +108,47 @@ body {
   top: 12px;
 }
 
-/* ① HEADER (mokgo-hr-staging.vercel.app style) */
+/* ① HEADER (Mobile-first 320px–390px zero-overflow layout, expanding on desktop) */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
   background: var(--ui-surface);
   border-bottom: 1px solid var(--portal-line);
+  width: 100%;
 }
 
 .header-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 16px 24px;
+  padding: 10px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 8px;
 }
 
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   text-decoration: none;
   color: var(--ui-text);
-  flex-shrink: 0;
+  min-width: 0;
+  flex-shrink: 1;
 }
 
 .brand-mark {
-  width: 38px;
-  height: 38px;
-  border-radius: 9px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   background: #1B6B4E;
   color: #FFFFFF;
   display: grid;
   place-items: center;
-  font-size: 9.5px;
+  font-size: 8.5px;
   font-weight: 800;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
   flex-shrink: 0;
 }
 
@@ -158,23 +160,33 @@ html[data-theme="dark"] .brand-mark {
 .brand-text {
   display: flex;
   flex-direction: column;
-  line-height: 1.15;
+  line-height: 1.12;
+  min-width: 0;
 }
 
 .brand-text strong {
-  font-size: 20px;
+  font-size: 16.5px;
   font-weight: 800;
   color: var(--ui-text);
   letter-spacing: -0.3px;
+  white-space: nowrap;
 }
 
 .brand-text span {
   display: block;
-  font-size: 11px;
-  letter-spacing: 2px;
+  font-size: 9.5px;
+  letter-spacing: 0.6px;
   color: var(--ui-link);
   font-weight: 700;
-  margin-top: 3px;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+@media (max-width: 350px) {
+  .brand-text span {
+    font-size: 8.5px;
+    letter-spacing: 0.2px;
+  }
 }
 
 /* Navigation */
@@ -208,26 +220,28 @@ html[data-theme="dark"] .brand-mark {
   font-weight: 700;
 }
 
-/* Header Tools: Theme Toggle + Language Switcher (ID | EN | KO) */
+/* Header Tools: Theme Toggle + Language Switcher (ID | EN | KO) + Hamburger */
 .header-tools {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .icon-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  min-height: 40px;
+  width: 34px;
+  height: 34px;
+  min-height: 34px;
   padding: 0;
   border-radius: 8px;
   background: var(--ui-surface);
   color: var(--ui-text);
   border: 1px solid var(--portal-line);
   cursor: pointer;
+  flex-shrink: 0;
   transition: border-color 0.15s, background-color 0.15s;
 }
 
@@ -242,21 +256,22 @@ html[data-theme="dark"] .brand-mark {
   background: var(--ui-surface-muted);
   border: 1px solid var(--portal-line);
   border-radius: 8px;
-  padding: 3px;
-  gap: 2px;
+  padding: 2px;
+  gap: 1px;
+  flex-shrink: 0;
 }
 
 .lang-seg-btn {
   background: transparent;
   border: 0;
   color: var(--ui-muted);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  padding: 5px 10px;
-  min-height: 32px;
+  padding: 4px 7px;
+  min-height: 28px;
   border-radius: 6px;
   cursor: pointer;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.2px;
   transition: all 0.15s;
 }
 
@@ -279,7 +294,7 @@ html[data-theme="dark"] .brand-mark {
   display: none;
   background: var(--ui-surface);
   border-bottom: 1px solid var(--portal-line);
-  padding: 12px 18px 18px;
+  padding: 12px 16px 18px;
   flex-direction: column;
   gap: 4px;
 }
@@ -299,7 +314,7 @@ html[data-theme="dark"] .brand-mark {
 main {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 28px 18px 48px;
+  padding: 24px 16px 48px;
 }
 
 .section-block {
@@ -317,7 +332,7 @@ main {
 
 .eyebrow {
   font-size: var(--ui-caption-size);
-  letter-spacing: 1.8px;
+  letter-spacing: 1.6px;
   text-transform: uppercase;
   color: var(--ui-link);
   font-weight: 700;
@@ -325,7 +340,7 @@ main {
 }
 
 h1 {
-  font-size: 26px;
+  font-size: 25px;
   line-height: 1.32;
   letter-spacing: -0.5px;
   font-weight: 700;
@@ -369,7 +384,7 @@ h3 {
   color: var(--ui-text);
   border: 1px solid var(--portal-line);
   border-radius: 11px;
-  padding: 24px;
+  padding: 22px;
   box-shadow: 0 1px 3px var(--ui-shadow-color);
   margin-bottom: 20px;
 }
@@ -427,7 +442,7 @@ aside.callout {
   background: var(--ui-surface);
   border: 1px solid var(--portal-line);
   border-radius: 14px;
-  padding: 26px 22px;
+  padding: 24px 20px;
   box-shadow: 0 2px 6px var(--ui-shadow-color);
   display: grid;
   grid-template-columns: 1fr;
@@ -693,6 +708,15 @@ aside.callout {
   border-bottom: 0;
 }
 
+.empty-search-state {
+  grid-column: 1 / -1;
+  background: var(--ui-surface);
+  border: 1px dashed var(--ui-border);
+  border-radius: 12px;
+  padding: 36px 24px;
+  text-align: center;
+}
+
 /* Accordion Footnotes */
 details.footnote-details {
   background: var(--ui-surface);
@@ -740,7 +764,7 @@ details.footnote-details summary {
 .site-footer {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 28px 18px 40px;
+  padding: 28px 16px 40px;
   border-top: 1px solid var(--portal-line);
   color: var(--ui-muted);
   font-size: var(--ui-caption-size);
@@ -877,10 +901,45 @@ details.footnote-details summary {
   font-size: 14.5px;
 }
 
-/* Desktop Expansion */
+/* Tablet / Desktop Expansion */
 @media (min-width: 820px) {
   .header-inner {
-    padding: 18px 32px;
+    padding: 16px 32px;
+    gap: 16px;
+  }
+  .brand {
+    gap: 12px;
+  }
+  .brand-mark {
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    font-size: 9.5px;
+  }
+  .brand-text strong {
+    font-size: 20px;
+  }
+  .brand-text span {
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-top: 3px;
+  }
+  .header-tools {
+    gap: 8px;
+  }
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+    min-height: 40px;
+  }
+  .lang-segmented {
+    padding: 3px;
+    gap: 2px;
+  }
+  .lang-seg-btn {
+    font-size: 12px;
+    padding: 5px 10px;
+    min-height: 32px;
   }
   .desktop-nav {
     display: flex;
@@ -896,6 +955,9 @@ details.footnote-details summary {
   }
   h2 {
     font-size: 24px;
+  }
+  .card {
+    padding: 24px;
   }
   .hero-card {
     grid-template-columns: 1.15fr 0.85fr;

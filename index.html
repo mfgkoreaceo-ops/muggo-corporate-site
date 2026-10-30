@@ -31,7 +31,7 @@
     })();
   </script>
 
-  <link rel="stylesheet" href="styles/main.css?v=20261030-2" />
+  <link rel="stylesheet" href="styles/main.css?v=20261030-3" />
 </head>
 <body>
   <a href="#main-content" id="skip-link" class="skip-link">Langsung ke konten utama</a>
@@ -44,23 +44,12 @@
 
   <div id="mobile-sticky-bar" class="mobile-sticky-bar"></div>
 
-  <!-- Admin CMS Dialog (Accessible from Footer) -->
-  <div id="admin-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
-    <div class="modal-dialog">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h2 id="admin-modal-title" style="margin:0;">MUGGO · Admin Settings</h2>
-        <button type="button" class="btn btn-secondary" style="min-height:36px; padding:6px 12px;" onclick="closeAdminModal()">✕</button>
-      </div>
-      <div id="admin-modal-content"></div>
-    </div>
-  </div>
-
   <!-- Image Specification Sheet Dialog (Accessible from Footer) -->
-  <div id="spec-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="spec-modal-title">
+  <div id="spec-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="spec-modal-title" onclick="if(event.target===this) closeSpecModal()">
     <div class="modal-dialog">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
         <h2 id="spec-modal-title" style="margin:0;">Image Specification Sheet</h2>
-        <button type="button" class="btn btn-secondary" style="min-height:36px; padding:6px 12px;" onclick="closeSpecModal()">✕</button>
+        <button type="button" id="spec-modal-close" class="btn btn-secondary" style="min-height:36px; padding:6px 12px;" onclick="closeSpecModal()" aria-label="Close">✕</button>
       </div>
       <div style="overflow-x:auto; font-size:13.5px; line-height:1.65;">
         <table style="width:100%; border-collapse:collapse;">
@@ -122,41 +111,46 @@
     </div>
   </div>
 
-  <!-- Online Career Application Form Modal -->
-  <div id="apply-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="apply-modal-title">
-    <div class="modal-dialog" style="max-width:520px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h2 id="apply-modal-title" style="margin:0;">MUGGO · Application</h2>
-        <button type="button" class="btn btn-secondary" style="min-height:36px; padding:6px 12px;" onclick="closeApplyModal()">✕</button>
+  <!-- Email Career Application Draft Modal -->
+  <div id="apply-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="apply-modal-title" aria-describedby="apply-modal-guide" onclick="if(event.target===this) closeApplyModal()">
+    <div class="modal-dialog" style="max-width:540px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px;">
+        <h2 id="apply-modal-title" style="margin:0;">Buat Draf Email Lamaran</h2>
+        <button type="button" id="apply-modal-close" class="btn btn-secondary" style="min-height:36px; padding:6px 12px;" onclick="closeApplyModal()" aria-label="Close">✕</button>
       </div>
+      <aside id="apply-modal-guide" class="callout" style="margin:0 0 16px; font-size:13px; padding:12px 14px;">
+        Formulir ini membantu Anda menyusun format email lamaran. Setelah menekan tombol kirim, aplikasi email Anda akan terbuka—mohon lampirkan file CV Anda lalu kirim ke barasustainable@gmail.com.
+      </aside>
       <form onsubmit="submitCareerForm(event)">
         <div class="form-field">
-          <label>Posisi / Role / 지원 직군</label>
+          <label id="apply-role-label" for="apply-role-input">Posisi yang Dilamar</label>
           <input type="text" id="apply-role-input" required />
         </div>
         <div class="form-field">
-          <label>Nama / Name / 성명</label>
+          <label id="apply-name-label" for="apply-name-input">Nama Lengkap</label>
           <input type="text" id="apply-name-input" required />
         </div>
         <div class="form-field">
-          <label>WhatsApp / Email</label>
+          <label id="apply-contact-label" for="apply-contact-input">Nomor WhatsApp / Email Aktif</label>
           <input type="text" id="apply-contact-input" required />
         </div>
         <div class="form-field">
-          <label>Ringkasan / Summary / 지원 동기 및 경력</label>
+          <label id="apply-msg-label" for="apply-msg-input">Ringkasan Pengalaman & Motivasi Singkat</label>
           <textarea id="apply-msg-input" rows="4" required></textarea>
         </div>
-        <div style="display:flex; justify-content:flex-end; gap:8px;">
-          <button type="button" class="btn btn-secondary" onclick="closeApplyModal()">Cancel</button>
-          <button type="submit" class="btn btn-primary">Submit</button>
+        <div id="apply-copy-feedback" class="hint" style="display:none; color:var(--ui-link); font-weight:700; margin-bottom:10px;"></div>
+        <div style="display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px;">
+          <button type="button" id="apply-cancel-btn" class="btn btn-secondary" onclick="closeApplyModal()">Batal</button>
+          <button type="button" id="apply-copy-btn" class="btn btn-secondary" onclick="copyApplicationDraft()">Salin Teks & Email</button>
+          <button type="submit" id="apply-submit-btn" class="btn btn-primary">Buka Aplikasi Email ↗</button>
         </div>
       </form>
     </div>
   </div>
 
-  <script src="data/catalog-data.js?v=20261030-2"></script>
-  <script src="data/site-data.js?v=20261030-2"></script>
-  <script src="data/i18n.js?v=20261030-2"></script>
-  <script src="scripts/app.js?v=20261030-2"></script>
+  <script src="data/catalog-data.js?v=20261030-3"></script>
+  <script src="data/site-data.js?v=20261030-3"></script>
+  <script src="data/i18n.js?v=20261030-3"></script>
+  <script src="scripts/app.js?v=20261030-3"></script>
 </body>
 </html>

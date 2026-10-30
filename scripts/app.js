@@ -3,10 +3,11 @@
 // UI/UX unified with https://mokgo-hr-staging.vercel.app/
 // 30 Brands & 300 Menus synced with https://kind-euclid.vercel.app/
 // Complete Trilingual Switching: ID (Bahasa Indonesia) | EN (English) | KO (한국어)
+// URL Hash Routing, Keyboard Accessibility (Esc & Focus Trap), Halal-Friendly Catalog
 // ==========================================================================
 
 (function () {
-  const STORAGE_KEY = "muggo_corporate_cms_v2";
+  const STORAGE_KEY = "muggo_corporate_cms_v3";
   const LANG_KEY = "mokgo-language";
   const THEME_KEY = "muggo-theme";
 
@@ -40,8 +41,7 @@
   let selectedBrandCategory = "all";
   let brandSearchQuery = "";
   let expandedBrands = {};
-  let adminRole = "super"; // 'super' | 'hr'
-  let adminTab = "general";
+  let lastFocusedTrigger = null;
 
   function saveState() {
     try {
@@ -96,7 +96,7 @@
     return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] || paths.store}</svg>`;
   }
 
-  // Theme management (matching mokgo-hr-staging.vercel.app theme.mjs)
+  // Theme management (matching mokgo-hr-staging.vercel.app)
   function currentTheme() {
     return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
   }
@@ -121,6 +121,7 @@
       localStorage.setItem(LANG_KEY, newLang);
     } catch (e) {}
     saveState();
+    syncApplyModalText();
     updateSeoMeta();
   };
 
@@ -146,11 +147,48 @@
     }
   };
 
-  // Navigation
-  window.navigateTo = function (route, param) {
+  // ==========================================================================
+  // URL HASH ROUTING & BROWSER HISTORY SYNC
+  // ==========================================================================
+  const VALID_ROUTES = ["home", "brands", "food-rnd", "platform", "people", "careers", "contact", "privacy", "terms"];
+
+  function routeToHash(route, param) {
+    if (route === "article-detail" && param) {
+      return `#article/${param}`;
+    }
+    if (VALID_ROUTES.includes(route)) {
+      return `#${route}`;
+    }
+    return "#home";
+  }
+
+  function parseHashToRoute(rawHash) {
+    const clean = (rawHash || "").replace(/^#\/?/, "").trim();
+    if (!clean || clean === "main-content") {
+      return { route: "home", param: null };
+    }
+    if (clean.startsWith("article/")) {
+      const artId = clean.slice("article/".length);
+      return { route: "article-detail", param: artId || "art-1" };
+    }
+    if (VALID_ROUTES.includes(clean)) {
+      return { route: clean, param: null };
+    }
+    return { route: "home", param: null };
+  }
+
+  window.navigateTo = function (route, param, skipHistory) {
     currentRoute = route;
     if (route === "article-detail" && param) {
       currentArticleId = param;
+    }
+    const targetHash = routeToHash(route, currentArticleId);
+    if (!skipHistory && window.location.hash !== targetHash) {
+      try {
+        window.history.pushState({ route: currentRoute, param: currentArticleId }, "", targetHash);
+      } catch (e) {
+        window.location.hash = targetHash;
+      }
     }
     const drawer = document.getElementById("mobile-drawer");
     if (drawer) drawer.classList.remove("open");
@@ -159,16 +197,36 @@
     renderAll();
   };
 
+  window.addEventListener("popstate", () => {
+    const parsed = parseHashToRoute(window.location.hash);
+    currentRoute = parsed.route;
+    if (parsed.param) currentArticleId = parsed.param;
+    const drawer = document.getElementById("mobile-drawer");
+    if (drawer) drawer.classList.remove("open");
+    window.scrollTo({ top: 0, behavior: "auto" });
+    updateSeoMeta();
+    renderAll();
+  });
+
+  window.addEventListener("hashchange", () => {
+    if (window.location.hash === "#main-content") return;
+    const parsed = parseHashToRoute(window.location.hash);
+    if (parsed.route !== currentRoute || (parsed.route === "article-detail" && parsed.param !== currentArticleId)) {
+      currentRoute = parsed.route;
+      if (parsed.param) currentArticleId = parsed.param;
+      updateSeoMeta();
+      renderAll();
+    }
+  });
+
   window.toggleMobileDrawer = function () {
     const drawer = document.getElementById("mobile-drawer");
     if (drawer) drawer.classList.toggle("open");
   };
 
-  function hasContactInfo() {
-    return Boolean(
-      (state.config.whatsappNumber && state.config.whatsappNumber.trim() !== "") ||
-      (state.config.contactEmail && state.config.contactEmail.trim() !== "")
-    );
+  function hasValidKoreaHqUrl() {
+    const url = (state.config.koreaHqUrl || "").trim();
+    return Boolean(url && /^https?:\/\//i.test(url));
   }
 
   function updateSeoMeta() {
@@ -181,7 +239,9 @@
       platform: dict.nav.platform,
       people: dict.nav.people,
       careers: dict.nav.careers,
-      contact: dict.nav.contact
+      contact: dict.nav.contact,
+      privacy: dict.footer.privacy,
+      terms: dict.footer.terms
     };
     const pageTitle = `${navMap[currentRoute] || dict.nav.home} · ${company}`;
     document.title = pageTitle;
@@ -197,7 +257,6 @@
     const cfg = state.config;
     const l = lang();
     const isDark = currentTheme() === "dark";
-    const contactVisible = hasContactInfo();
 
     // ① Header
     const header = document.getElementById("site-header");
@@ -208,11 +267,9 @@
         { id: "food-rnd", label: dict.nav.foodRnd },
         { id: "platform", label: dict.nav.platform },
         { id: "people", label: dict.nav.people },
-        { id: "careers", label: dict.nav.careers }
+        { id: "careers", label: dict.nav.careers },
+        { id: "contact", label: dict.nav.contact }
       ];
-      if (contactVisible) {
-        navItems.push({ id: "contact", label: dict.nav.contact });
-      }
 
       const navButtonsHtml = navItems
         .map(
@@ -239,7 +296,7 @@
 
           <div class="header-tools">
             <button id="themeToggle" type="button" class="icon-btn" onclick="toggleTheme()" aria-label="${themeTitle}" title="${themeTitle}">
-              ${svgIcon(isDark ? "sun" : "moon", 18)}
+              ${svgIcon(isDark ? "sun" : "moon", 17)}
             </button>
 
             <div class="lang-segmented" role="group" aria-label="Bahasa / Language / 언어">
@@ -249,7 +306,7 @@
             </div>
 
             <button type="button" class="icon-btn mobile-menu-toggle" onclick="toggleMobileDrawer()" aria-label="Menu">
-              ${svgIcon("menu", 20)}
+              ${svgIcon("menu", 19)}
             </button>
           </div>
         </div>
@@ -264,16 +321,16 @@
     const footer = document.getElementById("site-footer");
     if (footer) {
       const cleanWa = (cfg.whatsappNumber || "").replace(/[^0-9]/g, "");
-      const contactHtml = contactVisible
-        ? `<div style="margin-top:10px; line-height:1.7;">
-            ${cfg.whatsappNumber ? `<div>WhatsApp: <a href="https://wa.me/${cleanWa}" target="_blank" rel="noopener">${cfg.whatsappNumber}</a></div>` : ""}
-            ${cfg.contactEmail ? `<div>Email: <a href="mailto:${cfg.contactEmail}">${cfg.contactEmail}</a></div>` : ""}
-           </div>`
-        : "";
+      const contactEmail = cfg.contactEmail || cfg.careerEmail;
+      const contactHtml = `<div style="margin-top:10px; line-height:1.7;">
+          ${cfg.whatsappNumber ? `<div>WhatsApp: <a href="https://wa.me/${cleanWa}" target="_blank" rel="noopener">${cfg.whatsappNumber}</a></div>` : ""}
+          ${contactEmail ? `<div>Email: <a href="mailto:${contactEmail}" style="color:var(--ui-link); font-weight:600;">${contactEmail}</a></div>` : ""}
+        </div>`;
 
-      const koreaHqLinkHtml = cfg.showKoreaHq
-        ? `<li><a href="${cfg.koreaHqUrl}" target="_blank" rel="noopener noreferrer">${dict.koreaHq.linkText}</a></li>`
-        : "";
+      const koreaHqLinkHtml =
+        cfg.showKoreaHq && hasValidKoreaHqUrl()
+          ? `<li><a href="${cfg.koreaHqUrl}" target="_blank" rel="noopener noreferrer">${dict.koreaHq.linkText} ↗</a></li>`
+          : "";
 
       footer.innerHTML = `
         <div class="footer-grid">
@@ -299,7 +356,7 @@
               <li><button type="button" onclick="navigateTo('platform')">${dict.nav.platform}</button></li>
               <li><button type="button" onclick="navigateTo('people')">${dict.nav.people}</button></li>
               <li><button type="button" onclick="navigateTo('careers')">${dict.nav.careers}</button></li>
-              ${contactVisible ? `<li><button type="button" onclick="navigateTo('contact')">${dict.nav.contact}</button></li>` : ""}
+              <li><button type="button" onclick="navigateTo('contact')">${dict.nav.contact}</button></li>
               ${koreaHqLinkHtml}
             </ul>
           </div>
@@ -322,8 +379,7 @@
           <ul class="footer-nav-links">
             <li><button type="button" onclick="navigateTo('privacy')">${dict.footer.privacy}</button></li>
             <li><button type="button" onclick="navigateTo('terms')">${dict.footer.terms}</button></li>
-            <li><button type="button" onclick="openSpecModal()">${dict.footer.specLink}</button></li>
-            <li><button type="button" onclick="openAdminModal('super')">${dict.footer.adminLink}</button></li>
+            <li><button type="button" onclick="openSpecModal(this)">${dict.footer.specLink}</button></li>
           </ul>
         </div>
       `;
@@ -428,7 +484,7 @@
       )
       .join("");
 
-    // Featured Brands Preview from the 30 Official Brands (SOTDAK, SEONGSU DAK, JUMOK, PANTRY 12, SALAD PICK, BING HA)
+    // Featured Brands Preview from the 30 Official Brands (SOTDAK, SEONGSU DAK, BAP CLUB, PANTRY 12, SALAD PICK, BING HA)
     const featuredIds = ["sotdak", "seongsu-dak", "bap-club", "pantry12", "salad-pick", "bing-ha"];
     const featuredBrands = (window.MUGGO_CATALOG || []).filter((b) => featuredIds.includes(b.id));
     const featuredBrandsHtml = featuredBrands
@@ -454,16 +510,18 @@
       )
       .join("");
 
-    // Korea HQ Section (Conditional ON/OFF)
+    // Korea HQ Section (Conditional ON/OFF, only renders external link if a valid live URL is configured)
+    const koreaHqActionHtml = hasValidKoreaHqUrl()
+      ? `<a href="${cfg.koreaHqUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="margin-top:14px;">${dict.koreaHq.linkText} ↗</a>`
+      : `<div style="margin-top:12px;"><span class="roster-badge">${dict.koreaHq.linkText}</span></div>`;
+
     const koreaHqHtml = cfg.showKoreaHq
       ? `
         <section class="card section-block">
           <p class="eyebrow">${dict.koreaHq.eyebrow}</p>
           <h2>${dict.koreaHq.title}</h2>
-          <p class="intro" style="margin-bottom:16px;">${dict.koreaHq.desc}</p>
-          <a href="${cfg.koreaHqUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-            ${dict.koreaHq.linkText}
-          </a>
+          <p class="intro">${dict.koreaHq.desc}</p>
+          ${koreaHqActionHtml}
         </section>
       `
       : "";
@@ -657,11 +715,22 @@
 
   window.handleBrandSearch = function (val) {
     brandSearchQuery = val || "";
+    // Reset explicit expand/collapse overrides when search query changes
+    expandedBrands = {};
     renderBrandCardsDOM();
   };
 
+  window.resetBrandSearch = function () {
+    brandSearchQuery = "";
+    selectedBrandCategory = "all";
+    expandedBrands = {};
+    renderMain();
+  };
+
   window.toggleBrandMenus = function (brandId) {
-    expandedBrands[brandId] = !expandedBrands[brandId];
+    const hasSearch = brandSearchQuery.trim().length > 0;
+    const currentlyExpanded = expandedBrands[brandId] !== undefined ? expandedBrands[brandId] : hasSearch;
+    expandedBrands[brandId] = !currentlyExpanded;
     renderBrandCardsDOM();
   };
 
@@ -695,10 +764,24 @@
     if (!container) return;
     const dict = t().brandsPage;
     const brands = getFilteredCatalog();
+    const hasSearch = brandSearchQuery.trim().length > 0;
+
+    if (brands.length === 0) {
+      container.innerHTML = `
+        <div class="empty-search-state" role="status" aria-live="polite">
+          <h3 style="margin-bottom:8px;">${dict.emptySearchTitle}</h3>
+          <p class="hint" style="max-width:480px; margin:0 auto 18px;">${dict.emptySearchDesc}</p>
+          <button type="button" class="btn btn-primary" onclick="resetBrandSearch()">
+            ${dict.resetSearchBtn}
+          </button>
+        </div>
+      `;
+      return;
+    }
 
     container.innerHTML = brands
       .map((b) => {
-        const isExpanded = !!expandedBrands[b.id] || brandSearchQuery.trim().length > 0;
+        const isExpanded = expandedBrands[b.id] !== undefined ? expandedBrands[b.id] : hasSearch;
         const visibleMenus = isExpanded ? b.menus : b.menus.slice(0, 4);
         const catLabel = dict.catNames[b.category] || b.category;
 
@@ -733,7 +816,7 @@
 
             <div style="margin-top:12px; padding-top:10px; border-top:1px solid var(--portal-line); display:flex; justify-content:space-between; align-items:center;">
               <small class="hint">${dict.menusCount}</small>
-              <button type="button" class="nav-btn" style="padding:5px 10px; min-height:30px; font-size:12.5px; color:var(--ui-link); font-weight:700;" onclick="toggleBrandMenus('${b.id}')">
+              <button type="button" class="nav-btn" aria-expanded="${isExpanded ? "true" : "false"}" style="padding:5px 10px; min-height:30px; font-size:12.5px; color:var(--ui-link); font-weight:700;" onclick="toggleBrandMenus('${b.id}')">
                 ${isExpanded ? dict.hideMenus : `${dict.viewAllMenus} (${b.menus.length})`}
               </button>
             </div>
@@ -772,7 +855,7 @@
             .join("")}
         </div>
         <div class="form-field" style="margin:0;">
-          <input type="text" value="${brandSearchQuery}" oninput="handleBrandSearch(this.value)" placeholder="${dict.searchPlaceholder}" />
+          <input type="text" id="brand-search-input" value="${brandSearchQuery}" oninput="handleBrandSearch(this.value)" placeholder="${dict.searchPlaceholder}" aria-label="${dict.searchPlaceholder}" />
         </div>
       </div>
 
@@ -914,8 +997,24 @@
   }
 
   // --------------------------------------------------------------------------
-  // CAREERS VIEW (11 Open Job Categories, Benefits, How to Apply)
+  // CAREERS VIEW (11 Open Job Categories, Benefits, Email Application Guide)
   // --------------------------------------------------------------------------
+  window.copyCareerEmail = function (btnEl) {
+    const email = state.config.careerEmail || "barasustainable@gmail.com";
+    const dict = t().careersPage;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(email).then(() => {
+        if (btnEl) {
+          const orig = btnEl.textContent;
+          btnEl.textContent = `${dict.copiedNotice} (${email})`;
+          setTimeout(() => {
+            btnEl.textContent = orig;
+          }, 2200);
+        }
+      });
+    }
+  };
+
   function renderCareersView() {
     const dict = t().careersPage;
     const cfg = state.config;
@@ -932,12 +1031,13 @@
             <h3>${loc(j, "title")}</h3>
             <p class="hint" style="margin-top:4px;">${loc(j, "desc")}</p>
           </div>
-          <div>
-            ${
-              cfg.enableCareerForm
-                ? `<button type="button" class="btn btn-primary" onclick="openApplyModal('${loc(j, "title").replace(/'/g, "")}')">${dict.formBtn}</button>`
-                : `<a href="mailto:${cfg.careerEmail}?subject=${encodeURIComponent("[MUGGO Recruitment] " + loc(j, "title"))}" class="btn btn-primary">${dict.emailBtn}</a>`
-            }
+          <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+            <button type="button" class="btn btn-primary" onclick="openApplyModal('${loc(j, "title").replace(/'/g, "")}', this)">
+              ${dict.formBtn}
+            </button>
+            <a href="mailto:${cfg.careerEmail}?subject=${encodeURIComponent("[MUGGO Recruitment] " + loc(j, "title"))}" class="btn btn-secondary">
+              ${dict.emailBtn} ↗
+            </a>
           </div>
         </div>
       `
@@ -957,11 +1057,14 @@
         <h2>${dict.applyBoxTitle}</h2>
         <p class="hint" style="margin-bottom:14px;">${dict.applyBoxDesc}</p>
         <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
-          <a href="mailto:${cfg.careerEmail}?subject=${encodeURIComponent("[MUGGO Indonesia] Job Application")}" class="btn btn-primary">
-            ${dict.emailBtn} (${cfg.careerEmail})
-          </a>
-          <button type="button" class="btn btn-secondary" onclick="openApplyModal('MUGGO Open Application')">
+          <button type="button" class="btn btn-primary" onclick="openApplyModal('MUGGO Open Application', this)">
             ${dict.formBtn}
+          </button>
+          <a href="mailto:${cfg.careerEmail}?subject=${encodeURIComponent("[MUGGO Indonesia] Job Application")}" class="btn btn-secondary">
+            ${dict.emailBtn} (${cfg.careerEmail}) ↗
+          </a>
+          <button type="button" class="btn btn-secondary" onclick="copyCareerEmail(this)">
+            ${dict.copyEmailBtn}
           </button>
         </div>
       </section>
@@ -990,12 +1093,15 @@
   }
 
   // --------------------------------------------------------------------------
-  // CONTACT VIEW
+  // CONTACT VIEW (General/Partnership Inquiries + Recruitment + Hub Address)
   // --------------------------------------------------------------------------
   function renderContactView() {
     const dict = t().contactPage;
+    const careerDict = t().careersPage;
     const cfg = state.config;
     const cleanWa = (cfg.whatsappNumber || "").replace(/[^0-9]/g, "");
+    const generalEmail = cfg.contactEmail || cfg.careerEmail;
+    const hrEmail = cfg.careerEmail || "barasustainable@gmail.com";
 
     return `
       <div class="workspace-heading">
@@ -1006,17 +1112,36 @@
         </div>
       </div>
 
+      <div class="columns" style="margin-bottom:20px;">
+        <section class="card" style="margin:0;">
+          <h3>${dict.generalTitle}</h3>
+          <p class="hint" style="margin:6px 0 14px;">${dict.generalDesc}</p>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+            <a href="mailto:${generalEmail}?subject=${encodeURIComponent("[MUGGO Partnership / Inquiry]")}" class="btn btn-primary">
+              ${generalEmail} ↗
+            </a>
+            ${cfg.whatsappNumber ? `<a href="https://wa.me/${cleanWa}" target="_blank" rel="noopener" class="btn btn-secondary">WhatsApp: ${cfg.whatsappNumber}</a>` : ""}
+          </div>
+        </section>
+
+        <section class="card" style="margin:0;">
+          <h3>${dict.careerTitle}</h3>
+          <p class="hint" style="margin:6px 0 14px;">${dict.careerDesc}</p>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+            <button type="button" class="btn btn-primary" onclick="openApplyModal('MUGGO Open Application', this)">
+              ${careerDict.formBtn}
+            </button>
+            <a href="mailto:${hrEmail}?subject=${encodeURIComponent("[MUGGO Recruitment]")}" class="btn btn-secondary">
+              ${hrEmail} ↗
+            </a>
+          </div>
+        </section>
+      </div>
+
       <section class="card">
         <h3>${dict.addressLabel}</h3>
-        <p style="margin-bottom:16px;">${cfg.officeAddress}</p>
-        ${
-          hasContactInfo()
-            ? `<div style="display:grid; gap:10px;">
-                ${cfg.whatsappNumber ? `<div><strong>WhatsApp:</strong> <a href="https://wa.me/${cleanWa}" target="_blank" rel="noopener">${cfg.whatsappNumber}</a></div>` : ""}
-                ${cfg.contactEmail ? `<div><strong>Email:</strong> <a href="mailto:${cfg.contactEmail}">${cfg.contactEmail}</a></div>` : ""}
-               </div>`
-            : `<p class="hint">${dict.pendingNotice}</p>`
-        }
+        <p style="margin:8px 0 12px; font-weight:600;">${cfg.officeAddress}</p>
+        <p class="hint">${dict.pendingNotice}</p>
       </section>
     `;
   }
@@ -1063,23 +1188,23 @@
         title: isPrivacy ? "Kebijakan Privasi (Privacy Policy)" : "Syarat & Ketentuan (Terms of Use)",
         body: isPrivacy
           ? `<p style="margin-bottom:14px;">${cfg.companyName} menghormati privasi pelamar kerja, pelanggan, dan mitra kami sesuai dengan Undang-Undang Pelindungan Data Pribadi (UU PDP) Indonesia.</p>
-             <p style="margin-bottom:14px;">Data yang dikirimkan melalui saluran rekrutmen (${cfg.careerEmail}) hanya digunakan untuk proses seleksi dan administrasi SDM internal.</p>`
-          : `<p style="margin-bottom:14px;">Situs web ini dioperasikan oleh ${cfg.companyName} untuk menyajikan informasi umum mengenai visi korporat, 30 brand kuliner, dan peluang karir.</p>
+             <p style="margin-bottom:14px;">Data yang dikirimkan melalui saluran email rekrutmen (${cfg.careerEmail}) hanya digunakan untuk proses seleksi dan administrasi SDM internal.</p>`
+          : `<p style="margin-bottom:14px;">Situs web ini dioperasikan oleh ${cfg.companyName} (tahap pra-peluncuran) untuk menyajikan informasi umum mengenai visi korporat, rencana 30 brand kuliner, dan peluang karir.</p>
              <p>Seluruh angka target bisnis dan rencana pembukaan gerai merupakan target rencana usaha yang dapat disesuaikan mengikuti perkembangan operasional.</p>`
       },
       en: {
         title: isPrivacy ? "Privacy Policy" : "Terms of Use",
         body: isPrivacy
           ? `<p style="margin-bottom:14px;">${cfg.companyName} respects the privacy of job applicants, customers, and partners in compliance with Indonesian Personal Data Protection laws (UU PDP).</p>
-             <p style="margin-bottom:14px;">Information submitted to our recruitment channel (${cfg.careerEmail}) is used strictly for hiring evaluation and HR administration.</p>`
-          : `<p style="margin-bottom:14px;">This website is operated by ${cfg.companyName} to provide general corporate information regarding our vision, 30 culinary brands, and career opportunities.</p>
+             <p style="margin-bottom:14px;">Information submitted to our official recruitment email (${cfg.careerEmail}) is used strictly for hiring evaluation and HR administration.</p>`
+          : `<p style="margin-bottom:14px;">This website is operated by ${cfg.companyName} (pre-launch stage) to provide general corporate information regarding our vision, planned 30 culinary brands, and career opportunities.</p>
              <p>All business plan metrics and store expansion targets represent planned milestones subject to operational adjustments.</p>`
       },
       ko: {
         title: isPrivacy ? "개인정보처리방침" : "이용약관",
         body: isPrivacy
           ? `<p style="margin-bottom:14px;">${cfg.companyName}은 인도네시아 개인정보보호법(UU PDP) 및 관련 법령을 준수하며, 채용 지원(${cfg.careerEmail}) 및 문의를 위해 제공된 개인정보를 목적 범위 내에서만 안전하게 처리합니다.</p>`
-          : `<p style="margin-bottom:14px;">본 사이트는 ${cfg.companyName}의 비전, 30개 브랜드, 채용에 관한 일반 정보를 제공할 목적으로 운영됩니다.</p>
+          : `<p style="margin-bottom:14px;">본 사이트는 오픈 준비 단계의 ${cfg.companyName} 비전, 30개 브랜드 기획 라인업, 채용에 관한 일반 정보를 제공할 목적으로 운영됩니다.</p>
              <p>사이트 내 기재된 브랜드 수, 확장 목표 지점 수 등 모든 수치는 사업 계획상 목표 기준이며 향후 변동될 수 있습니다.</p>`
       }
     }[l];
@@ -1096,285 +1221,146 @@
   }
 
   // ==========================================================================
-  // ADMIN CMS MODAL (Role-Based: Super Admin vs HR Manager)
+  // ACCESSIBLE MODALS (Esc Key Close, Tab Focus Trap, Trigger Focus Restore)
   // ==========================================================================
-  window.openAdminModal = function (role, tab) {
-    if (role) adminRole = role;
-    if (adminRole === "hr" && tab !== "articles" && tab !== "careers") {
-      adminTab = "articles";
-    } else if (tab) {
-      adminTab = tab;
-    }
-    const modal = document.getElementById("admin-modal");
-    if (modal) {
-      modal.classList.add("open");
-      renderAdminModal();
-    }
-  };
-
-  window.closeAdminModal = function () {
-    const modal = document.getElementById("admin-modal");
-    if (modal) modal.classList.remove("open");
-  };
-
-  window.switchAdminRole = function (role) {
-    adminRole = role;
-    if (role === "hr" && adminTab !== "articles" && adminTab !== "careers") {
-      adminTab = "articles";
-    }
-    renderAdminModal();
-  };
-
-  window.switchAdminTab = function (tab) {
-    if (adminRole === "hr" && tab !== "articles" && tab !== "careers") {
-      alert("HR Manager (인사 담당자) 계정은 소식(Articles)과 채용 공고(Careers)만 수정할 수 있습니다.");
-      return;
-    }
-    adminTab = tab;
-    renderAdminModal();
-  };
-
-  function renderAdminModal() {
-    const box = document.getElementById("admin-modal-content");
-    if (!box) return;
-    const cfg = state.config;
-    const isHr = adminRole === "hr";
-
-    let bodyHtml = "";
-    if (adminTab === "general" && !isHr) {
-      bodyHtml = `
-        <div class="columns">
-          <div class="form-field">
-            <label>법인명 (Company Name)</label>
-            <input type="text" id="adm-companyName" value="${cfg.companyName}" />
-          </div>
-          <div class="form-field">
-            <label>대표자명 (CEO Name)</label>
-            <input type="text" id="adm-ceoName" value="${cfg.ceoName}" />
-          </div>
-        </div>
-        <div class="card" style="padding:16px; margin-bottom:16px;">
-          <label style="display:flex; align-items:center; gap:10px; font-weight:700; cursor:pointer; margin-bottom:12px;">
-            <input type="checkbox" id="adm-showKoreaHq" ${cfg.showKoreaHq ? "checked" : ""} />
-            <span>한국 본사 관계 표시 켜기 (ON: 히어로 문구 A + 본사 섹션 + 푸터 링크 노출 / OFF: 문구 B + 본사 숨김)</span>
-          </label>
-          <div class="columns">
-            <div class="form-field" style="margin:0;">
-              <label>한국 본사명</label>
-              <input type="text" id="adm-koreaHqName" value="${cfg.koreaHqName}" />
-            </div>
-            <div class="form-field" style="margin:0;">
-              <label>한국 본사 링크 URL</label>
-              <input type="text" id="adm-koreaHqUrl" value="${cfg.koreaHqUrl}" />
-            </div>
-          </div>
-        </div>
-        <button type="button" class="btn btn-primary" onclick="saveGeneralAdmin()">저장 및 반영</button>
-      `;
-    } else if (adminTab === "sns_contact" && !isHr) {
-      bodyHtml = `
-        <div class="columns">
-          <div class="form-field">
-            <label>Instagram (@muggo.indonesia)</label>
-            <input type="text" id="adm-igUrl" value="${cfg.instagramUrl}" />
-          </div>
-          <div class="form-field">
-            <label>TikTok (@muggo1)</label>
-            <input type="text" id="adm-ttUrl" value="${cfg.tiktokUrl}" />
-          </div>
-          <div class="form-field">
-            <label>WhatsApp 번호 (비워두면 자동 숨김)</label>
-            <input type="text" id="adm-wa" value="${cfg.whatsappNumber}" placeholder="+62 812-..." />
-          </div>
-          <div class="form-field">
-            <label>문의 이메일 (비워두면 자동 숨김)</label>
-            <input type="text" id="adm-email" value="${cfg.contactEmail}" placeholder="contact@muggo.co.id" />
-          </div>
-          <div class="form-field">
-            <label>자체 배달 앱 버튼 상태</label>
-            <select id="adm-appMode">
-              <option value="coming_soon" ${cfg.deliveryAppMode === "coming_soon" ? "selected" : ""}>오픈 예정 표시</option>
-              <option value="hidden" ${cfg.deliveryAppMode === "hidden" ? "selected" : ""}>숨김</option>
-              <option value="active" ${cfg.deliveryAppMode === "active" ? "selected" : ""}>링크 활성화</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label>배달 앱 링크 URL</label>
-            <input type="text" id="adm-appUrl" value="${cfg.deliveryAppUrl}" placeholder="https://..." />
-          </div>
-        </div>
-        <button type="button" class="btn btn-primary" onclick="saveSnsContactAdmin()">저장 및 반영</button>
-      `;
-    } else if (adminTab === "articles") {
-      bodyHtml = `
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
-          <p class="hint">등록된 소식 항목이 0개가 되면 홈 화면에서 소식 섹션이 자동으로 숨겨집니다.</p>
-          <div style="display:flex; gap:8px;">
-            <button type="button" class="btn btn-secondary" onclick="clearArticlesAdmin()">전체 비우기 (자동 숨김 테스트)</button>
-            <button type="button" class="btn btn-primary" onclick="addArticleAdmin()">+ 소식 추가</button>
-          </div>
-        </div>
-        ${state.articles
-          .map(
-            (art, idx) => `
-          <div class="card" style="padding:14px; margin-bottom:10px;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-              <strong>#${idx + 1} (${art.date})</strong>
-              <button type="button" class="nav-btn" style="color:var(--ui-danger);" onclick="deleteArticleAdmin('${art.id}')">삭제</button>
-            </div>
-            <div class="form-field" style="margin-bottom:8px;">
-              <label>Judul (ID)</label>
-              <input type="text" id="adm-art-id-${idx}" value="${art.titleId}" />
-            </div>
-            <div class="form-field" style="margin-bottom:8px;">
-              <label>Title (EN)</label>
-              <input type="text" id="adm-art-en-${idx}" value="${art.titleEn}" />
-            </div>
-            <div class="form-field" style="margin:0;">
-              <label>제목 (KO)</label>
-              <input type="text" id="adm-art-ko-${idx}" value="${art.titleKo}" />
-            </div>
-          </div>
-        `
-          )
-          .join("")}
-        ${state.articles.length > 0 ? `<button type="button" class="btn btn-primary" onclick="saveArticlesAdmin()">소식 저장</button>` : ""}
-      `;
-    } else if (adminTab === "careers") {
-      bodyHtml = `
-        <div class="form-field">
-          <label>채용 접수 이메일</label>
-          <input type="text" id="adm-careerEmail" value="${cfg.careerEmail}" />
-        </div>
-        <button type="button" class="btn btn-primary" onclick="saveCareersAdmin()">저장</button>
-      `;
-    }
-
-    box.innerHTML = `
-      <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid var(--portal-line);">
-        <div class="filter-pills" style="margin:0;">
-          <button type="button" class="filter-pill ${!isHr ? "active" : ""}" onclick="switchAdminRole('super')">Super Admin (전체 권한)</button>
-          <button type="button" class="filter-pill ${isHr ? "active" : ""}" onclick="switchAdminRole('hr')">HR Manager (stg_hr_20261022 · 소식/채용 전용)</button>
-        </div>
-      </div>
-
-      <div class="filter-pills">
-        <button type="button" class="filter-pill ${adminTab === "general" ? "active" : ""}" onclick="switchAdminTab('general')" style="${isHr ? "opacity:0.4;" : ""}">법인 · 본사 ON/OFF</button>
-        <button type="button" class="filter-pill ${adminTab === "sns_contact" ? "active" : ""}" onclick="switchAdminTab('sns_contact')" style="${isHr ? "opacity:0.4;" : ""}">SNS · 연락처 · 앱</button>
-        <button type="button" class="filter-pill ${adminTab === "articles" ? "active" : ""}" onclick="switchAdminTab('articles')">소식 (${state.articles.length})</button>
-        <button type="button" class="filter-pill ${adminTab === "careers" ? "active" : ""}" onclick="switchAdminTab('careers')">채용 (${state.jobs.length})</button>
-      </div>
-
-      <div>${bodyHtml}</div>
-    `;
+  function syncApplyModalText() {
+    const mDict = t().applyModal;
+    if (!mDict) return;
+    const setTxt = (id, txt) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = txt;
+    };
+    setTxt("apply-modal-title", mDict.title);
+    setTxt("apply-modal-guide", mDict.guide);
+    setTxt("apply-role-label", mDict.roleLabel);
+    setTxt("apply-name-label", mDict.nameLabel);
+    setTxt("apply-contact-label", mDict.contactLabel);
+    setTxt("apply-msg-label", mDict.msgLabel);
+    setTxt("apply-cancel-btn", mDict.cancelBtn);
+    setTxt("apply-copy-btn", mDict.copyDraftBtn);
+    setTxt("apply-submit-btn", mDict.submitBtn);
   }
 
-  window.saveGeneralAdmin = function () {
-    state.config.companyName = document.getElementById("adm-companyName").value;
-    state.config.ceoName = document.getElementById("adm-ceoName").value;
-    state.config.showKoreaHq = document.getElementById("adm-showKoreaHq").checked;
-    state.config.koreaHqName = document.getElementById("adm-koreaHqName").value;
-    state.config.koreaHqUrl = document.getElementById("adm-koreaHqUrl").value;
-    saveState();
-    closeAdminModal();
-  };
-
-  window.saveSnsContactAdmin = function () {
-    state.config.instagramUrl = document.getElementById("adm-igUrl").value;
-    state.config.tiktokUrl = document.getElementById("adm-ttUrl").value;
-    state.config.whatsappNumber = document.getElementById("adm-wa").value;
-    state.config.contactEmail = document.getElementById("adm-email").value;
-    state.config.deliveryAppMode = document.getElementById("adm-appMode").value;
-    state.config.deliveryAppUrl = document.getElementById("adm-appUrl").value;
-    saveState();
-    closeAdminModal();
-  };
-
-  window.clearArticlesAdmin = function () {
-    state.articles = [];
-    saveState();
-    renderAdminModal();
-  };
-
-  window.addArticleAdmin = function () {
-    state.articles.unshift({
-      id: "art-" + Date.now(),
-      date: "2026.10.30",
-      categoryId: "Pengumuman",
-      categoryEn: "Update",
-      categoryKo: "공지",
-      titleId: "Pengumuman Baru MUGGO Indonesia",
-      titleEn: "New Update from MUGGO Indonesia",
-      titleKo: "MUGGO 인도네시아 신규 소식",
-      summaryId: "Ringkasan berita terbaru dari tim HR.",
-      summaryEn: "Latest update summary from the HR team.",
-      summaryKo: "인사 담당자가 등록한 신규 소식입니다.",
-      contentId: "Detail pengumuman.",
-      contentEn: "Announcement details.",
-      contentKo: "상세 내용입니다."
-    });
-    saveState();
-    renderAdminModal();
-  };
-
-  window.deleteArticleAdmin = function (id) {
-    state.articles = state.articles.filter((a) => a.id !== id);
-    saveState();
-    renderAdminModal();
-  };
-
-  window.saveArticlesAdmin = function () {
-    state.articles.forEach((art, idx) => {
-      const idEl = document.getElementById(`adm-art-id-${idx}`);
-      const enEl = document.getElementById(`adm-art-en-${idx}`);
-      const koEl = document.getElementById(`adm-art-ko-${idx}`);
-      if (idEl) art.titleId = idEl.value;
-      if (enEl) art.titleEn = enEl.value;
-      if (koEl) art.titleKo = koEl.value;
-    });
-    saveState();
-    closeAdminModal();
-  };
-
-  window.saveCareersAdmin = function () {
-    const el = document.getElementById("adm-careerEmail");
-    if (el) state.config.careerEmail = el.value;
-    saveState();
-    closeAdminModal();
-  };
-
-  // Image Spec Modal & Apply Modal
-  window.openSpecModal = function () {
+  window.openSpecModal = function (triggerEl) {
+    lastFocusedTrigger = triggerEl || document.activeElement;
     const m = document.getElementById("spec-modal");
-    if (m) m.classList.add("open");
+    if (m) {
+      m.classList.add("open");
+      const closeBtn = document.getElementById("spec-modal-close");
+      if (closeBtn) setTimeout(() => closeBtn.focus(), 20);
+    }
   };
+
   window.closeSpecModal = function () {
     const m = document.getElementById("spec-modal");
     if (m) m.classList.remove("open");
+    if (lastFocusedTrigger && typeof lastFocusedTrigger.focus === "function") {
+      lastFocusedTrigger.focus();
+      lastFocusedTrigger = null;
+    }
   };
-  window.openApplyModal = function (roleTitle) {
+
+  window.openApplyModal = function (roleTitle, triggerEl) {
+    lastFocusedTrigger = triggerEl || document.activeElement;
+    syncApplyModalText();
+    const feedback = document.getElementById("apply-copy-feedback");
+    if (feedback) feedback.style.display = "none";
     const m = document.getElementById("apply-modal");
     if (m) {
       m.classList.add("open");
       const input = document.getElementById("apply-role-input");
-      if (input) input.value = roleTitle || "";
+      if (input) {
+        input.value = roleTitle || "";
+        setTimeout(() => input.focus(), 20);
+      }
     }
   };
+
   window.closeApplyModal = function () {
     const m = document.getElementById("apply-modal");
     if (m) m.classList.remove("open");
+    if (lastFocusedTrigger && typeof lastFocusedTrigger.focus === "function") {
+      lastFocusedTrigger.focus();
+      lastFocusedTrigger = null;
+    }
   };
+
+  function buildApplicationDraftData() {
+    const role = (document.getElementById("apply-role-input")?.value || "").trim() || "MUGGO Open Application";
+    const name = (document.getElementById("apply-name-input")?.value || "").trim();
+    const contact = (document.getElementById("apply-contact-input")?.value || "").trim();
+    const msg = (document.getElementById("apply-msg-input")?.value || "").trim();
+    const email = state.config.careerEmail || "barasustainable@gmail.com";
+    const subject = `[MUGGO Application] ${role}${name ? " - " + name : ""}`;
+    const body = `To: ${email}\nRole: ${role}\nName: ${name}\nContact: ${contact}\n\nSummary & Motivation:\n${msg}\n\n[Please attach your CV / Resume before sending]`;
+    return { email, subject, body };
+  }
+
+  window.copyApplicationDraft = function () {
+    const { email, subject, body } = buildApplicationDraftData();
+    const mDict = t().applyModal;
+    const fullText = `Recipient: ${email}\nSubject: ${subject}\n\n${body}`;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(fullText).then(() => {
+        const fb = document.getElementById("apply-copy-feedback");
+        if (fb) {
+          fb.textContent = mDict.copySuccess;
+          fb.style.display = "block";
+        }
+      });
+    }
+  };
+
   window.submitCareerForm = function (e) {
     e.preventDefault();
-    const role = document.getElementById("apply-role-input").value;
-    const name = document.getElementById("apply-name-input").value;
-    const contact = document.getElementById("apply-contact-input").value;
-    const msg = document.getElementById("apply-msg-input").value;
-    const subject = `[MUGGO Application] ${role} - ${name}`;
-    const body = `Role: ${role}\nName: ${name}\nContact: ${contact}\n\nMessage:\n${msg}`;
-    window.location.href = `mailto:${state.config.careerEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const { email, subject, body } = buildApplicationDraftData();
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     closeApplyModal();
   };
+
+  // Global Keyboard Handler: Escape to close modals/drawer & Tab focus trap inside open modal
+  document.addEventListener("keydown", (e) => {
+    const openModal = document.querySelector(".modal-overlay.open");
+    if (e.key === "Escape") {
+      if (openModal) {
+        e.preventDefault();
+        if (openModal.id === "apply-modal") closeApplyModal();
+        else if (openModal.id === "spec-modal") closeSpecModal();
+        else openModal.classList.remove("open");
+        return;
+      }
+      const openDrawer = document.getElementById("mobile-drawer");
+      if (openDrawer && openDrawer.classList.contains("open")) {
+        openDrawer.classList.remove("open");
+      }
+      return;
+    }
+
+    if (e.key === "Tab" && openModal) {
+      const dialog = openModal.querySelector(".modal-dialog") || openModal;
+      const focusable = Array.from(
+        dialog.querySelectorAll(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => el.offsetParent !== null);
+
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first || !dialog.contains(document.activeElement)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last || !dialog.contains(document.activeElement)) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+  });
 
   function renderAll() {
     renderChrome();
@@ -1383,6 +1369,10 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     document.documentElement.lang = lang();
+    const initial = parseHashToRoute(window.location.hash);
+    currentRoute = initial.route;
+    if (initial.param) currentArticleId = initial.param;
+    syncApplyModalText();
     updateSeoMeta();
     renderAll();
   });
