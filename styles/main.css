@@ -657,6 +657,7 @@ aside.callout {
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
+  align-items: start;
 }
 
 .brand-card {
@@ -666,7 +667,8 @@ aside.callout {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-self: start;
   box-shadow: 0 1px 3px var(--ui-shadow-color);
 }
 
