@@ -52,11 +52,50 @@
     return val;
   }
 
+  const NEWS_CACHE_KEY = "muggo-sheet-news-cache-v1";
+  const JOBS_CACHE_KEY = "muggo-sheet-jobs-cache-v1";
+  const NEWS_ALLOWED_COLUMNS = ["id", "title", "summary", "status", "date", "imageUrl", "visible"];
+  const JOBS_ALLOWED_COLUMNS = ["id", "title", "department", "employmentType", "experience", "location", "description", "requirements", "visible"];
+
+  function capLen(val, maxLen) {
+    if (val === null || val === undefined) return "";
+    const str = String(val).trim();
+    return str.length > maxLen ? str.slice(0, maxLen) : str;
+  }
+
+  function isSafeHttpUrl(url) {
+    if (!url || typeof url !== "string") return false;
+    const trimmed = url.trim();
+    if (!/^https?:\/\//i.test(trimmed)) return false;
+    try {
+      const parsed = new URL(trimmed);
+      return parsed.protocol === "http:" || parsed.protocol === "https:";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function isRowVisible(row) {
+    if (!row) return false;
+    const v = row.visible !== undefined ? row.visible : "TRUE";
+    return String(v).trim().toUpperCase() === "TRUE";
+  }
+
+  function getFallbackArticles() {
+    const raw = (window.DEFAULT_SITE_DATA && window.DEFAULT_SITE_DATA.articles) || [];
+    return JSON.parse(JSON.stringify(raw)).filter(isRowVisible);
+  }
+
+  function getFallbackJobs() {
+    const raw = (window.DEFAULT_SITE_DATA && window.DEFAULT_SITE_DATA.jobs) || [];
+    return JSON.parse(JSON.stringify(raw)).filter(isRowVisible);
+  }
+
   let state = {
     currentLang: cfg().defaultLanguage || "id",
     metrics: JSON.parse(JSON.stringify((window.DEFAULT_SITE_DATA && window.DEFAULT_SITE_DATA.metrics) || [])),
-    articles: JSON.parse(JSON.stringify((window.DEFAULT_SITE_DATA && window.DEFAULT_SITE_DATA.articles) || [])),
-    jobs: JSON.parse(JSON.stringify((window.DEFAULT_SITE_DATA && window.DEFAULT_SITE_DATA.jobs) || [])),
+    articles: getFallbackArticles(),
+    jobs: getFallbackJobs(),
     footnotes: JSON.parse(JSON.stringify((window.DEFAULT_SITE_DATA && window.DEFAULT_SITE_DATA.footnotes) || []))
   };
 
@@ -123,17 +162,26 @@
   }
 
   // ==========================================================================
-  // OPTIONAL CSV SHEET LOADER (newsSheetCsvUrl & jobsSheetCsvUrl)
-  // Empty URL => uses fallback content in data/site-data.js
+  // GOOGLE SHEETS CSV LOADER & SAFETY SANITIZER (Task 7.1 & 7.2)
+  // - Parses quoted fields, escaped quotes (""), commas & line breaks inside cells
+  // - Ignores extra columns not in the allowed schema
+  // - Filters visible === TRUE and preserves row order
+  // - Caps lengths (title 120, summary 300, description 600, requirements 600)
+  // - Accepts only http(s) URLs for imageUrl
+  // - Caches last good response in localStorage with a timestamp
+  // - Silently falls back on error or empty rows (never shows error UI to visitors)
   // ==========================================================================
-  function parseCsv(csvText) {
+  function parseCsv(csvText, allowedColumns) {
+    if (!csvText || typeof csvText !== "string") return [];
+    const cleanText = csvText.replace(/^\uFEFF/, "");
     const rows = [];
     let current = "";
     let inQuotes = false;
     let row = [];
-    for (let i = 0; i < csvText.length; i++) {
-      const ch = csvText[i];
-      const next = csvText[i + 1];
+
+    for (let i = 0; i < cleanText.length; i++) {
+      const ch = cleanText[i];
+      const next = cleanText[i + 1];
       if (inQuotes) {
         if (ch === '"' && next === '"') {
           current += '"';
@@ -163,74 +211,151 @@
     row.push(current.trim());
     if (row.some((cell) => cell !== "")) rows.push(row);
     if (rows.length < 2) return [];
-    const headers = rows[0];
+
+    const rawHeaders = rows[0].map((h) => String(h || "").trim());
+    const allowedMap = {};
+    if (Array.isArray(allowedColumns)) {
+      allowedColumns.forEach((col) => {
+        allowedMap[col.toLowerCase()] = col;
+      });
+    }
+
     return rows.slice(1).map((r) => {
       const obj = {};
-      headers.forEach((h, idx) => {
-        if (h) obj[h] = r[idx] !== undefined ? r[idx] : "";
+      rawHeaders.forEach((h, idx) => {
+        if (!h) return;
+        const canonicalKey = Array.isArray(allowedColumns) ? allowedMap[h.toLowerCase()] : h;
+        if (!canonicalKey) return; // Ignore extra columns not in allowedColumns
+        obj[canonicalKey] = r[idx] !== undefined ? r[idx] : "";
       });
       return obj;
     });
   }
 
+  function normalizeNewsRows(rawRows) {
+    if (!Array.isArray(rawRows)) return [];
+    return rawRows
+      .filter(isRowVisible)
+      .map((item, idx) => {
+        const rawStatus = String(item.status || "").trim().toLowerCase();
+        const status = rawStatus === "published" ? "published" : "upcoming";
+        const safeImg = isSafeHttpUrl(item.imageUrl) ? item.imageUrl.trim() : "";
+        return {
+          id: capLen(item.id, 60) || `art-${idx + 1}`,
+          title: capLen(item.title, 120),
+          summary: capLen(item.summary, 300),
+          status,
+          date: status === "published" ? capLen(item.date, 30) : "",
+          imageUrl: safeImg,
+          visible: "TRUE"
+        };
+      })
+      .filter((item) => Boolean(item.title || item.summary));
+  }
+
+  function normalizeJobRows(rawRows) {
+    if (!Array.isArray(rawRows)) return [];
+    return rawRows
+      .filter(isRowVisible)
+      .map((item, idx) => ({
+        id: capLen(item.id, 60) || `job-${idx + 1}`,
+        title: capLen(item.title, 120),
+        department: capLen(item.department, 120),
+        employmentType: capLen(item.employmentType, 120),
+        experience: capLen(item.experience, 120),
+        location: capLen(item.location, 120) || "Jakarta Selatan",
+        description: capLen(item.description, 600),
+        requirements: capLen(item.requirements, 600),
+        visible: "TRUE"
+      }))
+      .filter((item) => Boolean(item.title));
+  }
+
+  function saveSheetCache(cacheKey, url, rows) {
+    try {
+      localStorage.setItem(
+        cacheKey,
+        JSON.stringify({
+          timestamp: Date.now(),
+          url,
+          rows
+        })
+      );
+    } catch (e) {}
+  }
+
+  function loadSheetCache(cacheKey, url) {
+    try {
+      const raw = localStorage.getItem(cacheKey);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (parsed && (!url || parsed.url === url) && Array.isArray(parsed.rows) && parsed.rows.length > 0) {
+        return parsed.rows;
+      }
+    } catch (e) {}
+    return null;
+  }
+
   async function loadOptionalCsvSheets() {
     const c = cfg();
-    if (c.newsSheetCsvUrl && c.newsSheetCsvUrl.trim() !== "") {
+    const newsUrl = (c.newsSheetCsvUrl || "").trim();
+    if (newsUrl) {
+      let loadedNews = null;
       try {
-        const res = await fetch(c.newsSheetCsvUrl.trim());
+        const res = await fetch(newsUrl);
         if (res.ok) {
-          const parsed = parseCsv(await res.text());
-          if (parsed.length > 0) {
-            state.articles = parsed.map((item, idx) => ({
-              id: item.id || `art-${idx + 1}`,
-              date: item.date || "",
-              categoryId: item.categoryId || item.category || "",
-              categoryEn: item.categoryEn || item.category || "",
-              categoryKo: item.categoryKo || item.category || "",
-              titleId: item.titleId || item.title || "",
-              titleEn: item.titleEn || item.title || "",
-              titleKo: item.titleKo || item.title || "",
-              summaryId: item.summaryId || item.summary || "",
-              summaryEn: item.summaryEn || item.summary || "",
-              summaryKo: item.summaryKo || item.summary || "",
-              contentId: item.contentId || item.content || "",
-              contentEn: item.contentEn || item.content || "",
-              contentKo: item.contentKo || item.content || ""
-            }));
-            renderAll();
+          const parsed = parseCsv(await res.text(), NEWS_ALLOWED_COLUMNS);
+          const valid = normalizeNewsRows(parsed);
+          if (valid.length > 0) {
+            loadedNews = valid;
+            saveSheetCache(NEWS_CACHE_KEY, newsUrl, valid);
           }
+        } else {
+          loadedNews = loadSheetCache(NEWS_CACHE_KEY, newsUrl);
         }
-      } catch (e) {}
+      } catch (e) {
+        loadedNews = loadSheetCache(NEWS_CACHE_KEY, newsUrl);
+      }
+      state.articles = loadedNews && loadedNews.length > 0 ? loadedNews : getFallbackArticles();
+      renderAll();
+    } else {
+      state.articles = getFallbackArticles();
     }
 
-    if (c.jobsSheetCsvUrl && c.jobsSheetCsvUrl.trim() !== "") {
+    const jobsUrl = (c.jobsSheetCsvUrl || "").trim();
+    if (jobsUrl) {
+      let loadedJobs = null;
       try {
-        const res = await fetch(c.jobsSheetCsvUrl.trim());
+        const res = await fetch(jobsUrl);
         if (res.ok) {
-          const parsed = parseCsv(await res.text());
-          if (parsed.length > 0) {
-            state.jobs = parsed.map((item, idx) => ({
-              id: item.id || `job-${idx + 1}`,
-              titleId: item.titleId || item.title || "",
-              titleEn: item.titleEn || item.title || "",
-              titleKo: item.titleKo || item.title || "",
-              deptId: item.deptId || item.dept || "",
-              deptEn: item.deptEn || item.dept || "",
-              deptKo: item.deptKo || item.dept || "",
-              typeId: item.typeId || item.type || "",
-              typeEn: item.typeEn || item.type || "",
-              typeKo: item.typeKo || item.type || "",
-              location: item.location || "Jakarta Selatan",
-              descId: item.descId || item.desc || "",
-              descEn: item.descEn || item.desc || "",
-              descKo: item.descKo || item.desc || ""
-            }));
-            renderAll();
+          const parsed = parseCsv(await res.text(), JOBS_ALLOWED_COLUMNS);
+          const valid = normalizeJobRows(parsed);
+          if (valid.length > 0) {
+            loadedJobs = valid;
+            saveSheetCache(JOBS_CACHE_KEY, jobsUrl, valid);
           }
+        } else {
+          loadedJobs = loadSheetCache(JOBS_CACHE_KEY, jobsUrl);
         }
-      } catch (e) {}
+      } catch (e) {
+        loadedJobs = loadSheetCache(JOBS_CACHE_KEY, jobsUrl);
+      }
+      state.jobs = loadedJobs && loadedJobs.length > 0 ? loadedJobs : getFallbackJobs();
+      renderAll();
+    } else {
+      state.jobs = getFallbackJobs();
     }
   }
+
+  window.__MUGGO_SHEET_UTILS__ = {
+    parseCsv,
+    normalizeNewsRows,
+    normalizeJobRows,
+    isSafeHttpUrl,
+    capLen,
+    NEWS_ALLOWED_COLUMNS,
+    JOBS_ALLOWED_COLUMNS
+  };
 
   // Clean Lucide SVG stroke icons
   function svgIcon(name, size = 20) {
@@ -727,6 +852,7 @@
     switch (currentRoute) {
       case "home":
         main.innerHTML = renderHomeView();
+        populateNewsGridDOM();
         break;
       case "brands":
         main.innerHTML = renderBrandsView();
@@ -742,12 +868,14 @@
         break;
       case "careers":
         main.innerHTML = renderCareersView();
+        populateCareersJobsDOM();
         break;
       case "contact":
         main.innerHTML = renderContactView();
         break;
       case "article-detail":
         main.innerHTML = renderArticleDetailView();
+        populateArticleDetailDOM();
         break;
       case "privacy":
         main.innerHTML = renderPolicyView("privacy");
@@ -757,7 +885,262 @@
         break;
       default:
         main.innerHTML = renderHomeView();
+        populateNewsGridDOM();
     }
+  }
+
+  // ==========================================================================
+  // SAFE DOM RENDERERS FOR SHEET DATA (Task 7.1 & 7.2)
+  // Renders all News & Jobs fields strictly with textContent (never innerHTML)
+  // ==========================================================================
+  function getArticleTitle(art) {
+    if (!art) return "";
+    const raw = loc(art, "title") || interp(art.title || "");
+    return capLen(raw, 120);
+  }
+
+  function getArticleSummary(art) {
+    if (!art) return "";
+    const raw = loc(art, "summary") || interp(art.summary || "");
+    return capLen(raw, 300);
+  }
+
+  function getArticleImageSrc(art, idx) {
+    if (art && isSafeHttpUrl(art.imageUrl)) {
+      return art.imageUrl.trim();
+    }
+    if (art && art.image && /^assets\//.test(art.image)) {
+      return art.image;
+    }
+    return `assets/slots/news-${(idx % 3) + 1}.jpg`;
+  }
+
+  function getArticleStatusBadgeText(art, dictArticles) {
+    const upcomingLabel = (dictArticles && dictArticles.upcomingLabel) || "Akan Datang";
+    if (!art) return upcomingLabel;
+    const status = String(art.status || "upcoming").trim().toLowerCase();
+    if (status === "published" && art.date && String(art.date).trim() !== "") {
+      return formatLocalDate(art.date);
+    }
+    return upcomingLabel;
+  }
+
+  function populateNewsGridDOM() {
+    const grid = document.getElementById("home-news-grid");
+    if (!grid) return;
+    grid.replaceChildren();
+
+    const dict = t();
+    const visibleArticles = (state.articles || []).filter(isRowVisible);
+
+    visibleArticles.forEach((art, idx) => {
+      const card = document.createElement("article");
+      card.className = "service-card";
+      card.addEventListener("click", () => window.navigateTo("article-detail", art.id));
+
+      const pic = document.createElement("picture");
+      pic.className = "slot-frame ratio-16-9";
+      pic.style.marginBottom = "14px";
+
+      const img = document.createElement("img");
+      img.src = getArticleImageSrc(art, idx);
+      img.width = 800;
+      img.height = 450;
+      img.loading = "lazy";
+      img.alt = art.altId || getArticleTitle(art) || "Ilustrasi pengumuman resmi MUGGO";
+      pic.appendChild(img);
+      card.appendChild(pic);
+
+      const badgeRow = document.createElement("div");
+      badgeRow.style.cssText = "display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px;";
+
+      const catText = loc(art, "category");
+      if (catText) {
+        const catBadge = document.createElement("span");
+        catBadge.className = "roster-badge";
+        catBadge.textContent = capLen(catText, 60);
+        badgeRow.appendChild(catBadge);
+      }
+
+      const statusBadge = document.createElement("span");
+      statusBadge.className = "roster-badge";
+      statusBadge.textContent = getArticleStatusBadgeText(art, dict.articles);
+      badgeRow.appendChild(statusBadge);
+      card.appendChild(badgeRow);
+
+      const h3 = document.createElement("h3");
+      h3.textContent = getArticleTitle(art);
+      card.appendChild(h3);
+
+      const p = document.createElement("p");
+      p.textContent = getArticleSummary(art);
+      card.appendChild(p);
+
+      const actionSpan = document.createElement("span");
+      actionSpan.className = "card-action";
+      actionSpan.textContent = dict.articles.readMore;
+      card.appendChild(actionSpan);
+
+      grid.appendChild(card);
+    });
+  }
+
+  function populateCareersJobsDOM() {
+    const listEl = document.getElementById("careers-jobs-list");
+    const countEl = document.getElementById("careers-jobs-count");
+    const dict = t().careersPage || {};
+    const visibleJobs = (state.jobs || []).filter(isRowVisible);
+
+    if (countEl) {
+      countEl.textContent = `${dict.positionsTitle || "Daftar 11 Bidang Posisi yang Dibuka"} (${visibleJobs.length})`;
+    }
+    if (!listEl) return;
+    listEl.replaceChildren();
+
+    visibleJobs.forEach((j) => {
+      const row = document.createElement("div");
+      row.className = "checklist-row";
+
+      const infoCol = document.createElement("div");
+      infoCol.style.cssText = "flex:1; min-width:240px;";
+
+      const metaRow = document.createElement("div");
+      metaRow.style.cssText = "display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:6px;";
+
+      const deptText = capLen(loc(j, "dept") || interp(j.department || ""), 120);
+      if (deptText) {
+        const deptBadge = document.createElement("span");
+        deptBadge.className = "roster-badge";
+        deptBadge.textContent = deptText;
+        metaRow.appendChild(deptBadge);
+      }
+
+      const typeExpParts = [];
+      if (j.employmentType || j.experience) {
+        if (j.employmentType) typeExpParts.push(capLen(interp(j.employmentType), 120));
+        if (j.experience) typeExpParts.push(capLen(interp(j.experience), 120));
+      } else {
+        const legacyType = loc(j, "type");
+        if (legacyType) typeExpParts.push(capLen(legacyType, 120));
+      }
+      if (j.location) {
+        typeExpParts.push(capLen(interp(j.location), 120));
+      }
+
+      if (typeExpParts.length > 0) {
+        const metaSmall = document.createElement("small");
+        metaSmall.className = "hint";
+        metaSmall.textContent = typeExpParts.join(" · ");
+        metaRow.appendChild(metaSmall);
+      }
+      infoCol.appendChild(metaRow);
+
+      const jobTitle = capLen(loc(j, "title") || interp(j.title || ""), 120);
+      const h3 = document.createElement("h3");
+      h3.textContent = jobTitle;
+      infoCol.appendChild(h3);
+
+      const jobDesc = capLen(loc(j, "desc") || interp(j.description || ""), 600);
+      if (jobDesc) {
+        const descP = document.createElement("p");
+        descP.className = "hint";
+        descP.style.marginTop = "4px";
+        descP.textContent = jobDesc;
+        infoCol.appendChild(descP);
+      }
+
+      const jobReq = capLen(interp(j.requirements || ""), 600);
+      if (jobReq) {
+        const reqP = document.createElement("p");
+        reqP.className = "hint";
+        reqP.style.marginTop = "4px";
+        reqP.textContent = jobReq;
+        infoCol.appendChild(reqP);
+      }
+
+      const actionCol = document.createElement("div");
+      actionCol.style.cssText = "display:flex; flex-wrap:wrap; gap:8px; align-items:center;";
+
+      const applyBtn = document.createElement("button");
+      applyBtn.type = "button";
+      applyBtn.className = "btn btn-primary";
+      applyBtn.textContent = dict.applyJobBtn || "Lamar";
+      applyBtn.addEventListener("click", () => {
+        window.openApplyModal(jobTitle, applyBtn);
+      });
+      actionCol.appendChild(applyBtn);
+
+      row.appendChild(infoCol);
+      row.appendChild(actionCol);
+      listEl.appendChild(row);
+    });
+  }
+
+  function populateArticleDetailDOM() {
+    const root = document.getElementById("article-detail-root");
+    if (!root) return;
+    root.replaceChildren();
+
+    const dict = t().articles || {};
+    const visibleArticles = (state.articles || []).filter(isRowVisible);
+    const artIdx = visibleArticles.findIndex((a) => a.id === currentArticleId);
+    const art = artIdx >= 0 ? visibleArticles[artIdx] : visibleArticles[0];
+    if (!art) return;
+
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const pic = document.createElement("picture");
+    pic.className = "slot-frame ratio-16-9";
+    pic.style.marginBottom = "16px";
+
+    const img = document.createElement("img");
+    img.src = getArticleImageSrc(art, artIdx >= 0 ? artIdx : 0);
+    img.width = 800;
+    img.height = 450;
+    img.loading = "lazy";
+    img.alt = art.altId || getArticleTitle(art) || "Ilustrasi pengumuman resmi MUGGO";
+    pic.appendChild(img);
+    card.appendChild(pic);
+
+    const badgeRow = document.createElement("div");
+    badgeRow.style.cssText = "display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:10px;";
+
+    const catText = loc(art, "category");
+    if (catText) {
+      const catBadge = document.createElement("span");
+      catBadge.className = "roster-badge";
+      catBadge.textContent = capLen(catText, 60);
+      badgeRow.appendChild(catBadge);
+    }
+
+    const statusBadge = document.createElement("span");
+    statusBadge.className = "roster-badge";
+    statusBadge.textContent = getArticleStatusBadgeText(art, dict);
+    badgeRow.appendChild(statusBadge);
+    card.appendChild(badgeRow);
+
+    const h1 = document.createElement("h1");
+    h1.textContent = getArticleTitle(art);
+    card.appendChild(h1);
+
+    const bodyWrap = document.createElement("div");
+    bodyWrap.style.cssText = "margin-top:20px; padding-top:20px; border-top:1px solid var(--portal-line);";
+
+    const rawBody = loc(art, "content") || getArticleSummary(art);
+    rawBody
+      .split(/\n\n+/)
+      .map((s) => s.trim())
+      .filter(Boolean)
+      .forEach((paraText) => {
+        const p = document.createElement("p");
+        p.style.cssText = "margin-bottom:16px; line-height:1.8;";
+        p.textContent = capLen(paraText, 600);
+        bodyWrap.appendChild(p);
+      });
+
+    card.appendChild(bodyWrap);
+    root.appendChild(card);
   }
 
   // --------------------------------------------------------------------------
@@ -840,9 +1223,10 @@
       `
       : "";
 
-    // Related Articles (Auto-hidden if 0 items)
+    // Related Articles (Auto-hidden if 0 visible items; cards populated via textContent in populateNewsGridDOM)
+    const visibleArticles = (state.articles || []).filter(isRowVisible);
     let articlesHtml = "";
-    if (state.articles && state.articles.length > 0) {
+    if (visibleArticles.length > 0) {
       articlesHtml = `
         <section class="section-block">
           <div class="workspace-heading">
@@ -851,26 +1235,7 @@
               <h2>${dict.articles.title}</h2>
             </div>
           </div>
-          <div class="metrics-grid">
-            ${state.articles
-              .map(
-                (art, idx) => `
-              <article class="service-card" onclick="navigateTo('article-detail', '${art.id}')">
-                <picture class="slot-frame ratio-16-9" style="margin-bottom:14px;">
-                  <img src="${art.image || `assets/slots/news-${(idx % 3) + 1}.jpg`}" width="800" height="450" loading="lazy" alt="${art.altId || loc(art, "title")}" />
-                </picture>
-                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
-                  <span class="roster-badge">${loc(art, "category")}</span>
-                  <span class="roster-badge">${art.date ? formatLocalDate(art.date) : (dict.articles.upcomingLabel || "Akan Datang")}</span>
-                </div>
-                <h3>${loc(art, "title")}</h3>
-                <p>${loc(art, "summary")}</p>
-                <span class="card-action">${dict.articles.readMore}</span>
-              </article>
-            `
-              )
-              .join("")}
-          </div>
+          <div id="home-news-grid" class="metrics-grid"></div>
         </section>
       `;
     }
@@ -1351,28 +1716,7 @@
   function renderCareersView() {
     const dict = t().careersPage;
     const c = cfg();
-
-    const jobsHtml = state.jobs
-      .map(
-        (j) => `
-        <div class="checklist-row">
-          <div style="flex:1; min-width:240px;">
-            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:6px;">
-              <span class="roster-badge">${loc(j, "dept")}</span>
-              <small class="hint">${loc(j, "type")} · ${j.location}</small>
-            </div>
-            <h3>${loc(j, "title")}</h3>
-            <p class="hint" style="margin-top:4px;">${loc(j, "desc")}</p>
-          </div>
-          <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
-            <button type="button" class="btn btn-primary" onclick="openApplyModal('${loc(j, "title").replace(/'/g, "")}', this)">
-              ${dict.applyJobBtn || "Lamar"}
-            </button>
-          </div>
-        </div>
-      `
-      )
-      .join("");
+    const visibleJobsCount = (state.jobs || []).filter(isRowVisible).length;
 
     return `
       <div class="workspace-heading">
@@ -1413,14 +1757,14 @@
       <section class="card">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
           <div>
-            <h2 style="margin-bottom:4px;">${dict.positionsTitle} (${state.jobs.length})</h2>
+            <h2 id="careers-jobs-count" style="margin-bottom:4px;">${dict.positionsTitle} (${visibleJobsCount})</h2>
             <p class="hint">${dict.applyBoxDesc}</p>
           </div>
           <button type="button" class="btn btn-secondary" onclick="copyCareerEmail(this)">
             ${dict.copyEmailBtn}
           </button>
         </div>
-        <div>${jobsHtml}</div>
+        <div id="careers-jobs-list"></div>
       </section>
     `;
   }
@@ -1479,34 +1823,15 @@
   }
 
   // --------------------------------------------------------------------------
-  // ARTICLE DETAIL VIEW
+  // ARTICLE DETAIL VIEW (Populated safely with textContent in populateArticleDetailDOM)
   // --------------------------------------------------------------------------
   function renderArticleDetailView() {
     const dict = t().articles;
-    const art = state.articles.find((a) => a.id === currentArticleId) || state.articles[0];
-    if (!art) return "";
-    const paragraphs = (loc(art, "content") || "")
-      .split("\n\n")
-      .map((p) => `<p style="margin-bottom:16px; line-height:1.8;">${p}</p>`)
-      .join("");
-
     return `
       <div style="margin-bottom:16px;">
         <button type="button" class="btn btn-secondary" onclick="navigateTo('home')">${dict.backBtn}</button>
       </div>
-      <article class="card">
-        <picture class="slot-frame ratio-16-9" style="margin-bottom:16px;">
-          <img src="${art.image || "assets/slots/news-1.jpg"}" width="800" height="450" loading="lazy" alt="${art.altId || loc(art, "title")}" />
-        </picture>
-        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:10px;">
-          <span class="roster-badge">${loc(art, "category")}</span>
-          <span class="roster-badge">${art.date ? formatLocalDate(art.date) : (dict.upcomingLabel || "Akan Datang")}</span>
-        </div>
-        <h1>${loc(art, "title")}</h1>
-        <div style="margin-top:20px; padding-top:20px; border-top:1px solid var(--portal-line);">
-          ${paragraphs}
-        </div>
-      </article>
+      <div id="article-detail-root"></div>
     `;
   }
 
