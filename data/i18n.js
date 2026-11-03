@@ -12,29 +12,33 @@ window.I18N_DICT = {
       platform: "Platform",
       people: "Manusia",
       careers: "Karir",
-      contact: "Kontak"
+      contact: "Kontak",
+      mainNavLabel: "Navigasi Utama",
+      mobileNavLabel: "Navigasi Seluler",
+      menuBtnLabel: "Menu"
     },
     hero: {
-      eyebrow: "{legalName} · BRAND: {brandName} (PRA-PEMBUKAAN)",
+      eyebrow: "{legalName} · MEREK: {brandName} (PRA-PEMBUKAAN)",
       headlineA: "Identitas Resmi & Rekrutmen {legalName} (Brand: {brandName})",
       headlineB: "{legalName} · Membangun Mall Food Court Online {brandName} di Jakarta",
       subcopyA: "{legalName} sedang dalam tahap pra-pembukaan untuk meluncurkan {brandName} ({brandCount} brand kuliner) di Jakarta Selatan. Belum ada produk yang dijual saat ini; kami sedang membuka rekrutmen resmi 11 bidang posisi.",
       subcopyB: "{legalName} mempersiapkan peluncuran {brandName} ({brandCount} brand kuliner) di Jakarta Selatan. Saat ini tahap pra-pembukaan (belum berjualan) dan fokus pada rekrutmen 11 bidang posisi.",
       careerBtn: "Lamar Karir (11 Bidang)",
       brandBtn: "Lihat {brandCount} Brand",
-      appComingSoon: "Pra-Pembukaan (Belum Berjualan)",
+      appComingSoon: "Aplikasi Delivery (Segera Hadir)",
       appDownload: "Buka Aplikasi {brandName}"
     },
     identityCard: {
       eyebrow: "VERIFIKASI IDENTITAS PERUSAHAAN",
+      badge: "Pra-Pembukaan · Terverifikasi",
       title: "Identitas Resmi Perusahaan & Saluran Verifikasi",
       intro: "Informasi resmi bagi pelamar kerja dan tim verifikasi portal lowongan kerja untuk memastikan keaslian identitas {legalName} (Brand: {brandName}).",
       legalLabel: "Badan Hukum Resmi",
-      brandLabel: "Merek Usaha (Brand)",
+      brandLabel: "Merek Usaha",
       leaderLabel: "Pimpinan",
       leaderRole: "Direktur Utama",
       statusLabel: "Status Bisnis Saat Ini",
-      statusValue: "Tahap Pra-Pembukaan (Pre-Opening) — Belum ada produk yang dijual",
+      statusValue: "Tahap Pra-Pembukaan — Belum ada produk yang dijual",
       purposeLabel: "Alamat Terdaftar",
       purposeValue: "{address}",
       channelsLabel: "Saluran Resmi",
@@ -43,7 +47,7 @@ window.I18N_DICT = {
       contactLinkBtn: "Lihat Kontak & Alamat Terdaftar →"
     },
     pillars: {
-      eyebrow: "OUR PILLARS",
+      eyebrow: "PILAR UTAMA KAMI",
       title: "Empat Pilar Utama {brandName}",
       intro: "Fondasi operasional {legalName} untuk mempersiapkan peluncuran {brandName}:",
       items: [
@@ -68,7 +72,7 @@ window.I18N_DICT = {
           route: "platform",
           icon: "smartphone",
           title: "Platform",
-          desc: "Sistem dapur terpusat 6 stasiun serta platform delivery & pickup",
+          desc: "Sistem dapur terpusat 6 stasiun serta platform pemesanan antar & ambil sendiri",
           action: "Pelajari Platform →"
         },
         {
@@ -82,7 +86,7 @@ window.I18N_DICT = {
       ]
     },
     koreaHq: {
-      eyebrow: "GLOBAL F&B KNOW-HOW",
+      eyebrow: "KEAHLIAN F&B GLOBAL",
       title: "Kantor Pusat Korea ({brandName} Korea HQ)",
       desc: "{legalName} mengadaptasi sistem operasional F&B dari Kantor Pusat Korea ({brandName} Korea HQ) untuk pasar Indonesia:",
       points: [
@@ -93,7 +97,7 @@ window.I18N_DICT = {
       linkText: "Kantor Pusat Korea ({brandName} Korea HQ)"
     },
     ceo: {
-      eyebrow: "CEO MESSAGE",
+      eyebrow: "SAMBUTAN DIREKTUR UTAMA",
       titlePrefix: "Sambutan Direktur Utama",
       p1Title: "Identitas Jelas & Persiapan Pra-Pembukaan {brandName}",
       p1: "“Melalui {legalName}, kami mempersiapkan peluncuran {brandName} di Jakarta Selatan. Belum ada produk yang dijual saat ini; prioritas kami adalah transparansi identitas perusahaan bagi pelamar kerja dan mitra verifikasi.”",
@@ -102,7 +106,7 @@ window.I18N_DICT = {
       signRole: "Direktur Utama"
     },
     impact: {
-      eyebrow: "PRE-OPENING PLAN",
+      eyebrow: "TARGET & PETA JALAN",
       title: "Rencana Pra-Pembukaan & Peta Jalan",
       notice: "{legalName} berada pada tahap pra-pembukaan (belum berjualan). Indikator di bawah ini merupakan rencana persiapan.",
       roadmapTitle: "Tahapan Rencana Persiapan",
@@ -113,7 +117,7 @@ window.I18N_DICT = {
       ]
     },
     culture: {
-      eyebrow: "OUR CULTURE",
+      eyebrow: "BUDAYA KERJA KAMI",
       title: "Budaya Kerja & Kriteria Talenta",
       quote: "“Karakter yang baik, ketekunan, dan semangat yang tulus terhadap pekerjaan. Kami menantikan rekan kerja yang menjalankan tanggung jawabnya dengan sungguh-sungguh dan saling menghormati.”",
       desc: "Ketulusan sikap, tanggung jawab atas peran masing-masing, dan rasa hormat antar rekan kerja adalah nilai utama {legalName} ({brandName}).",
@@ -121,7 +125,7 @@ window.I18N_DICT = {
       careerBtn: "Lihat 11 Bidang Rekrutmen"
     },
     articles: {
-      eyebrow: "PENGUMUMAN RESMI",
+      eyebrow: "ARTIKEL & PENGUMUMAN TERKAIT",
       title: "Informasi & Pengumuman Pra-Pembukaan",
       upcomingLabel: "Akan Datang",
       readMore: "Baca Selengkapnya →",
@@ -131,16 +135,23 @@ window.I18N_DICT = {
       summary: "Catatan Hukum, Status Pra-Pembukaan & Verifikasi Rekrutmen"
     },
     brandsPage: {
-      eyebrow: "{brandName} BRAND PORTFOLIO · PRA-PEMBUKAAN (BELUM DIJUAL)",
+      eyebrow: "PORTOFOLIO BRAND {brandName} · PRA-PEMBUKAAN (BELUM DIJUAL)",
       title: "Portofolio {brandCount} Brand & {menuCount} Menu {brandName}",
       intro: "Rencana {brandCount} brand kuliner ({menuCount} menu) oleh {legalName} untuk merek {brandName} (tahap pra-pembukaan, belum ada penjualan). Kebijakan bahan baku: Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
       allTab: "Semua ({brandCount} Brand)",
       catNames: {
-        Chicken: "Ayam (Chicken · 3)",
+        Chicken: "Ayam (3)",
         Korean: "Masakan Korea (13)",
         Western: "Pizza · Burger · Sandwich (6)",
         Salad: "Salad & Poke (1)",
         Dessert: "Minuman & Dessert (7)"
+      },
+      catBadgeNames: {
+        Chicken: "Ayam",
+        Korean: "Masakan Korea",
+        Western: "Barat & Deli",
+        Salad: "Salad & Poke",
+        Dessert: "Minuman & Dessert"
       },
       searchPlaceholder: "Cari nama brand atau menu (contoh: SOTDAK, Bibimbap, Burger, Bingsu)...",
       preOpeningTag: "Pra-Pembukaan",
@@ -151,38 +162,38 @@ window.I18N_DICT = {
       resetSearchBtn: "Reset Pencarian"
     },
     foodRndPage: {
-      eyebrow: "FOOD & R&D · 5 GENRES & 6 STATIONS",
+      eyebrow: "RISET KULINER · 5 GENRE & 6 STASIUN DAPUR",
       title: "Pengembangan Menu 5 Genre & Sistem 6 Stasiun Dapur",
       intro: "Standarisasi resep lintas 5 genre masakan dan sistem 6 stasiun dapur terpusat yang disiapkan oleh {legalName} untuk {brandName}.",
       ingredientCallout: "Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) — Seluruh menu dikembangkan tanpa daging babi dan tanpa minyak babi menggunakan daging ayam, sapi, makanan laut, dan bahan baku pilihan.",
       genresTitle: "5 Genre Masakan Utama",
       genres: [
         {
-          title: "1. Masakan Korea (Korean Cuisine)",
+          title: "1. Masakan Korea",
           desc: "Ayam panggang nurungji (SOTDAK), ayam bakar arang (SEONGSU DAK), rice bowl, bibimbap, jjigae, sup kaldu sapi, gimbap, dan mandu.",
           img: "assets/slots/genre-1-korean.jpg",
           alt: "Ilustrasi pengembangan menu masakan Korea di dapur R&D MUGGO"
         },
         {
-          title: "2. Masakan Tiongkok & Mala Fusion (Chinese)",
+          title: "2. Masakan Tiongkok & Mala Fusion",
           desc: "Perpaduan rempah Mala Sichuan autentik dengan teknik masak suhu tinggi (MIGAK) serta hidangan tumis berbahan sapi & ayam.",
           img: "assets/slots/genre-2-chinese.jpg",
           alt: "Ilustrasi pengembangan menu masakan Tiongkok dan Mala Fusion"
         },
         {
-          title: "3. Masakan Jepang & Bakery Artisan (Japanese)",
+          title: "3. Masakan Jepang & Bakery Artisan",
           desc: "Shio Pan roti garam mentega Prancis (SALT ROOM), teknik gorengan renyah, serta saus spesial bergaya Jepang.",
           img: "assets/slots/genre-3-japanese.jpg",
           alt: "Ilustrasi pengembangan menu masakan Jepang dan bakery Shio Pan"
         },
         {
-          title: "4. Cita Rasa Lokal Indonesia (Indonesian)",
+          title: "4. Cita Rasa Lokal Indonesia",
           desc: "Kreasi minuman kopi & buah tropis (NASI BOSS), penyesuaian tingkat kepedasan sambal lokal, dan bahan segar Nusantara.",
           img: "assets/slots/genre-4-indonesian.jpg",
           alt: "Ilustrasi pengembangan menu dan minuman cita rasa lokal Indonesia"
         },
         {
-          title: "5. Masakan Barat & Deli (Western)",
+          title: "5. Masakan Barat & Deli Eropa",
           desc: "Sandwich Eropa (PANTRY 12), burger sapi asap (SMOKY SALOON & BURNOUT), pizza tungku kayu (WOOD&BRICK), kebab (KEBAVA), dan salad.",
           img: "assets/slots/genre-5-western.jpg",
           alt: "Ilustrasi pengembangan menu burger, pizza, dan sandwich Barat"
@@ -190,28 +201,28 @@ window.I18N_DICT = {
       ],
       stationsTitle: "6 Stasiun Dapur Terpusat",
       stations: [
-        "Stasiun 1 · Fryer (Ayam Krispi & Gorengan)",
-        "Stasiun 2 · Grill (Ayam Bakar Arang, BBQ Sapi, Burger Patty & Oven)",
-        "Stasiun 3 · Soup & Simmer (Kaldu Sapi, Jjigae, Mie Dingin)",
-        "Stasiun 4 · Assembly & Prep (Rice Bowl, Bibimbap, Gimbap, Salad)",
-        "Stasiun 5 · Bakery & Dessert (Bingsu Salju, Shio Pan, Bagel)",
-        "Stasiun 6 · Beverage Bar (Kopi Spesialti, Teh Bunga, Boba Milk Tea)"
+        "Stasiun 1 · Penggorengan (Ayam Krispi & Gorengan)",
+        "Stasiun 2 · Pemanggangan (Ayam Bakar Arang, BBQ Sapi, Patty Burger & Oven)",
+        "Stasiun 3 · Sup & Kuah (Kaldu Sapi, Jjigae, Mie Dingin)",
+        "Stasiun 4 · Perakitan & Persiapan (Rice Bowl, Bibimbap, Gimbap, Salad)",
+        "Stasiun 5 · Roti & Hidangan Penutup (Bingsu Salju, Shio Pan, Bagel)",
+        "Stasiun 6 · Bar Minuman (Kopi Spesialti, Teh Bunga, Boba Milk Tea)"
       ]
     },
     platformPage: {
-      eyebrow: "PLATFORM · ONLINE FOOD COURT & APP (PRA-PEMBUKAAN)",
+      eyebrow: "PLATFORM · FOOD COURT ONLINE & APLIKASI (PRA-PEMBUKAAN)",
       title: "Mall Food Court Online & Platform Delivery {brandName}",
-      intro: "Platform delivery & pickup yang dipersiapkan oleh {legalName} untuk menyatukan {brandCount} brand {brandName} dalam satu pesanan.",
+      intro: "Platform pesan-antar & ambil sendiri yang dipersiapkan oleh {legalName} untuk menyatukan {brandCount} brand {brandName} dalam satu pesanan.",
       features: [
         { title: "01 · 1 Keranjang · {brandCount} Brand · 1x Pengiriman", desc: "Memesan berbagai menu lintas brand dalam satu transaksi tanpa biaya antar ganda." },
-        { title: "02 · Sinkronisasi KDS & Kemasan Termal", desc: "KDS menyinkronkan waktu masak 6 stasiun serta memisahkan Thermal Bag (panas) dan Cooler Bag (dingin)." },
+        { title: "02 · Sinkronisasi KDS & Kemasan Termal", desc: "KDS menyinkronkan waktu masak 6 stasiun serta memisahkan kantong termal (panas) dan kantong pendingin (dingin)." },
         { title: "03 · Status: Tahap Pra-Pembukaan", desc: "Saat ini belum ada produk yang dijual. Aplikasi pemesanan sedang dalam persiapan pra-pembukaan." }
       ],
       appBoxTitle: "Aplikasi Pemesanan {brandName} (Pra-Pembukaan)",
       appBoxDesc: "Belum ada makanan atau minuman yang dijual saat ini. Jadwal peluncuran resmi akan diumumkan di situs ini."
     },
     peoplePage: {
-      eyebrow: "OUR PEOPLE & CULTURE",
+      eyebrow: "MANUSIA & BUDAYA KERJA",
       title: "Tim yang Menghargai Ketekunan dan Semangat Kerja",
       intro: "“Karakter yang baik, ketekunan, dan semangat yang tulus terhadap pekerjaan. Kami menantikan rekan kerja yang menjalankan tanggung jawabnya dengan sungguh-sungguh dan saling menghormati.”",
       values: [
@@ -221,7 +232,7 @@ window.I18N_DICT = {
       ]
     },
     careersPage: {
-      eyebrow: "OFFICIAL CAREERS · {legalName}",
+      eyebrow: "KARIR RESMI · {legalName}",
       title: "Rekrutmen Resmi {legalName} — Brand {brandName} (11 Bidang)",
       intro: "Bergabunglah bersama tim pendiri {legalName} di Jakarta Selatan untuk persiapan peluncuran {brandName} ({brandCount} brand kuliner). Rekrutmen resmi dan bebas biaya.",
       applyBoxTitle: "Cara Melamar Kerja",
@@ -274,13 +285,13 @@ window.I18N_DICT = {
       copySuccess: "Teks lamaran dan alamat email resmi telah disalin ke papan klip."
     },
     contactPage: {
-      eyebrow: "OFFICIAL CORPORATE IDENTITY & CONTACT",
+      eyebrow: "KONTAK & LOKASI TERDAFTAR",
       title: "Identitas Perusahaan, Alamat Terdaftar & Kontak Resmi",
       intro: "Saluran komunikasi resmi {legalName} (Brand: {brandName}) untuk verifikasi perusahaan, kemitraan, dan pelamar kerja.",
-      entityLabel: "Badan Hukum Resmi (Legal Entity)",
-      brandLabel: "Merek Usaha (Brand)",
+      entityLabel: "Badan Hukum Resmi",
+      brandLabel: "Merek Usaha",
       statusLabel: "Status Bisnis",
-      statusText: "Tahap Pra-Pembukaan (Pre-Opening · Belum ada produk yang dijual saat ini)",
+      statusText: "Tahap Pra-Pembukaan — Belum ada produk yang dijual saat ini",
       addressLabel: "Alamat Terdaftar",
       phonePendingNotice: "Nomor telepon pelanggan / WhatsApp resmi akan diumumkan saat pembukaan gerai pertama.",
       openMapsBtn: "Buka di Google Maps ↗",
@@ -293,10 +304,21 @@ window.I18N_DICT = {
     },
     footer: {
       desc: "Situs perkenalan korporat resmi {legalName} (Brand: {brandName} · Tahap Pra-Pembukaan).",
+      navHeading: "NAVIGASI",
+      socialHeading: "MEDIA SOSIAL & SALURAN RESMI",
       registeredLabel: "Alamat Terdaftar:",
       emailLabel: "Email Kontak:",
+      copyright: "© 2026 {legalName} (Brand: {brandName}). Seluruh hak cipta dilindungi.",
       privacy: "Kebijakan Privasi",
       terms: "Syarat & Ketentuan"
+    },
+    policyPage: {
+      privacyTitle: "Kebijakan Privasi",
+      privacyP1: "{legalName} (pemilik merek usaha {brandName}) menghormati privasi pelamar kerja dan pengunjung situs sesuai dengan Undang-Undang Pelindungan Data Pribadi (UU PDP) Indonesia.",
+      privacyP2: "Data lamaran yang dikirimkan ke saluran email resmi kami ({contactEmail}) hanya digunakan untuk keperluan verifikasi dan seleksi SDM internal serta tidak pernah diperjualbelikan kepada pihak ketiga.",
+      termsTitle: "Syarat & Ketentuan",
+      termsP1: "Situs web ini dikelola secara resmi oleh {legalName} (Alamat terdaftar: {address}) untuk menyajikan informasi identitas perusahaan, rencana brand {brandName}, serta verifikasi rekrutmen resmi.",
+      termsP2: "Saat ini perusahaan berada pada tahap pra-pembukaan dan belum melakukan penjualan produk secara komersial."
     },
     sticky: {
       instagram: "Instagram",
@@ -597,10 +619,21 @@ window.I18N_DICT = {
     },
     footer: {
       desc: "Official website of {legalName} (Brand: {brandName} · Pre-Opening).",
+      navHeading: "NAVIGATION",
+      socialHeading: "SOCIAL & CHANNELS",
       registeredLabel: "Registered Address:",
       emailLabel: "Contact Email:",
+      copyright: "© 2026 {legalName} (Brand: {brandName}). All rights reserved.",
       privacy: "Privacy Policy",
       terms: "Terms of Use"
+    },
+    policyPage: {
+      privacyTitle: "Privacy Policy",
+      privacyP1: "{legalName} (operating the {brandName} brand) respects the privacy of job applicants and visitors in compliance with Indonesian Personal Data Protection laws (UU PDP).",
+      privacyP2: "Information submitted to our official recruitment email ({contactEmail}) is used strictly for hiring evaluation and HR administration.",
+      termsTitle: "Terms of Use",
+      termsP1: "This website is officially operated by {legalName} (Registered address: {address}) to provide corporate verification, planned {brandName} brand information, and official career opportunities.",
+      termsP2: "The business is currently in the pre-opening stage and nothing is on sale yet."
     },
     sticky: {
       instagram: "Instagram",
@@ -901,10 +934,21 @@ window.I18N_DICT = {
     },
     footer: {
       desc: "{legalName} (Brand: {brandName} · 오픈 준비 단계) 공식 사이트입니다.",
+      navHeading: "바로가기",
+      socialHeading: "공식 소셜 채널",
       registeredLabel: "등록 주소:",
       emailLabel: "이메일:",
+      copyright: "© 2026 {legalName} (Brand: {brandName}). All rights reserved.",
       privacy: "개인정보처리방침",
       terms: "이용약관"
+    },
+    policyPage: {
+      privacyTitle: "개인정보처리방침",
+      privacyP1: "{legalName}(브랜드: {brandName})는 인도네시아 개인정보보호법(UU PDP)을 준수합니다.",
+      privacyP2: "공식 채용 이메일({contactEmail})을 통해 접수된 지원자 정보는 채용 전형 목적으로만 안전하게 처리됩니다.",
+      termsTitle: "이용약관",
+      termsP1: "본 사이트는 {legalName}(등록 주소: {address})의 법인 신원 확인, {brandName} 브랜드 기획 소개 및 공식 채용 안내를 목적으로 운영됩니다.",
+      termsP2: "현재 당사는 오픈 준비 단계로 아직 상품을 판매하지 않습니다."
     },
     sticky: {
       instagram: "Instagram",

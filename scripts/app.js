@@ -483,7 +483,7 @@
             <p class="eyebrow" style="margin-bottom:4px;">${dict.eyebrow}</p>
             <h2 style="margin-bottom:0; font-size:19px;">${dict.title}</h2>
           </div>
-          <span class="roster-badge">Pre-Opening · Verified</span>
+          <span class="roster-badge">${dict.badge || "Pra-Pembukaan · Terverifikasi"}</span>
         </div>
 
         <div class="columns" style="margin-bottom:12px; gap:12px;">
@@ -580,7 +580,7 @@
             </span>
           </a>
 
-          <nav class="desktop-nav" aria-label="Main Navigation">
+          <nav class="desktop-nav" aria-label="${dict.nav.mainNavLabel || "Navigasi Utama"}">
             ${navButtonsHtml}
           </nav>
 
@@ -591,13 +591,13 @@
 
             ${langControlHtml}
 
-            <button type="button" class="icon-btn mobile-menu-toggle" onclick="toggleMobileDrawer()" aria-label="Menu">
+            <button type="button" class="icon-btn mobile-menu-toggle" onclick="toggleMobileDrawer()" aria-label="${dict.nav.menuBtnLabel || "Menu"}">
               ${svgIcon("menu", 19)}
             </button>
           </div>
         </div>
 
-        <nav id="mobile-drawer" class="mobile-drawer" aria-label="Mobile Navigation">
+        <nav id="mobile-drawer" class="mobile-drawer" aria-label="${dict.nav.mobileNavLabel || "Navigasi Seluler"}">
           ${navButtonsHtml}
         </nav>
       `;
@@ -644,7 +644,7 @@
           </div>
 
           <div>
-            <p class="eyebrow" style="margin-bottom:10px;">NAVIGATION</p>
+            <p class="eyebrow" style="margin-bottom:10px;">${dict.footer.navHeading || "NAVIGASI"}</p>
             <ul class="footer-nav-links">
               <li><button type="button" onclick="navigateTo('home')">${dict.nav.home}</button></li>
               <li><button type="button" onclick="navigateTo('brands')">${dict.nav.brands}</button></li>
@@ -658,7 +658,7 @@
           </div>
 
           <div>
-            <p class="eyebrow" style="margin-bottom:10px;">SOCIAL & CHANNELS</p>
+            <p class="eyebrow" style="margin-bottom:10px;">${dict.footer.socialHeading || "MEDIA SOSIAL & SALURAN RESMI"}</p>
             <div style="display:flex; flex-wrap:wrap; gap:8px;">
               <a href="${c.instagramUrl}" onclick="openSnsChannel(event, 'instagram')" class="btn btn-secondary" style="padding:8px 14px; min-height:36px; font-size:13px;">
                 Instagram (${igHandle})
@@ -671,7 +671,7 @@
         </div>
 
         <div style="padding-top:18px; border-top:1px solid var(--portal-line); display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px;">
-          <div>© 2026 ${c.legalName} (Brand: ${c.brandName}). All rights reserved.</div>
+          <div>${dict.footer.copyright || `© 2026 ${c.legalName} (Brand: ${c.brandName}).`}</div>
           <ul class="footer-nav-links">
             <li><a href="#privacy" onclick="navigateTo('privacy'); return false;">${dict.footer.privacy}</a></li>
             <li><a href="#terms" onclick="navigateTo('terms'); return false;">${dict.footer.terms}</a></li>
@@ -749,7 +749,8 @@
   }
 
   // --------------------------------------------------------------------------
-  // HOME VIEW
+  // HOME VIEW (Task 5.2: 1 primary Karir button + 1 secondary Brand list button in Hero;
+  // delivery-app button moved to the Platform section)
   // --------------------------------------------------------------------------
   function renderHomeView() {
     const dict = t();
@@ -757,14 +758,14 @@
     const headline = c.showKoreaHqBlock ? dict.hero.headlineA : dict.hero.headlineB;
     const subcopy = c.showKoreaHqBlock ? dict.hero.subcopyA : dict.hero.subcopyB;
 
-    let appButtonHtml = "";
-    if (c.deliveryAppMode === "coming_soon") {
-      appButtonHtml = `<span class="btn btn-secondary" style="cursor:default;">${dict.hero.appComingSoon}</span>`;
+    let platformAppBtnHtml = "";
+    if (c.deliveryAppMode === "coming_soon" || !c.deliveryAppUrl) {
+      platformAppBtnHtml = `<span class="btn btn-disabled" aria-disabled="true" style="min-height:36px; padding:7px 12px; font-size:12.5px; margin-top:10px;">${dict.hero.appComingSoon}</span>`;
     } else if (c.deliveryAppMode === "active" && c.deliveryAppUrl) {
-      appButtonHtml = `<a href="${c.deliveryAppUrl}" target="_blank" rel="noopener" class="btn btn-secondary">${dict.hero.appDownload} ↗</a>`;
+      platformAppBtnHtml = `<a href="${c.deliveryAppUrl}" target="_blank" rel="noopener" class="btn btn-secondary" style="min-height:36px; padding:7px 12px; font-size:12.5px; margin-top:10px;" onclick="event.stopPropagation()">${dict.hero.appDownload} ↗</a>`;
     }
 
-    // ③ Our Pillars (4 cards)
+    // ③ Our Pillars (4 cards; delivery-app button placed in the Platform card per Task 5.2)
     const pillarsHtml = dict.pillars.items
       .map(
         (p) => `
@@ -773,6 +774,7 @@
           <h3>${p.title}</h3>
           <p>${p.desc}</p>
           <span class="card-action">${p.action}</span>
+          ${p.id === "platform" ? platformAppBtnHtml : ""}
         </button>
       `
       )
@@ -781,6 +783,7 @@
     // Featured Planned Brands Preview (Brand name, category tag, 1-line description, 2 representative menus)
     const featuredIds = ["sotdak", "seongsu-dak", "bap-club", "pantry12", "salad-pick", "bing-ha"];
     const featuredBrands = (window.MUGGO_CATALOG || []).filter((b) => featuredIds.includes(b.id));
+    const catBadgeMap = (dict.brandsPage && dict.brandsPage.catBadgeNames) || {};
     const featuredBrandsHtml = featuredBrands
       .map(
         (b) => `
@@ -788,7 +791,7 @@
           <div class="brand-card-header">
             <img src="${b.logo}" alt="${locBrand(b, "name")}" class="brand-thumb" loading="lazy" />
             <div style="min-width:0;">
-              <span class="roster-badge">${b.category}</span>
+              <span class="roster-badge">${catBadgeMap[b.category] || b.category}</span>
               <h3 style="margin-top:4px; font-size:16px;">${locBrand(b, "name")}</h3>
             </div>
           </div>
@@ -909,10 +912,9 @@
             <button type="button" class="btn btn-primary" onclick="navigateTo('careers')">
               ${dict.hero.careerBtn}
             </button>
-            <button type="button" class="btn btn-secondary" onclick="navigateTo('contact')">
-              ${dict.nav.contact}
+            <button type="button" class="btn btn-secondary" onclick="navigateTo('brands')">
+              ${dict.hero.brandBtn}
             </button>
-            ${appButtonHtml}
           </div>
         </div>
         <div class="hero-visual">
@@ -1091,6 +1093,7 @@
       return;
     }
 
+    const catBadgeMap = dict.catBadgeNames || {};
     container.innerHTML = brands
       .map((b) => {
         const isExpanded = expandedBrands[b.id] !== undefined ? expandedBrands[b.id] : hasSearch;
@@ -1102,7 +1105,7 @@
               <div class="brand-card-header">
                 <img src="${b.logo}" alt="${locBrand(b, "name")}" class="brand-thumb" loading="lazy" />
                 <div style="min-width:0;">
-                  <span class="roster-badge">${b.category}</span>
+                  <span class="roster-badge">${catBadgeMap[b.category] || b.category}</span>
                   <h3 style="margin-top:4px;">${locBrand(b, "name")}</h3>
                 </div>
               </div>
@@ -1217,7 +1220,8 @@
   }
 
   // --------------------------------------------------------------------------
-  // PLATFORM VIEW (3 Number Cards + 4:5 Phone-Screen Ordering App Mockup Slot)
+  // PLATFORM VIEW (Task 5.1 & 5.2: Disabled non-interactive "Aplikasi Delivery (Segera Hadir)"
+  // button with aria-disabled="true", no hover effect, and no link target)
   // --------------------------------------------------------------------------
   function renderPlatformView() {
     const dict = t().platformPage;
@@ -1225,8 +1229,8 @@
     const c = cfg();
 
     let appAction = "";
-    if (c.deliveryAppMode === "coming_soon") {
-      appAction = `<span class="btn btn-secondary" style="cursor:default;">${heroDict.appComingSoon}</span>`;
+    if (c.deliveryAppMode === "coming_soon" || !c.deliveryAppUrl) {
+      appAction = `<button type="button" class="btn btn-disabled" disabled aria-disabled="true">${heroDict.appComingSoon}</button>`;
     } else if (c.deliveryAppMode === "active" && c.deliveryAppUrl) {
       appAction = `<a href="${c.deliveryAppUrl}" target="_blank" rel="noopener" class="btn btn-primary">${heroDict.appDownload} ↗</a>`;
     }
@@ -1502,51 +1506,29 @@
   }
 
   // --------------------------------------------------------------------------
-  // PRIVACY & TERMS VIEW (Task 4.3 — Real navigable pages #privacy and #terms)
+  // PRIVACY & TERMS VIEW (Task 4.3 & 5.4 — All strings read from per-language dictionary)
   // TODO(owner): Supply finalized full Indonesian legal wording for Kebijakan Privasi & Syarat & Ketentuan when ready.
   // --------------------------------------------------------------------------
   function renderPolicyView(type) {
     const c = cfg();
-    const officialEmail = c.contactEmail || "";
-    const l = lang();
+    const pDict = t().policyPage || {};
     const isPrivacy = type === "privacy";
-
-    const copy = {
-      id: {
-        title: isPrivacy ? "Kebijakan Privasi (Privacy Policy)" : "Syarat & Ketentuan (Terms of Use)",
-        body: isPrivacy
-          ? `<!-- TODO(owner): Replace or expand with finalized Kebijakan Privasi text -->
-             <p style="margin-bottom:14px;"><strong>${c.legalName}</strong> (pemilik merek usaha <strong>${c.brandName}</strong>) menghormati privasi pelamar kerja dan pengunjung situs sesuai dengan Undang-Undang Pelindungan Data Pribadi (UU PDP) Indonesia.</p>
-             <p style="margin-bottom:14px;">Data lamaran yang dikirimkan ke saluran email resmi kami (${officialEmail}) hanya digunakan untuk keperluan verifikasi dan seleksi SDM internal serta tidak pernah diperjualbelikan kepada pihak ketiga.</p>`
-          : `<!-- TODO(owner): Replace or expand with finalized Syarat & Ketentuan text -->
-             <p style="margin-bottom:14px;">Situs web ini dikelola secara resmi oleh <strong>${c.legalName}</strong> (Alamat terdaftar: ${c.address}) untuk menyajikan informasi identitas perusahaan, rencana brand <strong>${c.brandName}</strong>, serta verifikasi rekrutmen resmi.</p>
-             <p>Saat ini perusahaan berada pada tahap pra-pembukaan (pre-opening) dan belum melakukan penjualan produk secara komersial.</p>`
-      },
-      en: {
-        title: isPrivacy ? "Privacy Policy" : "Terms of Use",
-        body: isPrivacy
-          ? `<p style="margin-bottom:14px;"><strong>${c.legalName}</strong> (operating the <strong>${c.brandName}</strong> brand) respects the privacy of job applicants and visitors in compliance with Indonesian Personal Data Protection laws (UU PDP).</p>
-             <p style="margin-bottom:14px;">Information submitted to our official recruitment email (${officialEmail}) is used strictly for hiring evaluation and HR administration.</p>`
-          : `<p style="margin-bottom:14px;">This website is officially operated by <strong>${c.legalName}</strong> (Registered address: ${c.address}) to provide corporate verification, planned <strong>${c.brandName}</strong> brand information, and official career opportunities.</p>
-             <p>The business is currently in the pre-opening stage and nothing is on sale yet.</p>`
-      },
-      ko: {
-        title: isPrivacy ? "개인정보처리방침" : "이용약관",
-        body: isPrivacy
-          ? `<p style="margin-bottom:14px;"><strong>${c.legalName}</strong>(브랜드: <strong>${c.brandName}</strong>)는 인도네시아 개인정보보호법(UU PDP)을 준수하며, 공식 채용 이메일(${officialEmail})을 통해 접수된 지원자 정보를 채용 전형 목적으로만 안전하게 처리합니다.</p>`
-          : `<p style="margin-bottom:14px;">본 사이트는 <strong>${c.legalName}</strong>(등록 주소: ${c.address})의 법인 신원 확인, <strong>${c.brandName}</strong> 브랜드 기획 소개 및 공식 채용 안내를 목적으로 운영됩니다.</p>
-             <p>현재 당사는 오픈 준비(Pre-Opening) 단계로 아직 상품을 판매하지 않습니다.</p>`
-      }
-    }[l];
+    const title = isPrivacy ? pDict.privacyTitle : pDict.termsTitle;
+    const p1 = isPrivacy ? pDict.privacyP1 : pDict.termsP1;
+    const p2 = isPrivacy ? pDict.privacyP2 : pDict.termsP2;
 
     return `
       <div class="workspace-heading">
         <div>
           <p class="eyebrow">${c.legalName} · ${c.brandName}</p>
-          <h1>${copy.title}</h1>
+          <h1>${title || ""}</h1>
         </div>
       </div>
-      <section class="card">${copy.body}</section>
+      <section class="card">
+        <!-- TODO(owner): Replace or expand with finalized legal wording in data/i18n.js -->
+        <p style="margin-bottom:14px;">${p1 || ""}</p>
+        <p>${p2 || ""}</p>
+      </section>
     `;
   }
 

@@ -139,16 +139,21 @@ body {
 }
 
 .brand-mark {
-  width: 32px;
-  height: 32px;
+  min-width: 36px;
+  width: 36px;
+  height: 36px;
+  padding: 0 4px;
   border-radius: 8px;
   background: #1B6B4E;
   color: #FFFFFF;
-  display: grid;
-  place-items: center;
-  font-size: 8.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6.8px;
+  line-height: 1;
   font-weight: 800;
-  letter-spacing: 0.3px;
+  letter-spacing: -0.1px;
+  white-space: nowrap;
   flex-shrink: 0;
 }
 
@@ -435,6 +440,27 @@ aside.callout {
 
 .btn-secondary:hover {
   background: var(--ui-tint);
+}
+
+.btn-disabled,
+.btn[disabled],
+.btn[aria-disabled="true"] {
+  background: var(--ui-surface-muted);
+  color: var(--ui-muted);
+  border: 1px dashed var(--portal-line);
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.72;
+  font-weight: 600;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.btn-disabled:hover,
+.btn[disabled]:hover,
+.btn[aria-disabled="true"]:hover {
+  background: var(--ui-surface-muted);
+  border-color: var(--portal-line);
 }
 
 /* Hero Section */
@@ -922,10 +948,13 @@ details.footnote-details summary {
     gap: 12px;
   }
   .brand-mark {
-    width: 38px;
-    height: 38px;
+    min-width: 42px;
+    width: 42px;
+    height: 42px;
+    padding: 0 5px;
     border-radius: 9px;
-    font-size: 9.5px;
+    font-size: 8px;
+    letter-spacing: 0px;
   }
   .brand-text strong {
     font-size: 20px;
