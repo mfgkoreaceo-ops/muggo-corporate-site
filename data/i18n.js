@@ -269,6 +269,10 @@ window.I18N_DICT = {
           titleExtended: "04 · Pelatihan Operasional & Jenjang Karir",
           desc: "Pelatihan prosedur operasional dapur profesional dan kebersihan pangan.",
           descExtended: "Pelatihan operasional kuliner dan jenjang karir menuju Part Leader hingga Branch Manager."
+        },
+        {
+          title: "05 · Kesempatan Bekerja di Kantor Pusat Korea",
+          desc: "Diberikan kesempatan untuk bekerja di Kantor Pusat Korea ({brandName} Korea HQ)."
         }
       ],
       positionsTitle: "Daftar 11 Bidang Posisi yang Dibuka"
@@ -580,6 +584,10 @@ window.I18N_DICT = {
           titleExtended: "04 · Culinary Training & Career Path",
           desc: "Structured training on professional kitchen operations and food hygiene.",
           descExtended: "Structured training and career progression toward Part Leader hingga Branch Manager."
+        },
+        {
+          title: "05 · Opportunity to Work at Korea HQ",
+          desc: "Opportunities are provided to work at our Korea Headquarters ({brandName} Korea HQ)."
         }
       ],
       positionsTitle: "11 Open Job Positions"
@@ -891,6 +899,10 @@ window.I18N_DICT = {
           titleExtended: "04 · 주방 교육 및 커리어 성장",
           desc: "표준 주방 조리 절차 및 식품 위생 관리에 대한 교육을 제공합니다.",
           descExtended: "체계적인 조리·운영 교육 및 Part Leader hingga Branch Manager 승진 기회를 제공합니다."
+        },
+        {
+          title: "05 · 한국 본사 근무 기회 부여",
+          desc: "한국 본사({brandName} Korea HQ)에서 일할 수 있는 기회가 주어집니다."
         }
       ],
       positionsTitle: "모집 중인 11개 직군"
