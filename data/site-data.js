@@ -1,33 +1,7 @@
-// PT BARA SUSTAINABLE INDONESIA (Brand: MUGGO) · Corporate Site Data
-// Default Launch Language: Indonesian (ID). KO & EN prepared for post-launch activation.
-// Temporary Contact & Recruitment Email kept in ONE single place: config.contactEmail
+// Corporate Site Fallback Content (News, Metrics, 11 Job Positions, Footnotes)
+// All identity, address, contact, social, sheet URLs, brandCount, and flags live in site.config.js.
 
 window.DEFAULT_SITE_DATA = {
-  config: {
-    companyName: "PT BARA SUSTAINABLE INDONESIA",
-    brandName: "MUGGO",
-    ceoName: "", // TODO(owner): Set CEO / Leadership name when confirmed; hidden when empty
-    currentLang: "id", // Default launch language: Indonesian ('id')
-    enableMultiLang: false, // TODO(owner): Set to true after launch when KO & EN are added
-    showKoreaHq: true,
-    koreaHqName: "MUGGO Korea HQ",
-    koreaHqUrl: "", // TODO(owner): Set verified Korea HQ URL; link hidden when empty
-    brandCountLabel: "30",
-    firstStoreDate: "", // TODO(owner): Set official opening date when confirmed; hidden when empty
-    showRegionalRoadmap: true,
-    instagramHandle: "@muggo.indonesia",
-    instagramUrl: "https://www.instagram.com/muggo.indonesia",
-    tiktokHandle: "@muggo1",
-    tiktokUrl: "https://www.tiktok.com/@muggo1",
-    whatsappNumber: "", // TODO(owner): Set official WhatsApp number when active; hidden when empty
-    // Single source of truth for temporary mailbox
-    contactEmail: "barasustainable@gmail.com", // TODO(owner): Replace with company-domain mailbox when active
-    officeAddress: "Jl. Gatot Subroto No. Kav. 71-73, Menteng Dalam, Kec. Tebet, Jakarta Selatan 12870",
-    deliveryAppMode: "coming_soon", // 'coming_soon' | 'hidden' | 'active'
-    deliveryAppUrl: "", // TODO(owner): Set delivery app store/web URL when launched; hidden when empty
-    enableCareerForm: true
-  },
-
   metrics: [
     {
       id: "m1",
@@ -61,18 +35,18 @@ window.DEFAULT_SITE_DATA = {
     },
     {
       id: "m3",
-      numberId: "30 Brand",
-      numberEn: "30 Brands",
-      numberKo: "30개 브랜드",
+      numberId: "{brandCount} Brand",
+      numberEn: "{brandCount} Brands",
+      numberKo: "{brandCount}개 브랜드",
       labelId: "Brand Kuliner Internal",
       labelEn: "In-House Virtual Brands",
-      labelKo: "자체 브랜드 (300개 메뉴)",
+      labelKo: "자체 브랜드 ({menuCount}개 메뉴)",
       badgeId: "Target Rencana",
       badgeEn: "Target Plan",
       badgeKo: "목표·예정",
-      descId: "30 brand kuliner spesialis (SOTDAK, SEONGSU DAK, JUMOK, PANTRY 12, BING HA, dll.) dengan rencana 300 menu.",
-      descEn: "30 specialized culinary brands (SOTDAK, SEONGSU DAK, JUMOK, PANTRY 12, BING HA, etc.) featuring 300 planned menus.",
-      descKo: "솥닭(SOTDAK), 성수닭, 주목, 펜트리12, 빙하 등 브랜드당 10개 메뉴씩 총 300개 메뉴 라인업"
+      descId: "{brandCount} brand kuliner spesialis (SOTDAK, SEONGSU DAK, JUMOK, PANTRY 12, BING HA, dll.) dengan rencana {menuCount} menu.",
+      descEn: "{brandCount} specialized culinary brands (SOTDAK, SEONGSU DAK, JUMOK, PANTRY 12, BING HA, etc.) featuring {menuCount} planned menus.",
+      descKo: "솥닭(SOTDAK), 성수닭, 주목, 펜트리12, 빙하 등 브랜드당 10개 메뉴씩 총 {menuCount}개 메뉴 라인업"
     },
     {
       id: "m4",
@@ -121,6 +95,7 @@ window.DEFAULT_SITE_DATA = {
     }
   ],
 
+  // Fallback news content when SITE_CONFIG.newsSheetCsvUrl is empty
   articles: [
     {
       id: "art-1",
@@ -128,15 +103,15 @@ window.DEFAULT_SITE_DATA = {
       categoryId: "Karir & HR",
       categoryEn: "Careers & HR",
       categoryKo: "채용·인사",
-      titleId: "Rekrutmen Terbuka PT BARA SUSTAINABLE INDONESIA (MUGGO) untuk 11 Bidang Posisi",
-      titleEn: "PT BARA SUSTAINABLE INDONESIA (MUGGO) Open Recruitment Across 11 Job Categories",
-      titleKo: "PT BARA SUSTAINABLE INDONESIA (브랜드 MUGGO) 11개 직군 공개 채용 안내",
-      summaryId: "Bergabunglah bersama tim PT BARA SUSTAINABLE INDONESIA di Jakarta Selatan untuk mempersiapkan ekosistem mall food court online MUGGO.",
-      summaryEn: "Join PT BARA SUSTAINABLE INDONESIA's Jakarta team to prepare the 30-brand MUGGO online food court ecosystem.",
-      summaryKo: "자카르타 센트럴 키친 및 온라인 푸드코트 몰 MUGGO 오픈을 함께 준비할 11개 직군의 동료를 모집합니다.",
-      contentId: "PT BARA SUSTAINABLE INDONESIA (merek usaha: MUGGO) membuka rekrutmen untuk 11 bidang posisi menjelang peluncuran gerai pertama dan platform food court online kami di Jakarta Selatan.\n\nBidang yang dibuka meliputi Operasional Dapur (Head of Kitchen & Line Cook), Food R&D, Operasional Gerai, QA & Hygiene Coordinator, SCM & Pengadaan, Pemasaran Digital (Instagram & TikTok), Desain Brand, Operasional Platform, HR & GA, serta Keuangan & Akuntansi.\n\nPT BARA SUSTAINABLE INDONESIA tidak pernah memungut biaya apa pun dalam seluruh tahapan seleksi dan rekrutmen.",
-      contentEn: "PT BARA SUSTAINABLE INDONESIA (operating brand: MUGGO) is recruiting across 11 key job categories ahead of our flagship hub and online food court launch in South Jakarta.\n\nOpen roles span Kitchen Operations, Food R&D, Store Operations, QA & Hygiene Coordination, SCM & Procurement, Digital Marketing, Brand Design, Platform Operations, HR & GA, and Finance & Accounting.\n\nPT BARA SUSTAINABLE INDONESIA never charges candidates any fees during the recruitment process.",
-      contentKo: "PT BARA SUSTAINABLE INDONESIA(브랜드: MUGGO)가 자카르타 1호 거점 및 온라인 푸드코트 몰 오픈을 앞두고 11개 핵심 직군에서 채용을 진행합니다.\n\n모집 분야는 주방 총괄(Head of Kitchen), 멀티 브랜드 조리사(Line Cook), 메뉴 R&D, 매장 운영 매니저, 품질·위생(QA & Hygiene), 구매·물류(SCM), 디지털 마케팅, 브랜드 디자인, 플랫폼 운영, 인사·총무(HR/GA), 재무·회계입니다."
+      titleId: "Rekrutmen Terbuka {legalName} ({brandName}) untuk 11 Bidang Posisi",
+      titleEn: "{legalName} ({brandName}) Open Recruitment Across 11 Job Categories",
+      titleKo: "{legalName} (브랜드 {brandName}) 11개 직군 공개 채용 안내",
+      summaryId: "Bergabunglah bersama tim {legalName} di Jakarta Selatan untuk mempersiapkan ekosistem mall food court online {brandName}.",
+      summaryEn: "Join {legalName}'s Jakarta team to prepare the {brandCount}-brand {brandName} online food court ecosystem.",
+      summaryKo: "자카르타 센트럴 키친 및 온라인 푸드코트 몰 {brandName} 오픈을 함께 준비할 11개 직군의 동료를 모집합니다.",
+      contentId: "{legalName} (merek usaha: {brandName}) membuka rekrutmen untuk 11 bidang posisi menjelang peluncuran gerai pertama dan platform food court online kami di Jakarta Selatan.\n\nBidang yang dibuka meliputi Operasional Dapur (Head of Kitchen & Line Cook), Food R&D, Operasional Gerai, QA & Hygiene Coordinator, SCM & Pengadaan, Pemasaran Digital (Instagram & TikTok), Desain Brand, Operasional Platform, HR & GA, serta Keuangan & Akuntansi.\n\n{legalName} tidak pernah memungut biaya apa pun dalam seluruh tahapan seleksi dan rekrutmen.",
+      contentEn: "{legalName} (operating brand: {brandName}) is recruiting across 11 key job categories ahead of our flagship hub and online food court launch in South Jakarta.\n\nOpen roles span Kitchen Operations, Food R&D, Store Operations, QA & Hygiene Coordination, SCM & Procurement, Digital Marketing, Brand Design, Platform Operations, HR & GA, and Finance & Accounting.\n\n{legalName} never charges candidates any fees during the recruitment process.",
+      contentKo: "{legalName}(브랜드: {brandName})가 자카르타 1호 거점 및 온라인 푸드코트 몰 오픈을 앞두고 11개 핵심 직군에서 채용을 진행합니다.\n\n모집 분야는 주방 총괄(Head of Kitchen), 멀티 브랜드 조리사(Line Cook), 메뉴 R&D, 매장 운영 매니저, 품질·위생(QA & Hygiene), 구매·물류(SCM), 디지털 마케팅, 브랜드 디자인, 플랫폼 운영, 인사·총무(HR/GA), 재무·회계입니다."
     },
     {
       id: "art-2",
@@ -144,15 +119,15 @@ window.DEFAULT_SITE_DATA = {
       categoryId: "Brand & Menu",
       categoryEn: "Brands & Menus",
       categoryKo: "브랜드·R&D",
-      titleId: "Rencana 30 Brand Kuliner & 300 Menu dalam Satu Keranjang Pesanan",
-      titleEn: "Planned 30 Culinary Brands & 300 Menus Integrated into a Single Order Basket",
-      titleKo: "솥닭(SOTDAK)·성수닭·펜트리12·빙하 등 30개 브랜드 300개 메뉴 라인업 기획",
+      titleId: "Rencana {brandCount} Brand Kuliner & {menuCount} Menu dalam Satu Keranjang Pesanan",
+      titleEn: "Planned {brandCount} Culinary Brands & {menuCount} Menus Integrated into a Single Order Basket",
+      titleKo: "솥닭(SOTDAK)·성수닭·펜트리12·빙하 등 {brandCount}개 브랜드 {menuCount}개 메뉴 라인업 기획",
       summaryId: "Mulai dari ayam panggang SOTDAK, rice bowl BAP CLUB, burger SMOKY SALOON, hingga bingsu BING HA dalam 1x pengiriman.",
       summaryEn: "From SOTDAK roasted chicken and BAP CLUB rice bowls to SMOKY SALOON burgers and BING HA snow ice in one delivery.",
-      summaryKo: "치킨, 한식, 피자·버거·샌드위치, 샐러드, 음료·디저트 5대 카테고리 30개 전문 브랜드를 준비하고 있습니다.",
-      contentId: "Melalui merek MUGGO, PT BARA SUSTAINABLE INDONESIA mempersiapkan 30 brand kuliner spesialis dengan masing-masing 10 menu andalan (total 300 menu) yang dirancang untuk dimasak melalui 6 stasiun dapur profesional (Fryer, Grill, Soup, Assembly, Bakery, Beverage Bar).\n\nSaat ini bisnis berada pada tahap pra-pembukaan (pre-opening) dan belum ada produk yang dijual kepada konsumen.",
-      contentEn: "Under the MUGGO brand, PT BARA SUSTAINABLE INDONESIA is preparing 30 specialized virtual brands with 10 signature menus each (300 planned menus), engineered across 6 dedicated kitchen stations (Fryer, Grill, Soup, Assembly, Bakery, Beverage Bar).\n\nThe business is currently in the pre-opening phase and nothing is on sale yet.",
-      contentKo: "PT BARA SUSTAINABLE INDONESIA는 MUGGO 브랜드를 통해 치킨, 한식, 양식, 샐러드, 디저트·음료까지 총 30개 브랜드 300개 메뉴 라인업과 6대 전문 조리 스테이션 시스템을 준비하고 있습니다."
+      summaryKo: "치킨, 한식, 피자·버거·샌드위치, 샐러드, 음료·디저트 5대 카테고리 {brandCount}개 전문 브랜드를 준비하고 있습니다.",
+      contentId: "Melalui merek {brandName}, {legalName} mempersiapkan {brandCount} brand kuliner spesialis dengan masing-masing 10 menu andalan (total {menuCount} menu) yang dirancang untuk dimasak melalui 6 stasiun dapur profesional (Fryer, Grill, Soup, Assembly, Bakery, Beverage Bar).\n\nSaat ini bisnis berada pada tahap pra-pembukaan (pre-opening) dan belum ada produk yang dijual kepada konsumen.",
+      contentEn: "Under the {brandName} brand, {legalName} is preparing {brandCount} specialized virtual brands with 10 signature menus each ({menuCount} planned menus), engineered across 6 dedicated kitchen stations (Fryer, Grill, Soup, Assembly, Bakery, Beverage Bar).\n\nThe business is currently in the pre-opening phase and nothing is on sale yet.",
+      contentKo: "{legalName}는 {brandName} 브랜드를 통해 치킨, 한식, 양식, 샐러드, 디저트·음료까지 총 {brandCount}개 브랜드 {menuCount}개 메뉴 라인업과 6대 전문 조리 스테이션 시스템을 준비하고 있습니다."
     },
     {
       id: "art-3",
@@ -160,18 +135,19 @@ window.DEFAULT_SITE_DATA = {
       categoryId: "Platform",
       categoryEn: "Platform",
       categoryKo: "플랫폼",
-      titleId: "Persiapan Sistem Dapur Terpusat 6 Stasiun & Aplikasi Delivery MUGGO",
+      titleId: "Persiapan Sistem Dapur Terpusat 6 Stasiun & Aplikasi Delivery {brandName}",
       titleEn: "6-Station Central Kitchen System & Proprietary Delivery App Preparation",
       titleKo: "6대 전문 스테이션 스마트 키친 시스템 및 자체 배달 앱 오픈 준비",
       summaryId: "Standarisasi SOP memasak dan kemasan termal khusus untuk menjaga suhu serta kerenyahan hidangan saat tiba di tangan pelanggan.",
       summaryEn: "Standardized cooking SOPs and thermal/cooler dual packaging to preserve taste and temperature upon delivery.",
       summaryKo: "온도와 식감을 유지하는 보온·보냉 분리 합포장 시스템과 딜리버리·픽업 특화 플랫폼을 준비하고 있습니다.",
-      contentId: "Setiap pesanan multi-brand di MUGGO dirancang untuk disinkronkan melalui sistem KDS 6 stasiun sehingga makanan panas dan minuman/dessert dingin selesai tepat waktu dan dikemas terpisah dalam Thermal Bag serta Insulated Cooler Bag.",
-      contentEn: "Every multi-brand order at MUGGO is designed to be synchronized across our 6-station KDS so hot dishes and chilled beverages/desserts finish together and are packed separately in Thermal and Insulated Cooler bags.",
-      contentKo: "MUGGO의 주문 시스템은 6대 조리 스테이션(튀김, 그릴, 탕·찌개, 조립·포장, 베이커리·디저트, 음료 바) KDS 연동 및 보온백·보냉백 분리 합포장 기준으로 설계되었습니다."
+      contentId: "Setiap pesanan multi-brand di {brandName} dirancang untuk disinkronkan melalui sistem KDS 6 stasiun sehingga makanan panas dan minuman/dessert dingin selesai tepat waktu dan dikemas terpisah dalam Thermal Bag serta Insulated Cooler Bag.",
+      contentEn: "Every multi-brand order at {brandName} is designed to be synchronized across our 6-station KDS so hot dishes and chilled beverages/desserts finish together and are packed separately in Thermal and Insulated Cooler bags.",
+      contentKo: "{brandName}의 주문 시스템은 6대 조리 스테이션(튀김, 그릴, 탕·찌개, 조립·포장, 베이커리·디저트, 음료 바) KDS 연동 및 보온백·보냉백 분리 합포장 기준으로 설계되었습니다."
     }
   ],
 
+  // Fallback job content when SITE_CONFIG.jobsSheetCsvUrl is empty (11 job positions)
   jobs: [
     {
       id: "job-1",
@@ -185,9 +161,9 @@ window.DEFAULT_SITE_DATA = {
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
       location: "Jakarta Selatan",
-      descId: "Memimpin operasional 6 stasiun dapur terpusat (30 brand), menjaga kepatuhan SOP resep, kualitas, dan manajemen tim dapur.",
-      descEn: "Lead operations across our 6-station central kitchen (30 brands), ensuring recipe SOP compliance, quality control, and kitchen team leadership.",
-      descKo: "30개 브랜드 6대 스테이션 센트럴 키친 총괄, 표준 조리 매뉴얼(SOP) 준수 및 주방 인력 관리"
+      descId: "Memimpin operasional 6 stasiun dapur terpusat ({brandCount} brand), menjaga kepatuhan SOP resep, kualitas, dan manajemen tim dapur.",
+      descEn: "Lead operations across our 6-station central kitchen ({brandCount} brands), ensuring recipe SOP compliance, quality control, and kitchen team leadership.",
+      descKo: "{brandCount}개 브랜드 6대 스테이션 센트럴 키친 총괄, 표준 조리 매뉴얼(SOP) 준수 및 주방 인력 관리"
     },
     {
       id: "job-2",
@@ -265,9 +241,9 @@ window.DEFAULT_SITE_DATA = {
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
       location: "Jakarta Selatan",
-      descId: "Mengelola rantai pasok bahan baku untuk 300 SKU menu, manajemen stok harian, BOM, dan pengadaan kemasan.",
-      descEn: "Manage ingredient supply chains for 300 menu SKUs, daily inventory control, BOM costing, and thermal packaging procurement.",
-      descKo: "30개 브랜드 300개 메뉴 식자재 수급, BOM 원가·재고 관리 및 전용 보온·보냉 패키지 조달"
+      descId: "Mengelola rantai pasok bahan baku untuk {menuCount} SKU menu, manajemen stok harian, BOM, dan pengadaan kemasan.",
+      descEn: "Manage ingredient supply chains for {menuCount} menu SKUs, daily inventory control, BOM costing, and thermal packaging procurement.",
+      descKo: "{brandCount}개 브랜드 {menuCount}개 메뉴 식자재 수급, BOM 원가·재고 관리 및 전용 보온·보냉 패키지 조달"
     },
     {
       id: "job-7",
@@ -281,9 +257,9 @@ window.DEFAULT_SITE_DATA = {
       typeEn: "Full-time · Entry / Experienced",
       typeKo: "정규직 · 신입/경력",
       location: "Jakarta Selatan",
-      descId: "Mengelola konten kreatif @muggo.indonesia dan @muggo1, kampanye KOL lokal, serta promosi paket multi-brand.",
-      descEn: "Drive creative content for @muggo.indonesia and @muggo1, local KOL partnerships, and multi-brand bundle campaigns.",
-      descKo: "공식 인스타그램(@muggo.indonesia) 및 틱톡(@muggo1) 콘텐츠 기획, 현지 인플루언서 협업 및 프로모션 운영"
+      descId: "Mengelola konten kreatif Instagram ({instagramHandle}) dan TikTok ({tiktokHandle}), kampanye KOL lokal, serta promosi paket multi-brand.",
+      descEn: "Drive creative content for Instagram ({instagramHandle}) and TikTok ({tiktokHandle}), local KOL partnerships, and multi-brand bundle campaigns.",
+      descKo: "공식 인스타그램({instagramHandle}) 및 틱톡({tiktokHandle}) 콘텐츠 기획, 현지 인플루언서 협업 및 프로모션 운영"
     },
     {
       id: "job-8",
@@ -297,9 +273,9 @@ window.DEFAULT_SITE_DATA = {
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
       location: "Jakarta Selatan",
-      descId: "Merancang aset visual untuk 30 brand kuliner, fotografi/visual menu, kemasan, dan materi promosi digital.",
-      descEn: "Design visual assets across 30 culinary brands, menu presentation visuals, packaging, and digital campaign materials.",
-      descKo: "30개 자체 브랜드 비주얼 에셋, 패키지 그래픽, 온라인 푸드코트 몰 배너 및 메뉴 콘텐츠 디자인"
+      descId: "Merancang aset visual untuk {brandCount} brand kuliner, fotografi/visual menu, kemasan, dan materi promosi digital.",
+      descEn: "Design visual assets across {brandCount} culinary brands, menu presentation visuals, packaging, and digital campaign materials.",
+      descKo: "{brandCount}개 자체 브랜드 비주얼 에셋, 패키지 그래픽, 온라인 푸드코트 몰 배너 및 메뉴 콘텐츠 디자인"
     },
     {
       id: "job-9",
@@ -313,9 +289,9 @@ window.DEFAULT_SITE_DATA = {
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
       location: "Jakarta Selatan",
-      descId: "Mengelola katalog 300 menu di platform online MUGGO, pengaturan paket combo, voucher, dan integrasi pengiriman 3PL.",
-      descEn: "Manage the 300-menu digital catalog on MUGGO's platform, cross-brand combos, vouchers, and 3PL delivery dispatch.",
-      descKo: "온라인 푸드코트 몰 및 자체 배달 앱 300개 메뉴 카탈로그, 멀티 브랜드 콤보, 프로모션 및 배달 연동 운영"
+      descId: "Mengelola katalog {menuCount} menu di platform online {brandName}, pengaturan paket combo, voucher, dan integrasi pengiriman 3PL.",
+      descEn: "Manage the {menuCount}-menu digital catalog on {brandName}'s platform, cross-brand combos, vouchers, and 3PL delivery dispatch.",
+      descKo: "온라인 푸드코트 몰 및 자체 배달 앱 {menuCount}개 메뉴 카탈로그, 멀티 브랜드 콤보, 프로모션 및 배달 연동 운영"
     },
     {
       id: "job-10",
@@ -357,26 +333,26 @@ window.DEFAULT_SITE_DATA = {
       titleId: "1. Identitas Badan Hukum & Catatan Target Rencana Bisnis",
       titleEn: "1. Legal Entity Identity & Business Plan Target Notice",
       titleKo: "1. 공식 법인명 및 사업 계획 목표 수치 안내",
-      descId: "Situs web ini dikelola oleh PT BARA SUSTAINABLE INDONESIA (Brand: MUGGO).Saat ini bisnis berada pada tahap pra-pembukaan (belum ada penjualan produk). Seluruh angka yang tercantum merupakan target rencana bisnis dan dapat disesuaikan mengikuti perkembangan operasional.",
-      descEn: "This website is operated by PT BARA SUSTAINABLE INDONESIA (Brand: MUGGO). The business is currently in the pre-opening stage (nothing is on sale yet). All figures represent business plan targets.",
-      descKo: "본 사이트는 PT BARA SUSTAINABLE INDONESIA(브랜드: MUGGO)가 운영하며, 현재 오픈 전(Pre-Opening) 단계로 기재된 모든 수치는 사업 계획상 목표 및 예정 기준입니다."
+      descId: "Situs web ini dikelola oleh {legalName} (Brand: {brandName}). Saat ini bisnis berada pada tahap pra-pembukaan (belum ada penjualan produk). Seluruh angka yang tercantum merupakan target rencana bisnis dan dapat disesuaikan mengikuti perkembangan operasional.",
+      descEn: "This website is operated by {legalName} (Brand: {brandName}). The business is currently in the pre-opening stage (nothing is on sale yet). All figures represent business plan targets.",
+      descKo: "본 사이트는 {legalName}(브랜드: {brandName})가 운영하며, 현재 오픈 전(Pre-Opening) 단계로 기재된 모든 수치는 사업 계획상 목표 및 예정 기준입니다."
     },
     {
       id: "fn-2",
       titleId: "2. Dasar Perhitungan Jumlah Brand & Cabang",
       titleEn: "2. Basis for Brand & Store Counts",
       titleKo: "2. 자체 브랜드 수 및 확장 지점 수 기준",
-      descId: "Jumlah 30 brand internal (300 menu) dan target ekspansi 100+ cabang merupakan peta jalan perencanaan bertahap.",
-      descEn: "The 30 in-house brands (300 menus) and 100+ hub expansion figures reflect our phased business roadmap rather than historical results.",
-      descKo: "자체 브랜드 수(30개 브랜드 · 300개 메뉴)와 확장 목표 지점 수(100개 이상)는 단계별 런칭 계획 기준입니다."
+      descId: "Jumlah {brandCount} brand internal ({menuCount} menu) dan target ekspansi 100+ cabang merupakan peta jalan perencanaan bertahap.",
+      descEn: "The {brandCount} in-house brands ({menuCount} menus) and 100+ hub expansion figures reflect our phased business roadmap rather than historical results.",
+      descKo: "자체 브랜드 수({brandCount}개 브랜드 · {menuCount}개 메뉴)와 확장 목표 지점 수(100개 이상)는 단계별 런칭 계획 기준입니다."
     },
     {
       id: "fn-3",
       titleId: "3. Informasi Rekrutmen & Pembukaan Gerai Pertama",
       titleEn: "3. Recruitment & First Hub Opening Schedule",
       titleKo: "3. 채용 직군 및 1호점 오픈 일정 기준",
-      descId: "11 bidang rekrutmen adalah posisi yang sedang dibuka oleh PT BARA SUSTAINABLE INDONESIA untuk persiapan operasional Jakarta. Tidak ada pungutan biaya apa pun dalam proses rekrutmen.",
-      descEn: "The 11 job categories reflect active hiring by PT BARA SUSTAINABLE INDONESIA for our Jakarta launch. Recruitment is 100% free of charge.",
+      descId: "11 bidang rekrutmen adalah posisi yang sedang dibuka oleh {legalName} untuk persiapan operasional Jakarta. Tidak ada pungutan biaya apa pun dalam proses rekrutmen.",
+      descEn: "The 11 job categories reflect active hiring by {legalName} for our Jakarta launch. Recruitment is 100% free of charge.",
       descKo: "모집 직군 11개는 자카르타 1호 거점 및 본부 구성을 위해 실제 채용 중인 분야이며, 채용 전 과정에서 어떠한 비용도 요구하지 않습니다."
     },
     {
@@ -384,9 +360,9 @@ window.DEFAULT_SITE_DATA = {
       titleId: "4. Tujuan Informasi Umum",
       titleEn: "4. General Information Purpose",
       titleKo: "4. 일반 정보 제공 목적",
-      descId: "Situs web ini disediakan untuk memberikan informasi umum mengenai identitas korporat PT BARA SUSTAINABLE INDONESIA, visi brand MUGGO, dan informasi rekrutmen resmi.",
-      descEn: "This website is provided for general informational purposes regarding PT BARA SUSTAINABLE INDONESIA's corporate identity, the MUGGO brand, and official careers.",
-      descKo: "본 사이트는 구직자, 검증 기관, 파트너에게 PT BARA SUSTAINABLE INDONESIA(브랜드 MUGGO)의 법인 정보와 비전, 공식 채용 정보를 제공할 목적으로 제작되었습니다."
+      descId: "Situs web ini disediakan untuk memberikan informasi umum mengenai identitas korporat {legalName}, visi brand {brandName}, dan informasi rekrutmen resmi.",
+      descEn: "This website is provided for general informational purposes regarding {legalName}'s corporate identity, the {brandName} brand, and official careers.",
+      descKo: "본 사이트는 구직자, 검증 기관, 파트너에게 {legalName}(브랜드 {brandName})의 법인 정보와 비전, 공식 채용 정보를 제공할 목적으로 제작되었습니다."
     }
   ]
 };

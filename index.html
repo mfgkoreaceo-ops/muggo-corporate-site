@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>PT BARA SUSTAINABLE INDONESIA · MUGGO</title>
-  <meta name="description" content="Situs korporat dan verifikasi rekrutmen resmi PT BARA SUSTAINABLE INDONESIA (Brand: MUGGO) · Jakarta Selatan." />
+  <title>Corporate &amp; Recruitment Verification</title>
+  <meta name="description" content="Identitas resmi perusahaan, informasi pra-pembukaan (pre-opening), dan verifikasi rekrutmen resmi di Jakarta Selatan." />
   <meta name="theme-color" content="#4CDBBE" />
 
-  <!-- Open Graph / WhatsApp Preview -->
+  <!-- Open Graph Preview (populated dynamically from site.config.js) -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://mfgkoreaceo-ops.github.io/muggo-corporate-site/" />
-  <meta property="og:site_name" content="PT BARA SUSTAINABLE INDONESIA (MUGGO)" />
-  <meta property="og:title" content="PT BARA SUSTAINABLE INDONESIA · Brand MUGGO | Informasi Korporat & Rekrutmen Resmi" />
-  <meta property="og:description" content="Identitas resmi perusahaan, informasi pra-pembukaan (pre-opening), rencana portofolio brand MUGGO, dan verifikasi rekrutmen resmi PT BARA SUSTAINABLE INDONESIA di Jakarta." />
+  <meta property="og:site_name" content="Official Corporate &amp; Recruitment Site" />
+  <meta property="og:title" content="Informasi Korporat &amp; Rekrutmen Resmi" />
+  <meta property="og:description" content="Identitas resmi perusahaan, informasi pra-pembukaan (pre-opening), dan verifikasi rekrutmen resmi di Jakarta." />
   <meta property="og:image" content="https://mfgkoreaceo-ops.github.io/muggo-corporate-site/assets/muggo-brand-hero.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
 
@@ -31,7 +31,7 @@
     })();
   </script>
 
-  <link rel="stylesheet" href="styles/main.css?v=20261103-2" />
+  <link rel="stylesheet" href="styles/main.css?v=20261103-3" />
 </head>
 <body>
   <a href="#main-content" id="skip-link" class="skip-link">Langsung ke konten utama</a>
@@ -64,7 +64,7 @@
           </thead>
           <tbody>
             <tr style="border-bottom:1px solid var(--portal-line);">
-              <td style="padding:10px;"><strong>Logo (Light & Dark)</strong></td>
+              <td style="padding:10px;"><strong>Logo (Light &amp; Dark)</strong></td>
               <td style="padding:10px;">Header, Footer</td>
               <td style="padding:10px;">Mobile / PC</td>
               <td style="padding:10px;">230 × 52 px · 192 × 192 px</td>
@@ -85,7 +85,7 @@
               <td style="padding:10px;">SVG Stroke</td>
             </tr>
             <tr style="border-bottom:1px solid var(--portal-line);">
-              <td style="padding:10px;"><strong>30 Brand Thumbnails</strong></td>
+              <td style="padding:10px;"><strong>Brand Thumbnails</strong></td>
               <td style="padding:10px;">Brands Page, Home</td>
               <td style="padding:10px;">Mobile / PC</td>
               <td style="padding:10px;">800 × 600 px (4:3) / 400 × 400 px (1:1)</td>
@@ -99,9 +99,9 @@
               <td style="padding:10px;">WebP / JPG (≤150KB)</td>
             </tr>
             <tr>
-              <td style="padding:10px;"><strong>WhatsApp OG Image</strong></td>
+              <td style="padding:10px;"><strong>OG Preview Image</strong></td>
               <td style="padding:10px;">Link Sharing Preview</td>
-              <td style="padding:10px;">WhatsApp / SNS</td>
+              <td style="padding:10px;">Messenger / SNS</td>
               <td style="padding:10px;">1200 × 630 px (1.91:1)</td>
               <td style="padding:10px;">JPG / PNG (≤250KB)</td>
             </tr>
@@ -129,26 +129,27 @@
           <input type="text" id="apply-name-input" required />
         </div>
         <div class="form-field">
-          <label id="apply-contact-label" for="apply-contact-input">Nomor WhatsApp / Email Aktif</label>
+          <label id="apply-contact-label" for="apply-contact-input">Nomor Telepon / Email Aktif</label>
           <input type="text" id="apply-contact-input" required />
         </div>
         <div class="form-field">
-          <label id="apply-msg-label" for="apply-msg-input">Ringkasan Pengalaman & Motivasi Singkat</label>
+          <label id="apply-msg-label" for="apply-msg-input">Ringkasan Pengalaman &amp; Motivasi Singkat</label>
           <textarea id="apply-msg-input" rows="4" required></textarea>
         </div>
         <div id="apply-copy-feedback" class="hint" style="display:none; color:var(--ui-link); font-weight:700; margin-bottom:10px;"></div>
         <div style="display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px;">
           <button type="button" id="apply-cancel-btn" class="btn btn-secondary" onclick="closeApplyModal()">Batal</button>
-          <button type="button" id="apply-copy-btn" class="btn btn-secondary" onclick="copyApplicationDraft()">Salin Teks & Email</button>
+          <button type="button" id="apply-copy-btn" class="btn btn-secondary" onclick="copyApplicationDraft()">Salin Teks &amp; Email</button>
           <button type="submit" id="apply-submit-btn" class="btn btn-primary">Buka Aplikasi Email ↗</button>
         </div>
       </form>
     </div>
   </div>
 
-  <script src="data/catalog-data.js?v=20261103-2"></script>
-  <script src="data/site-data.js?v=20261103-2"></script>
-  <script src="data/i18n.js?v=20261103-2"></script>
-  <script src="scripts/app.js?v=20261103-2"></script>
+  <script src="site.config.js?v=20261103-3"></script>
+  <script src="data/catalog-data.js?v=20261103-3"></script>
+  <script src="data/site-data.js?v=20261103-3"></script>
+  <script src="data/i18n.js?v=20261103-3"></script>
+  <script src="scripts/app.js?v=20261103-3"></script>
 </body>
 </html>

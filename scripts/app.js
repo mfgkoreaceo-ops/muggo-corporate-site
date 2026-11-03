@@ -1,42 +1,74 @@
 // ==========================================================================
-// PT BARA SUSTAINABLE INDONESIA (Brand: MUGGO) - CORPORATE & VERIFICATION SITE
-// UI/UX unified with https://mokgo-hr-staging.vercel.app/
-// Default Launch Language: Indonesian (ID). KO & EN ready for post-launch activation.
-// Single Source of Truth for Address & Temporary Mailbox in data/site-data.js
+// CORPORATE & RECRUITMENT VERIFICATION APPLICATION (scripts/app.js)
+// Reads all single-source configuration values from window.SITE_CONFIG (site.config.js)
 // ==========================================================================
 
 (function () {
-  const STORAGE_KEY = "muggo_corporate_cms_v5";
   const LANG_KEY = "mokgo-language";
   const THEME_KEY = "muggo-theme";
 
-  function loadState() {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        return {
-          ...window.DEFAULT_SITE_DATA,
-          ...parsed,
-          config: { ...window.DEFAULT_SITE_DATA.config, ...(parsed.config || {}) }
-        };
-      }
-    } catch (e) {}
-    return JSON.parse(JSON.stringify(window.DEFAULT_SITE_DATA));
+  function cfg() {
+    return window.SITE_CONFIG || {};
   }
 
-  let state = loadState();
+  function getHandleFromUrl(url, prefixAt = true) {
+    if (!url) return "";
+    const cleaned = String(url).replace(/\/+$/, "");
+    const lastSeg = cleaned.split("/").pop() || "";
+    const handle = lastSeg.replace(/^@/, "");
+    if (!handle) return "";
+    return prefixAt ? `@${handle}` : handle;
+  }
 
-  // At launch, default language is Indonesian ('id'). Multi-language switching is controlled by config.enableMultiLang.
-  if (state.config.enableMultiLang) {
+  // Interpolate placeholders from window.SITE_CONFIG so nothing is duplicated
+  function interp(str) {
+    if (typeof str !== "string") return str || "";
+    const c = cfg();
+    const bCount = Number(c.brandCount) || 30;
+    const mCount = bCount * 10;
+    const igHandle = getHandleFromUrl(c.instagramUrl, true);
+    const ttHandle = getHandleFromUrl(c.tiktokUrl, true);
+    return str
+      .replace(/\{legalName\}/g, c.legalName || "")
+      .replace(/\{brandName\}/g, c.brandName || "")
+      .replace(/\{address\}/g, c.address || "")
+      .replace(/\{contactEmail\}/g, c.contactEmail || "")
+      .replace(/\{brandCount\}/g, String(bCount))
+      .replace(/\{menuCount\}/g, String(mCount))
+      .replace(/\{instagramHandle\}/g, igHandle)
+      .replace(/\{tiktokHandle\}/g, ttHandle);
+  }
+
+  function interpDeep(val) {
+    if (typeof val === "string") return interp(val);
+    if (Array.isArray(val)) return val.map(interpDeep);
+    if (val && typeof val === "object") {
+      const out = {};
+      for (const k of Object.keys(val)) {
+        out[k] = interpDeep(val[k]);
+      }
+      return out;
+    }
+    return val;
+  }
+
+  let state = {
+    currentLang: cfg().defaultLanguage || "id",
+    metrics: JSON.parse(JSON.stringify((window.DEFAULT_SITE_DATA && window.DEFAULT_SITE_DATA.metrics) || [])),
+    articles: JSON.parse(JSON.stringify((window.DEFAULT_SITE_DATA && window.DEFAULT_SITE_DATA.articles) || [])),
+    jobs: JSON.parse(JSON.stringify((window.DEFAULT_SITE_DATA && window.DEFAULT_SITE_DATA.jobs) || [])),
+    footnotes: JSON.parse(JSON.stringify((window.DEFAULT_SITE_DATA && window.DEFAULT_SITE_DATA.footnotes) || []))
+  };
+
+  if (cfg().languageSwitchVisible) {
     try {
       const savedLang = localStorage.getItem(LANG_KEY);
       if (["id", "en", "ko"].includes(savedLang)) {
-        state.config.currentLang = savedLang;
+        state.currentLang = savedLang;
       }
     } catch (e) {}
   } else {
-    state.config.currentLang = "id";
+    state.currentLang = cfg().defaultLanguage || "id";
   }
 
   let currentRoute = "home";
@@ -46,38 +78,142 @@
   let expandedBrands = {};
   let lastFocusedTrigger = null;
 
-  function saveState() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch (e) {}
-    renderAll();
-  }
-
-  function getOfficialEmail() {
-    return (state.config && state.config.contactEmail) || "";
-  }
-
   function lang() {
-    if (!state.config.enableMultiLang) return "id";
-    return ["id", "en", "ko"].includes(state.config.currentLang) ? state.config.currentLang : "id";
+    if (!cfg().languageSwitchVisible) return cfg().defaultLanguage || "id";
+    return ["id", "en", "ko"].includes(state.currentLang) ? state.currentLang : "id";
   }
 
   function t() {
-    return window.I18N_DICT[lang()] || window.I18N_DICT.id;
+    const raw = (window.I18N_DICT && window.I18N_DICT[lang()]) || (window.I18N_DICT && window.I18N_DICT.id) || {};
+    return interpDeep(raw);
   }
 
   function loc(obj, prefix) {
+    if (!obj) return "";
     const l = lang();
     const suffix = l === "id" ? "Id" : l === "en" ? "En" : "Ko";
-    return obj[prefix + suffix] || obj[prefix + "Id"] || obj[prefix + "Ko"] || "";
+    const val = obj[prefix + suffix] || obj[prefix + "Id"] || obj[prefix + "Ko"] || obj[prefix] || "";
+    return interp(val);
   }
 
   function locBrand(obj, field) {
+    if (!obj) return "";
     const l = lang();
-    return obj[`${field}_${l}`] || obj[`${field}_id`] || obj[`${field}_en`] || obj[`${field}_ko`] || "";
+    const val = obj[`${field}_${l}`] || obj[`${field}_id`] || obj[`${field}_en`] || obj[`${field}_ko`] || "";
+    return interp(val);
   }
 
-  // Clean Lucide SVG stroke icons (matching mokgo-hr-staging.vercel.app)
+  // ==========================================================================
+  // OPTIONAL CSV SHEET LOADER (newsSheetCsvUrl & jobsSheetCsvUrl)
+  // Empty URL => uses fallback content in data/site-data.js
+  // ==========================================================================
+  function parseCsv(csvText) {
+    const rows = [];
+    let current = "";
+    let inQuotes = false;
+    let row = [];
+    for (let i = 0; i < csvText.length; i++) {
+      const ch = csvText[i];
+      const next = csvText[i + 1];
+      if (inQuotes) {
+        if (ch === '"' && next === '"') {
+          current += '"';
+          i++;
+        } else if (ch === '"') {
+          inQuotes = false;
+        } else {
+          current += ch;
+        }
+      } else {
+        if (ch === '"') {
+          inQuotes = true;
+        } else if (ch === ",") {
+          row.push(current.trim());
+          current = "";
+        } else if (ch === "\n" || ch === "\r") {
+          if (ch === "\r" && next === "\n") i++;
+          row.push(current.trim());
+          if (row.some((cell) => cell !== "")) rows.push(row);
+          row = [];
+          current = "";
+        } else {
+          current += ch;
+        }
+      }
+    }
+    row.push(current.trim());
+    if (row.some((cell) => cell !== "")) rows.push(row);
+    if (rows.length < 2) return [];
+    const headers = rows[0];
+    return rows.slice(1).map((r) => {
+      const obj = {};
+      headers.forEach((h, idx) => {
+        if (h) obj[h] = r[idx] !== undefined ? r[idx] : "";
+      });
+      return obj;
+    });
+  }
+
+  async function loadOptionalCsvSheets() {
+    const c = cfg();
+    if (c.newsSheetCsvUrl && c.newsSheetCsvUrl.trim() !== "") {
+      try {
+        const res = await fetch(c.newsSheetCsvUrl.trim());
+        if (res.ok) {
+          const parsed = parseCsv(await res.text());
+          if (parsed.length > 0) {
+            state.articles = parsed.map((item, idx) => ({
+              id: item.id || `art-${idx + 1}`,
+              date: item.date || "",
+              categoryId: item.categoryId || item.category || "",
+              categoryEn: item.categoryEn || item.category || "",
+              categoryKo: item.categoryKo || item.category || "",
+              titleId: item.titleId || item.title || "",
+              titleEn: item.titleEn || item.title || "",
+              titleKo: item.titleKo || item.title || "",
+              summaryId: item.summaryId || item.summary || "",
+              summaryEn: item.summaryEn || item.summary || "",
+              summaryKo: item.summaryKo || item.summary || "",
+              contentId: item.contentId || item.content || "",
+              contentEn: item.contentEn || item.content || "",
+              contentKo: item.contentKo || item.content || ""
+            }));
+            renderAll();
+          }
+        }
+      } catch (e) {}
+    }
+
+    if (c.jobsSheetCsvUrl && c.jobsSheetCsvUrl.trim() !== "") {
+      try {
+        const res = await fetch(c.jobsSheetCsvUrl.trim());
+        if (res.ok) {
+          const parsed = parseCsv(await res.text());
+          if (parsed.length > 0) {
+            state.jobs = parsed.map((item, idx) => ({
+              id: item.id || `job-${idx + 1}`,
+              titleId: item.titleId || item.title || "",
+              titleEn: item.titleEn || item.title || "",
+              titleKo: item.titleKo || item.title || "",
+              deptId: item.deptId || item.dept || "",
+              deptEn: item.deptEn || item.dept || "",
+              deptKo: item.deptKo || item.dept || "",
+              typeId: item.typeId || item.type || "",
+              typeEn: item.typeEn || item.type || "",
+              typeKo: item.typeKo || item.type || "",
+              location: item.location || "Jakarta Selatan",
+              descId: item.descId || item.desc || "",
+              descEn: item.descEn || item.desc || "",
+              descKo: item.descKo || item.desc || ""
+            }));
+            renderAll();
+          }
+        }
+      } catch (e) {}
+    }
+  }
+
+  // Clean Lucide SVG stroke icons
   function svgIcon(name, size = 20) {
     const paths = {
       sun: `<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>`,
@@ -95,7 +231,6 @@
     return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] || paths.store}</svg>`;
   }
 
-  // Theme management (matching mokgo-hr-staging.vercel.app)
   function currentTheme() {
     return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
   }
@@ -111,28 +246,28 @@
     renderChrome();
   };
 
-  // Language management ('id' at launch; 'en' & 'ko' available when enableMultiLang is enabled)
   window.setSiteLang = function (newLang) {
     if (!["id", "en", "ko"].includes(newLang)) return;
-    state.config.enableMultiLang = true;
-    state.config.currentLang = newLang;
+    if (window.SITE_CONFIG) window.SITE_CONFIG.languageSwitchVisible = true;
+    state.currentLang = newLang;
     document.documentElement.lang = newLang;
     try {
       localStorage.setItem(LANG_KEY, newLang);
     } catch (e) {}
-    saveState();
     syncApplyModalText();
     updateSeoMeta();
+    renderAll();
   };
 
-  // SNS Deep-link opener
   window.openSnsChannel = function (event, platform) {
     if (event) event.preventDefault();
+    const c = cfg();
     const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     if (platform === "instagram") {
-      const url = state.config.instagramUrl || "https://www.instagram.com/muggo.indonesia";
-      const username = (state.config.instagramHandle || "@muggo.indonesia").replace("@", "");
-      if (isMobile) {
+      const url = c.instagramUrl || "";
+      const username = getHandleFromUrl(url, false);
+      if (!url) return;
+      if (isMobile && username) {
         const start = Date.now();
         window.location.href = `instagram://user?username=${encodeURIComponent(username)}`;
         setTimeout(() => {
@@ -142,8 +277,8 @@
       }
       window.open(url, "_blank", "noopener,noreferrer");
     } else if (platform === "tiktok") {
-      const url = state.config.tiktokUrl || "https://www.tiktok.com/@muggo1";
-      window.open(url, "_blank", "noopener,noreferrer");
+      const url = c.tiktokUrl || "";
+      if (url) window.open(url, "_blank", "noopener,noreferrer");
     }
   };
 
@@ -225,14 +360,18 @@
   };
 
   function hasValidKoreaHqUrl() {
-    const url = (state.config.koreaHqUrl || "").trim();
+    const url = (cfg().koreaHqUrl || "").trim();
     return Boolean(url && /^https?:\/\//i.test(url));
+  }
+
+  function hasWhatsApp() {
+    const wa = (cfg().whatsappNumber || "").trim();
+    return wa.length > 0;
   }
 
   function updateSeoMeta() {
     const dict = t();
-    const company = state.config.companyName;
-    const brand = state.config.brandName || "MUGGO";
+    const c = cfg();
     const navMap = {
       home: dict.nav.home,
       careers: dict.nav.careers,
@@ -244,18 +383,28 @@
       privacy: dict.footer.privacy,
       terms: dict.footer.terms
     };
-    const pageTitle = `${navMap[currentRoute] || dict.nav.home} · ${company} (${brand})`;
+    const pageTitle = `${navMap[currentRoute] || dict.nav.home} · ${c.legalName} (${c.brandName})`;
     document.title = pageTitle;
+
+    const setMeta = (selector, val) => {
+      const el = document.querySelector(selector);
+      if (el && val) el.setAttribute("content", val);
+    };
+    setMeta('meta[name="description"]', dict.footer.desc);
+    setMeta('meta[property="og:site_name"]', `${c.legalName} (${c.brandName})`);
+    setMeta('meta[property="og:title"]', pageTitle);
+    setMeta('meta[property="og:description"]', dict.hero.subcopyA);
+
     const skip = document.getElementById("skip-link");
     if (skip) skip.textContent = dict.skipToContent;
   }
 
   // ==========================================================================
-  // CORPORATE IDENTITY & ANTI-FRAUD RECRUITMENT VERIFICATION COMPONENT
+  // CORPORATE IDENTITY & RECRUITMENT VERIFICATION COMPONENT
   // ==========================================================================
   function renderIdentityVerificationCard(showContactBtn = true) {
     const dict = t().identityCard;
-    const cfg = state.config;
+    const c = cfg();
     if (!dict) return "";
 
     return `
@@ -272,11 +421,11 @@
         <div class="columns" style="margin-bottom:16px;">
           <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:14px 16px;">
             <small class="hint" style="display:block; font-weight:700;">${dict.legalLabel}</small>
-            <strong style="font-size:17px; color:var(--ui-text);">${cfg.companyName}</strong>
+            <strong style="font-size:17px; color:var(--ui-text);">${c.legalName}</strong>
           </div>
           <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:14px 16px;">
             <small class="hint" style="display:block; font-weight:700;">${dict.brandLabel}</small>
-            <strong style="font-size:17px; color:var(--ui-link);">${cfg.brandName || "MUGGO"}</strong>
+            <strong style="font-size:17px; color:var(--ui-link);">${c.brandName}</strong>
           </div>
           <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:14px 16px;">
             <small class="hint" style="display:block; font-weight:700;">${dict.statusLabel}</small>
@@ -284,7 +433,7 @@
           </div>
           <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:14px 16px;">
             <small class="hint" style="display:block; font-weight:700;">${dict.purposeLabel}</small>
-            <strong style="font-size:14.5px; color:var(--ui-text);">${dict.purposeValue || cfg.officeAddress}</strong>
+            <strong style="font-size:14.5px; color:var(--ui-text);">${c.address}</strong>
           </div>
         </div>
 
@@ -311,21 +460,22 @@
   // ==========================================================================
   function renderChrome() {
     const dict = t();
-    const cfg = state.config;
+    const c = cfg();
     const l = lang();
     const isDark = currentTheme() === "dark";
+    const igHandle = getHandleFromUrl(c.instagramUrl, true);
+    const ttHandle = getHandleFromUrl(c.tiktokUrl, true);
 
     // ① Header
     const header = document.getElementById("site-header");
     if (header) {
-      // Ordered to prioritize Corporate Identity & Careers verification over menu catalog
       const navItems = [
         { id: "home", label: dict.nav.home },
-        { id: "careers", label: dict.nav.careers },
-        { id: "people", label: dict.nav.people },
+        { id: "brands", label: dict.nav.brands },
         { id: "food-rnd", label: dict.nav.foodRnd },
         { id: "platform", label: dict.nav.platform },
-        { id: "brands", label: dict.nav.brands },
+        { id: "people", label: dict.nav.people },
+        { id: "careers", label: dict.nav.careers },
         { id: "contact", label: dict.nav.contact }
       ];
 
@@ -338,24 +488,22 @@
 
       const themeTitle = dict.themeLabel[isDark ? 1 : 0];
 
-      // Launch language is Indonesian (ID) only; KO & EN switcher renders only when enableMultiLang is enabled later
-      const langControlHtml = cfg.enableMultiLang
+      // Controlled by SITE_CONFIG.languageSwitchVisible (false at launch => hidden)
+      const langControlHtml = c.languageSwitchVisible
         ? `<div class="lang-segmented" role="group" aria-label="Bahasa / Language / 언어">
             <button type="button" class="lang-seg-btn ${l === "id" ? "active" : ""}" onclick="setSiteLang('id')" title="Bahasa Indonesia">ID</button>
             <button type="button" class="lang-seg-btn ${l === "en" ? "active" : ""}" onclick="setSiteLang('en')" title="English">EN</button>
             <button type="button" class="lang-seg-btn ${l === "ko" ? "active" : ""}" onclick="setSiteLang('ko')" title="한국어">KO</button>
           </div>`
-        : `<div class="lang-segmented" aria-label="Bahasa Indonesia">
-            <span class="lang-seg-btn active" style="cursor:default;">ID</span>
-          </div>`;
+        : "";
 
       header.innerHTML = `
         <div class="header-inner">
           <a class="brand" href="#home" onclick="navigateTo('home'); return false;">
-            <span class="brand-mark">MUGGO</span>
+            <span class="brand-mark">${c.brandName}</span>
             <span class="brand-text">
               <strong>먹고</strong>
-              <span>MUGGO / JAKARTA</span>
+              <span>${c.brandName} / JAKARTA</span>
             </span>
           </a>
 
@@ -382,33 +530,40 @@
       `;
     }
 
-    // ⑨ Footer (Single central place in the layout footer for Registered Address & Official Email)
+    // ⑨ Footer
     const footer = document.getElementById("site-footer");
     if (footer) {
-      const cleanWa = (cfg.whatsappNumber || "").replace(/[^0-9]/g, "");
-      const officialEmail = getOfficialEmail();
+      const cleanWa = (c.whatsappNumber || "").replace(/[^0-9]/g, "");
+      const waHtml = hasWhatsApp()
+        ? `<div><strong>WhatsApp:</strong> <a href="https://wa.me/${cleanWa}" target="_blank" rel="noopener">${c.whatsappNumber}</a></div>`
+        : "";
+      const emailHtml = c.contactEmail
+        ? `<div><strong>${dict.footer.emailLabel}</strong> <a href="mailto:${c.contactEmail}" style="color:var(--ui-link); font-weight:700;">${c.contactEmail}</a></div>`
+        : "";
+
       const contactHtml = `<div style="margin-top:10px; line-height:1.75;">
-          <div><strong>${dict.footer.registeredLabel || "Alamat Terdaftar:"}</strong> ${cfg.officeAddress}</div>
-          ${cfg.whatsappNumber ? `<div><strong>WhatsApp:</strong> <a href="https://wa.me/${cleanWa}" target="_blank" rel="noopener">${cfg.whatsappNumber}</a></div>` : ""}
-          ${officialEmail ? `<div><strong>${dict.footer.emailLabel || "Email Resmi:"}</strong> <a href="mailto:${officialEmail}" style="color:var(--ui-link); font-weight:700;">${officialEmail}</a></div>` : ""}
+          <div><strong>${dict.footer.registeredLabel}</strong> ${c.address}</div>
+          ${waHtml}
+          ${emailHtml}
         </div>`;
 
+      // Controlled by SITE_CONFIG.showKoreaHqBlock
       const koreaHqLinkHtml =
-        cfg.showKoreaHq && hasValidKoreaHqUrl()
-          ? `<li><a href="${cfg.koreaHqUrl}" target="_blank" rel="noopener noreferrer">${dict.koreaHq.linkText} ↗</a></li>`
+        c.showKoreaHqBlock && hasValidKoreaHqUrl()
+          ? `<li><a href="${c.koreaHqUrl}" target="_blank" rel="noopener noreferrer">${dict.koreaHq.linkText} ↗</a></li>`
           : "";
 
       footer.innerHTML = `
         <div class="footer-grid">
           <div>
             <div class="brand" style="margin-bottom:10px;">
-              <span class="brand-mark">MUGGO</span>
+              <span class="brand-mark">${c.brandName}</span>
               <span class="brand-text">
                 <strong>먹고</strong>
-                <span>MUGGO / JAKARTA</span>
+                <span>${c.brandName} / JAKARTA</span>
               </span>
             </div>
-            <p style="font-weight:700; color:var(--ui-text); margin-bottom:4px;">${cfg.companyName} (Brand: ${cfg.brandName || "MUGGO"})</p>
+            <p style="font-weight:700; color:var(--ui-text); margin-bottom:4px;">${c.legalName} (Brand: ${c.brandName})</p>
             <p style="max-width:460px; line-height:1.65;">${dict.footer.desc}</p>
             ${contactHtml}
           </div>
@@ -417,11 +572,11 @@
             <p class="eyebrow" style="margin-bottom:10px;">NAVIGATION</p>
             <ul class="footer-nav-links">
               <li><button type="button" onclick="navigateTo('home')">${dict.nav.home}</button></li>
-              <li><button type="button" onclick="navigateTo('careers')">${dict.nav.careers}</button></li>
-              <li><button type="button" onclick="navigateTo('people')">${dict.nav.people}</button></li>
+              <li><button type="button" onclick="navigateTo('brands')">${dict.nav.brands}</button></li>
               <li><button type="button" onclick="navigateTo('food-rnd')">${dict.nav.foodRnd}</button></li>
               <li><button type="button" onclick="navigateTo('platform')">${dict.nav.platform}</button></li>
-              <li><button type="button" onclick="navigateTo('brands')">${dict.nav.brands}</button></li>
+              <li><button type="button" onclick="navigateTo('people')">${dict.nav.people}</button></li>
+              <li><button type="button" onclick="navigateTo('careers')">${dict.nav.careers}</button></li>
               <li><button type="button" onclick="navigateTo('contact')">${dict.nav.contact}</button></li>
               ${koreaHqLinkHtml}
             </ul>
@@ -430,18 +585,18 @@
           <div>
             <p class="eyebrow" style="margin-bottom:10px;">SOCIAL & CHANNELS</p>
             <div style="display:flex; flex-wrap:wrap; gap:8px;">
-              <a href="${cfg.instagramUrl}" onclick="openSnsChannel(event, 'instagram')" class="btn btn-secondary" style="padding:8px 14px; min-height:36px; font-size:13px;">
-                Instagram (${cfg.instagramHandle})
+              <a href="${c.instagramUrl}" onclick="openSnsChannel(event, 'instagram')" class="btn btn-secondary" style="padding:8px 14px; min-height:36px; font-size:13px;">
+                Instagram (${igHandle})
               </a>
-              <a href="${cfg.tiktokUrl}" onclick="openSnsChannel(event, 'tiktok')" class="btn btn-secondary" style="padding:8px 14px; min-height:36px; font-size:13px;">
-                TikTok (${cfg.tiktokHandle})
+              <a href="${c.tiktokUrl}" onclick="openSnsChannel(event, 'tiktok')" class="btn btn-secondary" style="padding:8px 14px; min-height:36px; font-size:13px;">
+                TikTok (${ttHandle})
               </a>
             </div>
           </div>
         </div>
 
         <div style="padding-top:18px; border-top:1px solid var(--portal-line); display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px;">
-          <div>© 2026 ${cfg.companyName} (Brand: ${cfg.brandName || "MUGGO"}). All rights reserved.</div>
+          <div>© 2026 ${c.legalName} (Brand: ${c.brandName}). All rights reserved.</div>
           <ul class="footer-nav-links">
             <li><button type="button" onclick="navigateTo('privacy')">${dict.footer.privacy}</button></li>
             <li><button type="button" onclick="navigateTo('terms')">${dict.footer.terms}</button></li>
@@ -451,21 +606,20 @@
       `;
     }
 
-    // Mobile Sticky Bottom Action Bar
+    // Mobile Sticky Bottom Action Bar (Instagram / TikTok / Lamar Karir; WhatsApp hidden when empty)
     const stickyBar = document.getElementById("mobile-sticky-bar");
     if (stickyBar) {
-      const cleanWa = (cfg.whatsappNumber || "").replace(/[^0-9]/g, "");
-      const waBtn =
-        cfg.whatsappNumber && cfg.whatsappNumber.trim() !== ""
-          ? `<a href="https://wa.me/${cleanWa}" target="_blank" rel="noopener" class="sticky-btn">${dict.sticky.whatsapp}</a>`
-          : "";
+      const cleanWa = (c.whatsappNumber || "").replace(/[^0-9]/g, "");
+      const waBtn = hasWhatsApp()
+        ? `<a href="https://wa.me/${cleanWa}" target="_blank" rel="noopener" class="sticky-btn">${dict.sticky.whatsapp}</a>`
+        : "";
 
       stickyBar.innerHTML = `
         <div class="sticky-inner">
-          <a href="${cfg.instagramUrl}" onclick="openSnsChannel(event, 'instagram')" class="sticky-btn">
+          <a href="${c.instagramUrl}" onclick="openSnsChannel(event, 'instagram')" class="sticky-btn">
             ${dict.sticky.instagram}
           </a>
-          <a href="${cfg.tiktokUrl}" onclick="openSnsChannel(event, 'tiktok')" class="sticky-btn">
+          <a href="${c.tiktokUrl}" onclick="openSnsChannel(event, 'tiktok')" class="sticky-btn">
             ${dict.sticky.tiktok}
           </a>
           ${waBtn}
@@ -521,19 +675,19 @@
   }
 
   // --------------------------------------------------------------------------
-  // HOME VIEW (Sections ② ~ ⑧, prioritizing Company Identity & Verification)
+  // HOME VIEW
   // --------------------------------------------------------------------------
   function renderHomeView() {
     const dict = t();
-    const cfg = state.config;
-    const headline = cfg.showKoreaHq ? dict.hero.headlineA : dict.hero.headlineB;
-    const subcopy = cfg.showKoreaHq ? dict.hero.subcopyA : dict.hero.subcopyB;
+    const c = cfg();
+    const headline = c.showKoreaHqBlock ? dict.hero.headlineA : dict.hero.headlineB;
+    const subcopy = c.showKoreaHqBlock ? dict.hero.subcopyA : dict.hero.subcopyB;
 
     let appButtonHtml = "";
-    if (cfg.deliveryAppMode === "coming_soon") {
+    if (c.deliveryAppMode === "coming_soon") {
       appButtonHtml = `<span class="btn btn-secondary" style="cursor:default;">${dict.hero.appComingSoon}</span>`;
-    } else if (cfg.deliveryAppMode === "active" && cfg.deliveryAppUrl) {
-      appButtonHtml = `<a href="${cfg.deliveryAppUrl}" target="_blank" rel="noopener" class="btn btn-secondary">${dict.hero.appDownload} ↗</a>`;
+    } else if (c.deliveryAppMode === "active" && c.deliveryAppUrl) {
+      appButtonHtml = `<a href="${c.deliveryAppUrl}" target="_blank" rel="noopener" class="btn btn-secondary">${dict.hero.appDownload} ↗</a>`;
     }
 
     // ③ Our Pillars (4 cards)
@@ -550,7 +704,7 @@
       )
       .join("");
 
-    // Featured Planned Brands Preview (6 representative brands, marked Pre-Opening)
+    // Featured Planned Brands Preview
     const featuredIds = ["sotdak", "seongsu-dak", "bap-club", "pantry12", "salad-pick", "bing-ha"];
     const featuredBrands = (window.MUGGO_CATALOG || []).filter((b) => featuredIds.includes(b.id));
     const featuredBrandsHtml = featuredBrands
@@ -576,14 +730,14 @@
       )
       .join("");
 
-    // Korea HQ Section (Conditional ON/OFF; link hidden when TODO(owner) koreaHqUrl is empty)
+    // Korea HQ Block (Controlled by SITE_CONFIG.showKoreaHqBlock; link hidden when koreaHqUrl is empty)
     const koreaHqActionHtml = hasValidKoreaHqUrl()
-      ? `<a href="${cfg.koreaHqUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="margin-top:14px;">${dict.koreaHq.linkText} ↗</a>`
+      ? `<a href="${c.koreaHqUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="margin-top:14px;">${dict.koreaHq.linkText} ↗</a>`
       : "";
 
-    const koreaHqHtml = cfg.showKoreaHq
+    const koreaHqHtml = c.showKoreaHqBlock
       ? `
-        <section class="card section-block">
+        <section id="korea-hq-block" class="card section-block">
           <p class="eyebrow">${dict.koreaHq.eyebrow}</p>
           <h2>${dict.koreaHq.title}</h2>
           <p class="intro">${dict.koreaHq.desc}</p>
@@ -608,7 +762,7 @@
       )
       .join("");
 
-    const roadmapHtml = cfg.showRegionalRoadmap
+    const roadmapHtml = c.showRegionalRoadmap
       ? `
         <div style="margin-top:18px;">
           <h3 style="font-size:15px; margin-bottom:10px;">${dict.impact.roadmapTitle}</h3>
@@ -681,14 +835,14 @@
           </div>
         </div>
         <div class="hero-visual">
-          <img src="assets/muggo-brand-hero.jpg" alt="PT BARA SUSTAINABLE INDONESIA - Brand MUGGO" />
+          <img src="assets/muggo-brand-hero.jpg" alt="${c.legalName} - ${c.brandName}" />
         </div>
       </section>
 
       <!-- Official Company Identity & Recruitment Verification Block -->
       ${renderIdentityVerificationCard(true)}
 
-      <!-- ⑥ Our Culture (Prioritized for Job Seekers) -->
+      <!-- ⑥ Our Culture -->
       <section class="card section-block">
         <p class="eyebrow">${dict.culture.eyebrow}</p>
         <h2>${dict.culture.title}</h2>
@@ -702,10 +856,10 @@
         </div>
       </section>
 
-      <!-- ④ Leadership Message (2 Paragraphs; ceoName hidden when TODO(owner) is empty) -->
+      <!-- ④ Leadership Message (ceoName hidden when empty) -->
       <section class="card section-block">
         <p class="eyebrow">${dict.ceo.eyebrow}</p>
-        <h2>${dict.ceo.titlePrefix}${cfg.ceoName ? ` · ${cfg.ceoName}` : ""}</h2>
+        <h2>${dict.ceo.titlePrefix}${c.ceoName ? ` · ${c.ceoName}` : ""}</h2>
         <div class="columns" style="margin-top:16px;">
           <aside class="callout" style="margin:0;">
             <strong style="display:block; font-size:13px; color:var(--ui-link); margin-bottom:6px;">01 · ${dict.ceo.p1Title}</strong>
@@ -717,8 +871,8 @@
           </aside>
         </div>
         <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--portal-line); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
-          <span class="hint">${cfg.companyName} (Brand: ${cfg.brandName || "MUGGO"})</span>
-          <strong>${dict.ceo.signRole}${cfg.ceoName ? ` · ${cfg.ceoName}` : ""}</strong>
+          <span class="hint">${c.legalName} (Brand: ${c.brandName})</span>
+          <strong>${dict.ceo.signRole}${c.ceoName ? ` · ${c.ceoName}` : ""}</strong>
         </div>
       </section>
 
@@ -775,7 +929,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // PLANNED BRANDS VIEW (Pre-Opening Portfolio — Nothing on sale yet)
+  // PLANNED BRANDS VIEW
   // --------------------------------------------------------------------------
   window.setBrandCatFilter = function (cat) {
     selectedBrandCategory = cat;
@@ -935,7 +1089,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // FOOD & R&D VIEW (5 Culinary Genres & 6 Kitchen Stations)
+  // FOOD & R&D VIEW
   // --------------------------------------------------------------------------
   function renderFoodRndView() {
     const dict = t().foodRndPage;
@@ -976,18 +1130,18 @@
   }
 
   // --------------------------------------------------------------------------
-  // PLATFORM VIEW (Online Food Court Mall & Delivery App)
+  // PLATFORM VIEW
   // --------------------------------------------------------------------------
   function renderPlatformView() {
     const dict = t().platformPage;
     const heroDict = t().hero;
-    const cfg = state.config;
+    const c = cfg();
 
     let appAction = "";
-    if (cfg.deliveryAppMode === "coming_soon") {
+    if (c.deliveryAppMode === "coming_soon") {
       appAction = `<span class="btn btn-secondary" style="cursor:default;">${heroDict.appComingSoon}</span>`;
-    } else if (cfg.deliveryAppMode === "active" && cfg.deliveryAppUrl) {
-      appAction = `<a href="${cfg.deliveryAppUrl}" target="_blank" rel="noopener" class="btn btn-primary">${heroDict.appDownload} ↗</a>`;
+    } else if (c.deliveryAppMode === "active" && c.deliveryAppUrl) {
+      appAction = `<a href="${c.deliveryAppUrl}" target="_blank" rel="noopener" class="btn btn-primary">${heroDict.appDownload} ↗</a>`;
     }
 
     return `
@@ -1065,10 +1219,10 @@
   }
 
   // --------------------------------------------------------------------------
-  // CAREERS VIEW (Company Verification + 11 Open Job Categories + Benefits)
+  // CAREERS VIEW
   // --------------------------------------------------------------------------
   window.copyCareerEmail = function (btnEl) {
-    const email = getOfficialEmail();
+    const email = cfg().contactEmail || "";
     const dict = t().careersPage;
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(email).then(() => {
@@ -1085,7 +1239,8 @@
 
   function renderCareersView() {
     const dict = t().careersPage;
-    const officialEmail = getOfficialEmail();
+    const c = cfg();
+    const officialEmail = c.contactEmail || "";
 
     const jobsHtml = state.jobs
       .map(
@@ -1103,7 +1258,7 @@
             <button type="button" class="btn btn-primary" onclick="openApplyModal('${loc(j, "title").replace(/'/g, "")}', this)">
               ${dict.formBtn}
             </button>
-            <a href="mailto:${officialEmail}?subject=${encodeURIComponent("[PT BARA SUSTAINABLE INDONESIA - MUGGO] " + loc(j, "title"))}" class="btn btn-secondary">
+            <a href="mailto:${officialEmail}?subject=${encodeURIComponent("[" + c.legalName + " - " + c.brandName + "] " + loc(j, "title"))}" class="btn btn-secondary">
               ${dict.emailBtn} ↗
             </a>
           </div>
@@ -1127,10 +1282,10 @@
         <h2>${dict.applyBoxTitle}</h2>
         <p class="hint" style="margin-bottom:14px;">${dict.applyBoxDesc}</p>
         <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
-          <button type="button" class="btn btn-primary" onclick="openApplyModal('PT BARA SUSTAINABLE INDONESIA (MUGGO)', this)">
+          <button type="button" class="btn btn-primary" onclick="openApplyModal('${c.legalName} (${c.brandName})', this)">
             ${dict.formBtn}
           </button>
-          <a href="mailto:${officialEmail}?subject=${encodeURIComponent("[PT BARA SUSTAINABLE INDONESIA - MUGGO] Lamaran Kerja")}" class="btn btn-secondary">
+          <a href="mailto:${officialEmail}?subject=${encodeURIComponent("[" + c.legalName + " - " + c.brandName + "] Lamaran Kerja")}" class="btn btn-secondary">
             ${dict.emailBtn} (${officialEmail}) ↗
           </a>
           <button type="button" class="btn btn-secondary" onclick="copyCareerEmail(this)">
@@ -1163,13 +1318,24 @@
   }
 
   // --------------------------------------------------------------------------
-  // CONTACT VIEW (Single Unified Place for Legal Identity, Registered Address & Temporary Mailbox)
+  // CONTACT VIEW
   // --------------------------------------------------------------------------
   function renderContactView() {
     const dict = t().contactPage;
     const careerDict = t().careersPage;
-    const cfg = state.config;
-    const officialEmail = getOfficialEmail();
+    const c = cfg();
+    const officialEmail = c.contactEmail || "";
+    const igHandle = getHandleFromUrl(c.instagramUrl, true);
+    const ttHandle = getHandleFromUrl(c.tiktokUrl, true);
+    const cleanWa = (c.whatsappNumber || "").replace(/[^0-9]/g, "");
+    const waSectionHtml = hasWhatsApp()
+      ? `<div style="padding-top:16px; border-top:1px solid var(--portal-line); margin-bottom:16px;">
+          <small class="hint" style="display:block; font-weight:700;">WhatsApp</small>
+          <div style="margin-top:8px;">
+            <a href="https://wa.me/${cleanWa}" target="_blank" rel="noopener" class="btn btn-secondary">${c.whatsappNumber} ↗</a>
+          </div>
+        </div>`
+      : "";
 
     return `
       <div class="workspace-heading">
@@ -1184,11 +1350,11 @@
         <div class="columns" style="margin-bottom:20px;">
           <div>
             <small class="hint" style="display:block; font-weight:700;">${dict.entityLabel}</small>
-            <strong style="font-size:18px; color:var(--ui-text);">${cfg.companyName}</strong>
+            <strong style="font-size:18px; color:var(--ui-text);">${c.legalName}</strong>
           </div>
           <div>
             <small class="hint" style="display:block; font-weight:700;">${dict.brandLabel}</small>
-            <strong style="font-size:18px; color:var(--ui-link);">${cfg.brandName || "MUGGO"}</strong>
+            <strong style="font-size:18px; color:var(--ui-link);">${c.brandName}</strong>
           </div>
         </div>
 
@@ -1199,7 +1365,7 @@
 
         <div style="padding-top:16px; border-top:1px solid var(--portal-line); margin-bottom:16px;">
           <small class="hint" style="display:block; font-weight:700;">${dict.addressLabel}</small>
-          <p style="font-weight:700; font-size:16px; margin-top:4px;">${cfg.officeAddress}</p>
+          <p style="font-weight:700; font-size:16px; margin-top:4px;">${c.address}</p>
         </div>
 
         <div style="padding-top:16px; border-top:1px solid var(--portal-line); margin-bottom:16px;">
@@ -1211,14 +1377,16 @@
           <p class="hint" style="margin-top:10px;">${dict.emailNote}</p>
         </div>
 
+        ${waSectionHtml}
+
         <div style="padding-top:16px; border-top:1px solid var(--portal-line);">
           <small class="hint" style="display:block; font-weight:700; margin-bottom:8px;">${dict.socialLabel}</small>
           <div style="display:flex; flex-wrap:wrap; gap:8px;">
-            <a href="${cfg.instagramUrl}" onclick="openSnsChannel(event, 'instagram')" class="btn btn-secondary">
-              Instagram (${cfg.instagramHandle}) ↗
+            <a href="${c.instagramUrl}" onclick="openSnsChannel(event, 'instagram')" class="btn btn-secondary">
+              Instagram (${igHandle}) ↗
             </a>
-            <a href="${cfg.tiktokUrl}" onclick="openSnsChannel(event, 'tiktok')" class="btn btn-secondary">
-              TikTok (${cfg.tiktokHandle}) ↗
+            <a href="${c.tiktokUrl}" onclick="openSnsChannel(event, 'tiktok')" class="btn btn-secondary">
+              TikTok (${ttHandle}) ↗
             </a>
           </div>
         </div>
@@ -1256,11 +1424,11 @@
   }
 
   // --------------------------------------------------------------------------
-  // PRIVACY & TERMS VIEW (Trilingual, referencing Legal Entity & Single Mailbox)
+  // PRIVACY & TERMS VIEW
   // --------------------------------------------------------------------------
   function renderPolicyView(type) {
-    const cfg = state.config;
-    const officialEmail = getOfficialEmail();
+    const c = cfg();
+    const officialEmail = c.contactEmail || "";
     const l = lang();
     const isPrivacy = type === "privacy";
 
@@ -1268,24 +1436,24 @@
       id: {
         title: isPrivacy ? "Kebijakan Privasi (Privacy Policy)" : "Syarat & Ketentuan (Terms of Use)",
         body: isPrivacy
-          ? `<p style="margin-bottom:14px;"><strong>${cfg.companyName}</strong> (pemilik merek usaha <strong>${cfg.brandName || "MUGGO"}</strong>) menghormati privasi pelamar kerja dan pengunjung situs sesuai dengan Undang-Undang Pelindungan Data Pribadi (UU PDP) Indonesia.</p>
+          ? `<p style="margin-bottom:14px;"><strong>${c.legalName}</strong> (pemilik merek usaha <strong>${c.brandName}</strong>) menghormati privasi pelamar kerja dan pengunjung situs sesuai dengan Undang-Undang Pelindungan Data Pribadi (UU PDP) Indonesia.</p>
              <p style="margin-bottom:14px;">Data lamaran yang dikirimkan ke saluran email resmi kami (${officialEmail}) hanya digunakan untuk keperluan verifikasi dan seleksi SDM internal serta tidak pernah diperjualbelikan kepada pihak ketiga.</p>`
-          : `<p style="margin-bottom:14px;">Situs web ini dikelola secara resmi oleh <strong>${cfg.companyName}</strong> (Alamat terdaftar: ${cfg.officeAddress}) untuk menyajikan informasi identitas perusahaan, rencana brand <strong>${cfg.brandName || "MUGGO"}</strong>, serta verifikasi rekrutmen resmi.</p>
+          : `<p style="margin-bottom:14px;">Situs web ini dikelola secara resmi oleh <strong>${c.legalName}</strong> (Alamat terdaftar: ${c.address}) untuk menyajikan informasi identitas perusahaan, rencana brand <strong>${c.brandName}</strong>, serta verifikasi rekrutmen resmi.</p>
              <p>Saat ini perusahaan berada pada tahap pra-pembukaan (pre-opening) dan belum melakukan penjualan produk secara komersial.</p>`
       },
       en: {
         title: isPrivacy ? "Privacy Policy" : "Terms of Use",
         body: isPrivacy
-          ? `<p style="margin-bottom:14px;"><strong>${cfg.companyName}</strong> (operating the <strong>${cfg.brandName || "MUGGO"}</strong> brand) respects the privacy of job applicants and visitors in compliance with Indonesian Personal Data Protection laws (UU PDP).</p>
+          ? `<p style="margin-bottom:14px;"><strong>${c.legalName}</strong> (operating the <strong>${c.brandName}</strong> brand) respects the privacy of job applicants and visitors in compliance with Indonesian Personal Data Protection laws (UU PDP).</p>
              <p style="margin-bottom:14px;">Information submitted to our official recruitment email (${officialEmail}) is used strictly for hiring evaluation and HR administration.</p>`
-          : `<p style="margin-bottom:14px;">This website is officially operated by <strong>${cfg.companyName}</strong> (Registered address: ${cfg.officeAddress}) to provide corporate verification, planned <strong>${cfg.brandName || "MUGGO"}</strong> brand information, and official career opportunities.</p>
+          : `<p style="margin-bottom:14px;">This website is officially operated by <strong>${c.legalName}</strong> (Registered address: ${c.address}) to provide corporate verification, planned <strong>${c.brandName}</strong> brand information, and official career opportunities.</p>
              <p>The business is currently in the pre-opening stage and nothing is on sale yet.</p>`
       },
       ko: {
         title: isPrivacy ? "개인정보처리방침" : "이용약관",
         body: isPrivacy
-          ? `<p style="margin-bottom:14px;"><strong>${cfg.companyName}</strong>(브랜드: <strong>${cfg.brandName || "MUGGO"}</strong>)는 인도네시아 개인정보보호법(UU PDP)을 준수하며, 공식 채용 이메일(${officialEmail})을 통해 접수된 지원자 정보를 채용 전형 목적으로만 안전하게 처리합니다.</p>`
-          : `<p style="margin-bottom:14px;">본 사이트는 <strong>${cfg.companyName}</strong>(등록 주소: ${cfg.officeAddress})의 법인 신원 확인, <strong>${cfg.brandName || "MUGGO"}</strong> 브랜드 기획 소개 및 공식 채용 안내를 목적으로 운영됩니다.</p>
+          ? `<p style="margin-bottom:14px;"><strong>${c.legalName}</strong>(브랜드: <strong>${c.brandName}</strong>)는 인도네시아 개인정보보호법(UU PDP)을 준수하며, 공식 채용 이메일(${officialEmail})을 통해 접수된 지원자 정보를 채용 전형 목적으로만 안전하게 처리합니다.</p>`
+          : `<p style="margin-bottom:14px;">본 사이트는 <strong>${c.legalName}</strong>(등록 주소: ${c.address})의 법인 신원 확인, <strong>${c.brandName}</strong> 브랜드 기획 소개 및 공식 채용 안내를 목적으로 운영됩니다.</p>
              <p>현재 당사는 오픈 준비(Pre-Opening) 단계로 아직 상품을 판매하지 않습니다.</p>`
       }
     }[l];
@@ -1293,7 +1461,7 @@
     return `
       <div class="workspace-heading">
         <div>
-          <p class="eyebrow">${cfg.companyName} · ${cfg.brandName || "MUGGO"}</p>
+          <p class="eyebrow">${c.legalName} · ${c.brandName}</p>
           <h1>${copy.title}</h1>
         </div>
       </div>
@@ -1302,12 +1470,12 @@
   }
 
   // ==========================================================================
-  // ACCESSIBLE MODALS (Esc Key Close, Tab Focus Trap, Trigger Focus Restore)
+  // ACCESSIBLE MODALS
   // ==========================================================================
   function syncApplyModalText() {
     const mDict = t().applyModal;
     if (!mDict) return;
-    const officialEmail = getOfficialEmail();
+    const officialEmail = cfg().contactEmail || "";
     const setTxt = (id, txt) => {
       const el = document.getElementById(id);
       if (el) el.textContent = txt;
@@ -1368,13 +1536,14 @@
   };
 
   function buildApplicationDraftData() {
-    const role = (document.getElementById("apply-role-input")?.value || "").trim() || "PT BARA SUSTAINABLE INDONESIA (MUGGO)";
+    const c = cfg();
+    const role = (document.getElementById("apply-role-input")?.value || "").trim() || `${c.legalName} (${c.brandName})`;
     const name = (document.getElementById("apply-name-input")?.value || "").trim();
     const contact = (document.getElementById("apply-contact-input")?.value || "").trim();
     const msg = (document.getElementById("apply-msg-input")?.value || "").trim();
-    const email = getOfficialEmail();
-    const subject = `[Lamaran Kerja - PT BARA SUSTAINABLE INDONESIA / MUGGO] ${role}${name ? " - " + name : ""}`;
-    const body = `Kepada Tim HR PT BARA SUSTAINABLE INDONESIA (Brand: MUGGO),\n\nPosisi yang Dilamar: ${role}\nNama Lengkap: ${name}\nKontak (WhatsApp/Email): ${contact}\n\nRingkasan Pengalaman & Motivasi:\n${msg}\n\n[Mohon lampirkan file CV / Resume Anda sebelum mengirim email ini]`;
+    const email = c.contactEmail || "";
+    const subject = `[Lamaran Kerja - ${c.legalName} / ${c.brandName}] ${role}${name ? " - " + name : ""}`;
+    const body = `Kepada Tim HR ${c.legalName} (Brand: ${c.brandName}),\n\nPosisi yang Dilamar: ${role}\nNama Lengkap: ${name}\nKontak: ${contact}\n\nRingkasan Pengalaman & Motivasi:\n${msg}\n\n[Mohon lampirkan file CV / Resume Anda sebelum mengirim email ini]`;
     return { email, subject, body };
   }
 
@@ -1400,7 +1569,6 @@
     closeApplyModal();
   };
 
-  // Global Keyboard Handler: Escape to close modals/drawer & Tab focus trap inside open modal
   document.addEventListener("keydown", (e) => {
     const openModal = document.querySelector(".modal-overlay.open");
     if (e.key === "Escape") {
@@ -1449,6 +1617,8 @@
     renderMain();
   }
 
+  window.renderAll = renderAll;
+
   document.addEventListener("DOMContentLoaded", () => {
     document.documentElement.lang = lang();
     const initial = parseHashToRoute(window.location.hash);
@@ -1457,5 +1627,6 @@
     syncApplyModalText();
     updateSeoMeta();
     renderAll();
+    loadOptionalCsvSheets();
   });
 })();
