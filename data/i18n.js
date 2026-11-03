@@ -57,7 +57,7 @@ window.I18N_DICT = {
           route: "food-rnd",
           icon: "utensils",
           title: "Food & R&D",
-          desc: "Resep terstandarisasi Tanpa Babi & Tanpa Minyak Babi (No Pork, No Lard) lintas 5 genre masakan",
+          desc: "Resep terstandarisasi Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) lintas 5 genre masakan",
           action: "Lihat R&D & 6 Stasiun →"
         },
         {
@@ -120,6 +120,7 @@ window.I18N_DICT = {
     articles: {
       eyebrow: "PENGUMUMAN RESMI",
       title: "Informasi & Pengumuman Pra-Pembukaan",
+      upcomingLabel: "Akan Datang",
       readMore: "Baca Selengkapnya →",
       backBtn: "← Kembali ke Daftar"
     },
@@ -129,7 +130,7 @@ window.I18N_DICT = {
     brandsPage: {
       eyebrow: "{brandName} BRAND PORTFOLIO · PRA-PEMBUKAAN (BELUM DIJUAL)",
       title: "Portofolio {brandCount} Brand & {menuCount} Menu {brandName}",
-      intro: "Rencana {brandCount} brand kuliner ({menuCount} menu) oleh {legalName} untuk merek {brandName} (tahap pra-pembukaan, belum ada penjualan). Seluruh menu Tanpa Babi & Tanpa Minyak Babi (No Pork, No Lard).",
+      intro: "Rencana {brandCount} brand kuliner ({menuCount} menu) oleh {legalName} untuk merek {brandName} (tahap pra-pembukaan, belum ada penjualan). Kebijakan bahan baku: Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
       allTab: "Semua ({brandCount} Brand)",
       catNames: {
         Chicken: "Ayam (Chicken · 3)",
@@ -150,7 +151,7 @@ window.I18N_DICT = {
       eyebrow: "FOOD & R&D · 5 GENRES & 6 STATIONS",
       title: "Pengembangan Menu 5 Genre & Sistem 6 Stasiun Dapur",
       intro: "Standarisasi resep lintas 5 genre masakan dan sistem 6 stasiun dapur terpusat yang disiapkan oleh {legalName} untuk {brandName}.",
-      ingredientCallout: "Kebijakan Bahan Baku Tanpa Babi & Tanpa Minyak Babi (No Pork, No Lard): Seluruh menu dikembangkan tanpa daging babi dan tanpa minyak babi menggunakan daging ayam, sapi, makanan laut, dan bahan baku pilihan.",
+      ingredientCallout: "Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) — Seluruh menu dikembangkan tanpa daging babi dan tanpa minyak babi menggunakan daging ayam, sapi, makanan laut, dan bahan baku pilihan.",
       genresTitle: "5 Genre Masakan Utama",
       genres: [
         {
@@ -219,7 +220,7 @@ window.I18N_DICT = {
     careersPage: {
       eyebrow: "OFFICIAL CAREERS · {legalName}",
       title: "Rekrutmen Resmi {legalName} — Brand {brandName} (11 Bidang)",
-      intro: "Bergabunglah bersama tim {legalName} di Jakarta Selatan untuk persiapan peluncuran {brandName} ({brandCount} brand kuliner). Rekrutmen resmi dan bebas biaya.",
+      intro: "Bergabunglah bersama tim pendiri {legalName} di Jakarta Selatan untuk persiapan peluncuran {brandName} ({brandCount} brand kuliner). Rekrutmen resmi dan bebas biaya.",
       applyBoxTitle: "Cara Melamar Kerja (Via Email Resmi)",
       applyBoxDesc: "Selama masa pra-pembukaan, seluruh lamaran dikirimkan ke email resmi sementara perusahaan:",
       emailBtn: "Kirim Email",
@@ -250,19 +251,20 @@ window.I18N_DICT = {
     contactPage: {
       eyebrow: "OFFICIAL CORPORATE IDENTITY & CONTACT",
       title: "Identitas Perusahaan, Alamat Terdaftar & Kontak Resmi",
-      intro: "Informasi resmi {legalName} (Brand: {brandName}) untuk verifikasi perusahaan dan pelamar kerja.",
+      intro: "Saluran komunikasi resmi {legalName} (Brand: {brandName}) untuk verifikasi perusahaan, kemitraan, dan pelamar kerja.",
       entityLabel: "Badan Hukum Resmi (Legal Entity)",
       brandLabel: "Merek Usaha (Brand)",
       statusLabel: "Status Bisnis",
       statusText: "Tahap Pra-Pembukaan (Pre-Opening · Belum ada produk yang dijual saat ini)",
-      addressLabel: "Alamat Terdaftar (Registered Address)",
+      addressLabel: "Alamat Terdaftar",
+      phonePendingNotice: "Nomor telepon pelanggan / WhatsApp resmi akan diumumkan saat pembukaan gerai pertama.",
       openMapsBtn: "Buka di Google Maps ↗",
       emailLabel: "Email Kontak Resmi Sementara",
       emailNote: "Catatan: Alamat email ini digunakan sementara selama tahap pra-pembukaan. Mailbox domain perusahaan menyusul.",
       socialLabel: "Media Sosial Resmi {brandName}"
     },
     footer: {
-      desc: "Situs resmi {legalName} (Brand: {brandName} · Tahap Pra-Pembukaan).",
+      desc: "Situs perkenalan korporat resmi {legalName} (Brand: {brandName} · Tahap Pra-Pembukaan).",
       registeredLabel: "Alamat Terdaftar:",
       emailLabel: "Email Kontak:",
       privacy: "Kebijakan Privasi",
@@ -331,7 +333,7 @@ window.I18N_DICT = {
           route: "food-rnd",
           icon: "utensils",
           title: "Food & R&D",
-          desc: "Standardized No Pork, No Lard recipe R&D spanning 5 culinary genres",
+          desc: "Standardized Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) recipe R&D spanning 5 culinary genres",
           action: "View R&D & 6 Stations →"
         },
         {
@@ -394,6 +396,7 @@ window.I18N_DICT = {
     articles: {
       eyebrow: "OFFICIAL ANNOUNCEMENTS",
       title: "Pre-Opening Announcements",
+      upcomingLabel: "Akan Datang",
       readMore: "Read More →",
       backBtn: "← Back to List"
     },
@@ -403,7 +406,7 @@ window.I18N_DICT = {
     brandsPage: {
       eyebrow: "{brandName} BRAND PORTFOLIO · PRE-OPENING (NOT ON SALE YET)",
       title: "{brandCount} Brands & {menuCount} Menus Portfolio",
-      intro: "Planned {brandCount} culinary brands ({menuCount} menus) by {legalName} for {brandName} (pre-opening stage, nothing on sale yet). All menus follow No Pork & No Lard.",
+      intro: "Planned {brandCount} culinary brands ({menuCount} menus) by {legalName} for {brandName} (pre-opening stage, nothing on sale yet). Dietary policy: Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
       allTab: "All ({brandCount} Brands)",
       catNames: {
         Chicken: "Chicken (3)",
@@ -424,7 +427,7 @@ window.I18N_DICT = {
       eyebrow: "FOOD & R&D · 5 GENRES & 6 STATIONS",
       title: "Menu R&D Across 5 Culinary Genres & 6 Kitchen Stations",
       intro: "Standardized recipes across 5 culinary genres and a 6-station central kitchen workflow prepared by {legalName} for {brandName}.",
-      ingredientCallout: "Ingredient Policy — No Pork, No Lard: All recipes are formulated without pork or lard using chicken, beef, seafood, and selected ingredients.",
+      ingredientCallout: "Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) — All recipes are formulated without pork or lard using chicken, beef, seafood, and selected ingredients.",
       genresTitle: "5 Core Culinary Genres",
       genres: [
         {
@@ -524,12 +527,13 @@ window.I18N_DICT = {
     contactPage: {
       eyebrow: "OFFICIAL CORPORATE IDENTITY & CONTACT",
       title: "Company Identity, Registered Address & Contact",
-      intro: "Official information for {legalName} (Brand: {brandName}).",
+      intro: "Official communication channel of {legalName} (Brand: {brandName}) for company verification and job applicants.",
       entityLabel: "Legal Entity",
       brandLabel: "Brand",
       statusLabel: "Business Status",
       statusText: "Pre-Opening Stage (Nothing is on sale yet)",
-      addressLabel: "Registered Address",
+      addressLabel: "Alamat Terdaftar",
+      phonePendingNotice: "Nomor telepon pelanggan / WhatsApp resmi akan diumumkan saat pembukaan gerai pertama.",
       openMapsBtn: "Open in Google Maps ↗",
       emailLabel: "Temporary Contact Email",
       emailNote: "Note: A company-domain mailbox will come later.",
@@ -605,7 +609,7 @@ window.I18N_DICT = {
           route: "food-rnd",
           icon: "utensils",
           title: "푸드·R&D",
-          desc: "No Pork, No Lard(돼지고기·돈지 무첨가) 기준 5대 요리 장르 레시피 개발",
+          desc: "Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) 기준 5대 요리 장르 레시피 개발",
           action: "메뉴 R&D & 6대 스테이션 →"
         },
         {
@@ -668,6 +672,7 @@ window.I18N_DICT = {
     articles: {
       eyebrow: "공식 안내",
       title: "오픈 준비 소식 및 공지",
+      upcomingLabel: "Akan Datang",
       readMore: "자세히 보기 →",
       backBtn: "← 목록으로 돌아가기"
     },
@@ -677,7 +682,7 @@ window.I18N_DICT = {
     brandsPage: {
       eyebrow: "{brandName} BRAND PORTFOLIO · 오픈 준비 중 (판매 전)",
       title: "{brandName} {brandCount}개 브랜드 및 {menuCount}개 메뉴 포트폴리오",
-      intro: "{legalName}가 준비 중인 브랜드 {brandName}의 {brandCount}개 브랜드({menuCount}개 메뉴) 구성입니다(현재 판매 전). 모든 메뉴는 돼지고기와 돈지를 배제한 No Pork, No Lard 기준입니다.",
+      intro: "{legalName}가 준비 중인 브랜드 {brandName}의 {brandCount}개 브랜드({menuCount}개 메뉴) 구성입니다(현재 판매 전). 모든 메뉴는 Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) 기준입니다.",
       allTab: "전체 ({brandCount}개 브랜드)",
       catNames: {
         Chicken: "치킨 (3)",
@@ -698,7 +703,7 @@ window.I18N_DICT = {
       eyebrow: "FOOD & R&D · 5 GENRES & 6 STATIONS",
       title: "5대 요리 장르 메뉴 R&D 및 6대 조리 스테이션",
       intro: "{legalName}가 준비 중인 5대 요리 장르 표준 레시피와 6대 조리 스테이션 분업 시스템입니다.",
-      ingredientCallout: "원료 기준 — No Pork, No Lard (돼지고기·돈지 무첨가): 모든 메뉴에서 돼지고기와 돈지(라드)를 배제하고 닭고기·소고기·해산물 중심의 식자재로 레시피를 설계했습니다.",
+      ingredientCallout: "Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) — 모든 메뉴에서 돼지고기와 돈지(라드)를 배제하고 닭고기·소고기·해산물 중심의 식자재로 레시피를 설계했습니다.",
       genresTitle: "5대 요리 장르 R&D",
       genres: [
         {
@@ -798,12 +803,13 @@ window.I18N_DICT = {
     contactPage: {
       eyebrow: "OFFICIAL CORPORATE IDENTITY & CONTACT",
       title: "공식 법인 정보, 등록 주소 및 연락처",
-      intro: "{legalName} (Brand: {brandName}) 공식 기업 정보입니다.",
+      intro: "{legalName} (Brand: {brandName}) 공식 소통 및 기업 정보 채널입니다.",
       entityLabel: "공식 법인명 (Legal Entity)",
       brandLabel: "브랜드 (Brand)",
       statusLabel: "사업 상태",
       statusText: "오픈 준비 단계 (Pre-Opening · 현재 판매 전)",
-      addressLabel: "등록 주소 (Registered Address)",
+      addressLabel: "Alamat Terdaftar",
+      phonePendingNotice: "Nomor telepon pelanggan / WhatsApp resmi akan diumumkan saat pembukaan gerai pertama.",
       openMapsBtn: "구글 지도에서 열기 ↗",
       emailLabel: "임시 연락 이메일",
       emailNote: "안내: 회사 도메인 메일은 추후 개설 예정입니다.",

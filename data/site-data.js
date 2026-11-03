@@ -111,9 +111,9 @@ window.DEFAULT_SITE_DATA = {
       summaryId: "Rekrutmen tim pendiri di Jakarta Selatan untuk persiapan peluncuran mall food court online {brandName}.",
       summaryEn: "Join {legalName}'s Jakarta team to prepare the {brandCount}-brand {brandName} online food court.",
       summaryKo: "자카르타 센트럴 키친 및 온라인 푸드코트 몰 {brandName} 오픈을 준비할 11개 직군 채용 안내",
-      contentId: "{legalName} (merek usaha: {brandName}) membuka rekrutmen untuk 11 bidang posisi menjelang peluncuran gerai pertama dan platform food court online kami di Jakarta Selatan.\n\nBidang yang dibuka meliputi Operasional Dapur (Head of Kitchen & Line Cook), Food R&D, Operasional Gerai, QA & Hygiene Coordinator, SCM & Pengadaan, Pemasaran Digital (Instagram & TikTok), Desain Brand, Operasional Platform, HR & GA, serta Keuangan & Akuntansi.\n\n{legalName} tidak pernah memungut biaya apa pun dalam seluruh tahapan seleksi dan rekrutmen.",
-      contentEn: "{legalName} (operating brand: {brandName}) is recruiting across 11 key job categories ahead of our flagship hub and online food court launch in South Jakarta.\n\nOpen roles span Kitchen Operations, Food R&D, Store Operations, QA & Hygiene Coordination, SCM & Procurement, Digital Marketing, Brand Design, Platform Operations, HR & GA, and Finance & Accounting.\n\n{legalName} never charges candidates any fees during the recruitment process.",
-      contentKo: "{legalName}(브랜드: {brandName})가 자카르타 1호 거점 및 온라인 푸드코트 몰 오픈을 앞두고 11개 핵심 직군에서 채용을 진행합니다.\n\n모집 분야는 주방 총괄(Head of Kitchen), 멀티 브랜드 조리사(Line Cook), 메뉴 R&D, 매장 운영 매니저, 품질·위생(QA & Hygiene), 구매·물류(SCM), 디지털 마케팅, 브랜드 디자인, 플랫폼 운영, 인사·총무(HR/GA), 재무·회계입니다."
+      contentId: "{legalName} (merek usaha: {brandName}) membuka rekrutmen untuk 11 bidang posisi menjelang peluncuran gerai pertama dan platform food court online kami di Jakarta Selatan.\n\nBidang yang dibuka meliputi Operasional Dapur (Head of Kitchen & Line Cook), Food R&D, Operasional Gerai, QA / Hygiene Coordinator, SCM & Pengadaan, Pemasaran Digital (Instagram & TikTok), Desain Brand, Operasional Platform, HR & GA, serta Keuangan & Akuntansi.\n\n{legalName} tidak pernah memungut biaya apa pun dalam seluruh tahapan seleksi dan rekrutmen.",
+      contentEn: "{legalName} (operating brand: {brandName}) is recruiting across 11 key job categories ahead of our flagship hub and online food court launch in South Jakarta.\n\nOpen roles span Kitchen Operations, Food R&D, Store Operations, QA / Hygiene Coordinator, SCM & Procurement, Digital Marketing, Brand Design, Platform Operations, HR & GA, and Finance & Accounting.\n\n{legalName} never charges candidates any fees during the recruitment process.",
+      contentKo: "{legalName}(브랜드: {brandName})가 자카르타 1호 거점 및 온라인 푸드코트 몰 오픈을 앞두고 11개 핵심 직군에서 채용을 진행합니다.\n\n모집 분야는 주방 총괄(Head of Kitchen), 멀티 브랜드 조리사(Line Cook), 메뉴 R&D, 매장 운영 매니저, 품질·위생(QA / Hygiene Coordinator), 구매·물류(SCM), 디지털 마케팅, 브랜드 디자인, 플랫폼 운영, 인사·총무(HR/GA), 재무·회계입니다."
     },
     {
       id: "art-2",
@@ -199,9 +199,9 @@ window.DEFAULT_SITE_DATA = {
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
       location: "Jakarta Selatan",
-      descId: "Mengembangkan dan menguji resep di 5 genre masakan (Korea, Tiongkok, Jepang, Indonesia, Barat) serta lokalisasi bahan baku.",
-      descEn: "Develop and test recipes across 5 culinary genres (Korean, Chinese, Japanese, Indonesian, Western) and localize ingredients.",
-      descKo: "한식·중식·일식·인도네시아·양식 5대 장르 메뉴 고도화 및 현지 식자재 테스트"
+      descId: "Mengembangkan dan menguji resep di 5 genre masakan (Korea, Tiongkok, Jepang, Indonesia, Barat) serta lokalisasi bahan baku dengan prinsip Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
+      descEn: "Develop and test recipes across 5 culinary genres (Korean, Chinese, Japanese, Indonesian, Western) and localize ingredients under the Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) standard.",
+      descKo: "한식·중식·일식·인도네시아·양식 5대 장르 메뉴 고도화 및 Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) 기준 식자재 현지화 테스트"
     },
     {
       id: "job-4",
@@ -221,19 +221,19 @@ window.DEFAULT_SITE_DATA = {
     },
     {
       id: "job-5",
-      titleId: "5. QA & Hygiene Coordinator (Koordinator Kualitas & Higienitas)",
-      titleEn: "5. QA & Hygiene Coordinator",
-      titleKo: "5. 품질·위생 관리 담당자 (QA & Hygiene Coordinator)",
+      titleId: "5. QA / Hygiene Coordinator",
+      titleEn: "5. QA / Hygiene Coordinator",
+      titleKo: "5. 품질·위생 관리 담당자 (QA / Hygiene Coordinator)",
       deptId: "Kualitas & Higienitas",
-      deptEn: "Quality Assurance",
+      deptEn: "Quality & Hygiene",
       deptKo: "품질·위생",
       typeId: "Full-time · Berpengalaman",
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
       location: "Jakarta Selatan",
-      descId: "Memastikan standar keamanan pangan, audit kebersihan harian dapur, serta pemeriksaan mutu bahan baku (No Pork / No Lard).",
-      descEn: "Oversee food safety standards, daily kitchen hygiene audits, and ingredient quality inspection (No Pork / No Lard).",
-      descKo: "식자재 및 주방 위생 점검, 식품 안전 기준 관리 및 원료 품질 검수(No Pork / No Lard) 전담"
+      descId: "Memastikan standar keamanan pangan, audit kebersihan harian dapur, serta pemeriksaan mutu bahan baku sesuai prinsip Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
+      descEn: "Oversee food safety standards, daily kitchen hygiene audits, and ingredient quality inspection under the Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) principle.",
+      descKo: "식자재 및 주방 위생 점검, 식품 안전 기준 관리 및 Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) 원료 품질 검수 전담"
     },
     {
       id: "job-6",

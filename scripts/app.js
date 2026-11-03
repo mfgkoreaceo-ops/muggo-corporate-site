@@ -103,6 +103,24 @@
     return interp(val);
   }
 
+  // Format any date string to Indonesian local style: "25 Okt 2026"
+  function formatLocalDate(dateStr) {
+    if (!dateStr) return "";
+    const raw = String(dateStr).trim();
+    if (!raw) return "";
+    const monthsId = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+    const m = raw.match(/^(\d{4})[.\-/](\d{1,2})[.\-/](\d{1,2})$/);
+    if (m) {
+      const year = m[1];
+      const monthIdx = parseInt(m[2], 10) - 1;
+      const day = parseInt(m[3], 10);
+      if (monthIdx >= 0 && monthIdx < 12 && day >= 1 && day <= 31) {
+        return `${day} ${monthsId[monthIdx]} ${year}`;
+      }
+    }
+    return raw;
+  }
+
   // ==========================================================================
   // OPTIONAL CSV SHEET LOADER (newsSheetCsvUrl & jobsSheetCsvUrl)
   // Empty URL => uses fallback content in data/site-data.js
@@ -536,6 +554,8 @@
       const cleanWa = (c.whatsappNumber || "").replace(/[^0-9]/g, "");
       const waHtml = hasWhatsApp()
         ? `<div><strong>WhatsApp:</strong> <a href="https://wa.me/${cleanWa}" target="_blank" rel="noopener">${c.whatsappNumber}</a></div>`
+        : dict.contactPage && dict.contactPage.phonePendingNotice
+        ? `<div class="hint" style="font-size:13px;">${dict.contactPage.phonePendingNotice}</div>`
         : "";
       const emailHtml = c.contactEmail
         ? `<div><strong>${dict.footer.emailLabel}</strong> <a href="mailto:${c.contactEmail}" style="color:var(--ui-link); font-weight:700;">${c.contactEmail}</a></div>`
@@ -795,9 +815,9 @@
                 <picture class="slot-frame ratio-16-9" style="margin-bottom:14px;">
                   <img src="${art.image || `assets/slots/news-${(idx % 3) + 1}.jpg`}" width="800" height="450" loading="lazy" alt="${art.altId || loc(art, "title")}" />
                 </picture>
-                <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
                   <span class="roster-badge">${loc(art, "category")}</span>
-                  ${art.date ? `<small class="hint">${art.date}</small>` : ""}
+                  <span class="roster-badge">${art.date ? formatLocalDate(art.date) : (dict.articles.upcomingLabel || "Akan Datang")}</span>
                 </div>
                 <h3>${loc(art, "title")}</h3>
                 <p>${loc(art, "summary")}</p>
@@ -1394,7 +1414,8 @@
 
         <div style="padding-top:16px; border-top:1px solid var(--portal-line); margin-bottom:16px;">
           <small class="hint" style="display:block; font-weight:700;">${dict.addressLabel}</small>
-          <p style="font-weight:700; font-size:16px; margin-top:4px; margin-bottom:12px;">${c.address}</p>
+          <p style="font-weight:700; font-size:16px; margin-top:4px; margin-bottom:8px;">${c.address}</p>
+          ${!hasWhatsApp() && dict.phonePendingNotice ? `<p class="hint" style="margin-bottom:12px;">${dict.phonePendingNotice}</p>` : ""}
           <div style="margin-bottom:14px;">
             <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.address)}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
               ${dict.openMapsBtn || "Buka di Google Maps ↗"}
@@ -1451,9 +1472,9 @@
         <picture class="slot-frame ratio-16-9" style="margin-bottom:16px;">
           <img src="${art.image || "assets/slots/news-1.jpg"}" width="800" height="450" loading="lazy" alt="${art.altId || loc(art, "title")}" />
         </picture>
-        <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px;">
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:10px;">
           <span class="roster-badge">${loc(art, "category")}</span>
-          ${art.date ? `<small class="hint">${art.date}</small>` : ""}
+          <span class="roster-badge">${art.date ? formatLocalDate(art.date) : (dict.upcomingLabel || "Akan Datang")}</span>
         </div>
         <h1>${loc(art, "title")}</h1>
         <div style="margin-top:20px; padding-top:20px; border-top:1px solid var(--portal-line);">
