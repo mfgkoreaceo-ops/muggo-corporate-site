@@ -1,13 +1,12 @@
 // ==========================================================================
-// MUGGO · JAKARTA CORPORATE SITE - MAIN APPLICATION
+// PT BARA SUSTAINABLE INDONESIA (Brand: MUGGO) - CORPORATE & VERIFICATION SITE
 // UI/UX unified with https://mokgo-hr-staging.vercel.app/
-// 30 Brands & 300 Menus synced with https://kind-euclid.vercel.app/
-// Complete Trilingual Switching: ID (Bahasa Indonesia) | EN (English) | KO (한국어)
-// URL Hash Routing, Keyboard Accessibility (Esc & Focus Trap), Halal-Friendly Catalog
+// Default Launch Language: Indonesian (ID). KO & EN ready for post-launch activation.
+// Single Source of Truth for Address & Temporary Mailbox in data/site-data.js
 // ==========================================================================
 
 (function () {
-  const STORAGE_KEY = "muggo_corporate_cms_v3";
+  const STORAGE_KEY = "muggo_corporate_cms_v4";
   const LANG_KEY = "mokgo-language";
   const THEME_KEY = "muggo-theme";
 
@@ -28,13 +27,17 @@
 
   let state = loadState();
 
-  // Sync saved language preference ('id' | 'en' | 'ko')
-  try {
-    const savedLang = localStorage.getItem(LANG_KEY);
-    if (["id", "en", "ko"].includes(savedLang)) {
-      state.config.currentLang = savedLang;
-    }
-  } catch (e) {}
+  // At launch, default language is Indonesian ('id'). Multi-language switching is controlled by config.enableMultiLang.
+  if (state.config.enableMultiLang) {
+    try {
+      const savedLang = localStorage.getItem(LANG_KEY);
+      if (["id", "en", "ko"].includes(savedLang)) {
+        state.config.currentLang = savedLang;
+      }
+    } catch (e) {}
+  } else {
+    state.config.currentLang = "id";
+  }
 
   let currentRoute = "home";
   let currentArticleId = null;
@@ -50,7 +53,12 @@
     renderAll();
   }
 
+  function getOfficialEmail() {
+    return (state.config && state.config.contactEmail) || "";
+  }
+
   function lang() {
+    if (!state.config.enableMultiLang) return "id";
     return ["id", "en", "ko"].includes(state.config.currentLang) ? state.config.currentLang : "id";
   }
 
@@ -66,16 +74,7 @@
 
   function locBrand(obj, field) {
     const l = lang();
-    return obj[`${field}_${l}`] || obj[`${field}_en`] || obj[`${field}_ko`] || "";
-  }
-
-  function formatIdr(amount) {
-    const locale = { id: "id-ID", en: "en-ID", ko: "ko-KR" }[lang()] || "id-ID";
-    return new Intl.NumberFormat(locale, {
-      style: "currency",
-      currency: "IDR",
-      maximumFractionDigits: 0
-    }).format(amount);
+    return obj[`${field}_${l}`] || obj[`${field}_id`] || obj[`${field}_en`] || obj[`${field}_ko`] || "";
   }
 
   // Clean Lucide SVG stroke icons (matching mokgo-hr-staging.vercel.app)
@@ -112,9 +111,10 @@
     renderChrome();
   };
 
-  // Language management ('id' | 'en' | 'ko')
+  // Language management ('id' at launch; 'en' & 'ko' available when enableMultiLang is enabled)
   window.setSiteLang = function (newLang) {
     if (!["id", "en", "ko"].includes(newLang)) return;
+    state.config.enableMultiLang = true;
     state.config.currentLang = newLang;
     document.documentElement.lang = newLang;
     try {
@@ -150,7 +150,7 @@
   // ==========================================================================
   // URL HASH ROUTING & BROWSER HISTORY SYNC
   // ==========================================================================
-  const VALID_ROUTES = ["home", "brands", "food-rnd", "platform", "people", "careers", "contact", "privacy", "terms"];
+  const VALID_ROUTES = ["home", "careers", "people", "food-rnd", "platform", "brands", "contact", "privacy", "terms"];
 
   function routeToHash(route, param) {
     if (route === "article-detail" && param) {
@@ -232,21 +232,78 @@
   function updateSeoMeta() {
     const dict = t();
     const company = state.config.companyName;
+    const brand = state.config.brandName || "MUGGO";
     const navMap = {
       home: dict.nav.home,
-      brands: dict.nav.brands,
+      careers: dict.nav.careers,
+      people: dict.nav.people,
       "food-rnd": dict.nav.foodRnd,
       platform: dict.nav.platform,
-      people: dict.nav.people,
-      careers: dict.nav.careers,
+      brands: dict.nav.brands,
       contact: dict.nav.contact,
       privacy: dict.footer.privacy,
       terms: dict.footer.terms
     };
-    const pageTitle = `${navMap[currentRoute] || dict.nav.home} · ${company}`;
+    const pageTitle = `${navMap[currentRoute] || dict.nav.home} · ${company} (${brand})`;
     document.title = pageTitle;
     const skip = document.getElementById("skip-link");
     if (skip) skip.textContent = dict.skipToContent;
+  }
+
+  // ==========================================================================
+  // CORPORATE IDENTITY & ANTI-FRAUD RECRUITMENT VERIFICATION COMPONENT
+  // ==========================================================================
+  function renderIdentityVerificationCard(showContactBtn = true) {
+    const dict = t().identityCard;
+    const cfg = state.config;
+    if (!dict) return "";
+
+    return `
+      <section class="card section-block" aria-label="${dict.title}">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+          <div>
+            <p class="eyebrow">${dict.eyebrow}</p>
+            <h2 style="margin-bottom:6px;">${dict.title}</h2>
+          </div>
+          <span class="roster-badge">Pre-Opening · Verified</span>
+        </div>
+        <p class="intro" style="margin-bottom:18px;">${dict.intro}</p>
+
+        <div class="columns" style="margin-bottom:16px;">
+          <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:14px 16px;">
+            <small class="hint" style="display:block; font-weight:700;">${dict.legalLabel}</small>
+            <strong style="font-size:17px; color:var(--ui-text);">${cfg.companyName}</strong>
+          </div>
+          <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:14px 16px;">
+            <small class="hint" style="display:block; font-weight:700;">${dict.brandLabel}</small>
+            <strong style="font-size:17px; color:var(--ui-link);">${cfg.brandName || "MUGGO"}</strong>
+          </div>
+          <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:14px 16px;">
+            <small class="hint" style="display:block; font-weight:700;">${dict.statusLabel}</small>
+            <strong style="font-size:14.5px; color:var(--ui-text);">${dict.statusValue}</strong>
+          </div>
+          <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:14px 16px;">
+            <small class="hint" style="display:block; font-weight:700;">${dict.purposeLabel}</small>
+            <strong style="font-size:14.5px; color:var(--ui-text);">${dict.purposeValue}</strong>
+          </div>
+        </div>
+
+        <aside class="callout" style="margin:0;">
+          <strong style="display:block; font-size:14px; color:var(--ui-link); margin-bottom:4px;">✓ ${dict.antiFraudTitle}</strong>
+          <p class="hint" style="color:var(--ui-text);">${dict.antiFraudDesc}</p>
+        </aside>
+
+        ${
+          showContactBtn
+            ? `<div style="margin-top:16px;">
+                <button type="button" class="btn btn-secondary" onclick="navigateTo('contact')">
+                  ${dict.contactLinkBtn}
+                </button>
+              </div>`
+            : ""
+        }
+      </section>
+    `;
   }
 
   // ==========================================================================
@@ -261,13 +318,14 @@
     // ① Header
     const header = document.getElementById("site-header");
     if (header) {
+      // Ordered to prioritize Corporate Identity & Careers verification over menu catalog
       const navItems = [
         { id: "home", label: dict.nav.home },
-        { id: "brands", label: dict.nav.brands },
+        { id: "careers", label: dict.nav.careers },
+        { id: "people", label: dict.nav.people },
         { id: "food-rnd", label: dict.nav.foodRnd },
         { id: "platform", label: dict.nav.platform },
-        { id: "people", label: dict.nav.people },
-        { id: "careers", label: dict.nav.careers },
+        { id: "brands", label: dict.nav.brands },
         { id: "contact", label: dict.nav.contact }
       ];
 
@@ -279,6 +337,17 @@
         .join("");
 
       const themeTitle = dict.themeLabel[isDark ? 1 : 0];
+
+      // Launch language is Indonesian (ID) only; KO & EN switcher renders only when enableMultiLang is enabled later
+      const langControlHtml = cfg.enableMultiLang
+        ? `<div class="lang-segmented" role="group" aria-label="Bahasa / Language / 언어">
+            <button type="button" class="lang-seg-btn ${l === "id" ? "active" : ""}" onclick="setSiteLang('id')" title="Bahasa Indonesia">ID</button>
+            <button type="button" class="lang-seg-btn ${l === "en" ? "active" : ""}" onclick="setSiteLang('en')" title="English">EN</button>
+            <button type="button" class="lang-seg-btn ${l === "ko" ? "active" : ""}" onclick="setSiteLang('ko')" title="한국어">KO</button>
+          </div>`
+        : `<div class="lang-segmented" aria-label="Bahasa Indonesia">
+            <span class="lang-seg-btn active" style="cursor:default;">ID</span>
+          </div>`;
 
       header.innerHTML = `
         <div class="header-inner">
@@ -299,11 +368,7 @@
               ${svgIcon(isDark ? "sun" : "moon", 17)}
             </button>
 
-            <div class="lang-segmented" role="group" aria-label="Bahasa / Language / 언어">
-              <button type="button" class="lang-seg-btn ${l === "id" ? "active" : ""}" onclick="setSiteLang('id')" title="Bahasa Indonesia">ID</button>
-              <button type="button" class="lang-seg-btn ${l === "en" ? "active" : ""}" onclick="setSiteLang('en')" title="English">EN</button>
-              <button type="button" class="lang-seg-btn ${l === "ko" ? "active" : ""}" onclick="setSiteLang('ko')" title="한국어">KO</button>
-            </div>
+            ${langControlHtml}
 
             <button type="button" class="icon-btn mobile-menu-toggle" onclick="toggleMobileDrawer()" aria-label="Menu">
               ${svgIcon("menu", 19)}
@@ -317,14 +382,15 @@
       `;
     }
 
-    // ⑨ Footer
+    // ⑨ Footer (Single central place in the layout footer for Registered Address & Official Email)
     const footer = document.getElementById("site-footer");
     if (footer) {
       const cleanWa = (cfg.whatsappNumber || "").replace(/[^0-9]/g, "");
-      const contactEmail = cfg.contactEmail || cfg.careerEmail;
-      const contactHtml = `<div style="margin-top:10px; line-height:1.7;">
-          ${cfg.whatsappNumber ? `<div>WhatsApp: <a href="https://wa.me/${cleanWa}" target="_blank" rel="noopener">${cfg.whatsappNumber}</a></div>` : ""}
-          ${contactEmail ? `<div>Email: <a href="mailto:${contactEmail}" style="color:var(--ui-link); font-weight:600;">${contactEmail}</a></div>` : ""}
+      const officialEmail = getOfficialEmail();
+      const contactHtml = `<div style="margin-top:10px; line-height:1.75;">
+          <div><strong>${dict.footer.registeredLabel || "Alamat Terdaftar:"}</strong> ${cfg.officeAddress}</div>
+          ${cfg.whatsappNumber ? `<div><strong>WhatsApp:</strong> <a href="https://wa.me/${cleanWa}" target="_blank" rel="noopener">${cfg.whatsappNumber}</a></div>` : ""}
+          ${officialEmail ? `<div><strong>${dict.footer.emailLabel || "Email Resmi:"}</strong> <a href="mailto:${officialEmail}" style="color:var(--ui-link); font-weight:700;">${officialEmail}</a></div>` : ""}
         </div>`;
 
       const koreaHqLinkHtml =
@@ -342,8 +408,8 @@
                 <span>MUGGO / JAKARTA</span>
               </span>
             </div>
-            <p style="max-width:440px; line-height:1.65;">${dict.footer.desc}</p>
-            <p style="margin-top:6px;">${cfg.officeAddress}</p>
+            <p style="font-weight:700; color:var(--ui-text); margin-bottom:4px;">${cfg.companyName} (Brand: ${cfg.brandName || "MUGGO"})</p>
+            <p style="max-width:460px; line-height:1.65;">${dict.footer.desc}</p>
             ${contactHtml}
           </div>
 
@@ -351,11 +417,11 @@
             <p class="eyebrow" style="margin-bottom:10px;">NAVIGATION</p>
             <ul class="footer-nav-links">
               <li><button type="button" onclick="navigateTo('home')">${dict.nav.home}</button></li>
-              <li><button type="button" onclick="navigateTo('brands')">${dict.nav.brands}</button></li>
+              <li><button type="button" onclick="navigateTo('careers')">${dict.nav.careers}</button></li>
+              <li><button type="button" onclick="navigateTo('people')">${dict.nav.people}</button></li>
               <li><button type="button" onclick="navigateTo('food-rnd')">${dict.nav.foodRnd}</button></li>
               <li><button type="button" onclick="navigateTo('platform')">${dict.nav.platform}</button></li>
-              <li><button type="button" onclick="navigateTo('people')">${dict.nav.people}</button></li>
-              <li><button type="button" onclick="navigateTo('careers')">${dict.nav.careers}</button></li>
+              <li><button type="button" onclick="navigateTo('brands')">${dict.nav.brands}</button></li>
               <li><button type="button" onclick="navigateTo('contact')">${dict.nav.contact}</button></li>
               ${koreaHqLinkHtml}
             </ul>
@@ -375,7 +441,7 @@
         </div>
 
         <div style="padding-top:18px; border-top:1px solid var(--portal-line); display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px;">
-          <div>© 2026 ${cfg.companyName}. All rights reserved.</div>
+          <div>© 2026 ${cfg.companyName} (Brand: ${cfg.brandName || "MUGGO"}). All rights reserved.</div>
           <ul class="footer-nav-links">
             <li><button type="button" onclick="navigateTo('privacy')">${dict.footer.privacy}</button></li>
             <li><button type="button" onclick="navigateTo('terms')">${dict.footer.terms}</button></li>
@@ -455,7 +521,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // HOME VIEW (Sections ② ~ ⑧)
+  // HOME VIEW (Sections ② ~ ⑧, prioritizing Company Identity & Verification)
   // --------------------------------------------------------------------------
   function renderHomeView() {
     const dict = t();
@@ -484,7 +550,7 @@
       )
       .join("");
 
-    // Featured Brands Preview from the 30 Official Brands (SOTDAK, SEONGSU DAK, BAP CLUB, PANTRY 12, SALAD PICK, BING HA)
+    // Featured Planned Brands Preview (6 representative brands, marked Pre-Opening)
     const featuredIds = ["sotdak", "seongsu-dak", "bap-club", "pantry12", "salad-pick", "bing-ha"];
     const featuredBrands = (window.MUGGO_CATALOG || []).filter((b) => featuredIds.includes(b.id));
     const featuredBrandsHtml = featuredBrands
@@ -494,7 +560,7 @@
           <div class="brand-card-header">
             <img src="${b.logo}" alt="${locBrand(b, "name")}" class="brand-thumb" loading="lazy" />
             <div>
-              <span class="roster-badge">${b.category}</span>
+              <span class="roster-badge">${b.category} · ${dict.brandsPage.preOpeningTag || "Pra-Pembukaan"}</span>
               <h3 style="margin-top:4px; font-size:16px;">${locBrand(b, "name")}</h3>
             </div>
           </div>
@@ -510,7 +576,7 @@
       )
       .join("");
 
-    // Korea HQ Section (Conditional ON/OFF, only renders external link if a valid live URL is configured)
+    // Korea HQ Section (Conditional ON/OFF)
     const koreaHqActionHtml = hasValidKoreaHqUrl()
       ? `<a href="${cfg.koreaHqUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="margin-top:14px;">${dict.koreaHq.linkText} ↗</a>`
       : `<div style="margin-top:12px;"><span class="roster-badge">${dict.koreaHq.linkText}</span></div>`;
@@ -526,7 +592,7 @@
       `
       : "";
 
-    // ⑤ Metrics (6 planned indicators)
+    // ⑤ Metrics (6 pre-opening indicators)
     const metricsHtml = state.metrics
       .map(
         (m) => `
@@ -608,18 +674,55 @@
             <button type="button" class="btn btn-primary" onclick="navigateTo('careers')">
               ${dict.hero.careerBtn}
             </button>
-            <button type="button" class="btn btn-secondary" onclick="navigateTo('brands')">
-              ${dict.hero.brandBtn}
+            <button type="button" class="btn btn-secondary" onclick="navigateTo('contact')">
+              ${dict.nav.contact}
             </button>
             ${appButtonHtml}
           </div>
         </div>
         <div class="hero-visual">
-          <img src="assets/muggo-brand-hero.jpg" alt="MUGGO - The Home of Every Craving" />
+          <img src="assets/muggo-brand-hero.jpg" alt="PT BARA SUSTAINABLE INDONESIA - Brand MUGGO" />
         </div>
       </section>
 
-      <!-- ③ Our Pillars -->
+      <!-- Official Company Identity & Recruitment Verification Block -->
+      ${renderIdentityVerificationCard(true)}
+
+      <!-- ⑥ Our Culture (Prioritized for Job Seekers) -->
+      <section class="card section-block">
+        <p class="eyebrow">${dict.culture.eyebrow}</p>
+        <h2>${dict.culture.title}</h2>
+        <aside class="callout">
+          <strong style="font-size:17px; line-height:1.55; display:block;">${dict.culture.quote}</strong>
+        </aside>
+        <p class="intro" style="margin-bottom:18px;">${dict.culture.desc}</p>
+        <div style="display:flex; flex-wrap:wrap; gap:10px;">
+          <button type="button" class="btn btn-primary" onclick="navigateTo('careers')">${dict.culture.careerBtn}</button>
+          <button type="button" class="btn btn-secondary" onclick="navigateTo('people')">${dict.culture.peopleBtn}</button>
+        </div>
+      </section>
+
+      <!-- ④ Leadership Message (2 Paragraphs) -->
+      <section class="card section-block">
+        <p class="eyebrow">${dict.ceo.eyebrow}</p>
+        <h2>${dict.ceo.titlePrefix} · ${cfg.companyName}</h2>
+        <div class="columns" style="margin-top:16px;">
+          <aside class="callout" style="margin:0;">
+            <strong style="display:block; font-size:13px; color:var(--ui-link); margin-bottom:6px;">01 · ${dict.ceo.p1Title}</strong>
+            <p>${dict.ceo.p1}</p>
+          </aside>
+          <aside class="callout" style="margin:0;">
+            <strong style="display:block; font-size:13px; color:var(--ui-link); margin-bottom:6px;">02 · ${dict.ceo.p2Title}</strong>
+            <p>${dict.ceo.p2}</p>
+          </aside>
+        </div>
+        <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--portal-line); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+          <span class="hint">${cfg.companyName} (Brand: ${cfg.brandName || "MUGGO"})</span>
+          <strong>${dict.ceo.signRole} · ${cfg.companyName}</strong>
+        </div>
+      </section>
+
+      <!-- ③ Our Pillars & Planned Brand Concepts -->
       <section class="section-block">
         <div class="workspace-heading">
           <div>
@@ -638,27 +741,7 @@
 
       ${koreaHqHtml}
 
-      <!-- ④ CEO Message (2 Paragraphs) -->
-      <section class="card section-block">
-        <p class="eyebrow">${dict.ceo.eyebrow}</p>
-        <h2>${dict.ceo.titlePrefix} · ${cfg.ceoName}</h2>
-        <div class="columns" style="margin-top:16px;">
-          <aside class="callout" style="margin:0;">
-            <strong style="display:block; font-size:13px; color:var(--ui-link); margin-bottom:6px;">01 · ${dict.ceo.p1Title}</strong>
-            <p>${dict.ceo.p1}</p>
-          </aside>
-          <aside class="callout" style="margin:0;">
-            <strong style="display:block; font-size:13px; color:var(--ui-link); margin-bottom:6px;">02 · ${dict.ceo.p2Title}</strong>
-            <p>${dict.ceo.p2}</p>
-          </aside>
-        </div>
-        <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--portal-line); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
-          <span class="hint">${cfg.companyName}</span>
-          <strong>${dict.ceo.signRole} · ${cfg.ceoName}</strong>
-        </div>
-      </section>
-
-      <!-- ⑤ Impact / Target Metrics -->
+      <!-- ⑤ Pre-Opening Plan & Target Metrics -->
       <section class="section-block">
         <div class="workspace-heading">
           <div>
@@ -673,21 +756,7 @@
         ${roadmapHtml}
       </section>
 
-      <!-- ⑥ Our Culture -->
-      <section class="card section-block">
-        <p class="eyebrow">${dict.culture.eyebrow}</p>
-        <h2>${dict.culture.title}</h2>
-        <aside class="callout">
-          <strong style="font-size:17px; line-height:1.55; display:block;">${dict.culture.quote}</strong>
-        </aside>
-        <p class="intro" style="margin-bottom:18px;">${dict.culture.desc}</p>
-        <div style="display:flex; flex-wrap:wrap; gap:10px;">
-          <button type="button" class="btn btn-primary" onclick="navigateTo('people')">${dict.culture.peopleBtn}</button>
-          <button type="button" class="btn btn-secondary" onclick="navigateTo('careers')">${dict.culture.careerBtn}</button>
-        </div>
-      </section>
-
-      <!-- ⑦ Related Articles -->
+      <!-- ⑦ Official Announcements -->
       ${articlesHtml}
 
       <!-- ⑧ Footnotes Accordion -->
@@ -706,7 +775,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // BRANDS & 300 MENUS VIEW (All 30 Official Brands from kind-euclid.vercel.app)
+  // PLANNED BRANDS VIEW (Pre-Opening Portfolio — Nothing on sale yet)
   // --------------------------------------------------------------------------
   window.setBrandCatFilter = function (cat) {
     selectedBrandCategory = cat;
@@ -715,7 +784,6 @@
 
   window.handleBrandSearch = function (val) {
     brandSearchQuery = val || "";
-    // Reset explicit expand/collapse overrides when search query changes
     expandedBrands = {};
     renderBrandCardsDOM();
   };
@@ -806,7 +874,7 @@
                     (m) => `
                   <li class="menu-preview-item">
                     <span>${locBrand(m, "name")}</span>
-                    <strong style="color:var(--ui-link); font-size:12px; white-space:nowrap;">${formatIdr(m.price)}</strong>
+                    <small class="hint" style="white-space:nowrap; font-size:11.5px;">${dict.preOpeningTag || "Pra-Pembukaan"}</small>
                   </li>
                 `
                   )
@@ -949,8 +1017,8 @@
         <p class="intro" style="margin-bottom:18px;">${dict.appBoxDesc}</p>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
           ${appAction}
-          <button type="button" class="btn btn-secondary" onclick="navigateTo('brands')">
-            ${heroDict.brandBtn}
+          <button type="button" class="btn btn-secondary" onclick="navigateTo('careers')">
+            ${heroDict.careerBtn}
           </button>
         </div>
       </section>
@@ -997,10 +1065,10 @@
   }
 
   // --------------------------------------------------------------------------
-  // CAREERS VIEW (11 Open Job Categories, Benefits, Email Application Guide)
+  // CAREERS VIEW (Company Verification + 11 Open Job Categories + Benefits)
   // --------------------------------------------------------------------------
   window.copyCareerEmail = function (btnEl) {
-    const email = state.config.careerEmail || "barasustainable@gmail.com";
+    const email = getOfficialEmail();
     const dict = t().careersPage;
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(email).then(() => {
@@ -1017,7 +1085,7 @@
 
   function renderCareersView() {
     const dict = t().careersPage;
-    const cfg = state.config;
+    const officialEmail = getOfficialEmail();
 
     const jobsHtml = state.jobs
       .map(
@@ -1035,7 +1103,7 @@
             <button type="button" class="btn btn-primary" onclick="openApplyModal('${loc(j, "title").replace(/'/g, "")}', this)">
               ${dict.formBtn}
             </button>
-            <a href="mailto:${cfg.careerEmail}?subject=${encodeURIComponent("[MUGGO Recruitment] " + loc(j, "title"))}" class="btn btn-secondary">
+            <a href="mailto:${officialEmail}?subject=${encodeURIComponent("[PT BARA SUSTAINABLE INDONESIA - MUGGO] " + loc(j, "title"))}" class="btn btn-secondary">
               ${dict.emailBtn} ↗
             </a>
           </div>
@@ -1053,15 +1121,17 @@
         </div>
       </div>
 
+      ${renderIdentityVerificationCard(true)}
+
       <section class="card">
         <h2>${dict.applyBoxTitle}</h2>
         <p class="hint" style="margin-bottom:14px;">${dict.applyBoxDesc}</p>
         <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
-          <button type="button" class="btn btn-primary" onclick="openApplyModal('MUGGO Open Application', this)">
+          <button type="button" class="btn btn-primary" onclick="openApplyModal('PT BARA SUSTAINABLE INDONESIA (MUGGO)', this)">
             ${dict.formBtn}
           </button>
-          <a href="mailto:${cfg.careerEmail}?subject=${encodeURIComponent("[MUGGO Indonesia] Job Application")}" class="btn btn-secondary">
-            ${dict.emailBtn} (${cfg.careerEmail}) ↗
+          <a href="mailto:${officialEmail}?subject=${encodeURIComponent("[PT BARA SUSTAINABLE INDONESIA - MUGGO] Lamaran Kerja")}" class="btn btn-secondary">
+            ${dict.emailBtn} (${officialEmail}) ↗
           </a>
           <button type="button" class="btn btn-secondary" onclick="copyCareerEmail(this)">
             ${dict.copyEmailBtn}
@@ -1093,15 +1163,13 @@
   }
 
   // --------------------------------------------------------------------------
-  // CONTACT VIEW (General/Partnership Inquiries + Recruitment + Hub Address)
+  // CONTACT VIEW (Single Unified Place for Legal Identity, Registered Address & Temporary Mailbox)
   // --------------------------------------------------------------------------
   function renderContactView() {
     const dict = t().contactPage;
     const careerDict = t().careersPage;
     const cfg = state.config;
-    const cleanWa = (cfg.whatsappNumber || "").replace(/[^0-9]/g, "");
-    const generalEmail = cfg.contactEmail || cfg.careerEmail;
-    const hrEmail = cfg.careerEmail || "barasustainable@gmail.com";
+    const officialEmail = getOfficialEmail();
 
     return `
       <div class="workspace-heading">
@@ -1112,36 +1180,48 @@
         </div>
       </div>
 
-      <div class="columns" style="margin-bottom:20px;">
-        <section class="card" style="margin:0;">
-          <h3>${dict.generalTitle}</h3>
-          <p class="hint" style="margin:6px 0 14px;">${dict.generalDesc}</p>
-          <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
-            <a href="mailto:${generalEmail}?subject=${encodeURIComponent("[MUGGO Partnership / Inquiry]")}" class="btn btn-primary">
-              ${generalEmail} ↗
-            </a>
-            ${cfg.whatsappNumber ? `<a href="https://wa.me/${cleanWa}" target="_blank" rel="noopener" class="btn btn-secondary">WhatsApp: ${cfg.whatsappNumber}</a>` : ""}
-          </div>
-        </section>
-
-        <section class="card" style="margin:0;">
-          <h3>${dict.careerTitle}</h3>
-          <p class="hint" style="margin:6px 0 14px;">${dict.careerDesc}</p>
-          <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
-            <button type="button" class="btn btn-primary" onclick="openApplyModal('MUGGO Open Application', this)">
-              ${careerDict.formBtn}
-            </button>
-            <a href="mailto:${hrEmail}?subject=${encodeURIComponent("[MUGGO Recruitment]")}" class="btn btn-secondary">
-              ${hrEmail} ↗
-            </a>
-          </div>
-        </section>
-      </div>
-
       <section class="card">
-        <h3>${dict.addressLabel}</h3>
-        <p style="margin:8px 0 12px; font-weight:600;">${cfg.officeAddress}</p>
-        <p class="hint">${dict.pendingNotice}</p>
+        <div class="columns" style="margin-bottom:20px;">
+          <div>
+            <small class="hint" style="display:block; font-weight:700;">${dict.entityLabel}</small>
+            <strong style="font-size:18px; color:var(--ui-text);">${cfg.companyName}</strong>
+          </div>
+          <div>
+            <small class="hint" style="display:block; font-weight:700;">${dict.brandLabel}</small>
+            <strong style="font-size:18px; color:var(--ui-link);">${cfg.brandName || "MUGGO"}</strong>
+          </div>
+        </div>
+
+        <div style="padding-top:16px; border-top:1px solid var(--portal-line); margin-bottom:16px;">
+          <small class="hint" style="display:block; font-weight:700;">${dict.statusLabel}</small>
+          <p style="font-weight:600; margin-top:4px;">${dict.statusText}</p>
+        </div>
+
+        <div style="padding-top:16px; border-top:1px solid var(--portal-line); margin-bottom:16px;">
+          <small class="hint" style="display:block; font-weight:700;">${dict.addressLabel}</small>
+          <p style="font-weight:700; font-size:16px; margin-top:4px;">${cfg.officeAddress}</p>
+        </div>
+
+        <div style="padding-top:16px; border-top:1px solid var(--portal-line); margin-bottom:16px;">
+          <small class="hint" style="display:block; font-weight:700;">${dict.emailLabel}</small>
+          <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:8px;">
+            <a href="mailto:${officialEmail}" class="btn btn-primary">${officialEmail} ↗</a>
+            <button type="button" class="btn btn-secondary" onclick="copyCareerEmail(this)">${careerDict.copyEmailBtn}</button>
+          </div>
+          <p class="hint" style="margin-top:10px;">${dict.emailNote}</p>
+        </div>
+
+        <div style="padding-top:16px; border-top:1px solid var(--portal-line);">
+          <small class="hint" style="display:block; font-weight:700; margin-bottom:8px;">${dict.socialLabel}</small>
+          <div style="display:flex; flex-wrap:wrap; gap:8px;">
+            <a href="${cfg.instagramUrl}" onclick="openSnsChannel(event, 'instagram')" class="btn btn-secondary">
+              Instagram (${cfg.instagramHandle}) ↗
+            </a>
+            <a href="${cfg.tiktokUrl}" onclick="openSnsChannel(event, 'tiktok')" class="btn btn-secondary">
+              TikTok (${cfg.tiktokHandle}) ↗
+            </a>
+          </div>
+        </div>
       </section>
     `;
   }
@@ -1176,10 +1256,11 @@
   }
 
   // --------------------------------------------------------------------------
-  // PRIVACY & TERMS VIEW (Trilingual)
+  // PRIVACY & TERMS VIEW (Trilingual, referencing Legal Entity & Single Mailbox)
   // --------------------------------------------------------------------------
   function renderPolicyView(type) {
     const cfg = state.config;
+    const officialEmail = getOfficialEmail();
     const l = lang();
     const isPrivacy = type === "privacy";
 
@@ -1187,32 +1268,32 @@
       id: {
         title: isPrivacy ? "Kebijakan Privasi (Privacy Policy)" : "Syarat & Ketentuan (Terms of Use)",
         body: isPrivacy
-          ? `<p style="margin-bottom:14px;">${cfg.companyName} menghormati privasi pelamar kerja, pelanggan, dan mitra kami sesuai dengan Undang-Undang Pelindungan Data Pribadi (UU PDP) Indonesia.</p>
-             <p style="margin-bottom:14px;">Data yang dikirimkan melalui saluran email rekrutmen (${cfg.careerEmail}) hanya digunakan untuk proses seleksi dan administrasi SDM internal.</p>`
-          : `<p style="margin-bottom:14px;">Situs web ini dioperasikan oleh ${cfg.companyName} (tahap pra-peluncuran) untuk menyajikan informasi umum mengenai visi korporat, rencana 30 brand kuliner, dan peluang karir.</p>
-             <p>Seluruh angka target bisnis dan rencana pembukaan gerai merupakan target rencana usaha yang dapat disesuaikan mengikuti perkembangan operasional.</p>`
+          ? `<p style="margin-bottom:14px;"><strong>${cfg.companyName}</strong> (pemilik merek usaha <strong>${cfg.brandName || "MUGGO"}</strong>) menghormati privasi pelamar kerja dan pengunjung situs sesuai dengan Undang-Undang Pelindungan Data Pribadi (UU PDP) Indonesia.</p>
+             <p style="margin-bottom:14px;">Data lamaran yang dikirimkan ke saluran email resmi kami (${officialEmail}) hanya digunakan untuk keperluan verifikasi dan seleksi SDM internal serta tidak pernah diperjualbelikan kepada pihak ketiga.</p>`
+          : `<p style="margin-bottom:14px;">Situs web ini dikelola secara resmi oleh <strong>${cfg.companyName}</strong> (Alamat terdaftar: ${cfg.officeAddress}) untuk menyajikan informasi identitas perusahaan, rencana brand <strong>${cfg.brandName || "MUGGO"}</strong>, serta verifikasi rekrutmen resmi.</p>
+             <p>Saat ini perusahaan berada pada tahap pra-pembukaan (pre-opening) dan belum melakukan penjualan produk secara komersial.</p>`
       },
       en: {
         title: isPrivacy ? "Privacy Policy" : "Terms of Use",
         body: isPrivacy
-          ? `<p style="margin-bottom:14px;">${cfg.companyName} respects the privacy of job applicants, customers, and partners in compliance with Indonesian Personal Data Protection laws (UU PDP).</p>
-             <p style="margin-bottom:14px;">Information submitted to our official recruitment email (${cfg.careerEmail}) is used strictly for hiring evaluation and HR administration.</p>`
-          : `<p style="margin-bottom:14px;">This website is operated by ${cfg.companyName} (pre-launch stage) to provide general corporate information regarding our vision, planned 30 culinary brands, and career opportunities.</p>
-             <p>All business plan metrics and store expansion targets represent planned milestones subject to operational adjustments.</p>`
+          ? `<p style="margin-bottom:14px;"><strong>${cfg.companyName}</strong> (operating the <strong>${cfg.brandName || "MUGGO"}</strong> brand) respects the privacy of job applicants and visitors in compliance with Indonesian Personal Data Protection laws (UU PDP).</p>
+             <p style="margin-bottom:14px;">Information submitted to our official recruitment email (${officialEmail}) is used strictly for hiring evaluation and HR administration.</p>`
+          : `<p style="margin-bottom:14px;">This website is officially operated by <strong>${cfg.companyName}</strong> (Registered address: ${cfg.officeAddress}) to provide corporate verification, planned <strong>${cfg.brandName || "MUGGO"}</strong> brand information, and official career opportunities.</p>
+             <p>The business is currently in the pre-opening stage and nothing is on sale yet.</p>`
       },
       ko: {
         title: isPrivacy ? "개인정보처리방침" : "이용약관",
         body: isPrivacy
-          ? `<p style="margin-bottom:14px;">${cfg.companyName}은 인도네시아 개인정보보호법(UU PDP) 및 관련 법령을 준수하며, 채용 지원(${cfg.careerEmail}) 및 문의를 위해 제공된 개인정보를 목적 범위 내에서만 안전하게 처리합니다.</p>`
-          : `<p style="margin-bottom:14px;">본 사이트는 오픈 준비 단계의 ${cfg.companyName} 비전, 30개 브랜드 기획 라인업, 채용에 관한 일반 정보를 제공할 목적으로 운영됩니다.</p>
-             <p>사이트 내 기재된 브랜드 수, 확장 목표 지점 수 등 모든 수치는 사업 계획상 목표 기준이며 향후 변동될 수 있습니다.</p>`
+          ? `<p style="margin-bottom:14px;"><strong>${cfg.companyName}</strong>(브랜드: <strong>${cfg.brandName || "MUGGO"}</strong>)는 인도네시아 개인정보보호법(UU PDP)을 준수하며, 공식 채용 이메일(${officialEmail})을 통해 접수된 지원자 정보를 채용 전형 목적으로만 안전하게 처리합니다.</p>`
+          : `<p style="margin-bottom:14px;">본 사이트는 <strong>${cfg.companyName}</strong>(등록 주소: ${cfg.officeAddress})의 법인 신원 확인, <strong>${cfg.brandName || "MUGGO"}</strong> 브랜드 기획 소개 및 공식 채용 안내를 목적으로 운영됩니다.</p>
+             <p>현재 당사는 오픈 준비(Pre-Opening) 단계로 아직 상품을 판매하지 않습니다.</p>`
       }
     }[l];
 
     return `
       <div class="workspace-heading">
         <div>
-          <p class="eyebrow">${cfg.companyName}</p>
+          <p class="eyebrow">${cfg.companyName} · ${cfg.brandName || "MUGGO"}</p>
           <h1>${copy.title}</h1>
         </div>
       </div>
@@ -1226,12 +1307,13 @@
   function syncApplyModalText() {
     const mDict = t().applyModal;
     if (!mDict) return;
+    const officialEmail = getOfficialEmail();
     const setTxt = (id, txt) => {
       const el = document.getElementById(id);
       if (el) el.textContent = txt;
     };
     setTxt("apply-modal-title", mDict.title);
-    setTxt("apply-modal-guide", mDict.guide);
+    setTxt("apply-modal-guide", `${mDict.guidePrefix} ${officialEmail}`);
     setTxt("apply-role-label", mDict.roleLabel);
     setTxt("apply-name-label", mDict.nameLabel);
     setTxt("apply-contact-label", mDict.contactLabel);
@@ -1286,25 +1368,25 @@
   };
 
   function buildApplicationDraftData() {
-    const role = (document.getElementById("apply-role-input")?.value || "").trim() || "MUGGO Open Application";
+    const role = (document.getElementById("apply-role-input")?.value || "").trim() || "PT BARA SUSTAINABLE INDONESIA (MUGGO)";
     const name = (document.getElementById("apply-name-input")?.value || "").trim();
     const contact = (document.getElementById("apply-contact-input")?.value || "").trim();
     const msg = (document.getElementById("apply-msg-input")?.value || "").trim();
-    const email = state.config.careerEmail || "barasustainable@gmail.com";
-    const subject = `[MUGGO Application] ${role}${name ? " - " + name : ""}`;
-    const body = `To: ${email}\nRole: ${role}\nName: ${name}\nContact: ${contact}\n\nSummary & Motivation:\n${msg}\n\n[Please attach your CV / Resume before sending]`;
+    const email = getOfficialEmail();
+    const subject = `[Lamaran Kerja - PT BARA SUSTAINABLE INDONESIA / MUGGO] ${role}${name ? " - " + name : ""}`;
+    const body = `Kepada Tim HR PT BARA SUSTAINABLE INDONESIA (Brand: MUGGO),\n\nPosisi yang Dilamar: ${role}\nNama Lengkap: ${name}\nKontak (WhatsApp/Email): ${contact}\n\nRingkasan Pengalaman & Motivasi:\n${msg}\n\n[Mohon lampirkan file CV / Resume Anda sebelum mengirim email ini]`;
     return { email, subject, body };
   }
 
   window.copyApplicationDraft = function () {
     const { email, subject, body } = buildApplicationDraftData();
     const mDict = t().applyModal;
-    const fullText = `Recipient: ${email}\nSubject: ${subject}\n\n${body}`;
+    const fullText = `To: ${email}\nSubject: ${subject}\n\n${body}`;
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(fullText).then(() => {
         const fb = document.getElementById("apply-copy-feedback");
         if (fb) {
-          fb.textContent = mDict.copySuccess;
+          fb.textContent = `${mDict.copySuccess} (${email})`;
           fb.style.display = "block";
         }
       });

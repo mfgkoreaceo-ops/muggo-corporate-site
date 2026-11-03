@@ -1,5 +1,6 @@
-// MUGGO · JAKARTA Trilingual Dictionary (ID / EN / KO)
-// 100% Complete Coverage Across All Pages & Components (Pre-Launch & Halal-Friendly Standard Unified)
+// PT BARA SUSTAINABLE INDONESIA (Brand: MUGGO) · Dictionary (Default Launch Language: ID)
+// KO & EN dictionaries preserved for post-launch activation when enableMultiLang is set to true.
+// Note: Email and registered address are NOT hardcoded here; they are read from state.config in site-data.js.
 
 window.I18N_DICT = {
   id: {
@@ -7,43 +8,57 @@ window.I18N_DICT = {
     themeLabel: ["Mode gelap", "Mode terang"],
     nav: {
       home: "Beranda",
-      brands: "Brand",
+      careers: "Karir & Verifikasi",
+      people: "Budaya Kerja",
+      brands: "Rencana Brand",
       foodRnd: "Food & R&D",
       platform: "Platform",
-      people: "Manusia",
-      careers: "Karir",
-      contact: "Kontak"
+      contact: "Kontak Resmi"
     },
     hero: {
-      eyebrow: "MUGGO · JAKARTA ONLINE FOOD COURT MALL (SEGERA HADIR)",
-      headlineA: "Mall Food Court Online yang Mengubah Pasar Kuliner Indonesia dengan Keahlian F&B Premium Korea",
-      headlineB: "Mall Food Court Online Tempat Bertemunya 30 Brand Kuliner dalam Satu Tempat",
-      subcopyA: "Menyatukan rencana 30 brand spesialis (300 menu)—mulai dari SOTDAK, SEONGSU DAK, JUMOK, PANTRY 12, hingga BING HA—dalam satu dapur pintar terpusat dengan satu biaya pengiriman (1 Ongkir).",
-      subcopyB: "Menyatukan rencana 30 brand spesialis (300 menu) lintas 5 kategori kuliner utama dalam satu dapur pintar terpusat dengan satu biaya pengiriman (1 Ongkir).",
-      careerBtn: "Peluang Karir (11 Bidang)",
-      brandBtn: "Lihat 30 Brand & 300 Menu",
-      appComingSoon: "Aplikasi Delivery (Segera Hadir)",
+      eyebrow: "PT BARA SUSTAINABLE INDONESIA · BRAND: MUGGO (PRA-PEMBUKAAN)",
+      headlineA: "Identitas Korporat & Rekrutmen Resmi PT BARA SUSTAINABLE INDONESIA (Merek Usaha: MUGGO)",
+      headlineB: "PT BARA SUSTAINABLE INDONESIA · Membangun Ekosistem Mall Food Court Online MUGGO di Jakarta",
+      subcopyA: "Kami adalah perusahaan F&B di Jakarta Selatan yang sedang dalam tahap persiapan pra-pembukaan (pre-opening) untuk meluncurkan MUGGO—mall food court online dengan rencana 30 brand kuliner dalam satu dapur terpusat. Saat ini belum ada produk yang dijual kepada publik, dan kami sedang membuka rekrutmen resmi untuk 11 bidang posisi.",
+      subcopyB: "PT BARA SUSTAINABLE INDONESIA tengah mempersiapkan peluncuran MUGGO—mall food court online di Jakarta Selatan. Saat ini bisnis berada pada tahap pra-pembukaan (belum ada penjualan produk) dan fokus pada rekrutmen tim pendiri di 11 bidang posisi.",
+      careerBtn: "Verifikasi & Lowongan Karir (11 Bidang)",
+      brandBtn: "Lihat Rencana Brand MUGGO",
+      appComingSoon: "Status: Pra-Pembukaan (Belum Berjualan)",
       appDownload: "Buka Aplikasi MUGGO"
+    },
+    identityCard: {
+      eyebrow: "OFFICIAL COMPANY VERIFICATION · VERIFIKASI RESMI",
+      title: "Identitas Resmi Perusahaan & Informasi Bagi Pelamar Kerja",
+      intro: "Halaman ini disediakan bagi calon karyawan dan tim verifikasi portal lowongan kerja untuk memastikan keaslian identitas PT BARA SUSTAINABLE INDONESIA (Brand: MUGGO).",
+      legalLabel: "Nama Badan Hukum Resmi (Legal Entity)",
+      brandLabel: "Merek Usaha (Brand)",
+      statusLabel: "Status Operasional Saat Ini",
+      statusValue: "Tahap Pra-Pembukaan (Pre-Opening) — Belum ada makanan/produk yang dijual saat ini",
+      purposeLabel: "Fokus Utama Situs Ini",
+      purposeValue: "Perkenalan profil perusahaan, verifikasi badan hukum, dan rekrutmen resmi 11 bidang posisi di Jakarta Selatan",
+      antiFraudTitle: "Peringatan Resmi Anti-Penipuan Lowongan Kerja (Rekrutmen 100% Gratis)",
+      antiFraudDesc: "PT BARA SUSTAINABLE INDONESIA tidak pernah memungut biaya apa pun (biaya administrasi, tes, seragam, maupun tiket/akomodasi) dalam seluruh tahapan rekrutmen. Seluruh komunikasi resmi saat ini hanya menggunakan kontak resmi yang tercantum di bagian Kontak & Footer situs ini.",
+      contactLinkBtn: "Lihat Alamat Terdaftar & Kontak Resmi →"
     },
     pillars: {
       eyebrow: "OUR PILLARS",
-      title: "Empat Pilar Utama MUGGO",
-      intro: "Mempersiapkan standar baru ekosistem kuliner di Indonesia melalui integrasi Brand, Food R&D, Platform, dan Manusia.",
+      title: "Empat Pilar Utama yang Sedang Kami Bangun",
+      intro: "PT BARA SUSTAINABLE INDONESIA mempersiapkan fondasi operasional MUGGO melalui integrasi Manusia, Food R&D, Platform, dan Portofolio Brand.",
       items: [
         {
-          id: "brands",
-          route: "brands",
-          icon: "store",
-          title: "Brand",
-          desc: "Brand internal di 5 kategori mulai dari ayam hingga dessert (Rencana 30 Brand · 300 Menu)",
-          action: "Jelajahi 30 Brand →"
+          id: "people",
+          route: "people",
+          icon: "users",
+          title: "Manusia & Budaya",
+          desc: "Membangun tim pendiri yang jujur, tekun, dan saling menghormati di Jakarta Selatan",
+          action: "Lihat Budaya Kerja →"
         },
         {
           id: "food-rnd",
           route: "food-rnd",
           icon: "utensils",
           title: "Food & R&D",
-          desc: "Pengembangan menu yang mencakup masakan Korea, Tiongkok, Jepang, Indonesia, dan Barat",
+          desc: "Rencana pengembangan resep terstandarisasi ramah Halal (No Pork, No Lard) lintas 5 genre masakan",
           action: "Lihat R&D & 6 Stasiun →"
         },
         {
@@ -51,67 +66,67 @@ window.I18N_DICT = {
           route: "platform",
           icon: "smartphone",
           title: "Platform",
-          desc: "Mall food court online berfokus pada delivery & pickup serta aplikasi mandiri (Segera Hadir)",
-          action: "Pelajari Platform →"
+          desc: "Persiapan sistem dapur terpusat 6 stasiun serta platform delivery & pickup (Segera Hadir)",
+          action: "Pelajari Konsep Platform →"
         },
         {
-          id: "people",
-          route: "people",
-          icon: "users",
-          title: "Manusia",
-          desc: "Tim yang menghargai ketekunan dan semangat kerja",
-          action: "Lihat Budaya Kerja →"
+          id: "brands",
+          route: "brands",
+          icon: "store",
+          title: "Rencana Brand (MUGGO)",
+          desc: "Rencana portofolio 30 brand internal di 5 kategori kuliner untuk peluncuran mendatang",
+          action: "Lihat Rencana Brand →"
         }
       ]
     },
     koreaHq: {
       eyebrow: "GLOBAL F&B KNOW-HOW",
       title: "Sinergi Keahlian Operasional F&B Korea & Lokalisasi Indonesia",
-      desc: "Menggabungkan sistem perencanaan multi-brand, standarisasi operasional dapur (SOP), dan teknologi R&D dari kantor pusat Korea yang disesuaikan untuk pelanggan di Indonesia.",
-      linkText: "Kantor Pusat Korea (MUGGO Korea HQ)"
+      desc: "PT BARA SUSTAINABLE INDONESIA mengadaptasi sistem perencanaan multi-brand, standarisasi operasional dapur (SOP), dan teknologi R&D dari Korea yang disesuaikan secara lokal untuk pasar Indonesia.",
+      linkText: "Kemitraan R&D & Operasional Korea"
     },
     ceo: {
-      eyebrow: "CEO MESSAGE",
-      titlePrefix: "Sambutan Direktur Utama",
-      p1Title: "Kekuatan Penyatuan 30 Brand & Visi Kami",
-      p1: "“Kami tengah membangun ekosistem yang menyatukan 30 brand kuliner spesialis—mulai dari ayam panggang SOTDAK, masakan Korea, pizza & burger, salad segar, hingga minuman dan dessert—ke dalam satu dapur pintar dan mall food court online. Dengan memungkinkan keluarga maupun rekan kerja memesan berbagai hidangan berbeda dalam satu keranjang dan satu pengiriman, kami siap menghadirkan kemudahan baru di meja makan harian Indonesia.”",
-      p2Title: "Organisasi Berpusat pada Manusia & Janji Kami",
-      p2: "“Hidangan dan layanan terbaik selalu berawal dari manusia yang hebat. Kami membangun organisasi yang sehat di mana rekan kerja yang berkarakter baik, tekun, dan penuh semangat dapat tumbuh bersama dengan saling menghormati. Kami berkomitmen menjadi perusahaan yang terpercaya bagi pelanggan, pencari kerja, dan mitra lokal.”",
-      signRole: "Direktur Utama"
+      eyebrow: "LEADERSHIP MESSAGE",
+      titlePrefix: "Sambutan Manajemen",
+      p1Title: "Komitmen Transparansi & Visi Pra-Pembukaan MUGGO",
+      p1: "“Melalui PT BARA SUSTAINABLE INDONESIA, kami sedang mempersiapkan peluncuran merek usaha MUGGO di Jakarta Selatan. Sebelum gerai dan layanan pemesanan kami resmi dibuka untuk konsumen, prioritas utama kami adalah membangun kepercayaan yang jelas dengan para pencari kerja, mitra lokal, dan masyarakat melalui identitas perusahaan yang transparan.”",
+      p2Title: "Organisasi Berpusat pada Manusia & Rekrutmen yang Jujur",
+      p2: "“Layanan terbaik selalu berawal dari tim yang hebat. Kami mencari rekan kerja yang berkarakter baik, tekun, dan penuh semangat untuk tumbuh bersama sejak tahap pendirian ini. Kami menjamin proses rekrutmen yang adil, transparan, dan bebas dari pungutan biaya apa pun.”",
+      signRole: "Manajemen"
     },
     impact: {
-      eyebrow: "TARGET & ROADMAP",
-      title: "Indikator Rencana Bisnis & Target Peluncuran",
-      notice: "PT MUGGO INDONESIA saat ini berada pada tahap pra-peluncuran. Seluruh angka di bawah ini merupakan target rencana bisnis dan persiapan pembukaan (Target / Segera Hadir).",
-      roadmapTitle: "Peta Jalan Ekspansi Wilayah",
+      eyebrow: "PRE-OPENING PLAN & ROADMAP",
+      title: "Rencana Bisnis Pra-Pembukaan & Peta Jalan",
+      notice: "PT BARA SUSTAINABLE INDONESIA saat ini berada pada tahap pra-pembukaan (belum beroperasi komersial). Seluruh angka di bawah ini merupakan rencana dan target peluncuran.",
+      roadmapTitle: "Tahapan Rencana Persiapan & Ekspansi",
       roadmapSteps: [
-        "Tahap 1 · Gerai Pertama Jakarta Selatan (Tebet / SCBD Hub · Segera Hadir)",
-        "Tahap 2 · Ekspansi Kawasan Jabodetabek (Target 30 Titik Hub)",
-        "Tahap 3 · Kota Utama Indonesia (Target 100+ Cabang)"
+        "Tahap 1 · Rekrutmen Tim Pendiri & Persiapan Dapur Terpusat Jakarta Selatan (Sedang Berlangsung)",
+        "Tahap 2 · Pembukaan Perdana Gerai & Platform MUGGO di Jakarta Selatan (Segera Hadir)",
+        "Tahap 3 · Rencana Pengembangan Jaringan Hub di Jabodetabek & Kota Utama"
       ]
     },
     culture: {
       eyebrow: "OUR CULTURE",
       title: "Budaya Kerja & Kriteria Talenta",
       quote: "“Karakter yang baik, ketekunan, dan semangat yang tulus terhadap pekerjaan. Kami menantikan rekan kerja yang menjalankan tanggung jawabnya dengan sungguh-sungguh dan saling menghormati.”",
-      desc: "Di MUGGO, ketulusan sikap, tanggung jawab atas peran masing-masing, dan rasa hormat antar rekan kerja adalah nilai utama kami.",
+      desc: "Di PT BARA SUSTAINABLE INDONESIA (MUGGO), ketulusan sikap, tanggung jawab atas peran masing-masing, dan rasa hormat antar rekan kerja adalah nilai utama kami.",
       peopleBtn: "Tentang Budaya & Tim",
-      careerBtn: "Lihat 11 Bidang Rekrutmen"
+      careerBtn: "Lihat 11 Bidang Rekrutmen Resmi"
     },
     articles: {
-      eyebrow: "RELATED ARTICLES",
-      title: "Kabar & Pengumuman MUGGO",
+      eyebrow: "OFFICIAL ANNOUNCEMENTS",
+      title: "Pengumuman Resmi & Informasi Pra-Pembukaan",
       readMore: "Baca Selengkapnya →",
       backBtn: "← Kembali ke Daftar"
     },
     footnotes: {
-      summary: "Catatan Indikator & Dasar Rencana Bisnis"
+      summary: "Catatan Hukum, Status Pra-Pembukaan & Verifikasi Rekrutmen"
     },
     brandsPage: {
-      eyebrow: "MUGGO VIRTUAL FOOD HALL · RENCANA 30 BRAND",
-      title: "30 Brand Spesialis & 300 Menu dalam 5 Kategori Kuliner",
-      intro: "Seluruh hidangan dari 30 brand dirancang untuk dimasak secara sinkron di Dapur Terpusat MUGGO dan dikirimkan dalam satu pesanan terpadu (1x Ongkir). Disusun dengan standar ramah Halal (Tanpa Babi, Tanpa Minyak Babi & Non-Alkohol).",
-      allTab: "Semua (30 Brand)",
+      eyebrow: "MUGGO PLANNED PORTFOLIO · BELUM DIJUAL SAAT INI",
+      title: "Rencana Portofolio 30 Brand & Konsep Menu MUGGO (Tahap Pra-Pembukaan)",
+      intro: "Halaman ini menampilkan gambaran konsep 30 brand kuliner internal (300 menu) yang sedang dipersiapkan oleh PT BARA SUSTAINABLE INDONESIA untuk merek MUGGO. Saat ini bisnis berada dalam tahap pra-pembukaan sehingga belum ada makanan atau minuman yang dijual kepada publik. Seluruh konsep menu disusun dengan standar ramah Halal (Tanpa Babi, Tanpa Minyak Babi & Non-Alkohol).",
+      allTab: "Semua (30 Rencana Brand)",
       catNames: {
         Chicken: "Ayam (Chicken · 3)",
         Korean: "Masakan Korea (13)",
@@ -119,19 +134,20 @@ window.I18N_DICT = {
         Salad: "Salad & Poke (1)",
         Dessert: "Minuman & Dessert (7)"
       },
-      searchPlaceholder: "Cari brand atau nama menu (contoh: SOTDAK, Bibimbap, Burger, Bingsu)...",
-      menusCount: "10 Menu Spesialis (Rencana)",
-      viewAllMenus: "Lihat Semua 10 Menu",
-      hideMenus: "Tutup Menu",
-      emptySearchTitle: "Tidak ada brand atau menu yang cocok",
-      emptySearchDesc: "Tidak ditemukan hasil untuk kata kunci pencarian Anda. Coba kata kunci lain atau tampilkan kembali seluruh 30 brand.",
+      searchPlaceholder: "Cari nama brand atau konsep menu (contoh: SOTDAK, Bibimbap, Burger, Bingsu)...",
+      menusCount: "10 Konsep Menu (Pra-Pembukaan)",
+      preOpeningTag: "Pra-Pembukaan",
+      viewAllMenus: "Lihat 10 Konsep Menu",
+      hideMenus: "Tutup Daftar Menu",
+      emptySearchTitle: "Tidak ada brand atau konsep menu yang cocok",
+      emptySearchDesc: "Tidak ditemukan hasil untuk kata kunci pencarian Anda. Coba kata kunci lain atau tampilkan kembali seluruh 30 rencana brand.",
       resetSearchBtn: "Reset Pencarian"
     },
     foodRndPage: {
       eyebrow: "FOOD & R&D · 5 GENRES & 6 STATIONS",
-      title: "Pengembangan Menu 5 Genre Masakan & Sistem 6 Stasiun Dapur",
-      intro: "Riset resep terstandarisasi yang mencakup masakan Korea, Tiongkok, Jepang, Indonesia, dan Barat untuk menjaga kualitas rasa dan suhu hingga tiba di tangan pelanggan.",
-      halalCallout: "Kebijakan Bahan Baku Ramah Halal (No Pork, No Lard & Non-Alcohol): Seluruh menu dikembangkan tanpa daging babi, minyak babi, maupun alkohol menggunakan daging ayam, sapi, dan bahan baku pilihan untuk menghormati budaya kuliner Indonesia.",
+      title: "Rencana Pengembangan Menu 5 Genre & Sistem 6 Stasiun Dapur",
+      intro: "PT BARA SUSTAINABLE INDONESIA tengah menyiapkan standarisasi resep lintas masakan Korea, Tiongkok, Jepang, Indonesia, dan Barat serta sistem kerja dapur 6 stasiun untuk merek MUGGO.",
+      halalCallout: "Kebijakan Bahan Baku Ramah Halal (No Pork, No Lard & Non-Alcohol): Seluruh konsep menu dikembangkan tanpa daging babi, minyak babi, maupun alkohol menggunakan daging ayam, sapi, makanan laut, dan bahan baku pilihan untuk menghormati budaya kuliner Indonesia.",
       genresTitle: "5 Genre Masakan Utama (Rencana R&D)",
       genres: [
         { title: "1. Masakan Korea (Korean Cuisine)", desc: "Ayam panggang nurungji (SOTDAK), ayam bakar arang (SEONGSU DAK), rice bowl, bibimbap, jjigae, sup kaldu sapi, gimbap artisan, dan mandu." },
@@ -151,16 +167,16 @@ window.I18N_DICT = {
       ]
     },
     platformPage: {
-      eyebrow: "PLATFORM · ONLINE FOOD COURT & APP (SEGERA HADIR)",
-      title: "Mall Food Court Online & Aplikasi Delivery Mandiri",
-      intro: "Platform kuliner berfokus pada layanan delivery dan pickup yang tengah disiapkan untuk menyatukan 30 brand ke dalam satu keranjang belanja dan satu pengiriman.",
+      eyebrow: "PLATFORM · ONLINE FOOD COURT & APP (PRA-PEMBUKAAN)",
+      title: "Konsep Mall Food Court Online & Aplikasi Delivery MUGGO",
+      intro: "Platform kuliner berfokus pada layanan delivery dan pickup yang sedang dipersiapkan oleh PT BARA SUSTAINABLE INDONESIA untuk menyatukan 30 brand MUGGO ke dalam satu keranjang pesanan.",
       features: [
-        { title: "1 Keranjang · 30 Brand · 1x Ongkir", desc: "Memungkinkan pelanggan memesan ayam SOTDAK, salad segar, serta burger atau bingsu dalam satu transaksi tanpa biaya antar ganda." },
+        { title: "1 Keranjang · 30 Brand · 1x Pengiriman (Rencana)", desc: "Dirancang agar pelanggan nantinya dapat memesan berbagai menu dari brand berbeda dalam satu transaksi tanpa biaya antar ganda." },
         { title: "Sinkronisasi KDS & Kemasan Termal Terpisah", desc: "Sistem KDS dirancang menyinkronkan waktu masak antar stasiun, lalu memisahkan makanan panas (Thermal Bag) dan minuman/dessert dingin (Insulated Cooler Bag)." },
-        { title: "Pembayaran Lokal & Pengiriman Cepat", desc: "Dirancang mendukung QRIS serta integrasi pengiriman instan maupun layanan Ambil Sendiri (Pick Up) saat gerai resmi beroperasi." }
+        { title: "Status Saat Ini: Persiapan Pra-Pembukaan", desc: "Layanan pemesanan dan aplikasi delivery mandiri sedang dalam tahap persiapan akhir dan belum melakukan transaksi penjualan saat ini." }
       ],
-      appBoxTitle: "Aplikasi Delivery Mandiri MUGGO (Segera Hadir)",
-      appBoxDesc: "Kami sedang mempersiapkan aplikasi resmi MUGGO untuk kemudahan pemesanan paket multi-brand dan pelacakan pesanan."
+      appBoxTitle: "Aplikasi & Layanan Pemesanan MUGGO (Segera Hadir)",
+      appBoxDesc: "Saat ini belum ada produk yang dijual. Jadwal pembukaan resmi gerai dan aplikasi akan diumumkan melalui situs korporat ini."
     },
     peoplePage: {
       eyebrow: "OUR PEOPLE & CULTURE",
@@ -169,31 +185,31 @@ window.I18N_DICT = {
       values: [
         { title: "1. Karakter yang Baik & Saling Menghormati", desc: "Menghargai keberagaman latar belakang dan posisi, berkomunikasi secara jujur, serta membangun lingkungan kerja yang sehat dan suportif." },
         { title: "2. Ketekunan dalam Tanggung Jawab", desc: "Menjaga standar kebersihan dapur, ketepatan takaran resep, hingga kerapian pengemasan dengan disiplin tinggi setiap hari." },
-        { title: "3. Semangat Tulus untuk Bertumbuh", desc: "Antusias mempelajari sistem F&B modern dan berkembang menjadi pemimpin operasional seiring rencana ekspansi MUGGO di Indonesia." }
+        { title: "3. Semangat Tulus untuk Bertumbuh", desc: "Antusias mempelajari sistem F&B modern dan berkembang menjadi pemimpin operasional bersama PT BARA SUSTAINABLE INDONESIA (MUGGO)." }
       ]
     },
     careersPage: {
-      eyebrow: "CAREERS · 11 OPEN CATEGORIES",
-      title: "Informasi Rekrutmen MUGGO Indonesia (11 Bidang Posisi)",
-      intro: "Bergabunglah bersama tim pendiri PT MUGGO INDONESIA di Jakarta menjelang pembukaan gerai pertama kami. Kami membuka kesempatan karir di 11 bidang posisi operasional dan manajemen.",
-      applyBoxTitle: "Cara Melamar Kerja (Melalui Email Resmi)",
-      applyBoxDesc: "Lamaran diterima melalui email rekrutmen resmi kami (barasustainable@gmail.com). Klik tombol di bawah untuk menyusun draf email otomatis, lalu lampirkan CV terbaru Anda dan kirimkan melalui aplikasi email Anda.",
+      eyebrow: "OFFICIAL CAREERS · PT BARA SUSTAINABLE INDONESIA",
+      title: "Rekrutmen Resmi PT BARA SUSTAINABLE INDONESIA — Brand MUGGO (11 Bidang)",
+      intro: "Bergabunglah bersama tim pendiri PT BARA SUSTAINABLE INDONESIA di Jakarta Selatan untuk persiapan peluncuran merek MUGGO. Seluruh proses rekrutmen ini resmi dan tidak dipungut biaya apa pun.",
+      applyBoxTitle: "Cara Melamar Kerja & Verifikasi Email Resmi",
+      applyBoxDesc: "Untuk menjaga keamanan data pelamar selama tahap pra-pembukaan (sebelum mailbox domain korporat aktif), seluruh lamaran kerja hanya diterima melalui satu alamat email resmi sementara perusahaan. Klik tombol di bawah untuk membuat draf email lamaran, lalu lampirkan CV terbaru Anda dan kirim melalui aplikasi email Anda.",
       emailBtn: "Buka Aplikasi Email",
       formBtn: "Lamar via Email (Buat Draf)",
-      copyEmailBtn: "Salin Alamat Email",
+      copyEmailBtn: "Salin Alamat Email Resmi",
       copiedNotice: "Tersalin!",
       benefitsTitle: "Kesejahteraan & Lingkungan Kerja",
       benefits: [
-        { title: "Kepatuhan Hukum & BPJS Lengkap", desc: "Kontrak kerja resmi (PKWT/PKWTT), jaminan BPJS Kesehatan & Ketenagakerjaan, serta Tunjangan Hari Raya (THR) sesuai regulasi." },
-        { title: "Siklus Gaji Transparan & Tepat Waktu", desc: "Perhitungan periode kerja (21 → 20), upah lembur sesuai ketentuan, dan slip gaji yang transparan." },
-        { title: "Makan Karyawan & Diskon Brand", desc: "Penyediaan makan selama jam kerja serta manfaat khusus karyawan untuk brand MUGGO." },
-        { title: "Pelatihan SOP & Jenjang Karir Cepat", desc: "Pelatihan standar kuliner profesional dan peluang promosi menuju Part Leader hingga Branch Manager." }
+        { title: "Kepatuhan Hukum & BPJS Lengkap", desc: "Kontrak kerja resmi dengan PT BARA SUSTAINABLE INDONESIA (PKWT/PKWTT), jaminan BPJS Kesehatan & Ketenagakerjaan, serta THR sesuai regulasi." },
+        { title: "Siklus Gaji Transparan & Tepat Waktu", desc: "Perhitungan periode kerja yang jelas, upah lembur sesuai ketentuan, dan slip gaji yang transparan." },
+        { title: "Makan Karyawan & Manfaat Internal", desc: "Penyediaan makan selama jam kerja operasional serta manfaat khusus bagi karyawan." },
+        { title: "Pelatihan SOP & Jenjang Karir", desc: "Pelatihan standar kuliner profesional sejak masa pra-pembukaan dan peluang promosi menuju Part Leader hingga Branch Manager." }
       ],
       positionsTitle: "Daftar 11 Bidang Posisi yang Dibuka"
     },
     applyModal: {
-      title: "Buat Draf Email Lamaran",
-      guide: "Formulir ini membantu Anda menyusun format email lamaran. Setelah menekan 'Buka Aplikasi Email', aplikasi email di perangkat Anda akan terbuka—mohon lampirkan file CV/Resume Anda lalu tekan Kirim ke barasustainable@gmail.com.",
+      title: "Buat Draf Email Lamaran Resmi",
+      guidePrefix: "Formulir ini membantu Anda menyusun format email lamaran ke PT BARA SUSTAINABLE INDONESIA. Setelah menekan tombol buka email, aplikasi email Anda akan terbuka—mohon lampirkan file CV/Resume Anda lalu kirimkan ke alamat resmi:",
       roleLabel: "Posisi yang Dilamar",
       nameLabel: "Nama Lengkap",
       contactLabel: "Nomor WhatsApp / Email Aktif",
@@ -201,21 +217,25 @@ window.I18N_DICT = {
       cancelBtn: "Batal",
       submitBtn: "Buka Aplikasi Email ↗",
       copyDraftBtn: "Salin Teks & Alamat Email",
-      copySuccess: "Teks lamaran dan alamat email (barasustainable@gmail.com) telah disalin ke papan klip."
+      copySuccess: "Teks lamaran dan alamat email resmi telah disalin ke papan klip."
     },
     contactPage: {
-      eyebrow: "CONTACT · KONTAK & LOKASI",
-      title: "Kontak & Informasi Lokasi Hub Jakarta",
-      intro: "Saluran komunikasi resmi PT MUGGO INDONESIA untuk pertanyaan umum, kemitraan bisnis, dan rekrutmen di Jakarta.",
-      addressLabel: "Lokasi Hub & Kantor Operasional Jakarta (Persiapan Peluncuran)",
-      generalTitle: "Pertanyaan Umum & Kemitraan (Partnership)",
-      generalDesc: "Untuk kerja sama pemasok bahan baku, kemitraan properti/lokasi, atau pertanyaan korporat:",
-      careerTitle: "Saluran Rekrutmen & HR",
-      careerDesc: "Untuk pengiriman CV dan pertanyaan terkait lowongan kerja (11 bidang posisi):",
-      pendingNotice: "Nomor telepon/WhatsApp layanan pelanggan gerai akan diumumkan bersamaan dengan jadwal pembukaan resmi gerai pertama."
+      eyebrow: "OFFICIAL CORPORATE IDENTITY & CONTACT",
+      title: "Identitas Perusahaan, Alamat Terdaftar & Kontak Resmi",
+      intro: "Pusat informasi resmi PT BARA SUSTAINABLE INDONESIA (Brand: MUGGO) untuk verifikasi perusahaan, pelamar kerja, dan kemitraan.",
+      entityLabel: "Badan Hukum Resmi (Legal Entity)",
+      brandLabel: "Merek Usaha (Brand)",
+      statusLabel: "Status Bisnis",
+      statusText: "Tahap Pra-Pembukaan (Pre-Opening · Belum ada penjualan produk saat ini)",
+      addressLabel: "Alamat Terdaftar (Registered Address)",
+      emailLabel: "Email Resmi Sementara (Rekrutmen & Pertanyaan Korporat)",
+      emailNote: "Catatan: Alamat email ini adalah saluran resmi tunggal selama masa pra-pembukaan. Mailbox dengan domain perusahaan akan segera diperbarui di halaman ini setelah aktif.",
+      socialLabel: "Akun Media Sosial Resmi MUGGO"
     },
     footer: {
-      desc: "Situs perkenalan korporat resmi PT MUGGO INDONESIA (Tahap Pra-Peluncuran) yang menyajikan visi, rencana 30 brand kuliner, dan informasi rekrutmen.",
+      desc: "Situs korporat dan verifikasi rekrutmen resmi PT BARA SUSTAINABLE INDONESIA (Pemilik merek usaha MUGGO · Tahap Pra-Pembukaan).",
+      registeredLabel: "Alamat Terdaftar:",
+      emailLabel: "Email Resmi Sementara:",
       privacy: "Kebijakan Privasi",
       terms: "Syarat & Ketentuan",
       specLink: "Spesifikasi Gambar"
@@ -223,7 +243,7 @@ window.I18N_DICT = {
     sticky: {
       instagram: "Instagram",
       tiktok: "TikTok",
-      careers: "Lamar Karir (11 Bidang)",
+      careers: "Karir & Verifikasi (11 Bidang)",
       whatsapp: "WhatsApp"
     }
   },
@@ -233,43 +253,57 @@ window.I18N_DICT = {
     themeLabel: ["Dark mode", "Light mode"],
     nav: {
       home: "Home",
-      brands: "Brands",
+      careers: "Careers & Verification",
+      people: "Culture",
+      brands: "Planned Brands",
       foodRnd: "Food & R&D",
       platform: "Platform",
-      people: "People",
-      careers: "Careers",
-      contact: "Contact"
+      contact: "Official Contact"
     },
     hero: {
-      eyebrow: "MUGGO · JAKARTA ONLINE FOOD COURT MALL (UPCOMING)",
-      headlineA: "An Online Food Court Mall Transforming Indonesia's Dining Market with Korean Premium F&B Know-How",
-      headlineB: "An Online Food Court Mall Bringing 30 Culinary Brands Together in One Place",
-      subcopyA: "Preparing to unite 30 specialized culinary brands (300 planned menus)—from SOTDAK and SEONGSU DAK to JUMOK, PANTRY 12, and BING HA—in one central smart kitchen with a single delivery fee.",
-      subcopyB: "Preparing to unite 30 specialized culinary brands (300 planned menus) across 5 core food categories in one central smart kitchen with a single delivery fee.",
-      careerBtn: "Explore Careers (11 Roles)",
-      brandBtn: "View 30 Brands & 300 Menus",
-      appComingSoon: "Delivery App (Coming Soon)",
+      eyebrow: "PT BARA SUSTAINABLE INDONESIA · BRAND: MUGGO (PRE-OPENING)",
+      headlineA: "Official Corporate Identity & Recruitment of PT BARA SUSTAINABLE INDONESIA (Brand: MUGGO)",
+      headlineB: "PT BARA SUSTAINABLE INDONESIA · Building the MUGGO Online Food Court Ecosystem in Jakarta",
+      subcopyA: "We are a South Jakarta F&B company currently in the pre-opening stage for our brand MUGGO—an online food court uniting 30 planned culinary brands in one central kitchen. Nothing is on sale yet, and we are actively recruiting our founding team across 11 job categories.",
+      subcopyB: "PT BARA SUSTAINABLE INDONESIA is preparing the pre-opening launch of MUGGO in South Jakarta. Nothing is on sale yet as we focus on building our founding team across 11 job categories.",
+      careerBtn: "Company Verification & Careers (11 Roles)",
+      brandBtn: "View Planned MUGGO Brands",
+      appComingSoon: "Status: Pre-Opening (Not on Sale Yet)",
       appDownload: "Open MUGGO App"
+    },
+    identityCard: {
+      eyebrow: "OFFICIAL COMPANY VERIFICATION",
+      title: "Official Corporate Identity & Job Seeker Verification",
+      intro: "This section is provided for job applicants and job-board verification teams to confirm the official legal identity of PT BARA SUSTAINABLE INDONESIA (Brand: MUGGO).",
+      legalLabel: "Legal Entity Name",
+      brandLabel: "Operating Brand",
+      statusLabel: "Current Business Status",
+      statusValue: "Pre-Opening Stage — No food or products are on sale yet",
+      purposeLabel: "Primary Purpose of This Site",
+      purposeValue: "Company identity verification and official recruitment across 11 roles in South Jakarta",
+      antiFraudTitle: "Official Anti-Fraud Recruitment Notice (100% Free Recruitment)",
+      antiFraudDesc: "PT BARA SUSTAINABLE INDONESIA never charges candidates any fees (administration, testing, uniform, or travel fees) at any stage of recruitment. All official communication uses the single contact address listed in the Contact & Footer section.",
+      contactLinkBtn: "View Registered Address & Official Contact →"
     },
     pillars: {
       eyebrow: "OUR PILLARS",
-      title: "Four Core Pillars Driving MUGGO",
-      intro: "Building a new benchmark for Indonesia's F&B ecosystem through Brands, Food R&D, Platform, and People.",
+      title: "Four Core Pillars Under Preparation",
+      intro: "PT BARA SUSTAINABLE INDONESIA is building the operational foundation for MUGGO across People, Food R&D, Platform, and Planned Brands.",
       items: [
         {
-          id: "brands",
-          route: "brands",
-          icon: "store",
-          title: "Brands",
-          desc: "In-house brands across 5 categories from chicken to desserts (Planned 30 Brands · 300 Menus)",
-          action: "Explore 30 Brands →"
+          id: "people",
+          route: "people",
+          icon: "users",
+          title: "People & Culture",
+          desc: "Building a diligent, respectful founding team in South Jakarta",
+          action: "View Our Culture →"
         },
         {
           id: "food-rnd",
           route: "food-rnd",
           icon: "utensils",
           title: "Food & R&D",
-          desc: "Menu development spanning Korean, Chinese, Japanese, Indonesian, and Western cuisines",
+          desc: "Halal-friendly (No Pork, No Lard) recipe R&D spanning 5 culinary genres",
           action: "View R&D & 6 Stations →"
         },
         {
@@ -277,67 +311,67 @@ window.I18N_DICT = {
           route: "platform",
           icon: "smartphone",
           title: "Platform",
-          desc: "Delivery & pickup-focused online food court mall and proprietary app (Coming Soon)",
+          desc: "6-station central kitchen workflow and delivery/pickup platform preparation",
           action: "Explore Platform →"
         },
         {
-          id: "people",
-          route: "people",
-          icon: "users",
-          title: "People",
-          desc: "A team that values diligence and genuine passion",
-          action: "View Our Culture →"
+          id: "brands",
+          route: "brands",
+          icon: "store",
+          title: "Planned Brands (MUGGO)",
+          desc: "Planned portfolio of 30 in-house brands across 5 categories for upcoming launch",
+          action: "View Planned Brands →"
         }
       ]
     },
     koreaHq: {
       eyebrow: "GLOBAL F&B KNOW-HOW",
       title: "Synergy of Korean F&B Operations & Indonesian Localization",
-      desc: "Combining multi-brand planning, standardized kitchen SOPs, and sauce/recipe R&D know-how from our Korea HQ tailored for Indonesian diners.",
-      linkText: "MUGGO Korea HQ"
+      desc: "PT BARA SUSTAINABLE INDONESIA adapts multi-brand planning, standardized kitchen SOPs, and recipe R&D know-how from Korea tailored for Indonesia.",
+      linkText: "Korea F&B R&D & Operations Know-How"
     },
     ceo: {
-      eyebrow: "CEO MESSAGE",
+      eyebrow: "LEADERSHIP MESSAGE",
       titlePrefix: "A Message from Leadership",
-      p1Title: "The Strength of Uniting 30 Brands & Our Vision",
-      p1: "“We are preparing to unite 30 specialized culinary brands—spanning chicken, Korean cuisine, pizza/burgers/sandwiches, fresh salads, and beverages/desserts—into one smart kitchen and online food court mall. By enabling families and colleagues to order diverse dishes in a single cart and receive them together in one delivery, we aim to bring new convenience and joy to everyday dining in Indonesia.”",
-      p2Title: "People-Centered Organization & Our Promise",
-      p2: "“Great food and service always begin with great people. We are building a healthy organization where colleagues with good character, diligence, and genuine passion can grow together in mutual respect. We promise to be a trusted company for local customers, job seekers, and partners alike.”",
-      signRole: "Chief Executive Officer"
+      p1Title: "Transparent Corporate Identity & MUGGO's Pre-Opening Vision",
+      p1: "“Through PT BARA SUSTAINABLE INDONESIA, we are preparing the launch of our MUGGO brand in South Jakarta. Before our kitchen and ordering platform open to consumers, our top priority is establishing clear trust with job seekers, verifiers, and local partners through transparent company identity.”",
+      p2Title: "People-Centered Organization & Fair Recruitment",
+      p2: "“Great food and service always begin with great people. We welcome colleagues with good character, diligence, and genuine passion to join our founding team, and we guarantee a transparent, zero-fee recruitment process.”",
+      signRole: "Leadership"
     },
     impact: {
-      eyebrow: "TARGET & ROADMAP",
-      title: "Business Plan Targets & Launch Milestones",
-      notice: "PT MUGGO INDONESIA is currently in the pre-launch stage. All figures below represent business plan targets and scheduled milestones (Planned / Upcoming).",
-      roadmapTitle: "Regional Expansion Roadmap",
+      eyebrow: "PRE-OPENING PLAN & ROADMAP",
+      title: "Pre-Opening Business Plan & Milestones",
+      notice: "PT BARA SUSTAINABLE INDONESIA is currently in the pre-opening phase (nothing is on sale yet). All figures below represent planned targets.",
+      roadmapTitle: "Preparation & Expansion Roadmap",
       roadmapSteps: [
-        "Phase 1 · South Jakarta Flagship Hub (Tebet / SCBD · Upcoming)",
-        "Phase 2 · Greater Jakarta / Jabodetabek (Target 30 Hubs)",
-        "Phase 3 · Major Indonesian Cities (Target 100+ Locations)"
+        "Phase 1 · Founding Team Recruitment & Central Kitchen Setup in South Jakarta (In Progress)",
+        "Phase 2 · Initial Hub & MUGGO Platform Launch in South Jakarta (Upcoming)",
+        "Phase 3 · Phased Hub Network Expansion Across Greater Jakarta & Major Cities"
       ]
     },
     culture: {
       eyebrow: "OUR CULTURE",
       title: "Our Culture & Who We Look For",
       quote: "“Good character, diligence, and genuine passion for work. We look forward to colleagues who faithfully fulfill their roles and respect one another.”",
-      desc: "At MUGGO, sincerity, ownership of one's craft, and mutual respect among teammates are our core foundations.",
+      desc: "At PT BARA SUSTAINABLE INDONESIA (MUGGO), sincerity, ownership of one's role, and mutual respect among teammates are our core foundations.",
       peopleBtn: "Our Culture & Values",
-      careerBtn: "View 11 Open Categories"
+      careerBtn: "View 11 Official Open Categories"
     },
     articles: {
-      eyebrow: "RELATED ARTICLES",
-      title: "Latest Updates from MUGGO",
+      eyebrow: "OFFICIAL ANNOUNCEMENTS",
+      title: "Official Announcements & Pre-Opening Updates",
       readMore: "Read Article →",
       backBtn: "← Back to Updates"
     },
     footnotes: {
-      summary: "Target Metrics & Business Plan Footnotes"
+      summary: "Legal Entity Identity, Pre-Opening Status & Recruitment Verification Notes"
     },
     brandsPage: {
-      eyebrow: "MUGGO VIRTUAL FOOD HALL · PLANNED 30 BRANDS",
-      title: "30 Specialized Brands & 300 Planned Menus Across 5 Culinary Categories",
-      intro: "Dishes across all 30 planned brands are engineered to be cooked synchronously in MUGGO's Central Kitchen and delivered together in a single order. Formulated under a Halal-Friendly Standard (No Pork, No Lard & Non-Alcohol).",
-      allTab: "All (30 Brands)",
+      eyebrow: "MUGGO PLANNED PORTFOLIO · NOT ON SALE YET",
+      title: "Planned Portfolio of 30 Brands & Menu Concepts (Pre-Opening Stage)",
+      intro: "This page introduces the 30 planned culinary brands (300 menu concepts) under preparation by PT BARA SUSTAINABLE INDONESIA for the MUGGO brand. Because the business is in the pre-opening stage, nothing is on sale yet. All menu concepts follow a Halal-Friendly Standard (No Pork, No Lard & Non-Alcohol).",
+      allTab: "All (30 Planned Brands)",
       catNames: {
         Chicken: "Chicken (3)",
         Korean: "Korean Cuisine (13)",
@@ -345,19 +379,20 @@ window.I18N_DICT = {
         Salad: "Salad & Poke (1)",
         Dessert: "Beverage & Dessert (7)"
       },
-      searchPlaceholder: "Search brands or menus (e.g. SOTDAK, Bibimbap, Burger, Bingsu)...",
-      menusCount: "10 Planned Menus",
-      viewAllMenus: "View All 10 Menus",
-      hideMenus: "Hide Menus",
-      emptySearchTitle: "No matching brands or menus found",
-      emptySearchDesc: "No results matched your search query. Try another keyword or reset the search filter to browse all 30 brands.",
+      searchPlaceholder: "Search planned brands or menu concepts...",
+      menusCount: "10 Planned Menu Concepts",
+      preOpeningTag: "Pre-Opening",
+      viewAllMenus: "View 10 Menu Concepts",
+      hideMenus: "Hide Menu List",
+      emptySearchTitle: "No matching brands or menu concepts found",
+      emptySearchDesc: "No results matched your search query. Try another keyword or reset the search filter.",
       resetSearchBtn: "Reset Search"
     },
     foodRndPage: {
       eyebrow: "FOOD & R&D · 5 GENRES & 6 STATIONS",
-      title: "Menu R&D Across 5 Culinary Genres & 6 Kitchen Stations",
-      intro: "Standardized recipe engineering spanning Korean, Chinese, Japanese, Indonesian, and Western cuisines to preserve optimal taste and temperature upon delivery.",
-      halalCallout: "Halal-Friendly Ingredient Standard (No Pork, No Lard & Non-Alcohol): Respecting Indonesian dining culture, all recipes are formulated without pork, lard, or alcohol using quality beef, poultry, seafood, and localized ingredients.",
+      title: "Planned Menu R&D Across 5 Culinary Genres & 6 Kitchen Stations",
+      intro: "PT BARA SUSTAINABLE INDONESIA is preparing standardized recipes across Korean, Chinese, Japanese, Indonesian, and Western cuisines for the MUGGO brand.",
+      halalCallout: "Halal-Friendly Ingredient Standard (No Pork, No Lard & Non-Alcohol): Respecting Indonesian dining culture, all recipes are formulated without pork, lard, or alcohol.",
       genresTitle: "5 Core Culinary Genres (R&D Plan)",
       genres: [
         { title: "1. Korean Cuisine", desc: "Cauldron-roasted nurungji chicken (SOTDAK), charcoal BBQ chicken (SEONGSU DAK), rice bowls, bibimbap, stews, ox-bone soups, artisan gimbap, and beef/shrimp dumplings." },
@@ -377,16 +412,16 @@ window.I18N_DICT = {
       ]
     },
     platformPage: {
-      eyebrow: "PLATFORM · ONLINE FOOD COURT & APP (UPCOMING)",
-      title: "Online Food Court Mall & Proprietary Delivery App",
-      intro: "A delivery and pickup-focused culinary platform under preparation to unite 30 brands into a single shopping cart and one unified delivery.",
+      eyebrow: "PLATFORM · ONLINE FOOD COURT & APP (PRE-OPENING)",
+      title: "MUGGO Online Food Court & Delivery Platform Concept",
+      intro: "A delivery and pickup-focused culinary platform under preparation by PT BARA SUSTAINABLE INDONESIA to unite 30 planned MUGGO brands.",
       features: [
-        { title: "1 Cart · 30 Brands · 1 Delivery Fee", desc: "Designed so customers can order roasted chicken, fresh poke salad, and craft burgers or bingsu in a single order with no duplicate delivery fees." },
-        { title: "6-Station KDS Sync & Dual Thermal Packaging", desc: "Engineered to synchronize cooking times across stations and pack hot dishes (Thermal Bag) separately from chilled drinks and desserts (Insulated Cooler Bag)." },
-        { title: "Local Digital Payments & Delivery Dispatch", desc: "Planned integration with Indonesian QRIS payments, instant courier dispatch, and in-hub Pick Up upon flagship launch." }
+        { title: "1 Cart · 30 Brands · 1 Delivery (Planned)", desc: "Designed so customers will be able to order across multiple brands in a single order upon official launch." },
+        { title: "6-Station KDS Sync & Dual Thermal Packaging", desc: "Engineered to synchronize cooking times across stations and separate hot dishes from chilled drinks and desserts." },
+        { title: "Current Status: Pre-Opening Preparation", desc: "Nothing is on sale yet. Official launch dates will be announced on this corporate website." }
       ],
-      appBoxTitle: "MUGGO Proprietary Delivery App (Coming Soon)",
-      appBoxDesc: "We are preparing the official MUGGO app for multi-brand value combos and real-time kitchen tracking."
+      appBoxTitle: "MUGGO Ordering App (Coming Soon)",
+      appBoxDesc: "No products are currently on sale as we complete pre-opening preparations."
     },
     peoplePage: {
       eyebrow: "OUR PEOPLE & CULTURE",
@@ -394,54 +429,58 @@ window.I18N_DICT = {
       intro: "“Good character, diligence, and genuine passion for work. We look forward to colleagues who faithfully fulfill their roles and respect one another.”",
       values: [
         { title: "1. Good Character & Mutual Respect", desc: "Respecting teammates across every kitchen station and office role, communicating honestly, and fostering a supportive workplace." },
-        { title: "2. Diligence & Ownership", desc: "Upholding strict hygiene standards, exact recipe portions, and careful packaging with pride and consistency every day." },
-        { title: "3. Genuine Passion for Growth", desc: "Embracing modern smart-kitchen operations and growing into future operational leaders as MUGGO expands across Indonesia." }
+        { title: "2. Diligence & Ownership", desc: "Upholding strict hygiene standards, exact recipe portions, and careful preparation with pride and consistency." },
+        { title: "3. Genuine Passion for Growth", desc: "Growing into future operational leaders together with PT BARA SUSTAINABLE INDONESIA (MUGGO)." }
       ]
     },
     careersPage: {
-      eyebrow: "CAREERS · 11 OPEN CATEGORIES",
-      title: "Careers at MUGGO Indonesia (11 Job Categories)",
-      intro: "Join the founding team at PT MUGGO INDONESIA in Jakarta ahead of our flagship hub launch. We are actively hiring across 11 operational, culinary, and management categories.",
-      applyBoxTitle: "How to Apply (Via Official Recruitment Email)",
-      applyBoxDesc: "Applications are received via our official recruitment email (barasustainable@gmail.com). Click below to draft a pre-filled application email, then attach your CV/Resume and send it from your email app.",
+      eyebrow: "OFFICIAL CAREERS · PT BARA SUSTAINABLE INDONESIA",
+      title: "Official Recruitment at PT BARA SUSTAINABLE INDONESIA — Brand MUGGO (11 Categories)",
+      intro: "Join the founding team at PT BARA SUSTAINABLE INDONESIA in South Jakarta ahead of our MUGGO launch. All recruitment is official and 100% free of charge.",
+      applyBoxTitle: "How to Apply & Official Contact Verification",
+      applyBoxDesc: "During our pre-opening phase (while our corporate domain mailbox is being finalized), all applications are handled through our single official temporary email address. Click below to draft your application email, attach your CV, and send it from your email client.",
       emailBtn: "Open Email App",
       formBtn: "Apply via Email (Draft)",
-      copyEmailBtn: "Copy Email Address",
+      copyEmailBtn: "Copy Official Email",
       copiedNotice: "Copied!",
       benefitsTitle: "Benefits & Working Environment",
       benefits: [
-        { title: "Full Legal Compliance & BPJS", desc: "Official employment contracts (PKWT/PKWTT), full BPJS Kesehatan & Ketenagakerjaan coverage, and religious holiday allowance (THR)." },
-        { title: "Transparent Payroll & Overtime", desc: "Clear monthly payroll cycles (21 → 20), compliant overtime calculation, and transparent payslips." },
-        { title: "Staff Meals & Brand Discounts", desc: "Wholesome duty meals provided on shift plus employee benefits across MUGGO culinary brands." },
-        { title: "Structured SOP Training & Career Growth", desc: "Hands-on training in smart kitchen SOPs and career progression toward Part Leader and Branch Manager roles." }
+        { title: "Full Legal Compliance & BPJS", desc: "Official employment contracts with PT BARA SUSTAINABLE INDONESIA (PKWT/PKWTT), BPJS coverage, and THR." },
+        { title: "Transparent Payroll & Overtime", desc: "Clear monthly payroll cycles, compliant overtime calculation, and transparent payslips." },
+        { title: "Staff Meals & Internal Benefits", desc: "Duty meals provided during operational shifts plus employee benefits." },
+        { title: "Structured SOP Training & Career Growth", desc: "Hands-on training from the pre-opening stage and career progression toward Part Leader and Branch Manager roles." }
       ],
       positionsTitle: "11 Open Job Categories"
     },
     applyModal: {
-      title: "Draft Email Application",
-      guide: "This helper prepares your application email format. Clicking 'Open Email App' launches your email client with the details below—please attach your CV/Resume and send the email to barasustainable@gmail.com.",
+      title: "Draft Official Email Application",
+      guidePrefix: "This helper prepares your application email to PT BARA SUSTAINABLE INDONESIA. Clicking 'Open Email App' launches your email client—please attach your CV/Resume and send it to our official address:",
       roleLabel: "Target Role / Category",
       nameLabel: "Full Name",
       contactLabel: "WhatsApp Number / Email",
       msgLabel: "Brief Experience Summary & Motivation",
       cancelBtn: "Cancel",
       submitBtn: "Open Email App ↗",
-      copyDraftBtn: "Copy Draft & Email Address",
-      copySuccess: "Application draft and email address (barasustainable@gmail.com) copied to clipboard."
+      copyDraftBtn: "Copy Draft & Email",
+      copySuccess: "Application draft and official email address copied to clipboard."
     },
     contactPage: {
-      eyebrow: "CONTACT & HUB LOCATION",
-      title: "Contact & Jakarta Hub Information",
-      intro: "Official communication channels for PT MUGGO INDONESIA regarding general inquiries, partnerships, and recruitment in Jakarta.",
-      addressLabel: "Jakarta Operational Hub (Pre-Launch Preparation)",
-      generalTitle: "General & Partnership Inquiries",
-      generalDesc: "For ingredient supply, real estate/hub partnerships, or corporate inquiries:",
-      careerTitle: "Recruitment & HR Channel",
-      careerDesc: "For submitting your CV and inquiring about our 11 open job categories:",
-      pendingNotice: "Customer service WhatsApp numbers for store orders will be published upon official flagship hub opening."
+      eyebrow: "OFFICIAL CORPORATE IDENTITY & CONTACT",
+      title: "Company Identity, Registered Address & Official Contact",
+      intro: "Single official source of truth for PT BARA SUSTAINABLE INDONESIA (Brand: MUGGO) company verification, recruitment, and inquiries.",
+      entityLabel: "Legal Entity",
+      brandLabel: "Brand",
+      statusLabel: "Business Status",
+      statusText: "Pre-Opening Stage (Nothing is on sale yet)",
+      addressLabel: "Registered Address",
+      emailLabel: "Temporary Official Email (Recruitment & Corporate Inquiries)",
+      emailNote: "Note: This is our single official email address during the pre-opening phase. Our company-domain mailbox will be updated here once active.",
+      socialLabel: "Official MUGGO Social Channels"
     },
     footer: {
-      desc: "Official corporate website of PT MUGGO INDONESIA (Pre-Launch Stage) presenting our vision, planned 30 culinary brands, and career opportunities.",
+      desc: "Official corporate identity and recruitment verification website of PT BARA SUSTAINABLE INDONESIA (Brand: MUGGO · Pre-Opening Stage).",
+      registeredLabel: "Registered Address:",
+      emailLabel: "Official Temporary Email:",
       privacy: "Privacy Policy",
       terms: "Terms of Use",
       specLink: "Image Specs"
@@ -449,7 +488,7 @@ window.I18N_DICT = {
     sticky: {
       instagram: "Instagram",
       tiktok: "TikTok",
-      careers: "Careers (11 Roles)",
+      careers: "Careers & Verification",
       whatsapp: "WhatsApp"
     }
   },
@@ -459,43 +498,57 @@ window.I18N_DICT = {
     themeLabel: ["다크 모드", "라이트 모드"],
     nav: {
       home: "홈",
-      brands: "브랜드",
+      careers: "채용·법인인증",
+      people: "조직문화",
+      brands: "브랜드 기획",
       foodRnd: "푸드·R&D",
       platform: "플랫폼",
-      people: "사람",
-      careers: "채용",
-      contact: "문의"
+      contact: "공식 문의·주소"
     },
     hero: {
-      eyebrow: "MUGGO · JAKARTA ONLINE FOOD COURT MALL (오픈 예정)",
-      headlineA: "한국 프리미엄 F&B 노하우로 인도네시아 외식 시장을 바꾸는 온라인 푸드코트 몰",
-      headlineB: "30여 개 브랜드를 한 곳에서 만나는 온라인 푸드코트 몰",
-      subcopyA: "솥닭(SOTDAK), 성수닭, 주목, 펜트리12, 빙하 등 5개 카테고리 30개 전문 브랜드(300개 메뉴)를 하나의 센트럴 키친에서 조리하여 단 1회 배달비(1 Ongkir)로 선보일 예정입니다.",
-      subcopyB: "치킨부터 한식, 피자·버거·샌드위치, 샐러드, 음료·디저트까지 30개 전문 브랜드(300개 메뉴)를 한 곳에서 만나는 온라인 푸드코트 몰을 준비하고 있습니다.",
-      careerBtn: "채용 바로가기 (11개 직군)",
-      brandBtn: "30개 브랜드 & 300개 메뉴 보기",
-      appComingSoon: "자체 배달 앱 (오픈 예정)",
-      appDownload: "MUGGO 배달 앱 열기"
+      eyebrow: "PT BARA SUSTAINABLE INDONESIA · BRAND: MUGGO (오픈 준비 중)",
+      headlineA: "PT BARA SUSTAINABLE INDONESIA (브랜드: MUGGO) 공식 법인 소개 및 채용 안내",
+      headlineB: "PT BARA SUSTAINABLE INDONESIA · 자카르타 온라인 푸드코트 브랜드 MUGGO 오픈 준비",
+      subcopyA: "당사는 인도네시아 자카르타 남부에서 외식 브랜드 MUGGO(30개 브랜드 센트럴 키친 온라인 푸드코트)의 오픈을 준비 중인 공식 법인 PT BARA SUSTAINABLE INDONESIA입니다. 현재 오픈 전(Pre-Opening) 단계로 아직 상품을 판매하지 않으며, 11개 직군에서 창립 멤버를 공식 채용하고 있습니다.",
+      subcopyB: "PT BARA SUSTAINABLE INDONESIA는 자카르타 남부에서 온라인 푸드코트 브랜드 MUGGO의 오픈을 준비하고 있습니다. 현재 판매 전 단계로 11개 직군 채용을 진행 중입니다.",
+      careerBtn: "법인 확인 및 채용 공고 (11개 직군)",
+      brandBtn: "MUGGO 브랜드 기획 보기",
+      appComingSoon: "현재 상태: 오픈 준비 중 (판매 전)",
+      appDownload: "MUGGO 앱 열기"
+    },
+    identityCard: {
+      eyebrow: "OFFICIAL COMPANY VERIFICATION · 공식 법인 정보",
+      title: "공식 법인 신원 및 구직자·채용플랫폼 검증 안내",
+      intro: "본 영역은 인도네시아 구직자 및 채용 사이트(Job Board) 검증 담당자가 당사의 정확한 법인명과 등록 주소, 공식 채용 여부를 즉시 확인할 수 있도록 제공하는 공식 기업 정보입니다.",
+      legalLabel: "공식 법인명 (Legal Entity)",
+      brandLabel: "사업 브랜드 (Brand)",
+      statusLabel: "현재 사업 상태",
+      statusValue: "오픈 준비 단계 (Pre-Opening) — 현재 일반 소비자 대상 메뉴·상품 판매 전",
+      purposeLabel: "사이트 운영 목적",
+      purposeValue: "법인 신원 검증, 기업 비전 소개 및 자카르타 남부 11개 직군 공식 채용 안내",
+      antiFraudTitle: "채용 사기 주의 안내 (채용 전 과정 100% 무상 진행)",
+      antiFraudDesc: "PT BARA SUSTAINABLE INDONESIA는 채용 전 과정에서 지원자에게 어떠한 명목의 비용(접수비, 교육비, 유니폼비 등)도 요구하지 않습니다. 모든 공식 연락은 본 사이트 문의(Contact) 및 하단에 명시된 단일 공식 이메일을 통해서만 이루어집니다.",
+      contactLinkBtn: "등록 주소 및 공식 이메일 확인 →"
     },
     pillars: {
       eyebrow: "OUR PILLARS",
-      title: "MUGGO를 움직이는 4가지 핵심 축",
-      intro: "브랜드, 푸드·R&D, 플랫폼, 그리고 사람을 중심으로 인도네시아 외식 시장의 새로운 기준을 준비합니다.",
+      title: "MUGGO가 준비하는 4가지 핵심 축",
+      intro: "PT BARA SUSTAINABLE INDONESIA는 사람, 푸드·R&D, 플랫폼, 브랜드 포트폴리오를 중심으로 MUGGO 오픈을 준비합니다.",
       items: [
         {
-          id: "brands",
-          route: "brands",
-          icon: "store",
-          title: "브랜드",
-          desc: "치킨부터 디저트까지 5개 카테고리의 자체 브랜드 (30개 브랜드 · 300개 메뉴 예정)",
-          action: "30개 브랜드 보기 →"
+          id: "people",
+          route: "people",
+          icon: "users",
+          title: "사람·조직문화",
+          desc: "자카르타 남부 거점을 함께 세울 성실하고 정직한 창립 팀 구축",
+          action: "조직문화 보기 →"
         },
         {
           id: "food-rnd",
           route: "food-rnd",
           icon: "utensils",
           title: "푸드·R&D",
-          desc: "한식, 중식, 일식, 인도네시아, 양식을 아우르는 메뉴 개발",
+          desc: "할랄 친화(No Pork, No Lard) 기준 5대 요리 장르 표준 레시피 개발",
           action: "메뉴 R&D & 6대 스테이션 →"
         },
         {
@@ -503,67 +556,67 @@ window.I18N_DICT = {
           route: "platform",
           icon: "smartphone",
           title: "플랫폼",
-          desc: "딜리버리·픽업 중심의 온라인 푸드코트 몰과 자체 배달 앱(오픈 예정)",
+          desc: "6대 스테이션 센트럴 키친 및 딜리버리·픽업 플랫폼 구축 준비",
           action: "플랫폼 소개 보기 →"
         },
         {
-          id: "people",
-          route: "people",
-          icon: "users",
-          title: "사람",
-          desc: "성실함과 열정을 존중하는 팀",
-          action: "조직문화와 인재상 →"
+          id: "brands",
+          route: "brands",
+          icon: "store",
+          title: "브랜드 기획 (MUGGO)",
+          desc: "5개 카테고리 30개 자체 브랜드 포트폴리오 기획 라인업",
+          action: "브랜드 기획 보기 →"
         }
       ]
     },
     koreaHq: {
       eyebrow: "GLOBAL F&B KNOW-HOW",
-      title: "검증된 한국 프리미엄 F&B 운영 시스템과 현지화 전략",
-      desc: "한국 본사의 다브랜드 기획력, 6대 전문 스테이션 조리 표준(SOP), 소스·레시피 R&D 노하우를 바탕으로 인도네시아 현지에 최적화된 온라인 푸드코트 모델을 구축하고 있습니다.",
-      linkText: "한국 본사 (MUGGO Korea HQ)"
+      title: "한국 프리미엄 F&B 운영 노하우와 인도네시아 현지화",
+      desc: "PT BARA SUSTAINABLE INDONESIA는 한국의 다브랜드 기획력, 6대 전문 스테이션 조리 표준(SOP), 레시피 R&D 노하우를 인도네시아 현지에 맞게 구축하고 있습니다.",
+      linkText: "한국 F&B R&D 및 운영 노하우"
     },
     ceo: {
-      eyebrow: "CEO MESSAGE",
-      titlePrefix: "대표 인사말",
-      p1Title: "30개 브랜드를 한곳에 모은 강점과 비전",
-      p1: "“우리는 치킨(솥닭·성수닭), 한식(주목·미각·밥클럽·비빔밥·온탕·말다 등), 피자·버거·샌드위치(펜트리12·스모키살루온·우드앤브릭 등), 샐러드(샐러드픽), 음료·디저트(나씨보스·빙하·베이글걸·솔트룸 등)에 이르는 30개 자체 브랜드 300개 메뉴를 하나의 센트럴 키친과 온라인 푸드코트 몰로 선보이고자 합니다. 가족과 동료가 각자 원하는 메뉴를 한 장바구니에 담아 한 번에 받아보는 새로운 외식 경험을 준비하고 있습니다.”",
-      p2Title: "사람 중심 조직과 앞으로의 약속",
-      p2: "“좋은 음식과 서비스는 결국 좋은 사람에게서 시작됩니다. 착한 인성과 성실함, 그리고 일에 대한 진심 어린 열정을 가진 동료들이 서로 존중하며 함께 성장하는 건강한 조직을 만들고, 인도네시아 고객과 구직자, 파트너 모두에게 신뢰받는 기업이 되겠습니다.”",
-      signRole: "대표이사"
+      eyebrow: "LEADERSHIP MESSAGE",
+      titlePrefix: "경영진 인사말",
+      p1Title: "투명한 법인 정체성과 MUGGO의 오픈 준비 비전",
+      p1: "“저희 PT BARA SUSTAINABLE INDONESIA는 자카르타 남부에서 외식 브랜드 MUGGO의 첫 오픈을 준비하고 있습니다. 매장 및 주문 플랫폼 정식 오픈에 앞서, 구직자와 채용 검증 기관, 현지 파트너분들께 명확한 법인 정보와 투명한 채용 절차를 안내하는 것이 무엇보다 중요하다고 생각합니다.”",
+      p2Title: "사람 중심 조직과 정직한 채용 약속",
+      p2: "“좋은 음식과 서비스는 결국 좋은 사람에게서 시작됩니다. 착한 인성과 성실함, 열정을 가진 동료들이 안심하고 지원할 수 있도록 투명하고 공정한 채용 원칙을 지킵니다.”",
+      signRole: "경영진"
     },
     impact: {
-      eyebrow: "TARGET & ROADMAP",
-      title: "사업 계획 및 오픈 목표 지표",
-      notice: "오픈 준비 단계의 법인이므로 아래의 모든 숫자는 사업 계획상 목표 및 예정 기준입니다.",
-      roadmapTitle: "사업 지역 확장 로드맵",
+      eyebrow: "PRE-OPENING PLAN & ROADMAP",
+      title: "오픈 준비 계획 및 로드맵",
+      notice: "PT BARA SUSTAINABLE INDONESIA는 현재 오픈 준비(Pre-Opening) 단계로 아직 상업 판매를 시작하지 않았으며, 아래 수치는 사업 계획 기준입니다.",
+      roadmapTitle: "단계별 준비 및 확장 로드맵",
       roadmapSteps: [
-        "1단계 · 자카르타 남부 1호 거점 오픈 예정 (Tebet / SCBD Hub)",
-        "2단계 · 자카르타 수도권(Jabodetabek) 30개 거점 확장 목표",
-        "3단계 · 인도네시아 주요 대도시 100개 이상 지점 확장 목표"
+        "1단계 · 자카르타 남부 창립 멤버 채용 및 센트럴 키친 오픈 준비 (진행 중)",
+        "2단계 · 자카르타 남부 1호 거점 및 MUGGO 플랫폼 정식 오픈 (예정)",
+        "3단계 · 자카르타 수도권 및 인도네시아 주요 도시 거점 단계별 확장 목표"
       ]
     },
     culture: {
       eyebrow: "OUR CULTURE",
       title: "조직문화와 인재상",
       quote: "“착한 인성, 성실함, 그리고 일에 대한 진심 어린 열정. 자신의 몫을 성실히 해내며 서로 존중하는 동료를 기다립니다.”",
-      desc: "MUGGO는 화려한 수식어보다 기본에 충실한 태도와 동료에 대한 상호 존중을 가장 중요한 가치로 여깁니다.",
+      desc: "PT BARA SUSTAINABLE INDONESIA (MUGGO)는 기본에 충실한 태도와 동료에 대한 상호 존중을 가장 중요한 가치로 여깁니다.",
       peopleBtn: "조직문화 자세히 보기",
-      careerBtn: "11개 채용 직군 보기"
+      careerBtn: "11개 공식 채용 직군 보기"
     },
     articles: {
-      eyebrow: "RELATED ARTICLES",
-      title: "법인 소식 및 공지",
+      eyebrow: "OFFICIAL ANNOUNCEMENTS",
+      title: "공식 공지 및 오픈 준비 소식",
       readMore: "자세히 보기 →",
       backBtn: "← 목록으로 돌아가기"
     },
     footnotes: {
-      summary: "수치 안내 및 사업 계획 산출 기준 각주"
+      summary: "공식 법인명, 오픈 전(Pre-Opening) 상태 및 채용 검증 각주"
     },
     brandsPage: {
-      eyebrow: "MUGGO VIRTUAL FOOD HALL · 30 BRANDS PLAN",
-      title: "5대 푸드 카테고리 · 30개 자체 브랜드 & 300개 메뉴 (오픈 예정 라인업)",
-      intro: "30개 전문 브랜드(브랜드당 10개 메뉴, 총 300개 메뉴)를 센트럴 키친에서 동시 조리하여 단일 장바구니·단 1회 배달비로 선보일 예정입니다. 인도네시아 현지 식문화를 존중하여 전 메뉴 돼지고기·돈지·주류를 배제한 할랄 친화(No Pork, No Lard, Non-Alcohol) 레시피 기준으로 기획되었습니다.",
-      allTab: "전체 (30개 브랜드)",
+      eyebrow: "MUGGO PLANNED PORTFOLIO · 현재 오픈 준비 중 (판매 전)",
+      title: "MUGGO 30개 자체 브랜드 및 메뉴 기획 포트폴리오 (Pre-Opening)",
+      intro: "본 페이지는 PT BARA SUSTAINABLE INDONESIA가 오픈을 준비 중인 브랜드 MUGGO의 30개 브랜드(300개 메뉴) 기획 구성을 소개합니다. 현재 오픈 준비(Pre-Opening) 단계로 아직 일반 고객에게 음식을 판매하지 않으며, 모든 메뉴는 돼지고기·돈지·주류를 배제한 할랄 친화(No Pork, No Lard, Non-Alcohol) 기준으로 기획되었습니다.",
+      allTab: "전체 (30개 기획 브랜드)",
       catNames: {
         Chicken: "치킨 (3)",
         Korean: "한식 (13)",
@@ -571,18 +624,19 @@ window.I18N_DICT = {
         Salad: "샐러드·포케 (1)",
         Dessert: "음료·디저트·베이커리 (7)"
       },
-      searchPlaceholder: "브랜드명 또는 메뉴 검색 (예: 솥닭, 성수닭, 비빔밥, 버거, 빙수, 소금빵)...",
-      menusCount: "10개 기획 메뉴",
-      viewAllMenus: "10개 메뉴 전체 보기",
+      searchPlaceholder: "기획 브랜드명 또는 메뉴 컨셉 검색...",
+      menusCount: "10개 기획 메뉴 (오픈 예정)",
+      preOpeningTag: "오픈 예정",
+      viewAllMenus: "10개 기획 메뉴 보기",
       hideMenus: "메뉴 접기",
-      emptySearchTitle: "일치하는 브랜드 또는 메뉴가 없습니다",
-      emptySearchDesc: "입력하신 검색어에 해당하는 브랜드나 메뉴를 찾지 못했습니다. 다른 검색어를 입력하거나 검색 필터를 초기화해 주세요.",
+      emptySearchTitle: "일치하는 브랜드 또는 메뉴 컨셉이 없습니다",
+      emptySearchDesc: "검색어에 해당하는 항목을 찾지 못했습니다. 다른 검색어를 입력하거나 검색 필터를 초기화해 주세요.",
       resetSearchBtn: "검색 초기화"
     },
     foodRndPage: {
       eyebrow: "FOOD & R&D · 5 GENRES & 6 STATIONS",
-      title: "5대 요리 장르 메뉴 개발 및 6대 전문 조리 스테이션",
-      intro: "한식, 중식, 일식, 인도네시아, 양식을 아우르는 표준 레시피 개발과 6대 조리 스테이션 분업 시스템을 구축하고 있습니다.",
+      title: "5대 요리 장르 메뉴 R&D 계획 및 6대 조리 스테이션",
+      intro: "PT BARA SUSTAINABLE INDONESIA는 한식, 중식, 일식, 인도네시아, 양식을 아우르는 표준 레시피와 6대 조리 스테이션 분업 시스템을 준비하고 있습니다.",
       halalCallout: "할랄 친화 원료 및 레시피 기준 (No Pork, No Lard & Non-Alcohol): 인도네시아 현지 식문화를 존중하여 모든 메뉴에서 돼지고기·돈지(라드)·알코올을 배제하고 소고기·닭고기·해산물 중심의 할랄 친화 원료로 레시피를 설계했습니다.",
       genresTitle: "5대 요리 장르 R&D (계획 기준)",
       genres: [
@@ -592,7 +646,7 @@ window.I18N_DICT = {
         { title: "4. 인도네시아 현지화 메뉴 (Indonesian)", desc: "자카르타 스페셜티 커피·음료(나씨보스), 현지 입맛에 맞춘 맵기 단계 설계 및 로컬 신선 식자재 결합" },
         { title: "5. 양식 및 유러피안 델리 (Western)", desc: "유러피안 샌드위치·파니니(펜트리12), 정통 아메리칸 비프 버거(스모키살루온·번아웃), 장작 화덕 피자(우드앤브릭·베이스오븐), 케밥(케바바), 포케 샐러드(샐러드픽)" }
       ],
-      stationsTitle: "센트럴 키친 6대 전문 조리 스테이션 (구축 기준)",
+      stationsTitle: "센트럴 키친 6대 전문 조리 스테이션 (구축 계획)",
       stations: [
         "Station 1 · Fryer (가마솥 후라이드 치킨 및 수제 튀김)",
         "Station 2 · Grill (숯불 바베큐 치킨, 소고기 구이, 버거 패티 & 화덕 오븐)",
@@ -603,16 +657,16 @@ window.I18N_DICT = {
       ]
     },
     platformPage: {
-      eyebrow: "PLATFORM · ONLINE FOOD COURT & APP (오픈 예정)",
-      title: "딜리버리·픽업 중심 온라인 푸드코트 몰과 자체 배달 앱",
-      intro: "서로 다른 30개 브랜드의 메뉴를 한 장바구니에 담아 단 1회 배달비로 동시에 받아볼 수 있는 온라인 푸드코트 플랫폼을 준비하고 있습니다.",
+      eyebrow: "PLATFORM · ONLINE FOOD COURT & APP (오픈 준비 중)",
+      title: "MUGGO 온라인 푸드코트 몰 및 배달 플랫폼 기획",
+      intro: "PT BARA SUSTAINABLE INDONESIA가 준비 중인 딜리버리·픽업 중심 멀티 브랜드 온라인 푸드코트 플랫폼입니다.",
       features: [
-        { title: "30개 브랜드 단일 장바구니 & 1회 배달팁 (예정)", desc: "아빠는 곰탕, 엄마는 샐러드, 아이는 치킨과 빙수를 골라도 추가 배달비 없이 한 번의 주문으로 함께 조리·배달하는 구조입니다." },
-        { title: "6대 스테이션 KDS 연동 & 보온·보냉 분리 합포장", desc: "주방 KDS가 조리 완료 시각을 동기화하며, 따뜻한 요리(Thermal Bag)와 차가운 빙수·음료(Cooler Bag)를 분리 포장해 온도를 유지합니다." },
-        { title: "현지 QRIS 결제 및 배달·픽업 연동 준비", desc: "인도네시아 현지 QRIS 결제 및 오토바이 배달 연동, 매장 방문 픽업(Takeaway) 기능을 오픈 일정에 맞춰 제공합니다." }
+        { title: "30개 브랜드 단일 장바구니 & 1회 배달 (기획)", desc: "정식 오픈 시 서로 다른 브랜드 메뉴를 한 번의 주문으로 함께 조리·배달하는 구조로 설계되었습니다." },
+        { title: "6대 스테이션 KDS 연동 & 보온·보냉 분리 합포장", desc: "주방 KDS가 조리 완료 시각을 동기화하며, 따뜻한 요리와 차가운 음료를 분리 포장합니다." },
+        { title: "현재 상태: 오픈 준비 중 (판매 전)", desc: "현재 오픈 준비 단계로 상품 판매는 이루어지지 않으며, 오픈 일정 확정 시 본 사이트를 통해 공지됩니다." }
       ],
-      appBoxTitle: "MUGGO 자체 배달 앱 (오픈 예정)",
-      appBoxDesc: "멀티 브랜드 할인 콤보, 포인트 적립, 실시간 주방 조리 현황 확인이 가능한 자체 배달 앱을 개발·준비하고 있습니다."
+      appBoxTitle: "MUGGO 주문 앱 (오픈 예정)",
+      appBoxDesc: "현재 오픈 준비 단계이며 아직 상품을 판매하지 않습니다."
     },
     peoplePage: {
       eyebrow: "OUR PEOPLE & CULTURE",
@@ -620,54 +674,58 @@ window.I18N_DICT = {
       intro: "“착한 인성, 성실함, 그리고 일에 대한 진심 어린 열정. 자신의 몫을 성실히 해내며 서로 존중하는 동료를 기다립니다.”",
       values: [
         { title: "1. 착한 인성과 상호 존중", desc: "주방과 매장, 본부의 모든 동료가 서로의 역할을 존중하고 정직하게 소통하며 건강한 팀워크를 만듭니다." },
-        { title: "2. 자신의 몫을 다하는 성실함", desc: "보이지 않는 위생 관리부터 정확한 레시피 계량, 마지막 안심 씰 포장까지 맡은 자리에서 기본과 원칙을 지킵니다." },
-        { title: "3. 일에 대한 진심 어린 열정", desc: "더 나은 맛과 서비스를 고민하며 인도네시아 100개 지점 확장 로드맵의 핵심 리더로 함께 성장합니다." }
+        { title: "2. 자신의 몫을 다하는 성실함", desc: "보이지 않는 위생 관리부터 정확한 레시피 계량까지 맡은 자리에서 기본과 원칙을 지킵니다." },
+        { title: "3. 일에 대한 진심 어린 열정", desc: "PT BARA SUSTAINABLE INDONESIA (MUGGO)의 창립 멤버로서 함께 성장합니다." }
       ]
     },
     careersPage: {
-      eyebrow: "CAREERS · 11 OPEN CATEGORIES",
-      title: "MUGGO 인도네시아 채용 안내 (모집 직군 11개)",
-      intro: "자카르타 1호 거점 및 온라인 푸드코트 몰 오픈을 함께 이끌어갈 11개 직군의 창립 멤버를 모집합니다.",
-      applyBoxTitle: "이메일 지원 방법 안내",
-      applyBoxDesc: "입사 지원은 공식 채용 이메일(barasustainable@gmail.com)로 접수합니다. 아래 버튼을 눌러 지원 양식 초안을 작성한 뒤, 연결되는 메일 앱에서 이력서(CV)를 첨부하여 실제 메일을 발송해 주시기 바랍니다.",
+      eyebrow: "OFFICIAL CAREERS · PT BARA SUSTAINABLE INDONESIA",
+      title: "PT BARA SUSTAINABLE INDONESIA (브랜드 MUGGO) 공식 채용 안내 (11개 직군)",
+      intro: "자카르타 남부 1호 거점 및 MUGGO 오픈을 함께 준비할 11개 직군의 창립 멤버를 모집합니다. 당사의 모든 채용 과정은 공식적이며 일체의 비용을 요구하지 않습니다.",
+      applyBoxTitle: "지원 방법 및 공식 연락처 안내",
+      applyBoxDesc: "법인 도메인 메일 개설 전 오픈 준비 기간 동안 모든 입사 지원은 당사의 단일 공식 임시 이메일을 통해서만 접수합니다. 아래 버튼을 눌러 지원 메일 초안을 작성한 뒤, 메일 앱에서 이력서(CV)를 첨부해 발송해 주시기 바랍니다.",
       emailBtn: "메일 앱 바로 열기",
       formBtn: "이메일 지원 양식 작성",
-      copyEmailBtn: "이메일 주소 복사",
+      copyEmailBtn: "공식 이메일 복사",
       copiedNotice: "복사됨!",
       benefitsTitle: "근무 조건 및 복지 혜택",
       benefits: [
-        { title: "현지 노동법 준수 및 BPJS 4대 보험", desc: "공식 근로계약(PKWT/PKWTT) 체결, BPJS 건강·고용보험 가입 및 종교 명절 수당(THR) 지급" },
-        { title: "투명한 급여 정산 (21 → 20 주기)", desc: "명확한 급여 산정 기간과 연장근로 수당 정산, 투명한 급여 명세서 제공" },
-        { title: "근무 식사 제공 및 브랜드 할인", desc: "근무 중 든든한 식사 제공 및 MUGGO 산하 브랜드 임직원 혜택" },
-        { title: "체계적인 SOP 교육 및 승진 기회", desc: "스마트 키친 표준 조리·운영 교육 및 지점 확장에 따른 파트 리더·지점장 성장 기회" }
+        { title: "공식 근로계약 및 BPJS 4대 보험", desc: "PT BARA SUSTAINABLE INDONESIA와의 공식 근로계약(PKWT/PKWTT) 체결, BPJS 가입 및 명절 수당(THR) 지급" },
+        { title: "투명한 급여 및 연장근로 정산", desc: "명확한 급여 산정 주기와 투명한 급여 명세서 제공" },
+        { title: "근무 식사 제공 및 임직원 혜택", desc: "근무 중 식사 제공 및 사내 브랜드 혜택" },
+        { title: "체계적인 SOP 교육 및 성장 기회", desc: "오픈 준비 단계부터 체계적인 조리·운영 교육 및 파트 리더·지점장 승진 기회" }
       ],
       positionsTitle: "모집 중인 11개 직군"
     },
     applyModal: {
-      title: "이메일 지원 초안 작성 (메일 앱 연결)",
-      guide: "본 창은 이메일 지원서 초안 작성을 돕는 도구입니다. '메일 앱 열기'를 누르면 입력하신 내용이 담긴 메일 작성창이 열리며, 반드시 이력서(CV) 첨부 후 발송 버튼을 눌러야 barasustainable@gmail.com으로 최종 접수됩니다.",
+      title: "공식 이메일 지원 초안 작성",
+      guidePrefix: "본 창은 PT BARA SUSTAINABLE INDONESIA 입사 지원 메일 초안 작성을 돕는 도구입니다. '메일 앱 열기'를 누르면 메일 작성창이 열리며, 반드시 이력서(CV) 첨부 후 아래 공식 이메일로 발송해 주세요:",
       roleLabel: "지원 직군 (Role)",
       nameLabel: "성명 (Full Name)",
       contactLabel: "연락처 (WhatsApp / Email)",
       msgLabel: "주요 경력 및 지원 동기 요약",
       cancelBtn: "취소",
       submitBtn: "메일 앱 열기 (발송 단계로 이동) ↗",
-      copyDraftBtn: "초안 내용 및 이메일 주소 복사",
-      copySuccess: "지원서 초안과 채용 이메일 주소(barasustainable@gmail.com)가 클립보드에 복사되었습니다."
+      copyDraftBtn: "초안 및 이메일 복사",
+      copySuccess: "지원서 초안과 공식 이메일 주소가 클립보드에 복사되었습니다."
     },
     contactPage: {
-      eyebrow: "CONTACT & HUB LOCATION",
-      title: "문의 및 자카르타 거점 안내",
-      intro: "PT MUGGO INDONESIA의 일반·파트너십 문의 및 채용 문의 공식 안내 채널입니다.",
-      addressLabel: "자카르타 거점 주소 (오픈 준비 중)",
-      generalTitle: "일반 및 파트너십·입점 문의",
-      generalDesc: "식자재 공급 제안, 부동산·거점 파트너십 및 법인 일반 문의:",
-      careerTitle: "채용 및 인사(HR) 문의",
-      careerDesc: "11개 모집 직군 입사 지원 및 채용 관련 문의:",
-      pendingNotice: "매장 고객 상담용 공식 WhatsApp 번호는 1호 거점 정식 오픈 일정 확정과 함께 공개될 예정입니다."
+      eyebrow: "OFFICIAL CORPORATE IDENTITY & CONTACT",
+      title: "공식 법인 정보, 등록 주소 및 연락처",
+      intro: "구직자, 채용 사이트 검증 담당자 및 파트너를 위한 PT BARA SUSTAINABLE INDONESIA (Brand: MUGGO) 공식 기업 정보입니다.",
+      entityLabel: "공식 법인명 (Legal Entity)",
+      brandLabel: "사업 브랜드 (Brand)",
+      statusLabel: "현재 사업 상태",
+      statusText: "오픈 준비 단계 (Pre-Opening · 현재 상품 판매 전)",
+      addressLabel: "공식 등록 주소 (Registered Address)",
+      emailLabel: "공식 임시 이메일 (채용 및 일반 문의 통합)",
+      emailNote: "안내: 회사 전용 도메인 메일함이 개설되기 전까지 본 이메일 주소를 단일 공식 창구로 운영하며, 도메인 메일 개설 시 본 위치에서 즉시 업데이트됩니다.",
+      socialLabel: "MUGGO 공식 소셜 미디어 계정"
     },
     footer: {
-      desc: "인도네시아 현지 고객, 구직자, 파트너에게 법인의 비전과 30개 브랜드(오픈 예정), 채용 정보를 전하는 PT MUGGO INDONESIA 공식 사이트입니다.",
+      desc: "브랜드 MUGGO를 운영하는 PT BARA SUSTAINABLE INDONESIA의 공식 법인 소개 및 채용 검증 사이트입니다 (오픈 준비 단계).",
+      registeredLabel: "등록 주소:",
+      emailLabel: "공식 임시 이메일:",
       privacy: "개인정보처리방침",
       terms: "이용약관",
       specLink: "이미지 규격표"
@@ -675,7 +733,7 @@ window.I18N_DICT = {
     sticky: {
       instagram: "Instagram",
       tiktok: "TikTok",
-      careers: "채용 지원 (11개 직군)",
+      careers: "채용·법인정보 (11개 직군)",
       whatsapp: "WhatsApp"
     }
   }
