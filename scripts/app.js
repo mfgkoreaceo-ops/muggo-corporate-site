@@ -600,7 +600,6 @@
           <ul class="footer-nav-links">
             <li><button type="button" onclick="navigateTo('privacy')">${dict.footer.privacy}</button></li>
             <li><button type="button" onclick="navigateTo('terms')">${dict.footer.terms}</button></li>
-            <li><button type="button" onclick="openSpecModal(this)">${dict.footer.specLink}</button></li>
           </ul>
         </div>
       `;
@@ -731,6 +730,9 @@
       .join("");
 
     // Korea HQ Block (Controlled by SITE_CONFIG.showKoreaHqBlock; link hidden when koreaHqUrl is empty)
+    const koreaHqPointsHtml = Array.isArray(dict.koreaHq.points)
+      ? `<ul class="workflow" style="margin:12px 0 0;">${dict.koreaHq.points.map((pt) => `<li style="counter-increment:none;">${pt}</li>`).join("")}</ul>`
+      : "";
     const koreaHqActionHtml = hasValidKoreaHqUrl()
       ? `<a href="${c.koreaHqUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="margin-top:14px;">${dict.koreaHq.linkText} ↗</a>`
       : "";
@@ -741,6 +743,7 @@
           <p class="eyebrow">${dict.koreaHq.eyebrow}</p>
           <h2>${dict.koreaHq.title}</h2>
           <p class="intro">${dict.koreaHq.desc}</p>
+          ${koreaHqPointsHtml}
           ${koreaHqActionHtml}
         </section>
       `
@@ -787,8 +790,11 @@
           <div class="metrics-grid">
             ${state.articles
               .map(
-                (art) => `
+                (art, idx) => `
               <article class="service-card" onclick="navigateTo('article-detail', '${art.id}')">
+                <picture class="slot-frame ratio-16-9" style="margin-bottom:14px;">
+                  <img src="${art.image || `assets/slots/news-${(idx % 3) + 1}.jpg`}" width="800" height="450" loading="lazy" alt="${art.altId || loc(art, "title")}" />
+                </picture>
                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
                   <span class="roster-badge">${loc(art, "category")}</span>
                   ${art.date ? `<small class="hint">${art.date}</small>` : ""}
@@ -856,19 +862,28 @@
         </div>
       </section>
 
-      <!-- ④ Leadership Message (ceoName hidden when empty) -->
+      <!-- ④ Leadership Message (ceoPortraitUrl 1:1 slot hidden when empty; ceoName hidden when empty) -->
       <section class="card section-block">
         <p class="eyebrow">${dict.ceo.eyebrow}</p>
         <h2>${dict.ceo.titlePrefix}${c.ceoName ? ` · ${c.ceoName}` : ""}</h2>
-        <div class="columns" style="margin-top:16px;">
-          <aside class="callout" style="margin:0;">
-            <strong style="display:block; font-size:13px; color:var(--ui-link); margin-bottom:6px;">01 · ${dict.ceo.p1Title}</strong>
-            <p>${dict.ceo.p1}</p>
-          </aside>
-          <aside class="callout" style="margin:0;">
-            <strong style="display:block; font-size:13px; color:var(--ui-link); margin-bottom:6px;">02 · ${dict.ceo.p2Title}</strong>
-            <p>${dict.ceo.p2}</p>
-          </aside>
+        <div class="${c.ceoPortraitUrl && c.ceoPortraitUrl.trim() !== "" ? "ceo-grid-with-portrait" : ""}" style="margin-top:16px;">
+          ${
+            c.ceoPortraitUrl && c.ceoPortraitUrl.trim() !== ""
+              ? `<picture class="slot-frame ratio-1-1 ceo-portrait-slot">
+                  <img src="${c.ceoPortraitUrl.trim()}" width="600" height="600" loading="lazy" alt="Potret kepemimpinan dan manajemen perusahaan" />
+                </picture>`
+              : ""
+          }
+          <div class="columns">
+            <aside class="callout" style="margin:0;">
+              <strong style="display:block; font-size:13px; color:var(--ui-link); margin-bottom:6px;">01 · ${dict.ceo.p1Title}</strong>
+              <p>${dict.ceo.p1}</p>
+            </aside>
+            <aside class="callout" style="margin:0;">
+              <strong style="display:block; font-size:13px; color:var(--ui-link); margin-bottom:6px;">02 · ${dict.ceo.p2Title}</strong>
+              <p>${dict.ceo.p2}</p>
+            </aside>
+          </div>
         </div>
         <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--portal-line); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
           <span class="hint">${c.legalName} (Brand: ${c.brandName})</span>
@@ -1083,7 +1098,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // FOOD & R&D VIEW
+  // FOOD & R&D VIEW (5 Genre Cards with 4:3 Image Slots + 6 Kitchen Stations)
   // --------------------------------------------------------------------------
   function renderFoodRndView() {
     const dict = t().foodRndPage;
@@ -1103,8 +1118,11 @@
         <div class="metrics-grid">
           ${dict.genres
             .map(
-              (g) => `
+              (g, idx) => `
             <article class="card" style="margin:0;">
+              <picture class="slot-frame ratio-4-3" style="margin-bottom:14px;">
+                <img src="${g.img || `assets/slots/genre-${idx + 1}-korean.jpg`}" width="800" height="600" loading="lazy" alt="${g.alt || g.title}" />
+              </picture>
               <h3>${g.title}</h3>
               <p class="hint" style="margin-top:8px;">${g.desc}</p>
             </article>
@@ -1124,7 +1142,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // PLATFORM VIEW
+  // PLATFORM VIEW (3 Number Cards + 4:5 Phone-Screen Ordering App Mockup Slot)
   // --------------------------------------------------------------------------
   function renderPlatformView() {
     const dict = t().platformPage;
@@ -1161,20 +1179,27 @@
       </div>
 
       <section class="card" style="margin-top:24px;">
-        <h2>${dict.appBoxTitle}</h2>
-        <p class="intro" style="margin-bottom:18px;">${dict.appBoxDesc}</p>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          ${appAction}
-          <button type="button" class="btn btn-secondary" onclick="navigateTo('careers')">
-            ${heroDict.careerBtn}
-          </button>
+        <div class="platform-mockup-grid">
+          <div>
+            <h2>${dict.appBoxTitle}</h2>
+            <p class="intro" style="margin-bottom:18px;">${dict.appBoxDesc}</p>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              ${appAction}
+              <button type="button" class="btn btn-secondary" onclick="navigateTo('careers')">
+                ${heroDict.careerBtn}
+              </button>
+            </div>
+          </div>
+          <picture class="slot-frame ratio-4-5 platform-mockup-frame">
+            <img src="assets/slots/platform-app-mockup.jpg" width="1080" height="1350" loading="lazy" alt="Pratinjau tampilan layar aplikasi pemesanan dan keranjang gabungan MUGGO" />
+          </picture>
         </div>
       </section>
     `;
   }
 
   // --------------------------------------------------------------------------
-  // PEOPLE & CULTURE VIEW
+  // PEOPLE & CULTURE VIEW (3:2 Team/Kitchen Image Slot + 3 Number Cards)
   // --------------------------------------------------------------------------
   function renderPeopleView() {
     const dict = t().peoplePage;
@@ -1186,6 +1211,10 @@
           <h1>${dict.title}</h1>
         </div>
       </div>
+
+      <picture class="slot-frame ratio-3-2" style="margin-bottom:20px;">
+        <img src="assets/slots/people-team-kitchen.jpg" width="1440" height="960" loading="lazy" alt="Suasana kerja tim dan kolaborasi operasional dapur terpusat di Jakarta Selatan" />
+      </picture>
 
       <aside class="callout">
         <strong style="font-size:18px; line-height:1.55;">${dict.intro}</strong>
@@ -1269,6 +1298,12 @@
           <p class="intro">${dict.intro}</p>
         </div>
       </div>
+
+      <picture class="slot-frame careers-banner-slot">
+        <source media="(max-width: 767px)" srcset="assets/slots/careers-banner-mobile.jpg" width="1080" height="1350" />
+        <source media="(min-width: 768px)" srcset="assets/slots/careers-banner-desktop.jpg" width="1920" height="1080" />
+        <img src="assets/slots/careers-banner-desktop.jpg" width="1920" height="1080" loading="lazy" alt="Banner rekrutmen resmi 11 bidang posisi operasional dan manajemen di Jakarta Selatan" />
+      </picture>
 
       ${renderIdentityVerificationCard(true)}
 
@@ -1359,7 +1394,15 @@
 
         <div style="padding-top:16px; border-top:1px solid var(--portal-line); margin-bottom:16px;">
           <small class="hint" style="display:block; font-weight:700;">${dict.addressLabel}</small>
-          <p style="font-weight:700; font-size:16px; margin-top:4px;">${c.address}</p>
+          <p style="font-weight:700; font-size:16px; margin-top:4px; margin-bottom:12px;">${c.address}</p>
+          <div style="margin-bottom:14px;">
+            <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.address)}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+              ${dict.openMapsBtn || "Buka di Google Maps ↗"}
+            </a>
+          </div>
+          <picture class="slot-frame ratio-16-9">
+            <img src="assets/slots/contact-map.jpg" width="1200" height="675" loading="lazy" alt="Peta lokasi alamat terdaftar perusahaan di Jakarta Selatan" />
+          </picture>
         </div>
 
         <div style="padding-top:16px; border-top:1px solid var(--portal-line); margin-bottom:16px;">
@@ -1405,6 +1448,9 @@
         <button type="button" class="btn btn-secondary" onclick="navigateTo('home')">${dict.backBtn}</button>
       </div>
       <article class="card">
+        <picture class="slot-frame ratio-16-9" style="margin-bottom:16px;">
+          <img src="${art.image || "assets/slots/news-1.jpg"}" width="800" height="450" loading="lazy" alt="${art.altId || loc(art, "title")}" />
+        </picture>
         <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px;">
           <span class="roster-badge">${loc(art, "category")}</span>
           ${art.date ? `<small class="hint">${art.date}</small>` : ""}
@@ -1485,25 +1531,6 @@
     setTxt("apply-submit-btn", mDict.submitBtn);
   }
 
-  window.openSpecModal = function (triggerEl) {
-    lastFocusedTrigger = triggerEl || document.activeElement;
-    const m = document.getElementById("spec-modal");
-    if (m) {
-      m.classList.add("open");
-      const closeBtn = document.getElementById("spec-modal-close");
-      if (closeBtn) setTimeout(() => closeBtn.focus(), 20);
-    }
-  };
-
-  window.closeSpecModal = function () {
-    const m = document.getElementById("spec-modal");
-    if (m) m.classList.remove("open");
-    if (lastFocusedTrigger && typeof lastFocusedTrigger.focus === "function") {
-      lastFocusedTrigger.focus();
-      lastFocusedTrigger = null;
-    }
-  };
-
   window.openApplyModal = function (roleTitle, triggerEl) {
     lastFocusedTrigger = triggerEl || document.activeElement;
     syncApplyModalText();
@@ -1569,7 +1596,6 @@
       if (openModal) {
         e.preventDefault();
         if (openModal.id === "apply-modal") closeApplyModal();
-        else if (openModal.id === "spec-modal") closeSpecModal();
         else openModal.classList.remove("open");
         return;
       }

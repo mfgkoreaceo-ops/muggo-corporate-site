@@ -100,15 +100,17 @@ window.DEFAULT_SITE_DATA = {
     {
       id: "art-1",
       date: "", // TODO(owner): Set announcement date if needed; hidden when empty
+      image: "assets/slots/news-1.jpg",
+      altId: "Ilustrasi pengumuman rekrutmen terbuka 11 bidang posisi di Jakarta Selatan",
       categoryId: "Karir & HR",
       categoryEn: "Careers & HR",
       categoryKo: "채용·인사",
       titleId: "Rekrutmen Terbuka {legalName} ({brandName}) untuk 11 Bidang Posisi",
       titleEn: "{legalName} ({brandName}) Open Recruitment Across 11 Job Categories",
       titleKo: "{legalName} (브랜드 {brandName}) 11개 직군 공개 채용 안내",
-      summaryId: "Bergabunglah bersama tim {legalName} di Jakarta Selatan untuk mempersiapkan ekosistem mall food court online {brandName}.",
-      summaryEn: "Join {legalName}'s Jakarta team to prepare the {brandCount}-brand {brandName} online food court ecosystem.",
-      summaryKo: "자카르타 센트럴 키친 및 온라인 푸드코트 몰 {brandName} 오픈을 함께 준비할 11개 직군의 동료를 모집합니다.",
+      summaryId: "Rekrutmen tim pendiri di Jakarta Selatan untuk persiapan peluncuran mall food court online {brandName}.",
+      summaryEn: "Join {legalName}'s Jakarta team to prepare the {brandCount}-brand {brandName} online food court.",
+      summaryKo: "자카르타 센트럴 키친 및 온라인 푸드코트 몰 {brandName} 오픈을 준비할 11개 직군 채용 안내",
       contentId: "{legalName} (merek usaha: {brandName}) membuka rekrutmen untuk 11 bidang posisi menjelang peluncuran gerai pertama dan platform food court online kami di Jakarta Selatan.\n\nBidang yang dibuka meliputi Operasional Dapur (Head of Kitchen & Line Cook), Food R&D, Operasional Gerai, QA & Hygiene Coordinator, SCM & Pengadaan, Pemasaran Digital (Instagram & TikTok), Desain Brand, Operasional Platform, HR & GA, serta Keuangan & Akuntansi.\n\n{legalName} tidak pernah memungut biaya apa pun dalam seluruh tahapan seleksi dan rekrutmen.",
       contentEn: "{legalName} (operating brand: {brandName}) is recruiting across 11 key job categories ahead of our flagship hub and online food court launch in South Jakarta.\n\nOpen roles span Kitchen Operations, Food R&D, Store Operations, QA & Hygiene Coordination, SCM & Procurement, Digital Marketing, Brand Design, Platform Operations, HR & GA, and Finance & Accounting.\n\n{legalName} never charges candidates any fees during the recruitment process.",
       contentKo: "{legalName}(브랜드: {brandName})가 자카르타 1호 거점 및 온라인 푸드코트 몰 오픈을 앞두고 11개 핵심 직군에서 채용을 진행합니다.\n\n모집 분야는 주방 총괄(Head of Kitchen), 멀티 브랜드 조리사(Line Cook), 메뉴 R&D, 매장 운영 매니저, 품질·위생(QA & Hygiene), 구매·물류(SCM), 디지털 마케팅, 브랜드 디자인, 플랫폼 운영, 인사·총무(HR/GA), 재무·회계입니다."
@@ -116,15 +118,17 @@ window.DEFAULT_SITE_DATA = {
     {
       id: "art-2",
       date: "", // TODO(owner)
+      image: "assets/slots/news-2.jpg",
+      altId: "Ilustrasi rencana portofolio brand kuliner dan konsep menu dalam satu pesanan",
       categoryId: "Brand & Menu",
       categoryEn: "Brands & Menus",
       categoryKo: "브랜드·R&D",
       titleId: "Rencana {brandCount} Brand Kuliner & {menuCount} Menu dalam Satu Keranjang Pesanan",
       titleEn: "Planned {brandCount} Culinary Brands & {menuCount} Menus Integrated into a Single Order Basket",
       titleKo: "솥닭(SOTDAK)·성수닭·펜트리12·빙하 등 {brandCount}개 브랜드 {menuCount}개 메뉴 라인업 기획",
-      summaryId: "Mulai dari ayam panggang SOTDAK, rice bowl BAP CLUB, burger SMOKY SALOON, hingga bingsu BING HA dalam 1x pengiriman.",
+      summaryId: "Ayam panggang SOTDAK, rice bowl BAP CLUB, burger SMOKY SALOON, hingga bingsu BING HA dalam 1x pengiriman.",
       summaryEn: "From SOTDAK roasted chicken and BAP CLUB rice bowls to SMOKY SALOON burgers and BING HA snow ice in one delivery.",
-      summaryKo: "치킨, 한식, 피자·버거·샌드위치, 샐러드, 음료·디저트 5대 카테고리 {brandCount}개 전문 브랜드를 준비하고 있습니다.",
+      summaryKo: "치킨, 한식, 피자·버거·샌드위치, 샐러드, 음료·디저트 5대 카테고리 {brandCount}개 전문 브랜드 준비",
       contentId: "Melalui merek {brandName}, {legalName} mempersiapkan {brandCount} brand kuliner spesialis dengan masing-masing 10 menu andalan (total {menuCount} menu) yang dirancang untuk dimasak melalui 6 stasiun dapur profesional (Fryer, Grill, Soup, Assembly, Bakery, Beverage Bar).\n\nSaat ini bisnis berada pada tahap pra-pembukaan (pre-opening) dan belum ada produk yang dijual kepada konsumen.",
       contentEn: "Under the {brandName} brand, {legalName} is preparing {brandCount} specialized virtual brands with 10 signature menus each ({menuCount} planned menus), engineered across 6 dedicated kitchen stations (Fryer, Grill, Soup, Assembly, Bakery, Beverage Bar).\n\nThe business is currently in the pre-opening phase and nothing is on sale yet.",
       contentKo: "{legalName}는 {brandName} 브랜드를 통해 치킨, 한식, 양식, 샐러드, 디저트·음료까지 총 {brandCount}개 브랜드 {menuCount}개 메뉴 라인업과 6대 전문 조리 스테이션 시스템을 준비하고 있습니다."
@@ -132,15 +136,17 @@ window.DEFAULT_SITE_DATA = {
     {
       id: "art-3",
       date: "", // TODO(owner)
+      image: "assets/slots/news-3.jpg",
+      altId: "Ilustrasi persiapan sistem dapur terpusat 6 stasiun dan aplikasi pemesanan",
       categoryId: "Platform",
       categoryEn: "Platform",
       categoryKo: "플랫폼",
       titleId: "Persiapan Sistem Dapur Terpusat 6 Stasiun & Aplikasi Delivery {brandName}",
       titleEn: "6-Station Central Kitchen System & Proprietary Delivery App Preparation",
       titleKo: "6대 전문 스테이션 스마트 키친 시스템 및 자체 배달 앱 오픈 준비",
-      summaryId: "Standarisasi SOP memasak dan kemasan termal khusus untuk menjaga suhu serta kerenyahan hidangan saat tiba di tangan pelanggan.",
+      summaryId: "Standarisasi SOP memasak dan kemasan termal terpisah untuk menjaga suhu hidangan panas dan dingin.",
       summaryEn: "Standardized cooking SOPs and thermal/cooler dual packaging to preserve taste and temperature upon delivery.",
-      summaryKo: "온도와 식감을 유지하는 보온·보냉 분리 합포장 시스템과 딜리버리·픽업 특화 플랫폼을 준비하고 있습니다.",
+      summaryKo: "보온·보냉 분리 합포장 시스템과 딜리버리·픽업 특화 플랫폼 준비",
       contentId: "Setiap pesanan multi-brand di {brandName} dirancang untuk disinkronkan melalui sistem KDS 6 stasiun sehingga makanan panas dan minuman/dessert dingin selesai tepat waktu dan dikemas terpisah dalam Thermal Bag serta Insulated Cooler Bag.",
       contentEn: "Every multi-brand order at {brandName} is designed to be synchronized across our 6-station KDS so hot dishes and chilled beverages/desserts finish together and are packed separately in Thermal and Insulated Cooler bags.",
       contentKo: "{brandName}의 주문 시스템은 6대 조리 스테이션(튀김, 그릴, 탕·찌개, 조립·포장, 베이커리·디저트, 음료 바) KDS 연동 및 보온백·보냉백 분리 합포장 기준으로 설계되었습니다."

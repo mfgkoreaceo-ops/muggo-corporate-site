@@ -18,9 +18,10 @@ const SITE_CONFIG = {
   showKoreaHqBlock: true,        // owner decides later; one flag shows/hides the home "Kantor Pusat Korea (MUGGO Korea HQ)" block and any footer HQ link
   languageSwitchVisible: false,  // hide ID/EN/KO switcher at launch; keep the i18n structure
 
-  // Additional optional placeholders (hidden when empty per Section 1 Hard Rules)
+  // Additional optional placeholders (hidden when empty per Section 1 Hard Rules & Section 3.2)
   defaultLanguage: "id",
   ceoName: "",                   // TODO(owner): unknown; empty => hide element
+  ceoPortraitUrl: "",            // TODO(owner): 1:1 (600x600) portrait image URL; empty => hide slot
   koreaHqUrl: "",                // TODO(owner): unknown; empty => hide external link if empty
   deliveryAppUrl: "",            // TODO(owner): unknown; empty => hide active download link
   deliveryAppMode: "coming_soon",
