@@ -21,24 +21,26 @@ window.I18N_DICT = {
       eyebrow: "{legalName} · MEREK: {brandName} (PRA-PEMBUKAAN)",
       headlineA: "Identitas Resmi & Rekrutmen {legalName} (Brand: {brandName})",
       headlineB: "{legalName} · Membangun Mall Food Court Online {brandName} di Jakarta",
-      subcopyA: "{legalName} sedang dalam tahap pra-pembukaan untuk meluncurkan {brandName} ({brandCount} brand kuliner) di Jakarta Selatan. Belum ada produk yang dijual saat ini; kami sedang membuka rekrutmen resmi 11 bidang posisi.",
-      subcopyB: "{legalName} mempersiapkan peluncuran {brandName} ({brandCount} brand kuliner) di Jakarta Selatan. Saat ini tahap pra-pembukaan (belum berjualan) dan fokus pada rekrutmen 11 bidang posisi.",
+      subcopyA: "{legalName} sedang mempersiapkan peluncuran {brandName} ({brandCount} brand kuliner) di Jakarta Selatan. Belum ada produk yang dijual saat ini; kami sedang membuka rekrutmen resmi 11 bidang posisi.",
+      subcopyB: "{legalName} mempersiapkan peluncuran {brandName} ({brandCount} brand kuliner) di Jakarta Selatan. Saat ini tahap pra-pembukaan (belum berjualan) dan membuka rekrutmen 11 bidang posisi.",
       careerBtn: "Lamar Karir (11 Bidang)",
       brandBtn: "Lihat {brandCount} Brand",
       appComingSoon: "Aplikasi Delivery (Segera Hadir)",
       appDownload: "Buka Aplikasi {brandName}"
     },
     identityCard: {
-      eyebrow: "VERIFIKASI IDENTITAS PERUSAHAAN",
+      eyebrow: "FAKTA & IDENTITAS PERUSAHAAN",
       badge: "Pra-Pembukaan · Terverifikasi",
-      title: "Identitas Resmi Perusahaan & Saluran Verifikasi",
-      intro: "Informasi resmi bagi pelamar kerja dan tim verifikasi portal lowongan kerja untuk memastikan keaslian identitas {legalName} (Brand: {brandName}).",
+      title: "Fakta Perusahaan & Saluran Verifikasi Resmi",
+      intro: "Informasi resmi untuk verifikasi identitas {legalName} (Brand: {brandName}).",
       legalLabel: "Badan Hukum Resmi",
       brandLabel: "Merek Usaha",
       leaderLabel: "Pimpinan",
       leaderRole: "Direktur Utama",
-      statusLabel: "Status Bisnis Saat Ini",
-      statusValue: "Tahap Pra-Pembukaan — Belum ada produk yang dijual",
+      openPositionsLabel: "Posisi Terbuka",
+      openPositionsValue: "11 Bidang Posisi (Rekrutmen Resmi)",
+      statusLabel: "Rencana Pembukaan",
+      statusValue: "Tahap Pra-Pembukaan — Jakarta Selatan (Belum Berjualan)",
       purposeLabel: "Alamat Terdaftar",
       purposeValue: "{address}",
       channelsLabel: "Saluran Resmi",
@@ -49,14 +51,14 @@ window.I18N_DICT = {
     pillars: {
       eyebrow: "PILAR UTAMA KAMI",
       title: "Empat Pilar Utama {brandName}",
-      intro: "Fondasi operasional {legalName} untuk mempersiapkan peluncuran {brandName}:",
+      intro: "Fondasi operasional {legalName} untuk mempersiapkan {brandName}:",
       items: [
         {
           id: "people",
           route: "people",
           icon: "users",
           title: "Manusia",
-          desc: "Membangun tim yang berkarakter baik, tekun, dan saling menghormati di Jakarta Selatan",
+          desc: "Membangun tim yang berkarakter baik, tekun, dan saling menghormati di Jakarta Selatan.",
           action: "Lihat Budaya Kerja →"
         },
         {
@@ -64,15 +66,15 @@ window.I18N_DICT = {
           route: "food-rnd",
           icon: "utensils",
           title: "Food & R&D",
-          desc: "Resep terstandarisasi Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) lintas 5 genre masakan",
-          action: "Lihat R&D & 6 Stasiun →"
+          desc: "Resep terstandarisasi Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) lintas 5 genre masakan.",
+          action: "Lihat R&D Kuliner →"
         },
         {
           id: "platform",
           route: "platform",
           icon: "smartphone",
           title: "Platform",
-          desc: "Sistem dapur terpusat 6 stasiun serta platform pemesanan antar & ambil sendiri",
+          desc: "Pesanan dari banyak brand dimasak bersamaan dan dikirim dalam satu pengiriman.",
           action: "Pelajari Platform →"
         },
         {
@@ -80,7 +82,7 @@ window.I18N_DICT = {
           route: "brands",
           icon: "store",
           title: "Brand ({brandName})",
-          desc: "Portofolio {brandCount} brand internal di 5 kategori kuliner (Pra-Pembukaan)",
+          desc: "Portofolio {brandCount} brand internal di 5 kategori kuliner (Pra-Pembukaan).",
           action: "Lihat {brandCount} Brand →"
         }
       ]
@@ -88,11 +90,11 @@ window.I18N_DICT = {
     koreaHq: {
       eyebrow: "KEAHLIAN F&B GLOBAL",
       title: "Kantor Pusat Korea ({brandName} Korea HQ)",
-      desc: "{legalName} mengadaptasi sistem operasional F&B dari Kantor Pusat Korea ({brandName} Korea HQ) untuk pasar Indonesia:",
+      desc: "{legalName} mengadaptasi sistem operasional dapur dari Kantor Pusat Korea ({brandName} Korea HQ) untuk pasar Indonesia:",
       points: [
         "01 · Perencanaan Multi-Brand ({brandCount} Brand)",
-        "02 · Standarisasi SOP 6 Stasiun Dapur",
-        "03 · Teknologi R&D Resep 5 Genre"
+        "02 · Standarisasi Prosedur Operasional Dapur Terpusat",
+        "03 · Pengembangan Resep 5 Genre Masakan"
       ],
       linkText: "Kantor Pusat Korea ({brandName} Korea HQ)"
     },
@@ -100,27 +102,27 @@ window.I18N_DICT = {
       eyebrow: "SAMBUTAN DIREKTUR UTAMA",
       titlePrefix: "Sambutan Direktur Utama",
       p1Title: "Identitas Jelas & Persiapan Pra-Pembukaan {brandName}",
-      p1: "“Melalui {legalName}, kami mempersiapkan peluncuran {brandName} di Jakarta Selatan. Belum ada produk yang dijual saat ini; prioritas kami adalah transparansi identitas perusahaan bagi pelamar kerja dan mitra verifikasi.”",
+      p1: "“Melalui {legalName}, kami mempersiapkan peluncuran {brandName} di Jakarta Selatan. Belum ada produk yang dijual saat ini; prioritas kami adalah kejelasan identitas perusahaan bagi pelamar kerja dan mitra verifikasi.”",
       p2Title: "Organisasi Berpusat pada Manusia & Rekrutmen Resmi",
-      p2: "“Layanan terbaik berawal dari tim yang hebat. Kami mencari rekan kerja yang berkarakter baik, tekun, dan bersemangat melalui proses rekrutmen yang adil dan transparan.”",
+      p2: "“Layanan terbaik berawal dari tim yang baik. Kami mencari rekan kerja yang tekun dan saling menghormati melalui rekrutmen resmi bebas biaya.”",
       signRole: "Direktur Utama"
     },
     impact: {
       eyebrow: "TARGET & PETA JALAN",
-      title: "Rencana Pra-Pembukaan & Peta Jalan",
-      notice: "{legalName} berada pada tahap pra-pembukaan (belum berjualan). Indikator di bawah ini merupakan rencana persiapan.",
+      title: "Target & Peta Jalan Pra-Pembukaan",
+      notice: "{legalName} berada pada tahap pra-pembukaan (belum berjualan). Seluruh angka di bawah ini adalah target rencana.",
       roadmapTitle: "Tahapan Rencana Persiapan",
       roadmapSteps: [
-        "Tahap 1 · Rekrutmen Tim & Persiapan Dapur Terpusat Jakarta Selatan (Pra-Pembukaan)",
-        "Tahap 2 · Peluncuran Perdana Gerai & Platform {brandName} di Jakarta Selatan",
-        "Tahap 3 · Pengembangan Jaringan Hub Berikutnya"
+        "Tahap 1 · Rekrutmen Tim & Persiapan Dapur Terpusat Jakarta Selatan (Target Pra-Pembukaan)",
+        "Tahap 2 · Peluncuran Perdana Gerai & Platform {brandName} di Jakarta Selatan (Target)",
+        "Tahap 3 · Pengembangan Jaringan Cabang Berikutnya (Target Jangka Panjang)"
       ]
     },
     culture: {
       eyebrow: "BUDAYA KERJA KAMI",
       title: "Budaya Kerja & Kriteria Talenta",
       quote: "“Karakter yang baik, ketekunan, dan semangat yang tulus terhadap pekerjaan. Kami menantikan rekan kerja yang menjalankan tanggung jawabnya dengan sungguh-sungguh dan saling menghormati.”",
-      desc: "Ketulusan sikap, tanggung jawab atas peran masing-masing, dan rasa hormat antar rekan kerja adalah nilai utama {legalName} ({brandName}).",
+      desc: "Ketulusan sikap, tanggung jawab, dan rasa hormat antar rekan kerja adalah nilai utama {legalName}.",
       peopleBtn: "Tentang Budaya & Tim",
       careerBtn: "Lihat 11 Bidang Rekrutmen"
     },
@@ -137,7 +139,7 @@ window.I18N_DICT = {
     brandsPage: {
       eyebrow: "PORTOFOLIO BRAND {brandName} · PRA-PEMBUKAAN (BELUM DIJUAL)",
       title: "Portofolio {brandCount} Brand & {menuCount} Menu {brandName}",
-      intro: "Rencana {brandCount} brand kuliner ({menuCount} menu) oleh {legalName} untuk merek {brandName} (tahap pra-pembukaan, belum ada penjualan). Kebijakan bahan baku: Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
+      intro: "Rencana {brandCount} brand kuliner ({menuCount} menu) oleh {legalName} (pra-pembukaan, belum dijual). Kebijakan bahan: Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
       allTab: "Semua ({brandCount} Brand)",
       catNames: {
         Chicken: "Ayam (3)",
@@ -157,15 +159,17 @@ window.I18N_DICT = {
       preOpeningTag: "Pra-Pembukaan",
       viewAllMenus: "Lihat semua 10 menu",
       hideMenus: "Tutup daftar menu",
+      showAllBrandsBtn: "Tampilkan semua brand",
+      showLessBrandsBtn: "Tampilkan brand pilihan saja",
       emptySearchTitle: "Tidak ada brand atau menu yang cocok",
-      emptySearchDesc: "Tidak ditemukan hasil untuk kata kunci pencarian Anda. Coba kata kunci lain atau tampilkan kembali seluruh {brandCount} brand.",
+      emptySearchDesc: "Tidak ditemukan hasil untuk kata kunci Anda. Coba kata kunci lain atau tampilkan kembali seluruh {brandCount} brand.",
       resetSearchBtn: "Reset Pencarian"
     },
     foodRndPage: {
-      eyebrow: "RISET KULINER · 5 GENRE & 6 STASIUN DAPUR",
-      title: "Pengembangan Menu 5 Genre & Sistem 6 Stasiun Dapur",
-      intro: "Standarisasi resep lintas 5 genre masakan dan sistem 6 stasiun dapur terpusat yang disiapkan oleh {legalName} untuk {brandName}.",
-      ingredientCallout: "Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) — Seluruh menu dikembangkan tanpa daging babi dan tanpa minyak babi menggunakan daging ayam, sapi, makanan laut, dan bahan baku pilihan.",
+      eyebrow: "RISET KULINER · 5 GENRE MASAKAN",
+      title: "Pengembangan Menu 5 Genre Masakan",
+      intro: "Standarisasi resep lintas 5 genre masakan yang disiapkan oleh {legalName} untuk dapur terpusat {brandName}.",
+      ingredientCallout: "Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) — Seluruh menu dikembangkan tanpa daging babi dan tanpa minyak babi menggunakan daging ayam, sapi, makanan laut, dan bahan pilihan.",
       genresTitle: "5 Genre Masakan Utama",
       genres: [
         {
@@ -176,47 +180,47 @@ window.I18N_DICT = {
         },
         {
           title: "2. Masakan Tiongkok & Mala Fusion",
-          desc: "Perpaduan rempah Mala Sichuan autentik dengan teknik masak suhu tinggi (MIGAK) serta hidangan tumis berbahan sapi & ayam.",
+          desc: "Perpaduan rempah Mala Sichuan dengan hidangan tumis sapi, ayam, dan makanan laut (MIGAK).",
           img: "assets/slots/genre-2-chinese.jpg",
           alt: "Ilustrasi pengembangan menu masakan Tiongkok dan Mala Fusion"
         },
         {
           title: "3. Masakan Jepang & Bakery Artisan",
-          desc: "Shio Pan roti garam mentega Prancis (SALT ROOM), teknik gorengan renyah, serta saus spesial bergaya Jepang.",
+          desc: "Shio Pan roti garam mentega Prancis (SALT ROOM), gorengan renyah, dan saus bergaya Jepang.",
           img: "assets/slots/genre-3-japanese.jpg",
           alt: "Ilustrasi pengembangan menu masakan Jepang dan bakery Shio Pan"
         },
         {
           title: "4. Cita Rasa Lokal Indonesia",
-          desc: "Kreasi minuman kopi & buah tropis (NASI BOSS), penyesuaian tingkat kepedasan sambal lokal, dan bahan segar Nusantara.",
+          desc: "Minuman kopi & buah tropis (NASI BOSS), tingkat kepedasan sambal lokal, dan bahan segar Nusantara.",
           img: "assets/slots/genre-4-indonesian.jpg",
           alt: "Ilustrasi pengembangan menu dan minuman cita rasa lokal Indonesia"
         },
         {
           title: "5. Masakan Barat & Deli Eropa",
-          desc: "Sandwich Eropa (PANTRY 12), burger sapi asap (SMOKY SALOON & BURNOUT), pizza tungku kayu (WOOD&BRICK), kebab (KEBAVA), dan salad.",
+          desc: "Sandwich Eropa (PANTRY 12), burger sapi asap (SMOKY SALOON & BURNOUT), pizza (WOOD&BRICK), kebab (KEBAVA), dan salad.",
           img: "assets/slots/genre-5-western.jpg",
           alt: "Ilustrasi pengembangan menu burger, pizza, dan sandwich Barat"
         }
-      ],
-      stationsTitle: "6 Stasiun Dapur Terpusat",
-      stations: [
-        "Stasiun 1 · Penggorengan (Ayam Krispi & Gorengan)",
-        "Stasiun 2 · Pemanggangan (Ayam Bakar Arang, BBQ Sapi, Patty Burger & Oven)",
-        "Stasiun 3 · Sup & Kuah (Kaldu Sapi, Jjigae, Mie Dingin)",
-        "Stasiun 4 · Perakitan & Persiapan (Rice Bowl, Bibimbap, Gimbap, Salad)",
-        "Stasiun 5 · Roti & Hidangan Penutup (Bingsu Salju, Shio Pan, Bagel)",
-        "Stasiun 6 · Bar Minuman (Kopi Spesialti, Teh Bunga, Boba Milk Tea)"
       ]
     },
     platformPage: {
       eyebrow: "PLATFORM · FOOD COURT ONLINE & APLIKASI (PRA-PEMBUKAAN)",
       title: "Mall Food Court Online & Platform Delivery {brandName}",
-      intro: "Platform pesan-antar & ambil sendiri yang dipersiapkan oleh {legalName} untuk menyatukan {brandCount} brand {brandName} dalam satu pesanan.",
+      intro: "Pesanan dari banyak brand dimasak bersamaan dan dikirim dalam satu pengiriman.",
       features: [
-        { title: "01 · 1 Keranjang · {brandCount} Brand · 1x Pengiriman", desc: "Memesan berbagai menu lintas brand dalam satu transaksi tanpa biaya antar ganda." },
-        { title: "02 · Sinkronisasi KDS & Kemasan Termal", desc: "KDS menyinkronkan waktu masak 6 stasiun serta memisahkan kantong termal (panas) dan kantong pendingin (dingin)." },
-        { title: "03 · Status: Tahap Pra-Pembukaan", desc: "Saat ini belum ada produk yang dijual. Aplikasi pemesanan sedang dalam persiapan pra-pembukaan." }
+        {
+          title: "01 · 1 Keranjang · {brandCount} Brand · 1x Pengiriman",
+          desc: "Pesanan dari banyak brand dimasak bersamaan dan dikirim dalam satu pengiriman."
+        },
+        {
+          title: "02 · Penyelarasan Waktu Masak & Kemasan Terpisah",
+          desc: "Makanan hangat dan minuman dingin disiapkan bersamaan lalu dikemas terpisah agar suhu tetap terjaga."
+        },
+        {
+          title: "03 · Status: Tahap Pra-Pembukaan",
+          desc: "Belum ada produk yang dijual saat ini. Aplikasi pemesanan sedang disiapkan."
+        }
       ],
       appBoxTitle: "Aplikasi Pemesanan {brandName} (Pra-Pembukaan)",
       appBoxDesc: "Belum ada makanan atau minuman yang dijual saat ini. Jadwal peluncuran resmi akan diumumkan di situs ini."
@@ -226,17 +230,17 @@ window.I18N_DICT = {
       title: "Tim yang Menghargai Ketekunan dan Semangat Kerja",
       intro: "“Karakter yang baik, ketekunan, dan semangat yang tulus terhadap pekerjaan. Kami menantikan rekan kerja yang menjalankan tanggung jawabnya dengan sungguh-sungguh dan saling menghormati.”",
       values: [
-        { title: "01 · Karakter Baik & Saling Menghormati", desc: "Menghargai rekan kerja lintas posisi, berkomunikasi jujur, dan membangun lingkungan kerja yang suportif." },
+        { title: "01 · Karakter Baik & Saling Menghormati", desc: "Menghargai rekan kerja lintas posisi dan berkomunikasi secara jujur." },
         { title: "02 · Ketekunan dalam Tanggung Jawab", desc: "Menjaga standar kebersihan dapur, ketepatan resep, dan kerapian pengemasan setiap hari." },
-        { title: "03 · Semangat Tulus untuk Bertumbuh", desc: "Mempelajari sistem F&B modern dan berkembang bersama {legalName} ({brandName})." }
+        { title: "03 · Semangat Tulus untuk Bertumbuh", desc: "Mempelajari operasional kuliner modern dan berkembang bersama {legalName}." }
       ]
     },
     careersPage: {
       eyebrow: "KARIR RESMI · {legalName}",
       title: "Rekrutmen Resmi {legalName} — Brand {brandName} (11 Bidang)",
-      intro: "Bergabunglah bersama tim pendiri {legalName} di Jakarta Selatan untuk persiapan peluncuran {brandName} ({brandCount} brand kuliner). Rekrutmen resmi dan bebas biaya.",
+      intro: "Bergabunglah bersama tim pendiri {legalName} di Jakarta Selatan untuk persiapan peluncuran {brandName}. Rekrutmen resmi dan bebas biaya.",
       applyBoxTitle: "Cara Melamar Kerja",
-      applyBoxDesc: "Pilih posisi di bawah lalu tekan tombol Lamar untuk membuka draf lamaran resmi (posisi dan subjek email Lamaran: <posisi> akan terisi otomatis).",
+      applyBoxDesc: "Pilih posisi di bawah lalu tekan tombol Lamar untuk membuka draf lamaran resmi (posisi dan subjek email Lamaran: <posisi> terisi otomatis).",
       applyJobBtn: "Lamar",
       emailBtn: "Kirim Email",
       formBtn: "Lamar",
@@ -246,11 +250,11 @@ window.I18N_DICT = {
       benefits: [
         {
           title: "01 · Kontrak Kerja Resmi (PKWT / PKWTT)",
-          desc: "Hubungan kerja mengikuti ketentuan hukum ketenagakerjaan Indonesia melalui kontrak kerja resmi (PKWT/PKWTT) bersama {legalName}."
+          desc: "Hubungan kerja mengikuti hukum ketenagakerjaan Indonesia melalui kontrak kerja resmi (PKWT/PKWTT) bersama {legalName}."
         },
         {
           title: "02 · BPJS & THR Sesuai Regulasi",
-          desc: "Pendaftaran BPJS Kesehatan & Ketenagakerjaan serta Tunjangan Hari Raya (THR) sesuai peraturan ketenagakerjaan yang berlaku."
+          desc: "Pendaftaran BPJS Kesehatan & Ketenagakerjaan serta Tunjangan Hari Raya (THR) sesuai peraturan yang berlaku."
         },
         {
           flag: "showEmployeeDiscountBenefit",
@@ -261,10 +265,10 @@ window.I18N_DICT = {
         },
         {
           flag: "showCareerPathBenefit",
-          title: "04 · Pelatihan SOP Kuliner & Higienitas",
-          titleExtended: "04 · Pelatihan SOP & Jenjang Karir",
-          desc: "Pelatihan standar operasional prosedur (SOP) kuliner profesional dan kebersihan dapur.",
-          descExtended: "Pelatihan standar kuliner profesional dan jenjang karir menuju Part Leader hingga Branch Manager."
+          title: "04 · Pelatihan Operasional Dapur & Higienitas",
+          titleExtended: "04 · Pelatihan Operasional & Jenjang Karir",
+          desc: "Pelatihan prosedur operasional dapur profesional dan kebersihan pangan.",
+          descExtended: "Pelatihan operasional kuliner dan jenjang karir menuju Part Leader hingga Branch Manager."
         }
       ],
       positionsTitle: "Daftar 11 Bidang Posisi yang Dibuka"
@@ -287,7 +291,7 @@ window.I18N_DICT = {
     contactPage: {
       eyebrow: "KONTAK & LOKASI TERDAFTAR",
       title: "Identitas Perusahaan, Alamat Terdaftar & Kontak Resmi",
-      intro: "Saluran komunikasi resmi {legalName} (Brand: {brandName}) untuk verifikasi perusahaan, kemitraan, dan pelamar kerja.",
+      intro: "Saluran komunikasi resmi {legalName} (Brand: {brandName}) untuk verifikasi perusahaan dan pelamar kerja.",
       entityLabel: "Badan Hukum Resmi",
       brandLabel: "Merek Usaha",
       statusLabel: "Status Bisnis",
@@ -314,11 +318,11 @@ window.I18N_DICT = {
     },
     policyPage: {
       privacyTitle: "Kebijakan Privasi",
-      privacyP1: "{legalName} (pemilik merek usaha {brandName}) menghormati privasi pelamar kerja dan pengunjung situs sesuai dengan Undang-Undang Pelindungan Data Pribadi (UU PDP) Indonesia.",
-      privacyP2: "Data lamaran yang dikirimkan ke saluran email resmi kami ({contactEmail}) hanya digunakan untuk keperluan verifikasi dan seleksi SDM internal serta tidak pernah diperjualbelikan kepada pihak ketiga.",
+      privacyP1: "{legalName} (pemilik merek usaha {brandName}) menghormati privasi pelamar kerja dan pengunjung situs sesuai Undang-Undang Pelindungan Data Pribadi (UU PDP) Indonesia.",
+      privacyP2: "Data lamaran yang dikirimkan ke saluran email resmi kami ({contactEmail}) hanya digunakan untuk seleksi SDM internal dan tidak pernah diperjualbelikan kepada pihak ketiga.",
       termsTitle: "Syarat & Ketentuan",
-      termsP1: "Situs web ini dikelola secara resmi oleh {legalName} (Alamat terdaftar: {address}) untuk menyajikan informasi identitas perusahaan, rencana brand {brandName}, serta verifikasi rekrutmen resmi.",
-      termsP2: "Saat ini perusahaan berada pada tahap pra-pembukaan dan belum melakukan penjualan produk secara komersial."
+      termsP1: "Situs web ini dikelola secara resmi oleh {legalName} (Alamat terdaftar: {address}) untuk menyajikan identitas perusahaan, rencana brand {brandName}, dan verifikasi rekrutmen resmi.",
+      termsP2: "Saat ini perusahaan berada pada tahap pra-pembukaan dan belum melakukan penjualan produk."
     },
     sticky: {
       instagram: "Instagram",
@@ -348,19 +352,22 @@ window.I18N_DICT = {
       subcopyB: "{legalName} is preparing the pre-opening launch of {brandName} ({brandCount} culinary brands) in South Jakarta. Nothing is on sale yet as we recruit across 11 job positions.",
       careerBtn: "Apply for Careers (11 Roles)",
       brandBtn: "View {brandCount} Brands",
-      appComingSoon: "Pre-Opening (Not on Sale Yet)",
+      appComingSoon: "Aplikasi Delivery (Segera Hadir)",
       appDownload: "Open {brandName} App"
     },
     identityCard: {
-      eyebrow: "COMPANY VERIFICATION",
-      title: "Official Corporate Identity & Verification Channels",
-      intro: "Official information for job seekers and job-board verifiers to confirm the legal identity of {legalName} (Brand: {brandName}).",
+      eyebrow: "COMPANY FACTS & VERIFICATION",
+      badge: "Pre-Opening · Verified",
+      title: "Company Facts & Official Verification Channels",
+      intro: "Official information to verify the identity of {legalName} (Brand: {brandName}).",
       legalLabel: "Legal Entity",
       brandLabel: "Brand",
       leaderLabel: "Leadership",
       leaderRole: "Direktur Utama",
-      statusLabel: "Current Business Status",
-      statusValue: "Pre-Opening Stage — Nothing is on sale yet",
+      openPositionsLabel: "Open Positions",
+      openPositionsValue: "11 Job Positions (Official Recruitment)",
+      statusLabel: "Planned Opening",
+      statusValue: "Pre-Opening Stage — South Jakarta (Nothing on Sale Yet)",
       purposeLabel: "Registered Address",
       purposeValue: "{address}",
       channelsLabel: "Official Channels",
@@ -378,7 +385,7 @@ window.I18N_DICT = {
           route: "people",
           icon: "users",
           title: "People",
-          desc: "Building a diligent, respectful team in South Jakarta",
+          desc: "Building a diligent, respectful team in South Jakarta.",
           action: "View Culture →"
         },
         {
@@ -386,15 +393,15 @@ window.I18N_DICT = {
           route: "food-rnd",
           icon: "utensils",
           title: "Food & R&D",
-          desc: "Standardized Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) recipe R&D spanning 5 culinary genres",
-          action: "View R&D & 6 Stations →"
+          desc: "Standardized Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) recipes across 5 culinary genres.",
+          action: "View Culinary R&D →"
         },
         {
           id: "platform",
           route: "platform",
           icon: "smartphone",
           title: "Platform",
-          desc: "6-station central kitchen workflow and delivery/pickup platform",
+          desc: "Orders from multiple brands are cooked together and delivered in one shipment.",
           action: "Explore Platform →"
         },
         {
@@ -402,7 +409,7 @@ window.I18N_DICT = {
           route: "brands",
           icon: "store",
           title: "Brands ({brandName})",
-          desc: "Portfolio of {brandCount} in-house brands across 5 categories (Pre-Opening)",
+          desc: "Portfolio of {brandCount} in-house brands across 5 categories (Pre-Opening).",
           action: "View {brandCount} Brands →"
         }
       ]
@@ -413,7 +420,7 @@ window.I18N_DICT = {
       desc: "{legalName} adapts F&B operational systems from {brandName} Korea HQ for Indonesia:",
       points: [
         "01 · Multi-Brand Planning ({brandCount} Brands)",
-        "02 · 6-Station Kitchen SOPs",
+        "02 · Standardized Central Kitchen Operations",
         "03 · 5-Genre Recipe R&D"
       ],
       linkText: "Kantor Pusat Korea ({brandName} Korea HQ)"
@@ -422,27 +429,27 @@ window.I18N_DICT = {
       eyebrow: "CEO MESSAGE",
       titlePrefix: "Message from Direktur Utama",
       p1Title: "Clear Corporate Identity & Pre-Opening Preparation",
-      p1: "“Through {legalName}, we are preparing the launch of {brandName} in South Jakarta. Nothing is on sale yet; our focus is providing clear corporate identity for job seekers and verifiers.”",
+      p1: "“Through {legalName}, we are preparing the launch of {brandName} in South Jakarta. Nothing is on sale yet; our focus is clear corporate identity for job seekers and verifiers.”",
       p2Title: "People-Centered Organization & Fair Recruitment",
-      p2: "“Great service begins with great people. We welcome colleagues with good character, diligence, and passion through a transparent recruitment process.”",
+      p2: "“Great service begins with great people. We welcome diligent, respectful colleagues through a transparent, free recruitment process.”",
       signRole: "Direktur Utama"
     },
     impact: {
-      eyebrow: "PRE-OPENING PLAN",
-      title: "Pre-Opening Plan & Roadmap",
-      notice: "{legalName} is currently in the pre-opening phase (nothing is on sale yet).",
+      eyebrow: "TARGET & ROADMAP",
+      title: "Target & Pre-Opening Roadmap",
+      notice: "{legalName} is currently in the pre-opening phase (nothing is on sale yet). All figures below are planned targets.",
       roadmapTitle: "Preparation Roadmap",
       roadmapSteps: [
-        "Phase 1 · Team Recruitment & Central Kitchen Setup in South Jakarta (Pre-Opening)",
-        "Phase 2 · Initial Hub & {brandName} Platform Launch in South Jakarta",
-        "Phase 3 · Subsequent Hub Network Expansion"
+        "Phase 1 · Team Recruitment & Central Kitchen Setup in South Jakarta (Pre-Opening Target)",
+        "Phase 2 · Initial Hub & {brandName} Platform Launch in South Jakarta (Target)",
+        "Phase 3 · Subsequent Hub Network Expansion (Long-Term Target)"
       ]
     },
     culture: {
       eyebrow: "OUR CULTURE",
       title: "Our Culture & Who We Look For",
       quote: "“Good character, diligence, and genuine passion for work. We look forward to colleagues who faithfully fulfill their roles and respect one another.”",
-      desc: "Sincerity, ownership of one's role, and mutual respect among teammates are the core foundations of {legalName} ({brandName}).",
+      desc: "Sincerity, responsibility, and mutual respect are the core foundations of {legalName}.",
       peopleBtn: "Our Culture & Values",
       careerBtn: "View 11 Job Positions"
     },
@@ -459,7 +466,7 @@ window.I18N_DICT = {
     brandsPage: {
       eyebrow: "{brandName} BRAND PORTFOLIO · PRE-OPENING (NOT ON SALE YET)",
       title: "{brandCount} Brands & {menuCount} Menus Portfolio",
-      intro: "Planned {brandCount} culinary brands ({menuCount} menus) by {legalName} for {brandName} (pre-opening stage, nothing on sale yet). Dietary policy: Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
+      intro: "Planned {brandCount} culinary brands ({menuCount} menus) by {legalName} (pre-opening, nothing on sale yet). Dietary policy: Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
       allTab: "All ({brandCount} Brands)",
       catNames: {
         Chicken: "Chicken (3)",
@@ -472,69 +479,62 @@ window.I18N_DICT = {
       preOpeningTag: "Pre-Opening",
       viewAllMenus: "View all 10 menus",
       hideMenus: "Hide menus",
+      showAllBrandsBtn: "Tampilkan semua brand",
+      showLessBrandsBtn: "Show featured brands only",
       emptySearchTitle: "No matching brands or menus found",
       emptySearchDesc: "No results matched your search query. Try another keyword or view all {brandCount} brands.",
       resetSearchBtn: "Reset Search"
     },
     foodRndPage: {
-      eyebrow: "FOOD & R&D · 5 GENRES & 6 STATIONS",
-      title: "Menu R&D Across 5 Culinary Genres & 6 Kitchen Stations",
-      intro: "Standardized recipes across 5 culinary genres and a 6-station central kitchen workflow prepared by {legalName} for {brandName}.",
+      eyebrow: "FOOD & R&D · 5 CULINARY GENRES",
+      title: "Menu R&D Across 5 Culinary Genres",
+      intro: "Standardized recipes across 5 culinary genres prepared by {legalName} for {brandName}.",
       ingredientCallout: "Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) — All recipes are formulated without pork or lard using chicken, beef, seafood, and selected ingredients.",
       genresTitle: "5 Core Culinary Genres",
       genres: [
         {
           title: "1. Korean Cuisine",
-          desc: "Cauldron-roasted nurungji chicken (SOTDAK), charcoal BBQ chicken (SEONGSU DAK), rice bowls, bibimbap, stews, ox-bone soups, gimbap, and dumplings.",
+          desc: "Roasted nurungji chicken (SOTDAK), charcoal BBQ chicken (SEONGSU DAK), rice bowls, bibimbap, stews, beef soups, gimbap, and dumplings.",
           img: "assets/slots/genre-1-korean.jpg",
           alt: "Ilustrasi pengembangan menu masakan Korea di dapur R&D MUGGO"
         },
         {
           title: "2. Chinese & Mala Fusion",
-          desc: "Authentic Sichuan Mala spice infusions and high-heat wok techniques (MIGAK) paired with beef, chicken, and seafood creations.",
+          desc: "Sichuan Mala spice infusions paired with beef, chicken, and seafood stir-fry dishes (MIGAK).",
           img: "assets/slots/genre-2-chinese.jpg",
           alt: "Ilustrasi pengembangan menu masakan Tiongkok dan Mala Fusion"
         },
         {
           title: "3. Japanese & Artisan Bakery",
-          desc: "French-butter Japanese Shio Pan salted bread (SALT ROOM), crispy frying techniques, and house sauces.",
+          desc: "French-butter Shio Pan salted bread (SALT ROOM), crispy frying techniques, and house sauces.",
           img: "assets/slots/genre-3-japanese.jpg",
           alt: "Ilustrasi pengembangan menu masakan Jepang dan bakery Shio Pan"
         },
         {
           title: "4. Indonesian Local Flavors",
-          desc: "Specialty coffee and tropical fruit creations (NASI BOSS), localized spice levels, and fresh Indonesian produce.",
+          desc: "Specialty coffee and tropical fruit drinks (NASI BOSS), local sambal spice levels, and fresh Nusantara produce.",
           img: "assets/slots/genre-4-indonesian.jpg",
           alt: "Ilustrasi pengembangan menu dan minuman cita rasa lokal Indonesia"
         },
         {
           title: "5. Western & European Deli",
-          desc: "European sandwiches (PANTRY 12), smoked beef burgers (SMOKY SALOON & BURNOUT), wood-fired pizza (WOOD&BRICK), kebabs (KEBAVA), and poke bowls.",
+          desc: "European sandwiches (PANTRY 12), smoked beef burgers (SMOKY SALOON & BURNOUT), pizza (WOOD&BRICK), kebabs (KEBAVA), and salads.",
           img: "assets/slots/genre-5-western.jpg",
           alt: "Ilustrasi pengembangan menu burger, pizza, dan sandwich Barat"
         }
-      ],
-      stationsTitle: "6 Specialized Central Kitchen Stations",
-      stations: [
-        "Station 1 · Fryer (Crispy Chicken & Fritters)",
-        "Station 2 · Grill (Charcoal BBQ, Beef Grill, Burger Sear & Oven)",
-        "Station 3 · Soup & Simmer (Ox-Bone Broth, Jjigae, Chilled Noodles)",
-        "Station 4 · Assembly & Prep (Rice Bowls, Bibimbap, Gimbap, Salads)",
-        "Station 5 · Bakery & Dessert (Snow Bingsu, Shio Pan, Bagels)",
-        "Station 6 · Beverage Bar (Specialty Coffee, Floral Teas, Boba Milk Tea)"
       ]
     },
     platformPage: {
       eyebrow: "PLATFORM · ONLINE FOOD COURT & APP (PRE-OPENING)",
       title: "{brandName} Online Food Court & Delivery Platform",
-      intro: "Delivery and pickup platform prepared by {legalName} to unite {brandCount} {brandName} brands in one order.",
+      intro: "Orders from multiple brands are cooked together and delivered in one shipment.",
       features: [
-        { title: "01 · 1 Cart · {brandCount} Brands · 1 Delivery", desc: "Order across multiple brands in a single transaction." },
-        { title: "02 · 6-Station KDS & Dual Packaging", desc: "Synchronizes cooking times and separates hot dishes from chilled drinks/desserts." },
-        { title: "03 · Status: Pre-Opening Stage", desc: "Nothing is on sale yet." }
+        { title: "01 · 1 Cart · {brandCount} Brands · 1 Delivery", desc: "Orders from multiple brands are cooked together and delivered in one shipment." },
+        { title: "02 · Coordinated Cooking & Separate Packaging", desc: "Hot dishes and cold drinks are prepared together and packed separately to preserve temperature." },
+        { title: "03 · Status: Pre-Opening Stage", desc: "Nothing is on sale yet while pre-opening preparations are underway." }
       ],
       appBoxTitle: "{brandName} Ordering App (Pre-Opening)",
-      appBoxDesc: "Nothing is on sale yet while pre-opening preparations are underway."
+      appBoxDesc: "Nothing is on sale yet. The official launch schedule will be announced on this site."
     },
     peoplePage: {
       eyebrow: "OUR PEOPLE & CULTURE",
@@ -542,14 +542,14 @@ window.I18N_DICT = {
       intro: "“Good character, diligence, and genuine passion for work. We look forward to colleagues who faithfully fulfill their roles and respect one another.”",
       values: [
         { title: "01 · Good Character & Respect", desc: "Respecting teammates across every role and communicating honestly." },
-        { title: "02 · Diligence & Ownership", desc: "Upholding strict hygiene standards, exact recipe portions, and careful preparation." },
-        { title: "03 · Passion for Growth", desc: "Growing together with {legalName} ({brandName})." }
+        { title: "02 · Diligence & Ownership", desc: "Upholding kitchen hygiene standards, exact recipe portions, and neat packaging." },
+        { title: "03 · Passion for Growth", desc: "Learning modern culinary operations and growing together with {legalName}." }
       ]
     },
     careersPage: {
       eyebrow: "OFFICIAL CAREERS · {legalName}",
       title: "Official Recruitment at {legalName} — Brand {brandName} (11 Categories)",
-      intro: "Join {legalName} in South Jakarta ahead of our {brandName} ({brandCount} brands) launch. Official and 100% free recruitment.",
+      intro: "Join {legalName} in South Jakarta ahead of our {brandName} launch. Official and 100% free recruitment.",
       applyBoxTitle: "How to Apply",
       applyBoxDesc: "Select a position below and press Lamar to open the official application draft with the position pre-filled.",
       applyJobBtn: "Lamar",
@@ -557,7 +557,7 @@ window.I18N_DICT = {
       formBtn: "Lamar",
       copyEmailBtn: "Copy Email Address",
       copiedNotice: "Copied!",
-      benefitsTitle: " Statutory Employment Compliance & Benefits",
+      benefitsTitle: "Statutory Employment Compliance & Benefits",
       benefits: [
         {
           title: "01 · Official Employment Contract (PKWT / PKWTT)",
@@ -576,9 +576,9 @@ window.I18N_DICT = {
         },
         {
           flag: "showCareerPathBenefit",
-          title: "04 · Culinary & Hygiene SOP Training",
-          titleExtended: "04 · SOP Training & Career Path",
-          desc: "Structured training on professional culinary and kitchen hygiene standard operating procedures (SOP).",
+          title: "04 · Culinary & Hygiene Training",
+          titleExtended: "04 · Culinary Training & Career Path",
+          desc: "Structured training on professional kitchen operations and food hygiene.",
           descExtended: "Structured training and career progression toward Part Leader hingga Branch Manager."
         }
       ],
@@ -659,26 +659,29 @@ window.I18N_DICT = {
       eyebrow: "{legalName} · BRAND: {brandName} (오픈 준비 중)",
       headlineA: "{legalName} (브랜드: {brandName}) 공식 법인 소개 및 채용",
       headlineB: "{legalName} · 자카르타 온라인 푸드코트 {brandName} 오픈 준비",
-      subcopyA: "자카르타 남부에서 브랜드 {brandName}({brandCount}개 브랜드) 오픈을 준비 중인 {legalName}입니다. 현재 판매 전(Pre-Opening) 단계로 11개 직군 채용을 진행하고 있습니다.",
+      subcopyA: "자카르타 남부에서 브랜드 {brandName}({brandCount}개 브랜드) 오픈을 준비 중인 {legalName}입니다. 현재 판매 전 단계로 11개 직군 채용을 진행하고 있습니다.",
       subcopyB: "{legalName}는 자카르타 남부에서 브랜드 {brandName}({brandCount}개 브랜드) 오픈을 준비하고 있으며 11개 직군 채용을 진행 중입니다.",
       careerBtn: "채용 지원 (11개 직군)",
       brandBtn: "{brandCount}개 브랜드 보기",
-      appComingSoon: "오픈 준비 중 (판매 전)",
+      appComingSoon: "Aplikasi Delivery (Segera Hadir)",
       appDownload: "{brandName} 앱 열기"
     },
     identityCard: {
-      eyebrow: "공식 법인 신원 확인",
-      title: "공식 법인 정보 및 채용 검증 채널",
-      intro: "구직자 및 채용 사이트 검증 담당자가 {legalName} (브랜드: {brandName})의 법인명과 등록 주소를 확인할 수 있는 공식 안내입니다.",
-      legalLabel: "공식 법인명 (Legal Entity)",
-      brandLabel: "브랜드 (Brand)",
-      leaderLabel: "대표자 (Pimpinan)",
+      eyebrow: "공식 법인 신원 및 핵심 정보",
+      badge: "오픈 준비 중 · 공식 인증",
+      title: "법인 기본 정보 및 채용 검증 채널",
+      intro: "{legalName} (브랜드: {brandName})의 법인명과 등록 주소를 확인할 수 있는 공식 안내입니다.",
+      legalLabel: "공식 법인명",
+      brandLabel: "브랜드",
+      leaderLabel: "대표자",
       leaderRole: "Direktur Utama",
-      statusLabel: "사업 상태",
-      statusValue: "오픈 준비 단계 (Pre-Opening) — 현재 상품 판매 전",
+      openPositionsLabel: "채용 중인 직군",
+      openPositionsValue: "11개 직군 (공식 채용 중)",
+      statusLabel: "오픈 예정 안내",
+      statusValue: "오픈 준비 단계 — 자카르타 남부 (현재 상품 판매 전)",
       purposeLabel: "등록 주소",
       purposeValue: "{address}",
-      channelsLabel: "공식 채널 (Saluran Resmi)",
+      channelsLabel: "공식 채널",
       antiFraudTitle: "공식 채용 무상 진행 안내",
       antiFraudDesc: "Kami tidak memungut biaya apa pun dalam proses rekrutmen.",
       contactLinkBtn: "등록 주소 및 연락처 보기 →"
@@ -702,14 +705,14 @@ window.I18N_DICT = {
           icon: "utensils",
           title: "푸드·R&D",
           desc: "Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) 기준 5대 요리 장르 레시피 개발",
-          action: "메뉴 R&D & 6대 스테이션 →"
+          action: "메뉴 R&D 보기 →"
         },
         {
           id: "platform",
           route: "platform",
           icon: "smartphone",
           title: "플랫폼",
-          desc: "6대 스테이션 센트럴 키친 및 딜리버리·픽업 플랫폼 준비",
+          desc: "여러 브랜드의 메뉴를 함께 조리해 한 번에 배달하는 온라인 푸드코트",
           action: "플랫폼 보기 →"
         },
         {
@@ -728,7 +731,7 @@ window.I18N_DICT = {
       desc: "{legalName}는 한국 본사({brandName} Korea HQ)의 F&B 운영 노하우를 현지화합니다:",
       points: [
         "01 · 다브랜드 기획 ({brandCount}개 브랜드)",
-        "02 · 6대 스테이션 조리 표준 (SOP)",
+        "02 · 센트럴 키친 표준 조리 운영 절차",
         "03 · 5대 장르 레시피 R&D"
       ],
       linkText: "Kantor Pusat Korea ({brandName} Korea HQ)"
@@ -737,27 +740,27 @@ window.I18N_DICT = {
       eyebrow: "CEO MESSAGE",
       titlePrefix: "Direktur Utama 인사말",
       p1Title: "명확한 법인 정체성과 {brandName} 오픈 준비",
-      p1: "“{legalName}는 자카르타 남부에서 브랜드 {brandName} 오픈을 준비하고 있습니다. 현재 판매 전 단계로서 구직자와 검증 기관에 명확한 법인 신원을 안내하는 것을 최우선으로 합니다.”",
+      p1: "“{legalName}는 자카르타 남부에서 브랜드 {brandName} 오픈을 준비하고 있습니다. 현재 판매 전 단계로서 구직자와 검증 기관에 명확한 법인 신원을 안내합니다.”",
       p2Title: "사람 중심 조직과 투명한 채용",
-      p2: "“좋은 서비스는 좋은 사람에게서 시작됩니다. 착한 인성과 성실함, 열정을 가진 동료들을 투명한 채용 절차로 맞이합니다.”",
+      p2: "“좋은 서비스는 좋은 사람에게서 시작됩니다. 성실하고 서로 존중하는 동료들을 투명한 채용 절차로 맞이합니다.”",
       signRole: "Direktur Utama"
     },
     impact: {
-      eyebrow: "PRE-OPENING PLAN",
-      title: "오픈 준비 계획 및 로드맵",
-      notice: "{legalName}는 현재 오픈 준비(Pre-Opening) 단계로 아직 상품을 판매하지 않습니다.",
+      eyebrow: "TARGET & ROADMAP",
+      title: "목표 및 오픈 준비 로드맵",
+      notice: "{legalName}는 현재 오픈 준비 단계로 아직 상품을 판매하지 않습니다. 아래 수치는 목표 계획입니다.",
       roadmapTitle: "단계별 준비 로드맵",
       roadmapSteps: [
-        "1단계 · 자카르타 남부 팀 채용 및 센트럴 키친 오픈 준비 (오픈 준비 중)",
-        "2단계 · 자카르타 남부 1호 거점 및 {brandName} 플랫폼 오픈",
-        "3단계 · 차기 거점 단계별 확장"
+        "1단계 · 자카르타 남부 팀 채용 및 센트럴 키친 준비 (오픈 준비 목표)",
+        "2단계 · 자카르타 남부 1호 거점 및 {brandName} 플랫폼 오픈 (목표)",
+        "3단계 · 차기 거점 단계별 확장 (중장기 목표)"
       ]
     },
     culture: {
       eyebrow: "OUR CULTURE",
       title: "조직문화와 인재상",
       quote: "“착한 인성, 성실함, 그리고 일에 대한 진심 어린 열정. 자신의 몫을 성실히 해내며 서로 존중하는 동료를 기다립니다.”",
-      desc: "{legalName} ({brandName})는 기본에 충실한 태도와 동료에 대한 상호 존중을 가장 중요한 가치로 여깁니다.",
+      desc: "{legalName}는 성실한 태도와 동료 간 상호 존중을 가장 중요한 가치로 여깁니다.",
       peopleBtn: "조직문화 자세히 보기",
       careerBtn: "11개 채용 직군 보기"
     },
@@ -774,7 +777,7 @@ window.I18N_DICT = {
     brandsPage: {
       eyebrow: "{brandName} BRAND PORTFOLIO · 오픈 준비 중 (판매 전)",
       title: "{brandName} {brandCount}개 브랜드 및 {menuCount}개 메뉴 포트폴리오",
-      intro: "{legalName}가 준비 중인 브랜드 {brandName}의 {brandCount}개 브랜드({menuCount}개 메뉴) 구성입니다(현재 판매 전). 모든 메뉴는 Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) 기준입니다.",
+      intro: "{legalName}가 준비 중인 {brandCount}개 브랜드({menuCount}개 메뉴) 구성입니다(현재 판매 전). 모든 메뉴는 Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) 기준입니다.",
       allTab: "전체 ({brandCount}개 브랜드)",
       catNames: {
         Chicken: "치킨 (3)",
@@ -787,65 +790,58 @@ window.I18N_DICT = {
       preOpeningTag: "오픈 준비 중",
       viewAllMenus: "10개 메뉴 전체보기",
       hideMenus: "메뉴 접기",
+      showAllBrandsBtn: "Tampilkan semua brand",
+      showLessBrandsBtn: "대표 브랜드만 보기",
       emptySearchTitle: "일치하는 브랜드 또는 메뉴가 없습니다",
       emptySearchDesc: "검색어에 해당하는 항목을 찾지 못했습니다. 다른 검색어를 입력하거나 전체 {brandCount}개 브랜드를 확인해 주세요.",
       resetSearchBtn: "검색 초기화"
     },
     foodRndPage: {
-      eyebrow: "FOOD & R&D · 5 GENRES & 6 STATIONS",
-      title: "5대 요리 장르 메뉴 R&D 및 6대 조리 스테이션",
-      intro: "{legalName}가 준비 중인 5대 요리 장르 표준 레시피와 6대 조리 스테이션 분업 시스템입니다.",
+      eyebrow: "FOOD & R&D · 5 CULINARY GENRES",
+      title: "5대 요리 장르 메뉴 R&D",
+      intro: "{legalName}가 준비 중인 5대 요리 장르 표준 레시피입니다.",
       ingredientCallout: "Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) — 모든 메뉴에서 돼지고기와 돈지(라드)를 배제하고 닭고기·소고기·해산물 중심의 식자재로 레시피를 설계했습니다.",
       genresTitle: "5대 요리 장르 R&D",
       genres: [
         {
           title: "1. 한식 (Korean Cuisine)",
-          desc: "가마솥 누룽지 통닭(솥닭), 숯불 양념치킨(성수닭), 주먹밥(주목), 덮밥(밥클럽·얹다), 전주 비빔밥, 한우 뭇국·온탕, 온담 반상, 냉면(냉탕), 수제 김밥(말다), 왕만두(두야)",
+          desc: "가마솥 누룽지 통닭(솥닭), 숯불 양념치킨(성수닭), 주먹밥, 덮밥, 전주 비빔밥, 소고기 탕·찌개, 김밥, 만두",
           img: "assets/slots/genre-1-korean.jpg",
           alt: "Ilustrasi pengembangan menu masakan Korea di dapur R&D MUGGO"
         },
         {
           title: "2. 중식 및 마라 퓨전 (Chinese & Mala)",
-          desc: "사천식 마라 풍미를 소고기·닭고기·해산물 요리에 접목한 미각(MIGAK) 등 중화풍 메뉴 R&D",
+          desc: "사천식 마라 풍미를 소고기·닭고기·해산물 요리에 접목한 중화풍 메뉴(미각)",
           img: "assets/slots/genre-2-chinese.jpg",
           alt: "Ilustrasi pengembangan menu masakan Tiongkok dan Mala Fusion"
         },
         {
           title: "3. 일식 및 아티산 베이커리 (Japanese)",
-          desc: "프랑스산 버터와 천일염으로 구워낸 시오빵/소금빵(솔트룸) 및 튀김·덮밥 조리 기술",
+          desc: "프랑스산 버터로 구워낸 소금빵(솔트룸) 및 바삭한 튀김·소스 조리 기술",
           img: "assets/slots/genre-3-japanese.jpg",
           alt: "Ilustrasi pengembangan menu masakan Jepang dan bakery Shio Pan"
         },
         {
           title: "4. 인도네시아 현지화 메뉴 (Indonesian)",
-          desc: "스페셜티 커피·음료(나씨보스), 현지 입맛에 맞춘 맵기 단계 설계 및 로컬 식자재 결합",
+          desc: "스페셜티 커피·열대과일 음료(나씨보스), 현지 삼발 맵기 단계 및 로컬 식자재 활용",
           img: "assets/slots/genre-4-indonesian.jpg",
           alt: "Ilustrasi pengembangan menu dan minuman cita rasa lokal Indonesia"
         },
         {
           title: "5. 양식 및 유러피안 델리 (Western)",
-          desc: "유러피안 샌드위치(펜트리12), 아메리칸 비프 버거(스모키살루온·번아웃), 화덕 피자(우드앤브릭·베이스오븐), 케밥(케바바), 포케 샐러드(샐러드픽)",
+          desc: "유러피안 샌드위치(펜트리12), 비프 버거(스모키살루온·번아웃), 피자(우드앤브릭), 케밥(케바바), 포케 샐러드",
           img: "assets/slots/genre-5-western.jpg",
           alt: "Ilustrasi pengembangan menu burger, pizza, dan sandwich Barat"
         }
-      ],
-      stationsTitle: "센트럴 키친 6대 조리 스테이션",
-      stations: [
-        "Station 1 · Fryer (가마솥 후라이드 치킨 및 튀김)",
-        "Station 2 · Grill (숯불 바베큐 치킨, 소고기 구이, 버거 패티 & 오븐)",
-        "Station 3 · Soup & Simmer (곰탕, 뭇국, 찌개, 냉면 육수)",
-        "Station 4 · Assembly & Prep (덮밥, 비빔밥, 김밥, 주먹밥, 포케 샐러드)",
-        "Station 5 · Bakery & Dessert (눈꽃 빙수, 소금빵, 베이글)",
-        "Station 6 · Beverage Bar (스페셜티 커피, 티, 밀크티)"
       ]
     },
     platformPage: {
       eyebrow: "PLATFORM · ONLINE FOOD COURT & APP (오픈 준비 중)",
       title: "{brandName} 온라인 푸드코트 몰 및 배달 플랫폼",
-      intro: "{legalName}가 준비 중인 딜리버리·픽업 중심 {brandCount}개 브랜드 온라인 푸드코트 플랫폼입니다.",
+      intro: "여러 브랜드의 메뉴를 동시에 조리하여 한 번의 배달로 전달합니다.",
       features: [
-        { title: "01 · {brandCount}개 브랜드 단일 장바구니 & 1회 배달", desc: "서로 다른 브랜드 메뉴를 한 번의 주문으로 함께 조리·배달합니다." },
-        { title: "02 · 6대 스테이션 KDS 연동 & 보온·보냉 분리 포장", desc: "조리 완료 시각을 동기화하며 따뜻한 요리와 차가운 음료를 분리 포장합니다." },
+        { title: "01 · {brandCount}개 브랜드 단일 장바구니 & 1회 배달", desc: "여러 브랜드의 메뉴를 동시에 조리하여 한 번의 배달로 전달합니다." },
+        { title: "02 · 조리 시간 맞춤 & 온·냉 분리 포장", desc: "따뜻한 요리와 차가운 음료·디저트를 함께 준비하고 온도에 맞게 분리 포장합니다." },
         { title: "03 · 현재 상태: 오픈 준비 중 (판매 전)", desc: "현재 오픈 준비 단계로 아직 상품을 판매하지 않습니다." }
       ],
       appBoxTitle: "{brandName} 주문 앱 (오픈 준비 중)",
@@ -857,14 +853,14 @@ window.I18N_DICT = {
       intro: "“착한 인성, 성실함, 그리고 일에 대한 진심 어린 열정. 자신의 몫을 성실히 해내며 서로 존중하는 동료를 기다립니다.”",
       values: [
         { title: "01 · 착한 인성과 상호 존중", desc: "모든 동료가 서로의 역할을 존중하고 정직하게 소통합니다." },
-        { title: "02 · 자신의 몫을 다하는 성실함", desc: "위생 관리부터 정확한 레시피 계량까지 기본과 원칙을 지킵니다." },
-        { title: "03 · 일에 대한 진심 어린 열정", desc: "{legalName} ({brandName})와 함께 성장합니다." }
+        { title: "02 · 자신의 몫을 다하는 성실함", desc: "주방 위생과 정확한 레시피 계량, 깔끔한 포장을 매일 실천합니다." },
+        { title: "03 · 일에 대한 진심 어린 열정", desc: "{legalName}와 함께 배우며 성장합니다." }
       ]
     },
     careersPage: {
       eyebrow: "OFFICIAL CAREERS · {legalName}",
       title: "{legalName} (브랜드 {brandName}) 공식 채용 안내 (11개 직군)",
-      intro: "자카르타 남부 거점 및 {brandName}({brandCount}개 브랜드) 오픈을 함께 준비할 11개 직군의 인재를 모집합니다.",
+      intro: "자카르타 남부 거점 및 {brandName} 오픈을 함께 준비할 11개 직군의 인재를 모집합니다.",
       applyBoxTitle: "지원 방법 안내",
       applyBoxDesc: "아래 모집 직군에서 Lamar 버튼을 누르면 지원 직군과 이메일 제목(Lamaran: <직군>)이 자동 입력된 지원서 작성창이 열립니다.",
       applyJobBtn: "Lamar",
@@ -891,9 +887,9 @@ window.I18N_DICT = {
         },
         {
           flag: "showCareerPathBenefit",
-          title: "04 · 조리·위생 SOP 체계 교육",
-          titleExtended: "04 · SOP 교육 및 커리어 성장",
-          desc: "표준 조리 매뉴얼(SOP) 및 주방 위생 관리에 대한 체계적인 교육을 제공합니다.",
+          title: "04 · 주방 운영 및 위생 교육",
+          titleExtended: "04 · 주방 교육 및 커리어 성장",
+          desc: "표준 주방 조리 절차 및 식품 위생 관리에 대한 교육을 제공합니다.",
           descExtended: "체계적인 조리·운영 교육 및 Part Leader hingga Branch Manager 승진 기회를 제공합니다."
         }
       ],
@@ -917,9 +913,9 @@ window.I18N_DICT = {
     contactPage: {
       eyebrow: "OFFICIAL CORPORATE IDENTITY & CONTACT",
       title: "공식 법인 정보, 등록 주소 및 연락처",
-      intro: "{legalName} (Brand: {brandName}) 공식 소통 및 기업 정보 채널입니다.",
-      entityLabel: "공식 법인명 (Legal Entity)",
-      brandLabel: "브랜드 (Brand)",
+      intro: "{legalName} (Brand: {brandName}) 공식 소통 및 기업 확인 채널입니다.",
+      entityLabel: "공식 법인명",
+      brandLabel: "브랜드",
       statusLabel: "사업 상태",
       statusText: "오픈 준비 단계 (Pre-Opening · 현재 판매 전)",
       addressLabel: "Alamat Terdaftar",

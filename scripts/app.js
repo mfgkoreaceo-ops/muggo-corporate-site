@@ -76,6 +76,7 @@
   let selectedBrandCategory = "all";
   let brandSearchQuery = "";
   let expandedBrands = {};
+  let showAllBrandsOnPage = false;
   let lastFocusedTrigger = null;
 
   function lang() {
@@ -437,10 +438,10 @@
   }
 
   // ==========================================================================
-  // COMPACT TRUST BLOCK (Task 3.8 — Top of Karir, Kontak, and Home)
+  // COMPACT TRUST & COMPANY FACTS BLOCK (Task 3.8 & 6.2 — Top of Home, Karir, Kontak)
   // Shows legal name, leadership ("Direktur Utama" without a name until supplied),
-  // registered address, official channels (email, Instagram, TikTok), and:
-  // "Kami tidak memungut biaya apa pun dalam proses rekrutmen."
+  // registered address, open positions, planned opening, official channels (email, Instagram, TikTok),
+  // and: "Kami tidak memungut biaya apa pun dalam proses rekrutmen."
   // ==========================================================================
   function renderIdentityVerificationCard(showContactBtn = true, pageContext = "default") {
     const dict = t().identityCard;
@@ -457,17 +458,17 @@
       pageContext === "contact"
         ? `
           <div style="margin-top:8px; display:flex; flex-wrap:wrap; align-items:center; gap:8px;">
-            <button type="button" class="btn btn-secondary" style="min-height:34px; padding:5px 12px; font-size:12.5px;" onclick="copyEmailAddress('${primaryEmail}', this)">
+            <button type="button" class="btn btn-secondary" style="min-height:36px; padding:6px 12px; font-size:14px;" onclick="copyEmailAddress('${primaryEmail}', this)">
               ${careerDict.copyEmailBtn || "Salin Alamat Email"}
             </button>
-            <span class="hint" style="font-size:12.5px;">${contactDict.emailNote || ""}</span>
+            <span class="hint" style="font-size:14px;">${contactDict.emailNote || ""}</span>
           </div>
           ${
             hasDistinctRecruitmentEmail()
               ? `<div style="margin-top:10px; padding-top:10px; border-top:1px dashed var(--portal-line); display:flex; flex-wrap:wrap; align-items:center; gap:10px;">
                   <small class="hint" style="font-weight:700;">${contactDict.emailRecruitmentLabel || "Email Rekrutmen Resmi"}:</small>
                   <a href="mailto:${getRecruitmentEmail()}" style="color:var(--ui-link); font-weight:700; text-decoration:none;">${getRecruitmentEmail()}</a>
-                  <button type="button" class="btn btn-secondary" style="min-height:32px; padding:4px 10px; font-size:12px;" onclick="copyEmailAddress('${getRecruitmentEmail()}', this)">
+                  <button type="button" class="btn btn-secondary" style="min-height:34px; padding:5px 10px; font-size:14px;" onclick="copyEmailAddress('${getRecruitmentEmail()}', this)">
                     ${careerDict.copyEmailBtn || "Salin Alamat Email"}
                   </button>
                 </div>`
@@ -489,12 +490,23 @@
         <div class="columns" style="margin-bottom:12px; gap:12px;">
           <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:12px 14px;">
             <small class="hint" style="display:block; font-weight:700;">${dict.legalLabel}</small>
-            <strong style="font-size:15.5px; color:var(--ui-text); display:block;">${c.legalName}</strong>
-            <span class="hint" style="font-size:12.5px;">${dict.brandLabel}: <strong style="color:var(--ui-link);">${c.brandName}</strong> · ${dict.leaderLabel || "Pimpinan"}: <strong>${leaderDisplay}</strong></span>
+            <strong style="font-size:16px; color:var(--ui-text); display:block;">${c.legalName}</strong>
+            <span class="hint" style="font-size:14px;">${dict.brandLabel}: <strong style="color:var(--ui-link);">${c.brandName}</strong> · ${dict.leaderLabel || "Pimpinan"}: <strong>${leaderDisplay}</strong></span>
           </div>
           <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:12px 14px;">
             <small class="hint" style="display:block; font-weight:700;">${dict.purposeLabel}</small>
-            <strong style="font-size:14px; color:var(--ui-text); display:block;">${c.address}</strong>
+            <strong style="font-size:14.5px; color:var(--ui-text); display:block;">${c.address}</strong>
+          </div>
+        </div>
+
+        <div class="columns" style="margin-bottom:12px; gap:12px;">
+          <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:12px 14px;">
+            <small class="hint" style="display:block; font-weight:700;">${dict.openPositionsLabel || "Posisi Terbuka"}</small>
+            <strong style="font-size:14.5px; color:var(--ui-text); display:block;">${dict.openPositionsValue || `${state.jobs.length} Bidang Posisi (Rekrutmen Resmi)`}</strong>
+          </div>
+          <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:12px 14px;">
+            <small class="hint" style="display:block; font-weight:700;">${dict.statusLabel || "Rencana Pembukaan"}</small>
+            <strong style="font-size:14.5px; color:var(--ui-text); display:block;">${dict.statusValue}</strong>
           </div>
         </div>
 
@@ -505,7 +517,7 @@
                 ? contactDict.emailUnifiedLabel || dict.channelsLabel || "Saluran Resmi"
                 : dict.channelsLabel || "Saluran Resmi"
             }</small>
-            <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-top:4px; font-size:13.5px;">
+            <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-top:4px; font-size:14px;">
               ${primaryEmail ? `<a href="mailto:${primaryEmail}" style="color:var(--ui-link); font-weight:700; text-decoration:none;">${primaryEmail}</a>` : ""}
               <a href="${c.instagramUrl}" onclick="openSnsChannel(event, 'instagram')" style="color:var(--ui-link); font-weight:700; text-decoration:none;">Instagram (${igHandle}) ↗</a>
               <a href="${c.tiktokUrl}" onclick="openSnsChannel(event, 'tiktok')" style="color:var(--ui-link); font-weight:700; text-decoration:none;">TikTok (${ttHandle}) ↗</a>
@@ -514,7 +526,7 @@
           </div>
           ${
             showContactBtn
-              ? `<button type="button" class="btn btn-secondary" style="min-height:36px; padding:7px 13px; font-size:13px;" onclick="navigateTo('contact')">
+              ? `<button type="button" class="btn btn-secondary" style="min-height:38px; padding:8px 14px; font-size:14px;" onclick="navigateTo('contact')">
                   ${dict.contactLinkBtn}
                 </button>`
               : ""
@@ -610,7 +622,7 @@
       const waHtml = hasWhatsApp()
         ? `<div><strong>WhatsApp:</strong> <a href="https://wa.me/${cleanWa}" target="_blank" rel="noopener">${c.whatsappNumber}</a></div>`
         : dict.contactPage && dict.contactPage.phonePendingNotice
-        ? `<div class="hint" style="font-size:13px;">${dict.contactPage.phonePendingNotice}</div>`
+        ? `<div class="hint" style="font-size:14px;">${dict.contactPage.phonePendingNotice}</div>`
         : "";
       const emailHtml = c.contactEmail
         ? `<div><strong>${dict.footer.emailLabel}</strong> <a href="mailto:${c.contactEmail}" style="color:var(--ui-link); font-weight:700;">${c.contactEmail}</a></div>`
@@ -660,10 +672,10 @@
           <div>
             <p class="eyebrow" style="margin-bottom:10px;">${dict.footer.socialHeading || "MEDIA SOSIAL & SALURAN RESMI"}</p>
             <div style="display:flex; flex-wrap:wrap; gap:8px;">
-              <a href="${c.instagramUrl}" onclick="openSnsChannel(event, 'instagram')" class="btn btn-secondary" style="padding:8px 14px; min-height:36px; font-size:13px;">
+              <a href="${c.instagramUrl}" onclick="openSnsChannel(event, 'instagram')" class="btn btn-secondary" style="padding:8px 14px; min-height:38px; font-size:14px;">
                 Instagram (${igHandle})
               </a>
-              <a href="${c.tiktokUrl}" onclick="openSnsChannel(event, 'tiktok')" class="btn btn-secondary" style="padding:8px 14px; min-height:36px; font-size:13px;">
+              <a href="${c.tiktokUrl}" onclick="openSnsChannel(event, 'tiktok')" class="btn btn-secondary" style="padding:8px 14px; min-height:38px; font-size:14px;">
                 TikTok (${ttHandle})
               </a>
             </div>
@@ -749,8 +761,9 @@
   }
 
   // --------------------------------------------------------------------------
-  // HOME VIEW (Task 5.2: 1 primary Karir button + 1 secondary Brand list button in Hero;
-  // delivery-app button moved to the Platform section)
+  // HOME VIEW (Task 6.2 Facts First order:
+  // (1) Hero, (2) Company Facts, (3) Four Pillars, (4) Single "Target & Roadmap" section,
+  // followed by Korea HQ, CEO Message, Culture, Articles, Footnotes)
   // --------------------------------------------------------------------------
   function renderHomeView() {
     const dict = t();
@@ -760,12 +773,12 @@
 
     let platformAppBtnHtml = "";
     if (c.deliveryAppMode === "coming_soon" || !c.deliveryAppUrl) {
-      platformAppBtnHtml = `<span class="btn btn-disabled" aria-disabled="true" style="min-height:36px; padding:7px 12px; font-size:12.5px; margin-top:10px;">${dict.hero.appComingSoon}</span>`;
+      platformAppBtnHtml = `<span class="btn btn-disabled" aria-disabled="true" style="min-height:36px; padding:7px 12px; font-size:14px; margin-top:10px;">${dict.hero.appComingSoon}</span>`;
     } else if (c.deliveryAppMode === "active" && c.deliveryAppUrl) {
-      platformAppBtnHtml = `<a href="${c.deliveryAppUrl}" target="_blank" rel="noopener" class="btn btn-secondary" style="min-height:36px; padding:7px 12px; font-size:12.5px; margin-top:10px;" onclick="event.stopPropagation()">${dict.hero.appDownload} ↗</a>`;
+      platformAppBtnHtml = `<a href="${c.deliveryAppUrl}" target="_blank" rel="noopener" class="btn btn-secondary" style="min-height:36px; padding:7px 12px; font-size:14px; margin-top:10px;" onclick="event.stopPropagation()">${dict.hero.appDownload} ↗</a>`;
     }
 
-    // ③ Our Pillars (4 cards; delivery-app button placed in the Platform card per Task 5.2)
+    // (3) The Four Pillars (4 cards; delivery-app button placed in the Platform card per Task 5.2)
     const pillarsHtml = dict.pillars.items
       .map(
         (p) => `
@@ -776,33 +789,6 @@
           <span class="card-action">${p.action}</span>
           ${p.id === "platform" ? platformAppBtnHtml : ""}
         </button>
-      `
-      )
-      .join("");
-
-    // Featured Planned Brands Preview (Brand name, category tag, 1-line description, 2 representative menus)
-    const featuredIds = ["sotdak", "seongsu-dak", "bap-club", "pantry12", "salad-pick", "bing-ha"];
-    const featuredBrands = (window.MUGGO_CATALOG || []).filter((b) => featuredIds.includes(b.id));
-    const catBadgeMap = (dict.brandsPage && dict.brandsPage.catBadgeNames) || {};
-    const featuredBrandsHtml = featuredBrands
-      .map(
-        (b) => `
-        <div class="brand-card" onclick="navigateTo('brands')" style="cursor:pointer;">
-          <div class="brand-card-header">
-            <img src="${b.logo}" alt="${locBrand(b, "name")}" class="brand-thumb" loading="lazy" />
-            <div style="min-width:0;">
-              <span class="roster-badge">${catBadgeMap[b.category] || b.category}</span>
-              <h3 style="margin-top:4px; font-size:16px;">${locBrand(b, "name")}</h3>
-            </div>
-          </div>
-          <p class="hint brand-desc-oneline" style="margin-bottom:8px;">${locBrand(b, "desc")}</p>
-          <ul class="menu-preview-list" style="margin-top:6px; padding-top:8px;">
-            ${b.menus
-              .slice(0, 2)
-              .map((m) => `<li class="menu-preview-item"><span>${locBrand(m, "name")}</span></li>`)
-              .join("")}
-          </ul>
-        </div>
       `
       )
       .join("");
@@ -827,7 +813,7 @@
       `
       : "";
 
-    // ⑤ Metrics (6 pre-opening indicators)
+    // (4) Single "Target & Roadmap" section grouping all planned numbers, each visibly labeled as a target
     const metricsHtml = state.metrics
       .map(
         (m) => `
@@ -846,7 +832,7 @@
     const roadmapHtml = c.showRegionalRoadmap
       ? `
         <div style="margin-top:18px;">
-          <h3 style="font-size:15px; margin-bottom:10px;">${dict.impact.roadmapTitle}</h3>
+          <h3 style="font-size:16px; margin-bottom:10px;">${dict.impact.roadmapTitle}</h3>
           <ol class="workflow">
             ${dict.impact.roadmapSteps.map((step) => `<li>${step}</li>`).join("")}
           </ol>
@@ -854,7 +840,7 @@
       `
       : "";
 
-    // ⑦ Related Articles (Auto-hidden if 0 items)
+    // Related Articles (Auto-hidden if 0 items)
     let articlesHtml = "";
     if (state.articles && state.articles.length > 0) {
       articlesHtml = `
@@ -889,12 +875,12 @@
       `;
     }
 
-    // ⑧ Footnotes Accordion
+    // Footnotes Accordion
     const footnotesHtml = state.footnotes
       .map(
         (fn) => `
         <div>
-          <strong style="display:block; font-size:13.5px; margin-bottom:3px;">${loc(fn, "title")}</strong>
+          <strong style="display:block; font-size:14px; margin-bottom:3px;">${loc(fn, "title")}</strong>
           <p class="hint">${loc(fn, "desc")}</p>
         </div>
       `
@@ -902,7 +888,7 @@
       .join("");
 
     return `
-      <!-- ② Hero Section -->
+      <!-- (1) Hero Section -->
       <section class="hero-card">
         <div>
           <p class="eyebrow">${dict.hero.eyebrow}</p>
@@ -922,53 +908,10 @@
         </div>
       </section>
 
-      <!-- Official Company Identity & Recruitment Verification Block -->
-      ${renderIdentityVerificationCard(true)}
+      <!-- (2) Company Facts (Legal name, registered address, open positions, social channels, planned opening) -->
+      ${renderIdentityVerificationCard(true, "home")}
 
-      <!-- ⑥ Our Culture -->
-      <section class="card section-block">
-        <p class="eyebrow">${dict.culture.eyebrow}</p>
-        <h2>${dict.culture.title}</h2>
-        <aside class="callout">
-          <strong style="font-size:17px; line-height:1.55; display:block;">${dict.culture.quote}</strong>
-        </aside>
-        <p class="intro" style="margin-bottom:18px;">${dict.culture.desc}</p>
-        <div style="display:flex; flex-wrap:wrap; gap:10px;">
-          <button type="button" class="btn btn-primary" onclick="navigateTo('careers')">${dict.culture.careerBtn}</button>
-          <button type="button" class="btn btn-secondary" onclick="navigateTo('people')">${dict.culture.peopleBtn}</button>
-        </div>
-      </section>
-
-      <!-- ④ Leadership Message (ceoPortraitUrl 1:1 slot hidden when empty; ceoName hidden when empty) -->
-      <section class="card section-block">
-        <p class="eyebrow">${dict.ceo.eyebrow}</p>
-        <h2>${dict.ceo.titlePrefix}${c.ceoName ? ` · ${c.ceoName}` : ""}</h2>
-        <div class="${c.ceoPortraitUrl && c.ceoPortraitUrl.trim() !== "" ? "ceo-grid-with-portrait" : ""}" style="margin-top:16px;">
-          ${
-            c.ceoPortraitUrl && c.ceoPortraitUrl.trim() !== ""
-              ? `<picture class="slot-frame ratio-1-1 ceo-portrait-slot">
-                  <img src="${c.ceoPortraitUrl.trim()}" width="600" height="600" loading="lazy" alt="Potret kepemimpinan dan manajemen perusahaan" />
-                </picture>`
-              : ""
-          }
-          <div class="columns">
-            <aside class="callout" style="margin:0;">
-              <strong style="display:block; font-size:13px; color:var(--ui-link); margin-bottom:6px;">01 · ${dict.ceo.p1Title}</strong>
-              <p>${dict.ceo.p1}</p>
-            </aside>
-            <aside class="callout" style="margin:0;">
-              <strong style="display:block; font-size:13px; color:var(--ui-link); margin-bottom:6px;">02 · ${dict.ceo.p2Title}</strong>
-              <p>${dict.ceo.p2}</p>
-            </aside>
-          </div>
-        </div>
-        <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--portal-line); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
-          <span class="hint">${c.legalName} (Brand: ${c.brandName})</span>
-          <strong>${dict.ceo.signRole}${c.ceoName ? ` · ${c.ceoName}` : ""}</strong>
-        </div>
-      </section>
-
-      <!-- ③ Our Pillars & Planned Brand Concepts -->
+      <!-- (3) The Four Pillars -->
       <section class="section-block">
         <div class="workspace-heading">
           <div>
@@ -980,14 +923,9 @@
         <div class="service-grid">
           ${pillarsHtml}
         </div>
-        <div class="brand-catalog-grid">
-          ${featuredBrandsHtml}
-        </div>
       </section>
 
-      ${koreaHqHtml}
-
-      <!-- ⑤ Pre-Opening Plan & Target Metrics -->
+      <!-- (4) Single "Target & Roadmap" Section (All planned numbers visibly labeled as targets + roadmap) -->
       <section class="section-block">
         <div class="workspace-heading">
           <div>
@@ -1002,10 +940,55 @@
         ${roadmapHtml}
       </section>
 
-      <!-- ⑦ Official Announcements -->
+      ${koreaHqHtml}
+
+      <!-- Leadership Message (ceoPortraitUrl 1:1 slot hidden when empty; ceoName hidden when empty) -->
+      <section class="card section-block">
+        <p class="eyebrow">${dict.ceo.eyebrow}</p>
+        <h2>${dict.ceo.titlePrefix}${c.ceoName ? ` · ${c.ceoName}` : ""}</h2>
+        <div class="${c.ceoPortraitUrl && c.ceoPortraitUrl.trim() !== "" ? "ceo-grid-with-portrait" : ""}" style="margin-top:16px;">
+          ${
+            c.ceoPortraitUrl && c.ceoPortraitUrl.trim() !== ""
+              ? `<picture class="slot-frame ratio-1-1 ceo-portrait-slot">
+                  <img src="${c.ceoPortraitUrl.trim()}" width="600" height="600" loading="lazy" alt="Potret kepemimpinan dan manajemen perusahaan" />
+                </picture>`
+              : ""
+          }
+          <div class="columns">
+            <aside class="callout" style="margin:0;">
+              <strong style="display:block; font-size:14px; color:var(--ui-link); margin-bottom:6px;">01 · ${dict.ceo.p1Title}</strong>
+              <p>${dict.ceo.p1}</p>
+            </aside>
+            <aside class="callout" style="margin:0;">
+              <strong style="display:block; font-size:14px; color:var(--ui-link); margin-bottom:6px;">02 · ${dict.ceo.p2Title}</strong>
+              <p>${dict.ceo.p2}</p>
+            </aside>
+          </div>
+        </div>
+        <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--portal-line); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+          <span class="hint">${c.legalName} (Brand: ${c.brandName})</span>
+          <strong>${dict.ceo.signRole}${c.ceoName ? ` · ${c.ceoName}` : ""}</strong>
+        </div>
+      </section>
+
+      <!-- Our Culture -->
+      <section class="card section-block">
+        <p class="eyebrow">${dict.culture.eyebrow}</p>
+        <h2>${dict.culture.title}</h2>
+        <aside class="callout">
+          <strong style="font-size:17px; line-height:1.55; display:block;">${dict.culture.quote}</strong>
+        </aside>
+        <p class="intro" style="margin-bottom:18px;">${dict.culture.desc}</p>
+        <div style="display:flex; flex-wrap:wrap; gap:10px;">
+          <button type="button" class="btn btn-primary" onclick="navigateTo('careers')">${dict.culture.careerBtn}</button>
+          <button type="button" class="btn btn-secondary" onclick="navigateTo('people')">${dict.culture.peopleBtn}</button>
+        </div>
+      </section>
+
+      <!-- Official Announcements -->
       ${articlesHtml}
 
-      <!-- ⑧ Footnotes Accordion -->
+      <!-- Footnotes Accordion -->
       <section class="section-block" style="margin-bottom:0;">
         <details class="footnote-details">
           <summary>
@@ -1021,7 +1004,8 @@
   }
 
   // --------------------------------------------------------------------------
-  // PLANNED BRANDS VIEW
+  // PLANNED BRANDS VIEW (Task 6.1: Show representative brands first and fold the rest
+  // behind "Tampilkan semua brand")
   // --------------------------------------------------------------------------
   window.setBrandCatFilter = function (cat) {
     selectedBrandCategory = cat;
@@ -1038,7 +1022,13 @@
     brandSearchQuery = "";
     selectedBrandCategory = "all";
     expandedBrands = {};
+    showAllBrandsOnPage = false;
     renderMain();
+  };
+
+  window.toggleShowAllBrands = function (expand) {
+    showAllBrandsOnPage = expand !== undefined ? Boolean(expand) : !showAllBrandsOnPage;
+    renderBrandCardsDOM();
   };
 
   window.toggleBrandMenus = function (brandId) {
@@ -1075,6 +1065,7 @@
 
   function renderBrandCardsDOM() {
     const container = document.getElementById("brands-catalog-container");
+    const foldWrap = document.getElementById("brands-fold-action");
     if (!container) return;
     const dict = t().brandsPage;
     const brands = getFilteredCatalog();
@@ -1090,11 +1081,21 @@
           </button>
         </div>
       `;
+      if (foldWrap) foldWrap.innerHTML = "";
       return;
     }
 
+    // Task 6.1: On the Brand page show only a few representative brands first and fold the rest ("Tampilkan semua brand")
+    const featuredIds = ["sotdak", "seongsu-dak", "bap-club", "pantry12", "salad-pick", "bing-ha"];
+    const shouldFold = selectedBrandCategory === "all" && !hasSearch && !showAllBrandsOnPage && brands.length > 6;
+    let displayedBrands = brands;
+    if (shouldFold) {
+      const rep = brands.filter((b) => featuredIds.includes(b.id));
+      displayedBrands = rep.length >= 6 ? rep.slice(0, 6) : brands.slice(0, 6);
+    }
+
     const catBadgeMap = dict.catBadgeNames || {};
-    container.innerHTML = brands
+    container.innerHTML = displayedBrands
       .map((b) => {
         const isExpanded = expandedBrands[b.id] !== undefined ? expandedBrands[b.id] : hasSearch;
         const visibleMenus = isExpanded ? b.menus : b.menus.slice(0, 2);
@@ -1125,7 +1126,7 @@
             </div>
 
             <div style="margin-top:10px; padding-top:8px; border-top:1px solid var(--portal-line); display:flex; justify-content:flex-end; align-items:center;">
-              <button type="button" class="nav-btn" aria-expanded="${isExpanded ? "true" : "false"}" style="padding:5px 10px; min-height:30px; font-size:12.5px; color:var(--ui-link); font-weight:700;" onclick="toggleBrandMenus('${b.id}')">
+              <button type="button" class="nav-btn" aria-expanded="${isExpanded ? "true" : "false"}" style="padding:5px 10px; min-height:32px; font-size:14px; color:var(--ui-link); font-weight:700;" onclick="toggleBrandMenus('${b.id}')">
                 ${isExpanded ? dict.hideMenus : dict.viewAllMenus}
               </button>
             </div>
@@ -1133,6 +1134,16 @@
         `;
       })
       .join("");
+
+    if (foldWrap) {
+      if (selectedBrandCategory === "all" && !hasSearch && brands.length > 6) {
+        foldWrap.innerHTML = shouldFold
+          ? `<button type="button" class="btn btn-secondary" onclick="toggleShowAllBrands(true)">${dict.showAllBrandsBtn || "Tampilkan semua brand"}</button>`
+          : `<button type="button" class="btn btn-secondary" onclick="toggleShowAllBrands(false)">${dict.showLessBrandsBtn || "Tampilkan brand pilihan saja"}</button>`;
+      } else {
+        foldWrap.innerHTML = "";
+      }
+    }
   }
 
   function renderBrandsView() {
@@ -1169,6 +1180,7 @@
       </div>
 
       <div id="brands-catalog-container" class="brand-catalog-grid"></div>
+      <div id="brands-fold-action" style="margin-top:20px; display:flex; justify-content:center;"></div>
     `;
 
     setTimeout(renderBrandCardsDOM, 0);
@@ -1176,7 +1188,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // FOOD & R&D VIEW (5 Genre Cards with 4:3 Image Slots + 6 Kitchen Stations)
+  // FOOD & R&D VIEW (5 Genre Cards with 4:3 Image Slots)
   // --------------------------------------------------------------------------
   function renderFoodRndView() {
     const dict = t().foodRndPage;
@@ -1208,13 +1220,6 @@
             )
             .join("")}
         </div>
-      </section>
-
-      <section class="card section-block">
-        <h2>${dict.stationsTitle}</h2>
-        <ol class="workflow" style="margin-bottom:0;">
-          ${dict.stations.map((st) => `<li>${st}</li>`).join("")}
-        </ol>
       </section>
     `;
   }
