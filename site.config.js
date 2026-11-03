@@ -9,7 +9,10 @@ const SITE_CONFIG = {
   brandName: "MUGGO",
   address: "Jl. Gatot Subroto No. Kav. 71-73, Menteng Dalam, Kec. Tebet, Jakarta Selatan 12870",
   contactEmail: "barasustainable@gmail.com",
+  recruitmentEmail: "",          // TODO(owner): Task 4.4 — optional separate recruitment email; when empty, reuses contactEmail and shows it once
   whatsappNumber: "",            // TODO(owner): unknown; empty => hide every WhatsApp element
+  applyFormEndpoint: "",         // TODO(owner): Task 4.2 — web form endpoint (not implemented yet); empty => hide web form channel
+  applyPrivacyNotice: "",        // TODO(owner): Task 4.3 — single text key for application draft privacy notice (ID); empty => hidden
   newsSheetCsvUrl: "",           // TODO(owner): filled in later (pending director decision); empty => use fallback news content
   jobsSheetCsvUrl: "",           // TODO(owner): filled in later (pending director decision); empty => use fallback job content
   instagramUrl: "https://www.instagram.com/muggo.indonesia",

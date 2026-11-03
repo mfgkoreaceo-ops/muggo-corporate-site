@@ -387,6 +387,25 @@
     return wa.length > 0;
   }
 
+  function hasApplyFormEndpoint() {
+    const ep = (cfg().applyFormEndpoint || "").trim();
+    return Boolean(ep && /^https?:\/\//i.test(ep));
+  }
+
+  // Task 4.4: recruitmentEmail falls back to contactEmail when empty
+  function getRecruitmentEmail() {
+    const c = cfg();
+    const rec = (c.recruitmentEmail || "").trim();
+    return rec || (c.contactEmail || "").trim();
+  }
+
+  function hasDistinctRecruitmentEmail() {
+    const c = cfg();
+    const rec = (c.recruitmentEmail || "").trim();
+    const gen = (c.contactEmail || "").trim();
+    return Boolean(rec && rec.toLowerCase() !== gen.toLowerCase());
+  }
+
   function updateSeoMeta() {
     const dict = t();
     const c = cfg();
@@ -423,13 +442,39 @@
   // registered address, official channels (email, Instagram, TikTok), and:
   // "Kami tidak memungut biaya apa pun dalam proses rekrutmen."
   // ==========================================================================
-  function renderIdentityVerificationCard(showContactBtn = true) {
+  function renderIdentityVerificationCard(showContactBtn = true, pageContext = "default") {
     const dict = t().identityCard;
+    const contactDict = t().contactPage || {};
+    const careerDict = t().careersPage || {};
     const c = cfg();
     if (!dict) return "";
     const igHandle = getHandleFromUrl(c.instagramUrl, true);
     const ttHandle = getHandleFromUrl(c.tiktokUrl, true);
     const leaderDisplay = `${dict.leaderRole || "Direktur Utama"}${c.ceoName ? ` · ${c.ceoName}` : ""}`;
+    const primaryEmail = pageContext === "careers" ? getRecruitmentEmail() : (c.contactEmail || "");
+
+    const extraContactDetailsHtml =
+      pageContext === "contact"
+        ? `
+          <div style="margin-top:8px; display:flex; flex-wrap:wrap; align-items:center; gap:8px;">
+            <button type="button" class="btn btn-secondary" style="min-height:34px; padding:5px 12px; font-size:12.5px;" onclick="copyEmailAddress('${primaryEmail}', this)">
+              ${careerDict.copyEmailBtn || "Salin Alamat Email"}
+            </button>
+            <span class="hint" style="font-size:12.5px;">${contactDict.emailNote || ""}</span>
+          </div>
+          ${
+            hasDistinctRecruitmentEmail()
+              ? `<div style="margin-top:10px; padding-top:10px; border-top:1px dashed var(--portal-line); display:flex; flex-wrap:wrap; align-items:center; gap:10px;">
+                  <small class="hint" style="font-weight:700;">${contactDict.emailRecruitmentLabel || "Email Rekrutmen Resmi"}:</small>
+                  <a href="mailto:${getRecruitmentEmail()}" style="color:var(--ui-link); font-weight:700; text-decoration:none;">${getRecruitmentEmail()}</a>
+                  <button type="button" class="btn btn-secondary" style="min-height:32px; padding:4px 10px; font-size:12px;" onclick="copyEmailAddress('${getRecruitmentEmail()}', this)">
+                    ${careerDict.copyEmailBtn || "Salin Alamat Email"}
+                  </button>
+                </div>`
+              : ""
+          }
+        `
+        : "";
 
     return `
       <section class="card section-block" aria-label="${dict.title}" style="padding:18px 20px;">
@@ -454,13 +499,18 @@
         </div>
 
         <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:12px 14px; margin-bottom:12px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;">
-          <div>
-            <small class="hint" style="display:block; font-weight:700;">${dict.channelsLabel || "Saluran Resmi"}</small>
+          <div style="flex:1; min-width:240px;">
+            <small class="hint" style="display:block; font-weight:700;">${
+              pageContext === "contact" && !hasDistinctRecruitmentEmail()
+                ? contactDict.emailUnifiedLabel || dict.channelsLabel || "Saluran Resmi"
+                : dict.channelsLabel || "Saluran Resmi"
+            }</small>
             <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-top:4px; font-size:13.5px;">
-              <a href="mailto:${c.contactEmail}" style="color:var(--ui-link); font-weight:700; text-decoration:none;">${c.contactEmail}</a>
+              ${primaryEmail ? `<a href="mailto:${primaryEmail}" style="color:var(--ui-link); font-weight:700; text-decoration:none;">${primaryEmail}</a>` : ""}
               <a href="${c.instagramUrl}" onclick="openSnsChannel(event, 'instagram')" style="color:var(--ui-link); font-weight:700; text-decoration:none;">Instagram (${igHandle}) ↗</a>
               <a href="${c.tiktokUrl}" onclick="openSnsChannel(event, 'tiktok')" style="color:var(--ui-link); font-weight:700; text-decoration:none;">TikTok (${ttHandle}) ↗</a>
             </div>
+            ${extraContactDetailsHtml}
           </div>
           ${
             showContactBtn
@@ -623,8 +673,8 @@
         <div style="padding-top:18px; border-top:1px solid var(--portal-line); display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px;">
           <div>© 2026 ${c.legalName} (Brand: ${c.brandName}). All rights reserved.</div>
           <ul class="footer-nav-links">
-            <li><button type="button" onclick="navigateTo('privacy')">${dict.footer.privacy}</button></li>
-            <li><button type="button" onclick="navigateTo('terms')">${dict.footer.terms}</button></li>
+            <li><a href="#privacy" onclick="navigateTo('privacy'); return false;">${dict.footer.privacy}</a></li>
+            <li><a href="#terms" onclick="navigateTo('terms'); return false;">${dict.footer.terms}</a></li>
           </ul>
         </div>
       `;
@@ -1267,10 +1317,10 @@
   }
 
   // --------------------------------------------------------------------------
-  // CAREERS VIEW
+  // CAREERS VIEW (Task 4.1: One "Lamar" button per job — 11 buttons total)
   // --------------------------------------------------------------------------
-  window.copyCareerEmail = function (btnEl) {
-    const email = cfg().contactEmail || "";
+  window.copyEmailAddress = function (emailAddr, btnEl) {
+    const email = emailAddr || getRecruitmentEmail();
     const dict = t().careersPage;
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(email).then(() => {
@@ -1285,10 +1335,13 @@
     }
   };
 
+  window.copyCareerEmail = function (btnEl) {
+    window.copyEmailAddress(getRecruitmentEmail(), btnEl);
+  };
+
   function renderCareersView() {
     const dict = t().careersPage;
     const c = cfg();
-    const officialEmail = c.contactEmail || "";
 
     const jobsHtml = state.jobs
       .map(
@@ -1304,11 +1357,8 @@
           </div>
           <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
             <button type="button" class="btn btn-primary" onclick="openApplyModal('${loc(j, "title").replace(/'/g, "")}', this)">
-              ${dict.formBtn}
+              ${dict.applyJobBtn || "Lamar"}
             </button>
-            <a href="mailto:${officialEmail}?subject=${encodeURIComponent("[" + c.legalName + " - " + c.brandName + "] " + loc(j, "title"))}" class="btn btn-secondary">
-              ${dict.emailBtn} ↗
-            </a>
           </div>
         </div>
       `
@@ -1324,29 +1374,13 @@
         </div>
       </div>
 
-      ${renderIdentityVerificationCard(false)}
+      ${renderIdentityVerificationCard(false, "careers")}
 
       <picture class="slot-frame careers-banner-slot">
         <source media="(max-width: 767px)" srcset="assets/slots/careers-banner-mobile.jpg" width="1080" height="1350" />
         <source media="(min-width: 768px)" srcset="assets/slots/careers-banner-desktop.jpg" width="1920" height="1080" />
         <img src="assets/slots/careers-banner-desktop.jpg" width="1920" height="1080" loading="lazy" alt="Banner rekrutmen resmi 11 bidang posisi operasional dan manajemen di Jakarta Selatan" />
       </picture>
-
-      <section class="card">
-        <h2>${dict.applyBoxTitle}</h2>
-        <p class="hint" style="margin-bottom:14px;">${dict.applyBoxDesc}</p>
-        <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
-          <button type="button" class="btn btn-primary" onclick="openApplyModal('${c.legalName} (${c.brandName})', this)">
-            ${dict.formBtn}
-          </button>
-          <a href="mailto:${officialEmail}?subject=${encodeURIComponent("[" + c.legalName + " - " + c.brandName + "] Lamaran Kerja")}" class="btn btn-secondary">
-            ${dict.emailBtn} (${officialEmail}) ↗
-          </a>
-          <button type="button" class="btn btn-secondary" onclick="copyCareerEmail(this)">
-            ${dict.copyEmailBtn}
-          </button>
-        </div>
-      </section>
 
       <section class="section-block">
         <h2>${dict.benefitsTitle}</h2>
@@ -1368,25 +1402,30 @@
       </section>
 
       <section class="card">
-        <h2>${dict.positionsTitle} (${state.jobs.length})</h2>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+          <div>
+            <h2 style="margin-bottom:4px;">${dict.positionsTitle} (${state.jobs.length})</h2>
+            <p class="hint">${dict.applyBoxDesc}</p>
+          </div>
+          <button type="button" class="btn btn-secondary" onclick="copyCareerEmail(this)">
+            ${dict.copyEmailBtn}
+          </button>
+        </div>
         <div>${jobsHtml}</div>
       </section>
     `;
   }
 
   // --------------------------------------------------------------------------
-  // CONTACT VIEW
+  // CONTACT VIEW (Task 4.4: Show email once when recruitmentEmail is empty;
+  // support separate contactEmail and recruitmentEmail when configured)
   // --------------------------------------------------------------------------
   function renderContactView() {
     const dict = t().contactPage;
-    const careerDict = t().careersPage;
     const c = cfg();
-    const officialEmail = c.contactEmail || "";
-    const igHandle = getHandleFromUrl(c.instagramUrl, true);
-    const ttHandle = getHandleFromUrl(c.tiktokUrl, true);
     const cleanWa = (c.whatsappNumber || "").replace(/[^0-9]/g, "");
     const waSectionHtml = hasWhatsApp()
-      ? `<div style="padding-top:16px; border-top:1px solid var(--portal-line); margin-bottom:16px;">
+      ? `<div style="padding-top:16px; border-top:1px solid var(--portal-line); margin-top:16px;">
           <small class="hint" style="display:block; font-weight:700;">WhatsApp</small>
           <div style="margin-top:8px;">
             <a href="https://wa.me/${cleanWa}" target="_blank" rel="noopener" class="btn btn-secondary">${c.whatsappNumber} ↗</a>
@@ -1403,26 +1442,15 @@
         </div>
       </div>
 
-      ${renderIdentityVerificationCard(false)}
+      ${renderIdentityVerificationCard(false, "contact")}
 
       <section class="card">
-        <div class="columns" style="margin-bottom:20px;">
-          <div>
-            <small class="hint" style="display:block; font-weight:700;">${dict.entityLabel}</small>
-            <strong style="font-size:18px; color:var(--ui-text);">${c.legalName}</strong>
-          </div>
-          <div>
-            <small class="hint" style="display:block; font-weight:700;">${dict.brandLabel}</small>
-            <strong style="font-size:18px; color:var(--ui-link);">${c.brandName}</strong>
-          </div>
-        </div>
-
-        <div style="padding-top:16px; border-top:1px solid var(--portal-line); margin-bottom:16px;">
+        <div style="margin-bottom:16px;">
           <small class="hint" style="display:block; font-weight:700;">${dict.statusLabel}</small>
           <p style="font-weight:600; margin-top:4px;">${dict.statusText}</p>
         </div>
 
-        <div style="padding-top:16px; border-top:1px solid var(--portal-line); margin-bottom:16px;">
+        <div style="padding-top:16px; border-top:1px solid var(--portal-line);">
           <small class="hint" style="display:block; font-weight:700;">${dict.addressLabel}</small>
           <p style="font-weight:700; font-size:16px; margin-top:4px; margin-bottom:8px;">${c.address}</p>
           ${!hasWhatsApp() && dict.phonePendingNotice ? `<p class="hint" style="margin-bottom:12px;">${dict.phonePendingNotice}</p>` : ""}
@@ -1436,28 +1464,7 @@
           </picture>
         </div>
 
-        <div style="padding-top:16px; border-top:1px solid var(--portal-line); margin-bottom:16px;">
-          <small class="hint" style="display:block; font-weight:700;">${dict.emailLabel}</small>
-          <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:8px;">
-            <a href="mailto:${officialEmail}" class="btn btn-primary">${officialEmail} ↗</a>
-            <button type="button" class="btn btn-secondary" onclick="copyCareerEmail(this)">${careerDict.copyEmailBtn}</button>
-          </div>
-          <p class="hint" style="margin-top:10px;">${dict.emailNote}</p>
-        </div>
-
         ${waSectionHtml}
-
-        <div style="padding-top:16px; border-top:1px solid var(--portal-line);">
-          <small class="hint" style="display:block; font-weight:700; margin-bottom:8px;">${dict.socialLabel}</small>
-          <div style="display:flex; flex-wrap:wrap; gap:8px;">
-            <a href="${c.instagramUrl}" onclick="openSnsChannel(event, 'instagram')" class="btn btn-secondary">
-              Instagram (${igHandle}) ↗
-            </a>
-            <a href="${c.tiktokUrl}" onclick="openSnsChannel(event, 'tiktok')" class="btn btn-secondary">
-              TikTok (${ttHandle}) ↗
-            </a>
-          </div>
-        </div>
       </section>
     `;
   }
@@ -1495,7 +1502,8 @@
   }
 
   // --------------------------------------------------------------------------
-  // PRIVACY & TERMS VIEW
+  // PRIVACY & TERMS VIEW (Task 4.3 — Real navigable pages #privacy and #terms)
+  // TODO(owner): Supply finalized full Indonesian legal wording for Kebijakan Privasi & Syarat & Ketentuan when ready.
   // --------------------------------------------------------------------------
   function renderPolicyView(type) {
     const c = cfg();
@@ -1507,9 +1515,11 @@
       id: {
         title: isPrivacy ? "Kebijakan Privasi (Privacy Policy)" : "Syarat & Ketentuan (Terms of Use)",
         body: isPrivacy
-          ? `<p style="margin-bottom:14px;"><strong>${c.legalName}</strong> (pemilik merek usaha <strong>${c.brandName}</strong>) menghormati privasi pelamar kerja dan pengunjung situs sesuai dengan Undang-Undang Pelindungan Data Pribadi (UU PDP) Indonesia.</p>
+          ? `<!-- TODO(owner): Replace or expand with finalized Kebijakan Privasi text -->
+             <p style="margin-bottom:14px;"><strong>${c.legalName}</strong> (pemilik merek usaha <strong>${c.brandName}</strong>) menghormati privasi pelamar kerja dan pengunjung situs sesuai dengan Undang-Undang Pelindungan Data Pribadi (UU PDP) Indonesia.</p>
              <p style="margin-bottom:14px;">Data lamaran yang dikirimkan ke saluran email resmi kami (${officialEmail}) hanya digunakan untuk keperluan verifikasi dan seleksi SDM internal serta tidak pernah diperjualbelikan kepada pihak ketiga.</p>`
-          : `<p style="margin-bottom:14px;">Situs web ini dikelola secara resmi oleh <strong>${c.legalName}</strong> (Alamat terdaftar: ${c.address}) untuk menyajikan informasi identitas perusahaan, rencana brand <strong>${c.brandName}</strong>, serta verifikasi rekrutmen resmi.</p>
+          : `<!-- TODO(owner): Replace or expand with finalized Syarat & Ketentuan text -->
+             <p style="margin-bottom:14px;">Situs web ini dikelola secara resmi oleh <strong>${c.legalName}</strong> (Alamat terdaftar: ${c.address}) untuk menyajikan informasi identitas perusahaan, rencana brand <strong>${c.brandName}</strong>, serta verifikasi rekrutmen resmi.</p>
              <p>Saat ini perusahaan berada pada tahap pra-pembukaan (pre-opening) dan belum melakukan penjualan produk secara komersial.</p>`
       },
       en: {
@@ -1541,12 +1551,15 @@
   }
 
   // ==========================================================================
-  // ACCESSIBLE MODALS
+  // ACCESSIBLE APPLICATION MODAL & SWAPPABLE APPLY CHANNELS (Task 4.1, 4.2, 4.3)
+  // Channels: (a) email draft, (b) WhatsApp link from whatsappNumber, (c) webform endpoint
+  // Each channel is shown ONLY when its config value is set.
   // ==========================================================================
   function syncApplyModalText() {
     const mDict = t().applyModal;
     if (!mDict) return;
-    const officialEmail = cfg().contactEmail || "";
+    const c = cfg();
+    const officialEmail = getRecruitmentEmail();
     const setTxt = (id, txt) => {
       const el = document.getElementById(id);
       if (el) el.textContent = txt;
@@ -1560,6 +1573,53 @@
     setTxt("apply-cancel-btn", mDict.cancelBtn);
     setTxt("apply-copy-btn", mDict.copyDraftBtn);
     setTxt("apply-submit-btn", mDict.submitBtn);
+    setTxt("apply-whatsapp-btn", mDict.whatsappBtn || "Lamar via WhatsApp ↗");
+    setTxt("apply-webform-btn", mDict.webformBtn || "Kirim Formulir Web ↗");
+
+    // Task 4.3: Short privacy notice slot above buttons, filled from a single text key, hidden when empty
+    const privacySlot = document.getElementById("apply-privacy-notice");
+    const noticeText = ((c.applyPrivacyNotice !== undefined && c.applyPrivacyNotice !== "" ? c.applyPrivacyNotice : mDict.privacyNotice) || "").trim();
+    if (privacySlot) {
+      if (noticeText) {
+        privacySlot.textContent = noticeText;
+        privacySlot.removeAttribute("hidden");
+        privacySlot.style.display = "block";
+      } else {
+        privacySlot.textContent = "";
+        privacySlot.setAttribute("hidden", "");
+        privacySlot.style.display = "none";
+      }
+    }
+
+    // Task 4.2: Show each apply channel button ONLY when its config value is set
+    const emailBtn = document.getElementById("apply-submit-btn");
+    const copyBtn = document.getElementById("apply-copy-btn");
+    const waBtn = document.getElementById("apply-whatsapp-btn");
+    const formBtn = document.getElementById("apply-webform-btn");
+
+    const hasEmail = Boolean(officialEmail);
+    if (emailBtn) {
+      emailBtn.style.display = hasEmail ? "inline-flex" : "none";
+      if (hasEmail) emailBtn.removeAttribute("hidden");
+      else emailBtn.setAttribute("hidden", "");
+    }
+    if (copyBtn) {
+      copyBtn.style.display = hasEmail ? "inline-flex" : "none";
+      if (hasEmail) copyBtn.removeAttribute("hidden");
+      else copyBtn.setAttribute("hidden", "");
+    }
+    if (waBtn) {
+      const showWa = hasWhatsApp();
+      waBtn.style.display = showWa ? "inline-flex" : "none";
+      if (showWa) waBtn.removeAttribute("hidden");
+      else waBtn.setAttribute("hidden", "");
+    }
+    if (formBtn) {
+      const showForm = hasApplyFormEndpoint();
+      formBtn.style.display = showForm ? "inline-flex" : "none";
+      if (showForm) formBtn.removeAttribute("hidden");
+      else formBtn.setAttribute("hidden", "");
+    }
   }
 
   window.openApplyModal = function (roleTitle, triggerEl) {
@@ -1597,10 +1657,11 @@
     const name = (document.getElementById("apply-name-input")?.value || "").trim();
     const contact = (document.getElementById("apply-contact-input")?.value || "").trim();
     const msg = (document.getElementById("apply-msg-input")?.value || "").trim();
-    const email = c.contactEmail || "";
-    const subject = `[Lamaran Kerja - ${c.legalName} / ${c.brandName}] ${role}${name ? " - " + name : ""}`;
+    const email = getRecruitmentEmail();
+    // Task 4.1: Email subject format "Lamaran: <position>"
+    const subject = `Lamaran: ${role}`;
     const body = `Kepada Tim HR ${c.legalName} (Brand: ${c.brandName}),\n\nPosisi yang Dilamar: ${role}\nNama Lengkap: ${name}\nKontak: ${contact}\n\nRingkasan Pengalaman & Motivasi:\n${msg}\n\n[Mohon lampirkan file CV / Resume Anda sebelum mengirim email ini]`;
-    return { email, subject, body };
+    return { email, role, name, contact, msg, subject, body };
   }
 
   window.copyApplicationDraft = function () {
@@ -1618,11 +1679,56 @@
     }
   };
 
+  // Task 4.2: Structured apply action with swappable channels:
+  // (a) "email" — email draft (current)
+  // (b) "whatsapp" — WhatsApp link built from whatsappNumber
+  // (c) "webform" — web form endpoint (not implemented yet)
+  window.applyViaChannel = async function (channel, e) {
+    if (e) e.preventDefault();
+    const c = cfg();
+    const data = buildApplicationDraftData();
+
+    if (channel === "whatsapp") {
+      if (!hasWhatsApp()) return;
+      const cleanWa = (c.whatsappNumber || "").replace(/[^0-9]/g, "");
+      if (!cleanWa) return;
+      const waText = `${data.subject}\n\n${data.body}`;
+      window.open(`https://wa.me/${cleanWa}?text=${encodeURIComponent(waText)}`, "_blank", "noopener,noreferrer");
+      closeApplyModal();
+      return;
+    }
+
+    if (channel === "webform") {
+      if (!hasApplyFormEndpoint()) return;
+      const endpoint = (c.applyFormEndpoint || "").trim();
+      try {
+        await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            position: data.role,
+            name: data.name,
+            contact: data.contact,
+            message: data.msg,
+            subject: data.subject
+          })
+        });
+      } catch (err) {
+        window.open(endpoint, "_blank", "noopener,noreferrer");
+      }
+      closeApplyModal();
+      return;
+    }
+
+    // Default channel (a): email draft
+    if (data.email) {
+      window.location.href = `mailto:${data.email}?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(data.body)}`;
+      closeApplyModal();
+    }
+  };
+
   window.submitCareerForm = function (e) {
-    e.preventDefault();
-    const { email, subject, body } = buildApplicationDraftData();
-    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    closeApplyModal();
+    window.applyViaChannel("email", e);
   };
 
   document.addEventListener("keydown", (e) => {
