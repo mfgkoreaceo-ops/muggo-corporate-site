@@ -418,57 +418,62 @@
   }
 
   // ==========================================================================
-  // CORPORATE IDENTITY & RECRUITMENT VERIFICATION COMPONENT
+  // COMPACT TRUST BLOCK (Task 3.8 — Top of Karir, Kontak, and Home)
+  // Shows legal name, leadership ("Direktur Utama" without a name until supplied),
+  // registered address, official channels (email, Instagram, TikTok), and:
+  // "Kami tidak memungut biaya apa pun dalam proses rekrutmen."
   // ==========================================================================
   function renderIdentityVerificationCard(showContactBtn = true) {
     const dict = t().identityCard;
     const c = cfg();
     if (!dict) return "";
+    const igHandle = getHandleFromUrl(c.instagramUrl, true);
+    const ttHandle = getHandleFromUrl(c.tiktokUrl, true);
+    const leaderDisplay = `${dict.leaderRole || "Direktur Utama"}${c.ceoName ? ` · ${c.ceoName}` : ""}`;
 
     return `
-      <section class="card section-block" aria-label="${dict.title}">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+      <section class="card section-block" aria-label="${dict.title}" style="padding:18px 20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
           <div>
-            <p class="eyebrow">${dict.eyebrow}</p>
-            <h2 style="margin-bottom:6px;">${dict.title}</h2>
+            <p class="eyebrow" style="margin-bottom:4px;">${dict.eyebrow}</p>
+            <h2 style="margin-bottom:0; font-size:19px;">${dict.title}</h2>
           </div>
           <span class="roster-badge">Pre-Opening · Verified</span>
         </div>
-        <p class="intro" style="margin-bottom:18px;">${dict.intro}</p>
 
-        <div class="columns" style="margin-bottom:16px;">
-          <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:14px 16px;">
+        <div class="columns" style="margin-bottom:12px; gap:12px;">
+          <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:12px 14px;">
             <small class="hint" style="display:block; font-weight:700;">${dict.legalLabel}</small>
-            <strong style="font-size:17px; color:var(--ui-text);">${c.legalName}</strong>
+            <strong style="font-size:15.5px; color:var(--ui-text); display:block;">${c.legalName}</strong>
+            <span class="hint" style="font-size:12.5px;">${dict.brandLabel}: <strong style="color:var(--ui-link);">${c.brandName}</strong> · ${dict.leaderLabel || "Pimpinan"}: <strong>${leaderDisplay}</strong></span>
           </div>
-          <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:14px 16px;">
-            <small class="hint" style="display:block; font-weight:700;">${dict.brandLabel}</small>
-            <strong style="font-size:17px; color:var(--ui-link);">${c.brandName}</strong>
-          </div>
-          <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:14px 16px;">
-            <small class="hint" style="display:block; font-weight:700;">${dict.statusLabel}</small>
-            <strong style="font-size:14.5px; color:var(--ui-text);">${dict.statusValue}</strong>
-          </div>
-          <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:14px 16px;">
+          <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:12px 14px;">
             <small class="hint" style="display:block; font-weight:700;">${dict.purposeLabel}</small>
-            <strong style="font-size:14.5px; color:var(--ui-text);">${c.address}</strong>
+            <strong style="font-size:14px; color:var(--ui-text); display:block;">${c.address}</strong>
           </div>
         </div>
 
-        <aside class="callout" style="margin:0;">
-          <strong style="display:block; font-size:14px; color:var(--ui-link); margin-bottom:4px;">✓ ${dict.antiFraudTitle}</strong>
-          <p class="hint" style="color:var(--ui-text);">${dict.antiFraudDesc}</p>
-        </aside>
-
-        ${
-          showContactBtn
-            ? `<div style="margin-top:16px;">
-                <button type="button" class="btn btn-secondary" onclick="navigateTo('contact')">
+        <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:12px 14px; margin-bottom:12px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;">
+          <div>
+            <small class="hint" style="display:block; font-weight:700;">${dict.channelsLabel || "Saluran Resmi"}</small>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-top:4px; font-size:13.5px;">
+              <a href="mailto:${c.contactEmail}" style="color:var(--ui-link); font-weight:700; text-decoration:none;">${c.contactEmail}</a>
+              <a href="${c.instagramUrl}" onclick="openSnsChannel(event, 'instagram')" style="color:var(--ui-link); font-weight:700; text-decoration:none;">Instagram (${igHandle}) ↗</a>
+              <a href="${c.tiktokUrl}" onclick="openSnsChannel(event, 'tiktok')" style="color:var(--ui-link); font-weight:700; text-decoration:none;">TikTok (${ttHandle}) ↗</a>
+            </div>
+          </div>
+          ${
+            showContactBtn
+              ? `<button type="button" class="btn btn-secondary" style="min-height:36px; padding:7px 13px; font-size:13px;" onclick="navigateTo('contact')">
                   ${dict.contactLinkBtn}
-                </button>
-              </div>`
-            : ""
-        }
+                </button>`
+              : ""
+          }
+        </div>
+
+        <aside class="callout" style="margin:0; padding:12px 16px;">
+          <strong style="display:block; font-size:14px; color:var(--ui-text);">✓ ${dict.antiFraudDesc}</strong>
+        </aside>
       </section>
     `;
   }
@@ -1319,13 +1324,13 @@
         </div>
       </div>
 
+      ${renderIdentityVerificationCard(false)}
+
       <picture class="slot-frame careers-banner-slot">
         <source media="(max-width: 767px)" srcset="assets/slots/careers-banner-mobile.jpg" width="1080" height="1350" />
         <source media="(min-width: 768px)" srcset="assets/slots/careers-banner-desktop.jpg" width="1920" height="1080" />
         <img src="assets/slots/careers-banner-desktop.jpg" width="1920" height="1080" loading="lazy" alt="Banner rekrutmen resmi 11 bidang posisi operasional dan manajemen di Jakarta Selatan" />
       </picture>
-
-      ${renderIdentityVerificationCard(true)}
 
       <section class="card">
         <h2>${dict.applyBoxTitle}</h2>
@@ -1347,14 +1352,17 @@
         <h2>${dict.benefitsTitle}</h2>
         <div class="columns">
           ${dict.benefits
-            .map(
-              (b) => `
-            <article class="card" style="margin:0;">
-              <h3>${b.title}</h3>
-              <p class="hint" style="margin-top:6px;">${b.desc}</p>
-            </article>
-          `
-            )
+            .map((b) => {
+              const useExt = Boolean(b.flag && c[b.flag]);
+              const bTitle = useExt && b.titleExtended ? b.titleExtended : b.title;
+              const bDesc = useExt && b.descExtended ? b.descExtended : b.desc;
+              return `
+                <article class="card" style="margin:0;">
+                  <h3>${bTitle}</h3>
+                  <p class="hint" style="margin-top:6px;">${bDesc}</p>
+                </article>
+              `;
+            })
             .join("")}
         </div>
       </section>
@@ -1394,6 +1402,8 @@
           <p class="intro">${dict.intro}</p>
         </div>
       </div>
+
+      ${renderIdentityVerificationCard(false)}
 
       <section class="card">
         <div class="columns" style="margin-bottom:20px;">
@@ -1559,6 +1569,7 @@
     if (feedback) feedback.style.display = "none";
     const m = document.getElementById("apply-modal");
     if (m) {
+      m.removeAttribute("hidden");
       m.classList.add("open");
       const input = document.getElementById("apply-role-input");
       if (input) {
@@ -1570,7 +1581,10 @@
 
   window.closeApplyModal = function () {
     const m = document.getElementById("apply-modal");
-    if (m) m.classList.remove("open");
+    if (m) {
+      m.classList.remove("open");
+      m.setAttribute("hidden", "");
+    }
     if (lastFocusedTrigger && typeof lastFocusedTrigger.focus === "function") {
       lastFocusedTrigger.focus();
       lastFocusedTrigger = null;

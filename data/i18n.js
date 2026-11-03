@@ -27,16 +27,19 @@ window.I18N_DICT = {
     },
     identityCard: {
       eyebrow: "VERIFIKASI IDENTITAS PERUSAHAAN",
-      title: "Identitas Resmi Perusahaan & Verifikasi Rekrutmen",
+      title: "Identitas Resmi Perusahaan & Saluran Verifikasi",
       intro: "Informasi resmi bagi pelamar kerja dan tim verifikasi portal lowongan kerja untuk memastikan keaslian identitas {legalName} (Brand: {brandName}).",
-      legalLabel: "Badan Hukum Resmi (Legal Entity)",
+      legalLabel: "Badan Hukum Resmi",
       brandLabel: "Merek Usaha (Brand)",
+      leaderLabel: "Pimpinan",
+      leaderRole: "Direktur Utama",
       statusLabel: "Status Bisnis Saat Ini",
       statusValue: "Tahap Pra-Pembukaan (Pre-Opening) — Belum ada produk yang dijual",
       purposeLabel: "Alamat Terdaftar",
       purposeValue: "{address}",
-      antiFraudTitle: "Rekrutmen Resmi Tanpa Biaya",
-      antiFraudDesc: "{legalName} tidak memungut biaya apa pun dalam proses rekrutmen. Komunikasi resmi hanya melalui email {contactEmail} di bagian Kontak & Footer.",
+      channelsLabel: "Saluran Resmi",
+      antiFraudTitle: "Pernyataan Rekrutmen Resmi",
+      antiFraudDesc: "Kami tidak memungut biaya apa pun dalam proses rekrutmen.",
       contactLinkBtn: "Lihat Kontak & Alamat Terdaftar →"
     },
     pillars: {
@@ -91,12 +94,12 @@ window.I18N_DICT = {
     },
     ceo: {
       eyebrow: "CEO MESSAGE",
-      titlePrefix: "Sambutan Manajemen",
+      titlePrefix: "Sambutan Direktur Utama",
       p1Title: "Identitas Jelas & Persiapan Pra-Pembukaan {brandName}",
       p1: "“Melalui {legalName}, kami mempersiapkan peluncuran {brandName} di Jakarta Selatan. Belum ada produk yang dijual saat ini; prioritas kami adalah transparansi identitas perusahaan bagi pelamar kerja dan mitra verifikasi.”",
       p2Title: "Organisasi Berpusat pada Manusia & Rekrutmen Resmi",
       p2: "“Layanan terbaik berawal dari tim yang hebat. Kami mencari rekan kerja yang berkarakter baik, tekun, dan bersemangat melalui proses rekrutmen yang adil dan transparan.”",
-      signRole: "Manajemen"
+      signRole: "Direktur Utama"
     },
     impact: {
       eyebrow: "PRE-OPENING PLAN",
@@ -227,12 +230,30 @@ window.I18N_DICT = {
       formBtn: "Lamar via Email",
       copyEmailBtn: "Salin Alamat Email",
       copiedNotice: "Tersalin!",
-      benefitsTitle: "Kesejahteraan & Lingkungan Kerja",
+      benefitsTitle: "Kesejahteraan & Kepatuhan Ketenagakerjaan",
       benefits: [
-        { title: "01 · Kontrak Resmi & BPJS", desc: "Kontrak kerja {legalName} (PKWT/PKWTT), BPJS Kesehatan & Ketenagakerjaan, serta THR." },
-        { title: "02 · Gaji Transparan & Tepat Waktu", desc: "Perhitungan periode kerja jelas, lembur sesuai ketentuan, dan slip gaji transparan." },
-        { title: "03 · Makan Karyawan & Manfaat", desc: "Penyediaan makan selama jam kerja operasional serta manfaat internal." },
-        { title: "04 · Pelatihan SOP & Karir", desc: "Pelatihan standar kuliner profesional dan jenjang karir menuju Part Leader hingga Branch Manager." }
+        {
+          title: "01 · Kontrak Kerja Resmi (PKWT / PKWTT)",
+          desc: "Hubungan kerja mengikuti ketentuan hukum ketenagakerjaan Indonesia melalui kontrak kerja resmi (PKWT/PKWTT) bersama {legalName}."
+        },
+        {
+          title: "02 · BPJS & THR Sesuai Regulasi",
+          desc: "Pendaftaran BPJS Kesehatan & Ketenagakerjaan serta Tunjangan Hari Raya (THR) sesuai peraturan ketenagakerjaan yang berlaku."
+        },
+        {
+          flag: "showEmployeeDiscountBenefit",
+          title: "03 · Penyediaan Makan Karyawan",
+          titleExtended: "03 · Makan Karyawan & Diskon Brand",
+          desc: "Penyediaan makan selama jam kerja operasional.",
+          descExtended: "Penyediaan makan selama jam kerja operasional serta manfaat Diskon Brand internal."
+        },
+        {
+          flag: "showCareerPathBenefit",
+          title: "04 · Pelatihan SOP Kuliner & Higienitas",
+          titleExtended: "04 · Pelatihan SOP & Jenjang Karir",
+          desc: "Pelatihan standar operasional prosedur (SOP) kuliner profesional dan kebersihan dapur.",
+          descExtended: "Pelatihan standar kuliner profesional dan jenjang karir menuju Part Leader hingga Branch Manager."
+        }
       ],
       positionsTitle: "Daftar 11 Bidang Posisi yang Dibuka"
     },
@@ -303,16 +324,19 @@ window.I18N_DICT = {
     },
     identityCard: {
       eyebrow: "COMPANY VERIFICATION",
-      title: "Official Corporate Identity & Recruitment Verification",
+      title: "Official Corporate Identity & Verification Channels",
       intro: "Official information for job seekers and job-board verifiers to confirm the legal identity of {legalName} (Brand: {brandName}).",
       legalLabel: "Legal Entity",
       brandLabel: "Brand",
+      leaderLabel: "Leadership",
+      leaderRole: "Direktur Utama",
       statusLabel: "Current Business Status",
       statusValue: "Pre-Opening Stage — Nothing is on sale yet",
       purposeLabel: "Registered Address",
       purposeValue: "{address}",
-      antiFraudTitle: "Official Zero-Fee Recruitment Notice",
-      antiFraudDesc: "{legalName} never charges any recruitment fees. All official communication uses {contactEmail} listed in Contact & Footer.",
+      channelsLabel: "Official Channels",
+      antiFraudTitle: "Official Recruitment Notice",
+      antiFraudDesc: "Kami tidak memungut biaya apa pun dalam proses rekrutmen.",
       contactLinkBtn: "View Registered Address & Contact →"
     },
     pillars: {
@@ -367,12 +391,12 @@ window.I18N_DICT = {
     },
     ceo: {
       eyebrow: "CEO MESSAGE",
-      titlePrefix: "Message from Management",
+      titlePrefix: "Message from Direktur Utama",
       p1Title: "Clear Corporate Identity & Pre-Opening Preparation",
       p1: "“Through {legalName}, we are preparing the launch of {brandName} in South Jakarta. Nothing is on sale yet; our focus is providing clear corporate identity for job seekers and verifiers.”",
       p2Title: "People-Centered Organization & Fair Recruitment",
       p2: "“Great service begins with great people. We welcome colleagues with good character, diligence, and passion through a transparent recruitment process.”",
-      signRole: "Management"
+      signRole: "Direktur Utama"
     },
     impact: {
       eyebrow: "PRE-OPENING PLAN",
@@ -503,12 +527,30 @@ window.I18N_DICT = {
       formBtn: "Apply via Email",
       copyEmailBtn: "Copy Email Address",
       copiedNotice: "Copied!",
-      benefitsTitle: "Benefits & Working Environment",
+      benefitsTitle: " Statutory Employment Compliance & Benefits",
       benefits: [
-        { title: "01 · Official Contract & BPJS", desc: "Employment contracts with {legalName} (PKWT/PKWTT), BPJS coverage, and THR." },
-        { title: "02 · Transparent Payroll", desc: "Clear monthly payroll cycles, overtime calculation, and transparent payslips." },
-        { title: "03 · Staff Meals & Benefits", desc: "Duty meals during operational shifts plus internal benefits." },
-        { title: "04 · SOP Training & Growth", desc: "Structured training and career progression toward Part Leader and Branch Manager." }
+        {
+          title: "01 · Official Employment Contract (PKWT / PKWTT)",
+          desc: "Employment follows Indonesian labor law through official written contracts (PKWT/PKWTT) with {legalName}."
+        },
+        {
+          title: "02 · BPJS & THR per Regulation",
+          desc: "BPJS Kesehatan & Ketenagakerjaan coverage and religious holiday allowance (THR) in accordance with prevailing regulations."
+        },
+        {
+          flag: "showEmployeeDiscountBenefit",
+          title: "03 · Staff Meals",
+          titleExtended: "03 · Staff Meals & Diskon Brand",
+          desc: "Duty meals provided during operational shifts.",
+          descExtended: "Duty meals during operational shifts plus Diskon Brand employee discount benefits."
+        },
+        {
+          flag: "showCareerPathBenefit",
+          title: "04 · Culinary & Hygiene SOP Training",
+          titleExtended: "04 · SOP Training & Career Path",
+          desc: "Structured training on professional culinary and kitchen hygiene standard operating procedures (SOP).",
+          descExtended: "Structured training and career progression toward Part Leader hingga Branch Manager."
+        }
       ],
       positionsTitle: "11 Open Job Positions"
     },
@@ -579,16 +621,19 @@ window.I18N_DICT = {
     },
     identityCard: {
       eyebrow: "공식 법인 신원 확인",
-      title: "공식 법인 정보 및 채용 검증 안내",
+      title: "공식 법인 정보 및 채용 검증 채널",
       intro: "구직자 및 채용 사이트 검증 담당자가 {legalName} (브랜드: {brandName})의 법인명과 등록 주소를 확인할 수 있는 공식 안내입니다.",
       legalLabel: "공식 법인명 (Legal Entity)",
       brandLabel: "브랜드 (Brand)",
+      leaderLabel: "대표자 (Pimpinan)",
+      leaderRole: "Direktur Utama",
       statusLabel: "사업 상태",
       statusValue: "오픈 준비 단계 (Pre-Opening) — 현재 상품 판매 전",
       purposeLabel: "등록 주소",
       purposeValue: "{address}",
-      antiFraudTitle: "공식 채용 확인 안내",
-      antiFraudDesc: "{legalName}는 채용 과정에서 어떠한 비용도 요구하지 않습니다. 공식 연락은 {contactEmail}을 통해 진행됩니다.",
+      channelsLabel: "공식 채널 (Saluran Resmi)",
+      antiFraudTitle: "공식 채용 무상 진행 안내",
+      antiFraudDesc: "Kami tidak memungut biaya apa pun dalam proses rekrutmen.",
       contactLinkBtn: "등록 주소 및 연락처 보기 →"
     },
     pillars: {
@@ -643,12 +688,12 @@ window.I18N_DICT = {
     },
     ceo: {
       eyebrow: "CEO MESSAGE",
-      titlePrefix: "경영진 인사말",
+      titlePrefix: "Direktur Utama 인사말",
       p1Title: "명확한 법인 정체성과 {brandName} 오픈 준비",
       p1: "“{legalName}는 자카르타 남부에서 브랜드 {brandName} 오픈을 준비하고 있습니다. 현재 판매 전 단계로서 구직자와 검증 기관에 명확한 법인 신원을 안내하는 것을 최우선으로 합니다.”",
       p2Title: "사람 중심 조직과 투명한 채용",
       p2: "“좋은 서비스는 좋은 사람에게서 시작됩니다. 착한 인성과 성실함, 열정을 가진 동료들을 투명한 채용 절차로 맞이합니다.”",
-      signRole: "경영진"
+      signRole: "Direktur Utama"
     },
     impact: {
       eyebrow: "PRE-OPENING PLAN",
@@ -779,12 +824,30 @@ window.I18N_DICT = {
       formBtn: "이메일로 지원",
       copyEmailBtn: "이메일 주소 복사",
       copiedNotice: "복사됨!",
-      benefitsTitle: "근무 조건 및 복지 혜택",
+      benefitsTitle: "근로기준 준수 및 근무 환경",
       benefits: [
-        { title: "01 · 공식 근로계약 및 BPJS", desc: "{legalName}와의 공식 근로계약(PKWT/PKWTT) 체결, BPJS 및 THR 지급" },
-        { title: "02 · 투명한 급여 정산", desc: "명확한 급여 산정 주기와 투명한 급여 명세서 제공" },
-        { title: "03 · 근무 식사 및 혜택", desc: "근무 중 식사 제공 및 사내 혜택" },
-        { title: "04 · SOP 교육 및 성장 기회", desc: "체계적인 조리·운영 교육 및 파트 리더·지점장 승진 기회" }
+        {
+          title: "01 · 공식 근로계약 체결 (PKWT / PKWTT)",
+          desc: "{legalName}와 현지 노동법에 따른 공식 서면 근로계약(PKWT/PKWTT)을 체결합니다."
+        },
+        {
+          title: "02 · BPJS 및 법정 THR 준수",
+          desc: "BPJS Kesehatan & Ketenagakerjaan 가입 및 현지 법규에 따른 명절수당(THR)을 준수합니다."
+        },
+        {
+          flag: "showEmployeeDiscountBenefit",
+          title: "03 · 근무 중 식사 제공",
+          titleExtended: "03 · 근무 식사 및 Diskon Brand",
+          desc: "근무 시간 중 직원 식사를 제공합니다.",
+          descExtended: "근무 시간 중 식사 제공 및 Diskon Brand 임직원 할인 혜택을 제공합니다."
+        },
+        {
+          flag: "showCareerPathBenefit",
+          title: "04 · 조리·위생 SOP 체계 교육",
+          titleExtended: "04 · SOP 교육 및 커리어 성장",
+          desc: "표준 조리 매뉴얼(SOP) 및 주방 위생 관리에 대한 체계적인 교육을 제공합니다.",
+          descExtended: "체계적인 조리·운영 교육 및 Part Leader hingga Branch Manager 승진 기회를 제공합니다."
+        }
       ],
       positionsTitle: "모집 중인 11개 직군"
     },
