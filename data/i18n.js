@@ -479,11 +479,18 @@ window.I18N_DICT = {
         Salad: "Salad & Poke (1)",
         Dessert: "Beverage & Dessert (7)"
       },
+      catBadgeNames: {
+        Chicken: "Chicken",
+        Korean: "Korean Cuisine",
+        Western: "Western & Deli",
+        Salad: "Salad & Poke",
+        Dessert: "Beverage & Dessert"
+      },
       searchPlaceholder: "Search brands or menus...",
       preOpeningTag: "Pre-Opening",
       viewAllMenus: "View all 10 menus",
       hideMenus: "Hide menus",
-      showAllBrandsBtn: "Tampilkan semua brand",
+      showAllBrandsBtn: "Show all brands (Tampilkan semua brand)",
       showLessBrandsBtn: "Show featured brands only",
       emptySearchTitle: "No matching brands or menus found",
       emptySearchDesc: "No results matched your search query. Try another keyword or view all {brandCount} brands.",
@@ -695,7 +702,7 @@ window.I18N_DICT = {
       contactLinkBtn: "등록 주소 및 연락처 보기 →"
     },
     pillars: {
-      eyebrow: "OUR PILLARS",
+      eyebrow: "4대 핵심 영역",
       title: "{brandName}의 4대 핵심 축",
       intro: "{legalName}가 준비하는 {brandName}의 4대 핵심 영역:",
       items: [
@@ -734,18 +741,18 @@ window.I18N_DICT = {
       ]
     },
     koreaHq: {
-      eyebrow: "GLOBAL F&B KNOW-HOW",
-      title: "Kantor Pusat Korea ({brandName} Korea HQ)",
+      eyebrow: "글로벌 F&B 노하우",
+      title: "한국 본사 · Kantor Pusat Korea ({brandName} Korea HQ)",
       desc: "{legalName}는 한국 본사({brandName} Korea HQ)의 F&B 운영 노하우를 현지화합니다:",
       points: [
         "01 · 다브랜드 기획 ({brandCount}개 브랜드)",
         "02 · 센트럴 키친 표준 조리 운영 절차",
         "03 · 5대 장르 레시피 R&D"
       ],
-      linkText: "Kantor Pusat Korea ({brandName} Korea HQ)"
+      linkText: "한국 본사 ({brandName} Korea HQ)"
     },
     ceo: {
-      eyebrow: "CEO MESSAGE",
+      eyebrow: "대표이사 인사말",
       titlePrefix: "Direktur Utama 인사말",
       p1Title: "명확한 법인 정체성과 {brandName} 오픈 준비",
       p1: "“{legalName}는 자카르타 남부에서 브랜드 {brandName} 오픈을 준비하고 있습니다. 현재 판매 전 단계로서 구직자와 검증 기관에 명확한 법인 신원을 안내합니다.”",
@@ -754,7 +761,7 @@ window.I18N_DICT = {
       signRole: "Direktur Utama"
     },
     impact: {
-      eyebrow: "TARGET & ROADMAP",
+      eyebrow: "목표 및 로드맵",
       title: "목표 및 오픈 준비 로드맵",
       notice: "{legalName}는 현재 오픈 준비 단계로 아직 상품을 판매하지 않습니다. 아래 수치는 목표 계획입니다.",
       roadmapTitle: "단계별 준비 로드맵",
@@ -765,7 +772,7 @@ window.I18N_DICT = {
       ]
     },
     culture: {
-      eyebrow: "OUR CULTURE",
+      eyebrow: "조직문화와 인재상",
       title: "조직문화와 인재상",
       quote: "“착한 인성, 성실함, 그리고 일에 대한 진심 어린 열정. 자신의 몫을 성실히 해내며 서로 존중하는 동료를 기다립니다.”",
       desc: "{legalName}는 성실한 태도와 동료 간 상호 존중을 가장 중요한 가치로 여깁니다.",
@@ -794,18 +801,25 @@ window.I18N_DICT = {
         Salad: "샐러드·포케 (1)",
         Dessert: "음료·디저트·베이커리 (7)"
       },
+      catBadgeNames: {
+        Chicken: "치킨",
+        Korean: "한식",
+        Western: "양식·델리",
+        Salad: "샐러드·포케",
+        Dessert: "음료·디저트"
+      },
       searchPlaceholder: "브랜드명 또는 메뉴 검색...",
       preOpeningTag: "오픈 준비 중",
       viewAllMenus: "10개 메뉴 전체보기",
       hideMenus: "메뉴 접기",
-      showAllBrandsBtn: "Tampilkan semua brand",
+      showAllBrandsBtn: "전체 브랜드 보기 (Tampilkan semua brand)",
       showLessBrandsBtn: "대표 브랜드만 보기",
       emptySearchTitle: "일치하는 브랜드 또는 메뉴가 없습니다",
       emptySearchDesc: "검색어에 해당하는 항목을 찾지 못했습니다. 다른 검색어를 입력하거나 전체 {brandCount}개 브랜드를 확인해 주세요.",
       resetSearchBtn: "검색 초기화"
     },
     foodRndPage: {
-      eyebrow: "FOOD & R&D · 5 CULINARY GENRES",
+      eyebrow: "푸드 & R&D · 5대 요리 장르",
       title: "5대 요리 장르 메뉴 R&D",
       intro: "{legalName}가 준비 중인 5대 요리 장르 표준 레시피입니다.",
       ingredientCallout: "Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) — 모든 메뉴에서 돼지고기와 돈지(라드)를 배제하고 닭고기·소고기·해산물 중심의 식자재로 레시피를 설계했습니다.",
@@ -844,7 +858,7 @@ window.I18N_DICT = {
       ]
     },
     platformPage: {
-      eyebrow: "PLATFORM · ONLINE FOOD COURT & APP (오픈 준비 중)",
+      eyebrow: "플랫폼 · 온라인 푸드코트 & 앱 (오픈 준비 중)",
       title: "{brandName} 온라인 푸드코트 몰 및 배달 플랫폼",
       intro: "여러 브랜드의 메뉴를 동시에 조리하여 한 번의 배달로 전달합니다.",
       features: [
@@ -856,7 +870,7 @@ window.I18N_DICT = {
       appBoxDesc: "현재 오픈 준비 단계이며 아직 상품을 판매하지 않습니다."
     },
     peoplePage: {
-      eyebrow: "OUR PEOPLE & CULTURE",
+      eyebrow: "사람 & 조직문화",
       title: "성실함과 열정을 존중하는 팀",
       intro: "“착한 인성, 성실함, 그리고 일에 대한 진심 어린 열정. 자신의 몫을 성실히 해내며 서로 존중하는 동료를 기다립니다.”",
       values: [
@@ -866,7 +880,7 @@ window.I18N_DICT = {
       ]
     },
     careersPage: {
-      eyebrow: "OFFICIAL CAREERS · {legalName}",
+      eyebrow: "공식 채용 · {legalName}",
       title: "{legalName} (브랜드 {brandName}) 공식 채용 안내 (11개 직군)",
       intro: "자카르타 남부 거점 및 {brandName} 오픈을 함께 준비할 11개 직군의 인재를 모집합니다.",
       applyBoxTitle: "지원 방법 안내",
@@ -923,15 +937,15 @@ window.I18N_DICT = {
       copySuccess: "지원서 초안과 이메일 주소가 복사되었습니다."
     },
     contactPage: {
-      eyebrow: "OFFICIAL CORPORATE IDENTITY & CONTACT",
+      eyebrow: "공식 법인 정보 & 등록 주소",
       title: "공식 법인 정보, 등록 주소 및 연락처",
       intro: "{legalName} (Brand: {brandName}) 공식 소통 및 기업 확인 채널입니다.",
       entityLabel: "공식 법인명",
       brandLabel: "브랜드",
       statusLabel: "사업 상태",
       statusText: "오픈 준비 단계 (Pre-Opening · 현재 판매 전)",
-      addressLabel: "Alamat Terdaftar",
-      phonePendingNotice: "Nomor telepon pelanggan / WhatsApp resmi akan diumumkan saat pembukaan gerai pertama.",
+      addressLabel: "등록 주소 (Alamat Terdaftar)",
+      phonePendingNotice: "고객용 전화번호 및 공식 WhatsApp 채널은 1호점 오픈 시점에 공개됩니다.",
       openMapsBtn: "구글 지도에서 열기 ↗",
       emailUnifiedLabel: "공식 이메일 (일반·제휴 및 채용 통합)",
       emailGeneralLabel: "일반·제휴 문의 이메일",
