@@ -134,10 +134,9 @@ window.I18N_DICT = {
         Dessert: "Minuman & Dessert (7)"
       },
       searchPlaceholder: "Cari nama brand atau menu (contoh: SOTDAK, Bibimbap, Burger, Bingsu)...",
-      menusCount: "10 Menu (Pra-Pembukaan)",
       preOpeningTag: "Pra-Pembukaan",
-      viewAllMenus: "Lihat Semua Menu",
-      hideMenus: "Tutup Daftar Menu",
+      viewAllMenus: "Lihat semua 10 menu",
+      hideMenus: "Tutup daftar menu",
       emptySearchTitle: "Tidak ada brand atau menu yang cocok",
       emptySearchDesc: "Tidak ditemukan hasil untuk kata kunci pencarian Anda. Coba kata kunci lain atau tampilkan kembali seluruh {brandCount} brand.",
       resetSearchBtn: "Reset Pencarian"
@@ -379,10 +378,9 @@ window.I18N_DICT = {
         Dessert: "Beverage & Dessert (7)"
       },
       searchPlaceholder: "Search brands or menus...",
-      menusCount: "10 Menus (Pre-Opening)",
       preOpeningTag: "Pre-Opening",
-      viewAllMenus: "View All Menus",
-      hideMenus: "Hide Menus",
+      viewAllMenus: "View all 10 menus",
+      hideMenus: "Hide menus",
       emptySearchTitle: "No matching brands or menus found",
       emptySearchDesc: "No results matched your search query. Try another keyword or view all {brandCount} brands.",
       resetSearchBtn: "Reset Search"
@@ -624,9 +622,8 @@ window.I18N_DICT = {
         Dessert: "음료·디저트·베이커리 (7)"
       },
       searchPlaceholder: "브랜드명 또는 메뉴 검색...",
-      menusCount: "10개 메뉴 (오픈 준비 중)",
       preOpeningTag: "오픈 준비 중",
-      viewAllMenus: "메뉴 전체보기",
+      viewAllMenus: "10개 메뉴 전체보기",
       hideMenus: "메뉴 접기",
       emptySearchTitle: "일치하는 브랜드 또는 메뉴가 없습니다",
       emptySearchDesc: "검색어에 해당하는 항목을 찾지 못했습니다. 다른 검색어를 입력하거나 전체 {brandCount}개 브랜드를 확인해 주세요.",

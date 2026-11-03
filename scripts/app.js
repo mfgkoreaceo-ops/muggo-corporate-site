@@ -704,7 +704,7 @@
       )
       .join("");
 
-    // Featured Planned Brands Preview
+    // Featured Planned Brands Preview (Brand name, category tag, 1-line description, 2 representative menus)
     const featuredIds = ["sotdak", "seongsu-dak", "bap-club", "pantry12", "salad-pick", "bing-ha"];
     const featuredBrands = (window.MUGGO_CATALOG || []).filter((b) => featuredIds.includes(b.id));
     const featuredBrandsHtml = featuredBrands
@@ -713,18 +713,18 @@
         <div class="brand-card" onclick="navigateTo('brands')" style="cursor:pointer;">
           <div class="brand-card-header">
             <img src="${b.logo}" alt="${locBrand(b, "name")}" class="brand-thumb" loading="lazy" />
-            <div>
-              <span class="roster-badge">${b.category} · ${dict.brandsPage.preOpeningTag || "Pra-Pembukaan"}</span>
+            <div style="min-width:0;">
+              <span class="roster-badge">${b.category}</span>
               <h3 style="margin-top:4px; font-size:16px;">${locBrand(b, "name")}</h3>
             </div>
           </div>
-          <p class="hint" style="margin-bottom:10px;">${locBrand(b, "desc")}</p>
-          <div style="font-size:12.5px; color:var(--ui-link); font-weight:700;">
+          <p class="hint brand-desc-oneline" style="margin-bottom:8px;">${locBrand(b, "desc")}</p>
+          <ul class="menu-preview-list" style="margin-top:6px; padding-top:8px;">
             ${b.menus
               .slice(0, 2)
-              .map((m) => locBrand(m, "name"))
-              .join(" · ")} →
-          </div>
+              .map((m) => `<li class="menu-preview-item"><span>${locBrand(m, "name")}</span></li>`)
+              .join("")}
+          </ul>
         </div>
       `
       )
@@ -1004,8 +1004,7 @@
     container.innerHTML = brands
       .map((b) => {
         const isExpanded = expandedBrands[b.id] !== undefined ? expandedBrands[b.id] : hasSearch;
-        const visibleMenus = isExpanded ? b.menus : b.menus.slice(0, 4);
-        const catLabel = dict.catNames[b.category] || b.category;
+        const visibleMenus = isExpanded ? b.menus : b.menus.slice(0, 2);
 
         return `
           <article class="brand-card">
@@ -1013,14 +1012,11 @@
               <div class="brand-card-header">
                 <img src="${b.logo}" alt="${locBrand(b, "name")}" class="brand-thumb" loading="lazy" />
                 <div style="min-width:0;">
-                  <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-                    <span class="roster-badge">#${b.no}</span>
-                    <small class="hint">${catLabel}</small>
-                  </div>
+                  <span class="roster-badge">${b.category}</span>
                   <h3 style="margin-top:4px;">${locBrand(b, "name")}</h3>
                 </div>
               </div>
-              <p class="hint">${locBrand(b, "desc")}</p>
+              <p class="hint brand-desc-oneline">${locBrand(b, "desc")}</p>
 
               <ul class="menu-preview-list">
                 ${visibleMenus
@@ -1028,7 +1024,6 @@
                     (m) => `
                   <li class="menu-preview-item">
                     <span>${locBrand(m, "name")}</span>
-                    <small class="hint" style="white-space:nowrap; font-size:11.5px;">${dict.preOpeningTag || "Pra-Pembukaan"}</small>
                   </li>
                 `
                   )
@@ -1036,10 +1031,9 @@
               </ul>
             </div>
 
-            <div style="margin-top:12px; padding-top:10px; border-top:1px solid var(--portal-line); display:flex; justify-content:space-between; align-items:center;">
-              <small class="hint">${dict.menusCount}</small>
+            <div style="margin-top:10px; padding-top:8px; border-top:1px solid var(--portal-line); display:flex; justify-content:flex-end; align-items:center;">
               <button type="button" class="nav-btn" aria-expanded="${isExpanded ? "true" : "false"}" style="padding:5px 10px; min-height:30px; font-size:12.5px; color:var(--ui-link); font-weight:700;" onclick="toggleBrandMenus('${b.id}')">
-                ${isExpanded ? dict.hideMenus : `${dict.viewAllMenus} (${b.menus.length})`}
+                ${isExpanded ? dict.hideMenus : dict.viewAllMenus}
               </button>
             </div>
           </article>
