@@ -6,7 +6,7 @@
 // ==========================================================================
 
 (function () {
-  const STORAGE_KEY = "muggo_corporate_cms_v4";
+  const STORAGE_KEY = "muggo_corporate_cms_v5";
   const LANG_KEY = "mokgo-language";
   const THEME_KEY = "muggo-theme";
 
@@ -284,7 +284,7 @@
           </div>
           <div style="background:var(--ui-surface-muted); border:1px solid var(--portal-line); border-radius:10px; padding:14px 16px;">
             <small class="hint" style="display:block; font-weight:700;">${dict.purposeLabel}</small>
-            <strong style="font-size:14.5px; color:var(--ui-text);">${dict.purposeValue}</strong>
+            <strong style="font-size:14.5px; color:var(--ui-text);">${dict.purposeValue || cfg.officeAddress}</strong>
           </div>
         </div>
 
@@ -576,10 +576,10 @@
       )
       .join("");
 
-    // Korea HQ Section (Conditional ON/OFF)
+    // Korea HQ Section (Conditional ON/OFF; link hidden when TODO(owner) koreaHqUrl is empty)
     const koreaHqActionHtml = hasValidKoreaHqUrl()
       ? `<a href="${cfg.koreaHqUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="margin-top:14px;">${dict.koreaHq.linkText} ↗</a>`
-      : `<div style="margin-top:12px;"><span class="roster-badge">${dict.koreaHq.linkText}</span></div>`;
+      : "";
 
     const koreaHqHtml = cfg.showKoreaHq
       ? `
@@ -637,7 +637,7 @@
               <article class="service-card" onclick="navigateTo('article-detail', '${art.id}')">
                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
                   <span class="roster-badge">${loc(art, "category")}</span>
-                  <small class="hint">${art.date}</small>
+                  ${art.date ? `<small class="hint">${art.date}</small>` : ""}
                 </div>
                 <h3>${loc(art, "title")}</h3>
                 <p>${loc(art, "summary")}</p>
@@ -702,10 +702,10 @@
         </div>
       </section>
 
-      <!-- ④ Leadership Message (2 Paragraphs) -->
+      <!-- ④ Leadership Message (2 Paragraphs; ceoName hidden when TODO(owner) is empty) -->
       <section class="card section-block">
         <p class="eyebrow">${dict.ceo.eyebrow}</p>
-        <h2>${dict.ceo.titlePrefix} · ${cfg.companyName}</h2>
+        <h2>${dict.ceo.titlePrefix}${cfg.ceoName ? ` · ${cfg.ceoName}` : ""}</h2>
         <div class="columns" style="margin-top:16px;">
           <aside class="callout" style="margin:0;">
             <strong style="display:block; font-size:13px; color:var(--ui-link); margin-bottom:6px;">01 · ${dict.ceo.p1Title}</strong>
@@ -718,7 +718,7 @@
         </div>
         <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--portal-line); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
           <span class="hint">${cfg.companyName} (Brand: ${cfg.brandName || "MUGGO"})</span>
-          <strong>${dict.ceo.signRole} · ${cfg.companyName}</strong>
+          <strong>${dict.ceo.signRole}${cfg.ceoName ? ` · ${cfg.ceoName}` : ""}</strong>
         </div>
       </section>
 
@@ -948,7 +948,7 @@
         </div>
       </div>
 
-      <aside class="callout">${dict.halalCallout}</aside>
+      <aside class="callout">${dict.ingredientCallout}</aside>
 
       <section class="section-block" style="margin-top:24px;">
         <h2>${dict.genresTitle}</h2>
@@ -1245,7 +1245,7 @@
       <article class="card">
         <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px;">
           <span class="roster-badge">${loc(art, "category")}</span>
-          <small class="hint">${art.date}</small>
+          ${art.date ? `<small class="hint">${art.date}</small>` : ""}
         </div>
         <h1>${loc(art, "title")}</h1>
         <div style="margin-top:20px; padding-top:20px; border-top:1px solid var(--portal-line);">
