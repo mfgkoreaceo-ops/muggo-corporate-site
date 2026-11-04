@@ -99,11 +99,24 @@
     footnotes: JSON.parse(JSON.stringify((window.DEFAULT_SITE_DATA && window.DEFAULT_SITE_DATA.footnotes) || []))
   };
 
+  try {
+    const urlParams = new URLSearchParams(window.location.search || "");
+    const qLang = (urlParams.get("lang") || "").trim().toLowerCase();
+    if (["id", "en", "ko"].includes(qLang)) {
+      if (window.SITE_CONFIG) window.SITE_CONFIG.languageSwitchVisible = true;
+      state.currentLang = qLang;
+    }
+  } catch (e) {}
+
   if (cfg().languageSwitchVisible) {
     try {
-      const savedLang = localStorage.getItem(LANG_KEY);
-      if (["id", "en", "ko"].includes(savedLang)) {
-        state.currentLang = savedLang;
+      const urlParams = new URLSearchParams(window.location.search || "");
+      const qLang = (urlParams.get("lang") || "").trim().toLowerCase();
+      if (!["id", "en", "ko"].includes(qLang)) {
+        const savedLang = localStorage.getItem(LANG_KEY);
+        if (["id", "en", "ko"].includes(savedLang)) {
+          state.currentLang = savedLang;
+        }
       }
     } catch (e) {}
   } else {
