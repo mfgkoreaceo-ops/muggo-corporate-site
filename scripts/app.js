@@ -12,7 +12,8 @@
     try {
       const params = new URLSearchParams(window.location.search || "");
       const isPreview = params.get("cms_preview") === "1";
-      const raw = localStorage.getItem(isPreview ? "muggo-cms-draft" : "muggo-cms-published");
+      if (!isPreview) return; // Public pages always use repository data. Legacy local overrides are retained, not applied.
+      const raw = localStorage.getItem("muggo-cms-draft");
       if (!raw) return;
       const bundle = JSON.parse(raw);
       if (bundle && typeof bundle === "object") {
@@ -22,10 +23,10 @@
         if (bundle.i18n && typeof bundle.i18n === "object" && bundle.i18n.id && bundle.i18n.id.nav) {
           window.I18N_DICT = bundle.i18n;
         }
-        if (bundle.siteData && typeof bundle.siteData === "object" && Array.isArray(bundle.siteData.jobs) && bundle.siteData.jobs.length > 0) {
+        if (bundle.siteData && typeof bundle.siteData === "object" && Array.isArray(bundle.siteData.jobs)) {
           window.DEFAULT_SITE_DATA = bundle.siteData;
         }
-        if (Array.isArray(bundle.catalog) && bundle.catalog.length > 0) {
+        if (Array.isArray(bundle.catalog)) {
           window.MUGGO_CATALOG = bundle.catalog;
         }
       }
@@ -1057,14 +1058,17 @@
       }
 
       const typeExpParts = [];
-      if (j.employmentType || j.experience) {
+      const selectedType = j["type" + (lang() === "id" ? "Id" : lang() === "en" ? "En" : "Ko")];
+      if (selectedType) {
+        typeExpParts.push(capLen(interp(selectedType), 240));
+      } else if (j.employmentType || j.experience) {
         if (j.employmentType) typeExpParts.push(capLen(interp(j.employmentType), 120));
         if (j.experience) typeExpParts.push(capLen(interp(j.experience), 120));
       } else {
         const legacyType = loc(j, "type");
         if (legacyType) typeExpParts.push(capLen(legacyType, 120));
       }
-      if (j.location) {
+      if (j.location && !selectedType) {
         typeExpParts.push(capLen(interp(j.location), 120));
       }
 

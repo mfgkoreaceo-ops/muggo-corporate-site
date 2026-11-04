@@ -361,6 +361,9 @@ window.I18N_DICT = {
     skipToContent: "Skip to main content",
     themeLabel: ["Dark mode", "Light mode"],
     nav: {
+      mainNavLabel: "Main navigation",
+      mobileNavLabel: "Mobile navigation",
+      menuBtnLabel: "Menu",
       home: "Home",
       brands: "Brands",
       foodRnd: "Food & R&D",
@@ -377,7 +380,7 @@ window.I18N_DICT = {
       subcopyB: "{legalName} is preparing the pre-opening launch of {brandName} ({brandCount} culinary brands) in South Jakarta. Nothing is on sale yet as we recruit across 11 job positions.",
       careerBtn: "Apply for Careers (11 Roles)",
       brandBtn: "View {brandCount} Brands",
-      appComingSoon: "Aplikasi Delivery (Segera Hadir)",
+      appComingSoon: "Delivery App (Coming Soon)",
       appDownload: "Open {brandName} App"
     },
     identityCard: {
@@ -388,7 +391,7 @@ window.I18N_DICT = {
       legalLabel: "Legal Entity",
       brandLabel: "Brand",
       leaderLabel: "Leadership",
-      leaderRole: "Direktur Utama",
+      leaderRole: "President Director",
       openPositionsLabel: "Open Positions",
       openPositionsValue: "11 Job Positions (Official Recruitment)",
       statusLabel: "Planned Opening",
@@ -397,7 +400,7 @@ window.I18N_DICT = {
       purposeValue: "{address}",
       channelsLabel: "Official Channels",
       antiFraudTitle: "Official Recruitment Notice",
-      antiFraudDesc: "Kami tidak memungut biaya apa pun dalam proses rekrutmen.",
+      antiFraudDesc: "We do not charge any fees during recruitment.",
       contactLinkBtn: "View Registered Address & Contact →"
     },
     pillars: {
@@ -468,7 +471,7 @@ window.I18N_DICT = {
         }
       ],
       summary: "Built on these three core pillars, {legalName} deploys an advanced F&B and lifestyle platform optimized for Jakarta, Indonesia, and the broader Southeast Asian market.",
-      linkText: "Kantor Pusat Korea ({brandName} Korea HQ)"
+      linkText: "Korea Headquarters ({brandName} Korea HQ)"
     },
     ceo: {
       eyebrow: "CEO MESSAGE",
@@ -477,7 +480,7 @@ window.I18N_DICT = {
       p1: "“Through {legalName}, we are preparing the launch of {brandName} in South Jakarta. Nothing is on sale yet; our focus is clear corporate identity for job seekers and verifiers.”",
       p2Title: "People-Centered Organization & Fair Recruitment",
       p2: "“Great service begins with great people. We welcome diligent, respectful colleagues through a transparent, free recruitment process.”",
-      signRole: "Direktur Utama"
+      signRole: "President Director"
     },
     impact: {
       eyebrow: "TARGET & ROADMAP",
@@ -501,7 +504,7 @@ window.I18N_DICT = {
     articles: {
       eyebrow: "OFFICIAL ANNOUNCEMENTS",
       title: "Pre-Opening Announcements",
-      upcomingLabel: "Akan Datang",
+      upcomingLabel: "Coming Soon",
       readMore: "Read More →",
       backBtn: "← Back to List"
     },
@@ -548,31 +551,31 @@ window.I18N_DICT = {
           title: "1. Korean Cuisine",
           desc: "Roasted nurungji chicken (SOTDAK), charcoal BBQ chicken (SEONGSU DAK), rice bowls, bibimbap, stews, beef soups, gimbap, and dumplings.",
           img: "assets/slots/genre-1-korean.jpg",
-          alt: "Ilustrasi pengembangan menu masakan Korea di dapur R&D MUGGO"
+          alt: "Illustration of Korean menu development in the MUGGO R&D kitchen"
         },
         {
           title: "2. Chinese & Mala Fusion",
           desc: "Sichuan Mala spice infusions paired with beef, chicken, and seafood stir-fry dishes (MIGAK).",
           img: "assets/slots/genre-2-chinese.jpg",
-          alt: "Ilustrasi pengembangan menu masakan Tiongkok dan Mala Fusion"
+          alt: "Illustration of Chinese and Mala Fusion menu development"
         },
         {
           title: "3. Japanese & Artisan Bakery",
           desc: "French-butter Shio Pan salted bread (SALT ROOM), crispy frying techniques, and house sauces.",
           img: "assets/slots/genre-3-japanese.jpg",
-          alt: "Ilustrasi pengembangan menu masakan Jepang dan bakery Shio Pan"
+          alt: "Illustration of Japanese menu and Shio Pan bakery development"
         },
         {
           title: "4. Indonesian Local Flavors",
           desc: "Specialty coffee and tropical fruit drinks (NASI BOSS), local sambal spice levels, and fresh Nusantara produce.",
           img: "assets/slots/genre-4-indonesian.jpg",
-          alt: "Ilustrasi pengembangan menu dan minuman cita rasa lokal Indonesia"
+          alt: "Illustration of local Indonesian menu and beverage development"
         },
         {
           title: "5. Western & European Deli",
           desc: "European sandwiches (PANTRY 12), smoked beef burgers (SMOKY SALOON & BURNOUT), pizza (WOOD&BRICK), kebabs (KEBAVA), and salads.",
           img: "assets/slots/genre-5-western.jpg",
-          alt: "Ilustrasi pengembangan menu burger, pizza, dan sandwich Barat"
+          alt: "Illustration of Western burger, pizza and sandwich menu development"
         }
       ]
     },
@@ -604,9 +607,9 @@ window.I18N_DICT = {
       intro: "Join {legalName} in South Jakarta ahead of our {brandName} launch. Official and 100% free recruitment.",
       applyBoxTitle: "How to Apply",
       applyBoxDesc: "Select a position below and press Lamar to open the official application draft with the position pre-filled.",
-      applyJobBtn: "Lamar",
+      applyJobBtn: "Apply",
       emailBtn: "Send Email",
-      formBtn: "Lamar",
+      formBtn: "Apply",
       copyEmailBtn: "Copy Email Address",
       copiedNotice: "Copied!",
       benefitsTitle: "Statutory Employment Compliance & Benefits",
@@ -644,7 +647,7 @@ window.I18N_DICT = {
     applyModal: {
       title: "Draft Official Application",
       guidePrefix: "This helper prepares your application draft to {legalName}. Attach your CV/Resume and send it to:",
-      roleLabel: "Posisi yang Dilamar",
+      roleLabel: "Position Applied For",
       nameLabel: "Full Name",
       contactLabel: "Phone Number / Active Email",
       msgLabel: "Brief Experience Summary & Motivation",
@@ -664,8 +667,8 @@ window.I18N_DICT = {
       brandLabel: "Brand",
       statusLabel: "Business Status",
       statusText: "Pre-Opening Stage (Nothing is on sale yet)",
-      addressLabel: "Alamat Terdaftar",
-      phonePendingNotice: "Nomor telepon pelanggan / WhatsApp resmi akan diumumkan saat pembukaan gerai pertama.",
+      addressLabel: "Registered Address",
+      phonePendingNotice: "The official customer service / WhatsApp number will be announced when the first outlet opens.",
       openMapsBtn: "Open in Google Maps ↗",
       emailUnifiedLabel: "Official Email (General, Partnership & Recruitment)",
       emailGeneralLabel: "General & Partnership Email",
@@ -695,7 +698,7 @@ window.I18N_DICT = {
     sticky: {
       instagram: "Instagram",
       tiktok: "TikTok",
-      careers: "Lamar Karir",
+      careers: "Apply for a Job",
       whatsapp: "WhatsApp"
     }
   },
@@ -704,6 +707,9 @@ window.I18N_DICT = {
     skipToContent: "본문 바로가기",
     themeLabel: ["다크 모드", "라이트 모드"],
     nav: {
+      mainNavLabel: "주요 메뉴",
+      mobileNavLabel: "모바일 메뉴",
+      menuBtnLabel: "메뉴",
       home: "홈",
       brands: "브랜드",
       foodRnd: "푸드·R&D",
@@ -720,7 +726,7 @@ window.I18N_DICT = {
       subcopyB: "{legalName}는 자카르타 남부에서 브랜드 {brandName}({brandCount}개 브랜드) 오픈을 준비하고 있으며 11개 직군 채용을 진행 중입니다.",
       careerBtn: "채용 지원 (11개 직군)",
       brandBtn: "{brandCount}개 브랜드 보기",
-      appComingSoon: "Aplikasi Delivery (Segera Hadir)",
+      appComingSoon: "배달 앱 (출시 예정)",
       appDownload: "{brandName} 앱 열기"
     },
     identityCard: {
@@ -731,7 +737,7 @@ window.I18N_DICT = {
       legalLabel: "공식 법인명",
       brandLabel: "브랜드",
       leaderLabel: "대표자",
-      leaderRole: "Direktur Utama",
+      leaderRole: "대표이사",
       openPositionsLabel: "채용 중인 직군",
       openPositionsValue: "11개 직군 (공식 채용 중)",
       statusLabel: "오픈 예정 안내",
@@ -740,7 +746,7 @@ window.I18N_DICT = {
       purposeValue: "{address}",
       channelsLabel: "공식 채널",
       antiFraudTitle: "공식 채용 무상 진행 안내",
-      antiFraudDesc: "Kami tidak memungut biaya apa pun dalam proses rekrutmen.",
+      antiFraudDesc: "채용 과정에서 어떠한 비용도 요구하지 않습니다.",
       contactLinkBtn: "등록 주소 및 연락처 보기 →"
     },
     pillars: {
@@ -820,7 +826,7 @@ window.I18N_DICT = {
       p1: "“{legalName}는 자카르타 남부에서 브랜드 {brandName} 오픈을 준비하고 있습니다. 현재 판매 전 단계로서 구직자와 검증 기관에 명확한 법인 신원을 안내합니다.”",
       p2Title: "사람 중심 조직과 투명한 채용",
       p2: "“좋은 서비스는 좋은 사람에게서 시작됩니다. 성실하고 서로 존중하는 동료들을 투명한 채용 절차로 맞이합니다.”",
-      signRole: "Direktur Utama"
+      signRole: "대표이사"
     },
     impact: {
       eyebrow: "목표 및 로드맵",
@@ -844,7 +850,7 @@ window.I18N_DICT = {
     articles: {
       eyebrow: "공식 안내",
       title: "오픈 준비 소식 및 공지",
-      upcomingLabel: "Akan Datang",
+      upcomingLabel: "예정",
       readMore: "자세히 보기 →",
       backBtn: "← 목록으로 돌아가기"
     },
@@ -891,31 +897,31 @@ window.I18N_DICT = {
           title: "1. 한식 (Korean Cuisine)",
           desc: "가마솥 누룽지 통닭(솥닭), 숯불 양념치킨(성수닭), 주먹밥, 덮밥, 전주 비빔밥, 소고기 탕·찌개, 김밥, 만두",
           img: "assets/slots/genre-1-korean.jpg",
-          alt: "Ilustrasi pengembangan menu masakan Korea di dapur R&D MUGGO"
+          alt: "MUGGO R&D 주방의 한식 메뉴 개발 이미지"
         },
         {
           title: "2. 중식 및 마라 퓨전 (Chinese & Mala)",
           desc: "사천식 마라 풍미를 소고기·닭고기·해산물 요리에 접목한 중화풍 메뉴(미각)",
           img: "assets/slots/genre-2-chinese.jpg",
-          alt: "Ilustrasi pengembangan menu masakan Tiongkok dan Mala Fusion"
+          alt: "중식 및 마라 퓨전 메뉴 개발 이미지"
         },
         {
           title: "3. 일식 및 아티산 베이커리 (Japanese)",
           desc: "프랑스산 버터로 구워낸 소금빵(솔트룸) 및 바삭한 튀김·소스 조리 기술",
           img: "assets/slots/genre-3-japanese.jpg",
-          alt: "Ilustrasi pengembangan menu masakan Jepang dan bakery Shio Pan"
+          alt: "일식 및 시오빵 베이커리 개발 이미지"
         },
         {
           title: "4. 인도네시아 현지화 메뉴 (Indonesian)",
           desc: "스페셜티 커피·열대과일 음료(나씨보스), 현지 삼발 맵기 단계 및 로컬 식자재 활용",
           img: "assets/slots/genre-4-indonesian.jpg",
-          alt: "Ilustrasi pengembangan menu dan minuman cita rasa lokal Indonesia"
+          alt: "인도네시아 현지 메뉴와 음료 개발 이미지"
         },
         {
           title: "5. 양식 및 유러피안 델리 (Western)",
           desc: "유러피안 샌드위치(펜트리12), 비프 버거(스모키살루온·번아웃), 피자(우드앤브릭), 케밥(케바바), 포케 샐러드",
           img: "assets/slots/genre-5-western.jpg",
-          alt: "Ilustrasi pengembangan menu burger, pizza, dan sandwich Barat"
+          alt: "서양식 버거·피자·샌드위치 메뉴 개발 이미지"
         }
       ]
     },
@@ -947,9 +953,9 @@ window.I18N_DICT = {
       intro: "자카르타 남부 거점 및 {brandName} 오픈을 함께 준비할 11개 직군의 인재를 모집합니다.",
       applyBoxTitle: "지원 방법 안내",
       applyBoxDesc: "아래 모집 직군에서 Lamar 버튼을 누르면 지원 직군과 이메일 제목(Lamaran: <직군>)이 자동 입력된 지원서 작성창이 열립니다.",
-      applyJobBtn: "Lamar",
+      applyJobBtn: "지원하기",
       emailBtn: "이메일 보내기",
-      formBtn: "Lamar",
+      formBtn: "지원하기",
       copyEmailBtn: "이메일 주소 복사",
       copiedNotice: "복사됨!",
       benefitsTitle: "근로기준 준수 및 근무 환경",
@@ -987,7 +993,7 @@ window.I18N_DICT = {
     applyModal: {
       title: "지원서 초안 작성",
       guidePrefix: "본 창은 {legalName} 입사 지원 초안 작성을 돕습니다. 이력서(CV) 첨부 후 아래 이메일로 발송해 주세요:",
-      roleLabel: "Posisi yang Dilamar",
+      roleLabel: "지원 직무",
       nameLabel: "성명",
       contactLabel: "연락처 (전화번호 / 이메일)",
       msgLabel: "주요 경력 및 지원 동기 요약",
@@ -1038,7 +1044,7 @@ window.I18N_DICT = {
     sticky: {
       instagram: "Instagram",
       tiktok: "TikTok",
-      careers: "Lamar Karir",
+      careers: "채용 지원",
       whatsapp: "WhatsApp"
     }
   }

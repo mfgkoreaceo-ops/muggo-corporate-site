@@ -7,7 +7,7 @@ window.ADMIN_UI_I18N = {
   ko: {
     portalHeaderTitle: "PT BARA SUSTAINABLE INDONESIA — 통합 관리자 시스템 (Admin CMS)",
     portalHeaderShort: "[MUGGO] 관리자 시스템 (Admin Portal)",
-    loginTitle: "관리자 로그인 (승인 실무자 전용)",
+    loginTitle: "서버 로그인 · 브라우저 미리보기",
     loginIdLabel: "관리자 아이디",
     loginIdPlaceholder: "아이디를 입력하세요",
     loginPwLabel: "비밀번호",
@@ -17,25 +17,25 @@ window.ADMIN_UI_I18N = {
     loginBtn: "로그인 →",
     loginErrorMsg: "아이디 또는 비밀번호가 일치하지 않습니다. (5회 실패 시 15분 잠금)",
     lockoutPrefix: "🔒 비밀번호 5회 연속 오입력으로 로그인이 일시 잠겼습니다. 남은 잠금 시간: ",
-    loginRuleLine1: "🛡️ 보안 안내: 5회 실패 시 15분간 차단",
-    loginRuleLine2: "30분 미사용 시 자동 로그아웃됩니다.",
+    loginRuleLine1: "GitHub Pages에서는 서버 인증을 제공하지 않습니다.",
+    loginRuleLine2: "로컬 초안은 이 브라우저에만 저장됩니다.",
     backToSiteLink: "← 공식 회사 소개 사이트로 돌아가기",
-    securityBannerText: "“본 시스템은 PT BARA SUSTAINABLE INDONESIA (MUGGO) 승인 실무자 전용 페이지입니다. 비인가자의 접근 시도는 자동 차단되며, 로그인 및 문구 수정 이력은 모두 기록됩니다.”",
+    securityBannerText: "정적 관리자 화면은 공개 코드입니다. 인증·권한·게시 제한은 별도 서버에서 검증해야 합니다. 기존 로컬 계정과 볼트는 보존하지만 게시 권한으로 사용하지 않습니다.",
 
-    sessionTimerPrefix: "보안 세션 남은 시간:",
+    sessionTimerPrefix: "브라우저 작업 타이머:",
     sessionExtendBtn: "연장",
     sessionLogoutBtn: "로그아웃",
     previewToggleBtn: "🖥️ 사이트 미리보기 (데스크톱 / 모바일)",
     saveDraftBtn: "💾 임시저장",
-    publishBtn: "🚀 변경사항 저장 및 사이트 즉시 반영",
-    publishBtnShort: "🚀 변경사항 저장 및 사이트 반영",
+    publishBtn: "공개 저장소에 실제 게시 (서버 인증 필요)",
+    publishBtnShort: "공개 저장소에 실제 게시",
     applyPreviewBtn: "🔄 미리보기 적용",
-    rollbackTopBtn: "↩️ 이전 버전으로 되돌리기 (롤백)",
+    rollbackTopBtn: "이 브라우저 스냅샷 복원",
     openLiveSiteNewTab: "🌐 공개 본 사이트 새 창 열기 ↗",
     livePreviewHeader: "실시간 미리보기 (Live Preview)",
     refreshPreviewBtn: "새로고침",
 
-    sessionWarnTitle: "⏳ 보안 세션 만료 3분 전 알림",
+    sessionWarnTitle: "브라우저 작업 타이머 만료 안내",
     sessionWarnDesc: "마우스·키보드 입력이 없어 3분 후 자동 로그아웃됩니다. 작성 중이던 데이터는 로컬 임시 저장소로 자동 보호되었습니다. 계속 작업하시려면 [세션 연장]을 눌러주세요.",
     sessionExtendModalBtn: "세션 30분 연장하기",
 
@@ -70,14 +70,14 @@ window.ADMIN_UI_I18N = {
     errInvalidUrl: "⚠️ 허용되지 않는 URL 형식입니다. 안전한 https:// 또는 내부 assets/ 경로만 허용됩니다.",
     warnMissingVar: "⚠️ 문구 내에 있던 {varName} 변수가 삭제되었습니다. 그대로 저장하시겠습니까?",
     msgDraftSaved: "💾 임시저장이 완료되었으며 실시간 미리보기에 반영되었습니다.",
-    msgPublished: "🚀 변경사항이 저장되어 사이트에 즉시 반영되었습니다.",
-    msgRolledBack: "↩️ 선택한 이전 버전으로 데이터가 즉시 복구되었습니다."
+    msgPublished: "이 브라우저 미리보기에만 반영되었습니다.",
+    msgRolledBack: "이 브라우저 초안만 복원했습니다. 공개 저장소는 변경하지 않았습니다."
   },
 
   id: {
     portalHeaderTitle: "PT BARA SUSTAINABLE INDONESIA — Sistem Admin Terpadu (Admin CMS)",
     portalHeaderShort: "[MUGGO] Portal Admin (Admin CMS)",
-    loginTitle: "Login Admin (Khusus Staf Resmi)",
+    loginTitle: "Login server / pratinjau browser",
     loginIdLabel: "ID Admin",
     loginIdPlaceholder: "Masukkan ID Admin",
     loginPwLabel: "Kata Sandi",
@@ -87,25 +87,25 @@ window.ADMIN_UI_I18N = {
     loginBtn: "Masuk →",
     loginErrorMsg: "ID atau kata sandi salah. (Terkunci 15 menit setelah 5x gagal)",
     lockoutPrefix: "🔒 Terkunci selama 15 menit karena 5x gagal login. Sisa waktu: ",
-    loginRuleLine1: "🛡️ Info Keamanan: Terkunci 15 menit setelah 5x gagal",
-    loginRuleLine2: "Otomatis keluar setelah 30 menit tanpa aktivitas.",
+    loginRuleLine1: "GitHub Pages tidak menyediakan autentikasi server.",
+    loginRuleLine2: "Draf hanya tersimpan di browser ini.",
     backToSiteLink: "← Kembali ke Situs Resmi Perusahaan",
-    securityBannerText: "“Sistem ini khusus untuk staf resmi PT BARA SUSTAINABLE INDONESIA (MUGGO). Upaya akses tanpa izin akan diblokir otomatis, dan seluruh riwayat login serta perubahan teks dicatat.”",
+    securityBannerText: "Kode admin statis bersifat publik. Hak akses dan publikasi harus diperiksa di server. Akun lokal dan vault lama tetap disimpan, tetapi tidak memberikan izin publikasi.",
 
-    sessionTimerPrefix: "Sisa Sesi Keamanan:",
+    sessionTimerPrefix: "Timer kerja browser:",
     sessionExtendBtn: "Perpanjang",
     sessionLogoutBtn: "Keluar",
     previewToggleBtn: "🖥️ Pratinjau Situs (Desktop / Seluler)",
     saveDraftBtn: "💾 Simpan Draf",
-    publishBtn: "🚀 Simpan & Terapkan ke Situs",
-    publishBtnShort: "🚀 Simpan & Terapkan ke Situs",
+    publishBtn: "Publikasikan ke repositori publik (perlu server)",
+    publishBtnShort: "Publikasikan ke repositori publik",
     applyPreviewBtn: "🔄 Terapkan Pratinjau",
-    rollbackTopBtn: "↩️ Kembalikan ke Versi Sebelumnya",
+    rollbackTopBtn: "Pulihkan snapshot browser ini",
     openLiveSiteNewTab: "🌐 Buka Situs Utama di Tab Baru ↗",
     livePreviewHeader: "Pratinjau Situs Langsung (Live Preview)",
     refreshPreviewBtn: "Muat Ulang",
 
-    sessionWarnTitle: "⏳ Peringatan Sesi Berakhir dalam 3 Menit",
+    sessionWarnTitle: "Timer kerja browser akan berakhir",
     sessionWarnDesc: "Sesi akan berakhir otomatis dalam 3 menit karena tidak ada aktivitas. Draf Anda telah disimpan secara lokal. Klik [Perpanjang] untuk melanjutkan pekerjaan.",
     sessionExtendModalBtn: "Perpanjang Sesi 30 Menit",
 
@@ -140,8 +140,8 @@ window.ADMIN_UI_I18N = {
     errInvalidUrl: "⚠️ Format URL tidak diizinkan. Gunakan https:// atau jalur internal assets/.",
     warnMissingVar: "⚠️ Variabel {varName} telah dihapus dari teks. Apakah Anda yakin ingin menyimpan?",
     msgDraftSaved: "💾 Draf berhasil disimpan dan diterapkan ke pratinjau.",
-    msgPublished: "🚀 Perubahan berhasil disimpan dan langsung diterapkan ke situs.",
-    msgRolledBack: "↩️ Data berhasil dikembalikan ke versi sebelumnya."
+    msgPublished: "Hanya diterapkan ke pratinjau browser ini.",
+    msgRolledBack: "Draf browser dipulihkan. Repositori publik tidak berubah."
   }
 };
 
