@@ -7,6 +7,31 @@
   const LANG_KEY = "mokgo-language";
   const THEME_KEY = "muggo-theme";
 
+  // Synchronize live CMS published overrides (or draft overrides when ?cms_preview=1)
+  (function applyCmsRuntimeOverrides() {
+    try {
+      const params = new URLSearchParams(window.location.search || "");
+      const isPreview = params.get("cms_preview") === "1";
+      const raw = localStorage.getItem(isPreview ? "muggo-cms-draft" : "muggo-cms-published");
+      if (!raw) return;
+      const bundle = JSON.parse(raw);
+      if (bundle && typeof bundle === "object") {
+        if (bundle.config && typeof bundle.config === "object") {
+          window.SITE_CONFIG = Object.assign({}, window.SITE_CONFIG || {}, bundle.config);
+        }
+        if (bundle.i18n && typeof bundle.i18n === "object") {
+          window.MUGGO_I18N = bundle.i18n;
+        }
+        if (bundle.siteData && typeof bundle.siteData === "object") {
+          window.SITE_DATA = bundle.siteData;
+        }
+        if (Array.isArray(bundle.catalog)) {
+          window.BRAND_CATALOG = bundle.catalog;
+        }
+      }
+    } catch (e) {}
+  })();
+
   function cfg() {
     return window.SITE_CONFIG || {};
   }
