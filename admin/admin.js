@@ -447,7 +447,9 @@
     });
 
     // Update current menu header banner without reloading form inputs
-    updateMenuHeaderBanner();
+    if (typeof window.updateMenuHeaderBanner === "function") {
+      window.updateMenuHeaderBanner();
+    }
     updateLockoutBannerUI();
 
     // Update dynamic bilingual labels (.bilingual-label[data-ko][data-id]) in place
@@ -469,9 +471,9 @@
   function loadInitialWorkingData() {
     const baseBundle = {
       config: deepClone(window.SITE_CONFIG || {}),
-      i18n: deepClone(window.MUGGO_I18N || {}),
-      siteData: deepClone(window.SITE_DATA || {}),
-      catalog: deepClone(window.BRAND_CATALOG || [])
+      i18n: deepClone(window.I18N_DICT || window.MUGGO_I18N || {}),
+      siteData: deepClone(window.DEFAULT_SITE_DATA || window.SITE_DATA || {}),
+      catalog: deepClone(window.MUGGO_CATALOG || window.BRAND_CATALOG || [])
     };
 
     // Check if there is a published or draft bundle in localStorage
@@ -480,14 +482,14 @@
       const pubRaw = localStorage.getItem(STORAGE_KEYS.published);
       if (pubRaw) {
         const pub = JSON.parse(pubRaw);
-        if (pub && pub.config && pub.i18n && pub.siteData && pub.catalog) {
+        if (pub && pub.config && pub.i18n && pub.i18n.id && pub.i18n.id.nav && pub.siteData && Array.isArray(pub.catalog) && pub.catalog.length > 0 && Array.isArray(pub.siteData.jobs) && pub.siteData.jobs.length > 0) {
           activeBundle = pub;
         }
       }
       const draftRaw = localStorage.getItem(STORAGE_KEYS.draft);
       if (draftRaw) {
         const dr = JSON.parse(draftRaw);
-        if (dr && dr.config && dr.i18n && dr.siteData && dr.catalog) {
+        if (dr && dr.config && dr.i18n && dr.i18n.id && dr.i18n.id.nav && dr.siteData && Array.isArray(dr.catalog) && dr.catalog.length > 0 && Array.isArray(dr.siteData.jobs) && dr.siteData.jobs.length > 0) {
           activeBundle = dr;
         }
       }
@@ -612,72 +614,6 @@
       } catch (e2) {}
     }
   }
-
-  // Expose internal state & helpers for Part 2
-  window.__CMS_INTERNAL__ = {
-    cmsState,
-    STORAGE_KEYS,
-    PBKDF2_ITERATIONS,
-    deepClone,
-    sanitizeText,
-    isValidEmail,
-    isValidSafeUrlOrAsset,
-    uiText,
-    biLabel,
-    showToast,
-    derivePbkdf2Hex,
-    deriveAesGcmKey,
-    encryptVaultToken,
-    decryptVaultToken,
-    loadAccounts,
-    saveAccounts,
-    handleLogin,
-    togglePasswordVisibility,
-    extendSession,
-    logout,
-    setUiLang,
-    loadInitialWorkingData,
-    computeDiffSummary,
-    loadAuditLogs,
-    appendAuditLog,
-    startSessionTicker,
-    updateLockoutBannerUI
-  };
-})();
-
-// ==========================================================================
-// PART 2: 7 ADMIN MENUS, LIVE PREVIEW, GITHUB DEPLOY & ROLLBACK ENGINE
-// ==========================================================================
-(function () {
-  "use strict";
-
-  const {
-    cmsState,
-    STORAGE_KEYS,
-    deepClone,
-    sanitizeText,
-    isValidEmail,
-    isValidSafeUrlOrAsset,
-    uiText,
-    biLabel,
-    showToast,
-    derivePbkdf2Hex,
-    deriveAesGcmKey,
-    encryptVaultToken,
-    loadAccounts,
-    saveAccounts,
-    handleLogin,
-    togglePasswordVisibility,
-    extendSession,
-    logout,
-    setUiLang,
-    loadInitialWorkingData,
-    computeDiffSummary,
-    loadAuditLogs,
-    appendAuditLog,
-    startSessionTicker,
-    updateLockoutBannerUI
-  } = window.__CMS_INTERNAL__;
 
   // --------------------------------------------------------------------------
   // OBJECT PATH GETTER / SETTER FOR NESTED I18N & DATA KEYS
@@ -1344,84 +1280,6 @@
     if (!cmsState.workingData.i18n[lang]) cmsState.workingData.i18n[lang] = {};
     setByPath(cmsState.workingData.i18n[lang], pathStr, clean);
   }
-
-  // Expose Menu 1-3 functions onto window.__CMS_INTERNAL__ for Part 3
-  Object.assign(window.__CMS_INTERNAL__, {
-    getByPath,
-    setByPath,
-    escHtml,
-    extractVars,
-    enterAdminPortal,
-    switchMenu,
-    renderAllMenus,
-    renderMenu1Dashboard,
-    renderMenu2Config,
-    renderMenu3I18n,
-    switchMenu3Tab,
-    updateConfigField,
-    toggleConfigSwitch,
-    updateI18nPath,
-    renderVarInsertBarHtml,
-    insertVarAtCursor,
-    togglePreviewSplit,
-    setPreviewViewport,
-    reloadPreviewFrame,
-    applyToPreview,
-    saveDraft
-  });
-})();
-
-// ==========================================================================
-// PART 3: MENUS 4–7, CSV IMPORT/EXPORT, GITHUB API DEPLOY, ROLLBACK & INIT
-// ==========================================================================
-(function () {
-  "use strict";
-
-  const {
-    cmsState,
-    STORAGE_KEYS,
-    deepClone,
-    sanitizeText,
-    isValidEmail,
-    isValidSafeUrlOrAsset,
-    uiText,
-    biLabel,
-    showToast,
-    derivePbkdf2Hex,
-    deriveAesGcmKey,
-    encryptVaultToken,
-    loadAccounts,
-    saveAccounts,
-    handleLogin,
-    togglePasswordVisibility,
-    extendSession,
-    logout,
-    setUiLang,
-    loadInitialWorkingData,
-    computeDiffSummary,
-    loadAuditLogs,
-    appendAuditLog,
-    escHtml,
-    extractVars,
-    enterAdminPortal,
-    switchMenu,
-    renderAllMenus,
-    renderMenu1Dashboard,
-    renderMenu2Config,
-    renderMenu3I18n,
-    switchMenu3Tab,
-    updateConfigField,
-    toggleConfigSwitch,
-    updateI18nPath,
-    renderVarInsertBarHtml,
-    insertVarAtCursor,
-    togglePreviewSplit,
-    setPreviewViewport,
-    reloadPreviewFrame,
-    applyToPreview,
-    saveDraft,
-    updateLockoutBannerUI
-  } = window.__CMS_INTERNAL__;
 
   // --------------------------------------------------------------------------
   // [MENU 4] 👥 채용 공고 관리 (data/site-data.js → jobs 11개 직군+, Pages 14–15)
@@ -2561,21 +2419,21 @@
       )};\n\nif (typeof window !== "undefined") {\n  window.SITE_CONFIG = SITE_CONFIG;\n}\n\nif (typeof module !== "undefined" && module.exports) {\n  module.exports = SITE_CONFIG;\n}\n`;
     }
     if (fileName === "i18n.js") {
-      return `// ==========================================================================\n// MUGGO Corporate & Recruitment Portal — Multilingual Dictionary (ID / EN / KO)\n// ==========================================================================\n\nwindow.MUGGO_I18N = ${JSON.stringify(
+      return `// ==========================================================================\n// MUGGO Corporate & Recruitment Portal — Multilingual Dictionary (ID / EN / KO)\n// ==========================================================================\n\nwindow.I18N_DICT = ${JSON.stringify(
         wd.i18n,
         null,
         2
       )};\n`;
     }
     if (fileName === "site-data.js") {
-      return `// ==========================================================================\n// MUGGO Corporate & Recruitment Portal — Structured Site Data\n// ==========================================================================\n\nwindow.SITE_DATA = ${JSON.stringify(
+      return `// ==========================================================================\n// MUGGO Corporate & Recruitment Portal — Structured Site Data\n// ==========================================================================\n\nwindow.DEFAULT_SITE_DATA = ${JSON.stringify(
         wd.siteData,
         null,
         2
       )};\n`;
     }
     if (fileName === "catalog-data.js") {
-      return `// Auto-generated MUGGO Brand & Menu Catalog\nwindow.BRAND_CATALOG = ${JSON.stringify(
+      return `// MUGGO Official 30 Brands & 300 Menus Catalog\nwindow.MUGGO_CATALOG = ${JSON.stringify(
         wd.catalog,
         null,
         2

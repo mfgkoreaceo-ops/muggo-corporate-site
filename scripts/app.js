@@ -19,14 +19,14 @@
         if (bundle.config && typeof bundle.config === "object") {
           window.SITE_CONFIG = Object.assign({}, window.SITE_CONFIG || {}, bundle.config);
         }
-        if (bundle.i18n && typeof bundle.i18n === "object") {
-          window.MUGGO_I18N = bundle.i18n;
+        if (bundle.i18n && typeof bundle.i18n === "object" && bundle.i18n.id && bundle.i18n.id.nav) {
+          window.I18N_DICT = bundle.i18n;
         }
-        if (bundle.siteData && typeof bundle.siteData === "object") {
-          window.SITE_DATA = bundle.siteData;
+        if (bundle.siteData && typeof bundle.siteData === "object" && Array.isArray(bundle.siteData.jobs) && bundle.siteData.jobs.length > 0) {
+          window.DEFAULT_SITE_DATA = bundle.siteData;
         }
-        if (Array.isArray(bundle.catalog)) {
-          window.BRAND_CATALOG = bundle.catalog;
+        if (Array.isArray(bundle.catalog) && bundle.catalog.length > 0) {
+          window.MUGGO_CATALOG = bundle.catalog;
         }
       }
     } catch (e) {}
