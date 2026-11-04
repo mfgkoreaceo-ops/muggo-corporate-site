@@ -1202,3 +1202,108 @@ details.footnote-details summary {
     gap: 20px;
   }
 }
+
+
+/* ==========================================================================
+   MOBILE SCROLL-HEIGHT & DENSITY OPTIMIZATION (< 768px)
+   Maintains body/card copy >= 14px and nothing < 12px (Task 6.4)
+   ========================================================================== */
+@media (max-width: 767px) {
+  main {
+    padding: 16px 14px 36px;
+  }
+  .section-block {
+    margin-bottom: 24px;
+  }
+  .workspace-heading {
+    margin-bottom: 14px;
+    gap: 10px;
+  }
+  .card {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  aside.callout {
+    padding: 12px 14px;
+    margin: 12px 0;
+  }
+  .hero-card {
+    padding: 18px 16px;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+  .hero-visual img {
+    max-height: 220px;
+  }
+  /* 4 Core Pillars: Compact 2-column grid on mobile to halve vertical scroll */
+  .service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .service-card {
+    padding: 14px 12px 12px;
+  }
+  .service-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 8px;
+  }
+  .service-card h3 {
+    font-size: 15.5px;
+    margin-bottom: 6px;
+  }
+  .service-card p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  /* 6 Target Metrics on Home: Compact 2-column grid on mobile */
+  .metrics-grid.metrics-compact-mobile {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 12px 0;
+  }
+  .metrics-compact-mobile .metric-article {
+    padding: 14px 12px;
+  }
+  .metrics-compact-mobile .metric-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .metrics-compact-mobile .metric-article strong {
+    font-size: 20px;
+    margin: 6px 0 4px;
+  }
+  .metrics-compact-mobile .metric-article p {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  /* Korea HQ Block: Compact logo height & spacing on mobile */
+  .hq-pillars-grid {
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .hq-pillar-card {
+    padding: 14px;
+  }
+  .hq-logo-img-wrap {
+    height: 82px;
+    padding: 8px;
+  }
+  .hq-logo-card {
+    margin-bottom: 10px;
+  }
+  .hq-visual-pair {
+    margin-bottom: 10px;
+  }
+  /* Checklist Rows (11 Job Positions): Compact vertical padding on mobile */
+  .checklist-row {
+    padding: 12px 0;
+    gap: 10px;
+  }
+  .columns {
+    gap: 10px;
+  }
+}

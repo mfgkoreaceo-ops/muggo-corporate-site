@@ -1437,7 +1437,7 @@
             <p class="hint">${dict.impact.notice}</p>
           </div>
         </div>
-        <div class="metrics-grid">
+        <div class="metrics-grid metrics-compact-mobile">
           ${metricsHtml}
         </div>
         ${roadmapHtml}

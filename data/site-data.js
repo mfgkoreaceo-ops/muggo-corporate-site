@@ -14,9 +14,9 @@ window.DEFAULT_SITE_DATA = {
       badgeId: "Target Rekrutmen",
       badgeEn: "Target",
       badgeKo: "목표·채용",
-      descId: "Rekrutmen tim dapur, pengembangan menu, operasional gerai, pemasaran, dan manajemen di Jakarta Selatan.",
-      descEn: "Recruitment across kitchen operations, R&D, store operations, marketing, and management in South Jakarta.",
-      descKo: "자카르타 남부 센트럴 키친 조리, R&D, 매장 운영, 마케팅, 인사·재무 모집 직군"
+      descId: "Dapur, R&D, gerai, pemasaran & manajemen Jakarta Selatan.",
+      descEn: "Kitchen, R&D, hub ops, marketing & HR/finance roles.",
+      descKo: "조리·R&D·매장·마케팅·인사·재무 11개 직군"
     },
     {
       id: "m2",
@@ -29,9 +29,9 @@ window.DEFAULT_SITE_DATA = {
       badgeId: "Target Rencana",
       badgeEn: "Target",
       badgeKo: "목표·예정",
-      descId: "Ayam (Chicken), Masakan Korea, Pizza · Burger · Sandwich, Salad, serta Minuman & Dessert.",
-      descEn: "Chicken, Korean Cuisine, Pizza · Burger · Sandwich, Salad, and Beverage & Dessert.",
-      descKo: "치킨, 한식, 피자·버거·샌드위치, 샐러드, 음료·디저트 5대 카테고리"
+      descId: "Ayam, Korea, Barat & Deli, Salad, Minuman & Dessert.",
+      descEn: "Chicken, Korean, Western, Salad, Beverage & Dessert.",
+      descKo: "치킨·한식·양식·샐러드·음료/디저트"
     },
     {
       id: "m3",
@@ -39,14 +39,14 @@ window.DEFAULT_SITE_DATA = {
       numberEn: "{brandCount} Brands",
       numberKo: "{brandCount}개 브랜드",
       labelId: "Brand Kuliner Internal",
-      labelEn: "In-House Culinary Brands",
+      labelEn: "In-House Brands",
       labelKo: "자체 브랜드 ({menuCount}개 메뉴)",
       badgeId: "Target Rencana",
       badgeEn: "Target",
       badgeKo: "목표·예정",
-      descId: "Rencana {brandCount} brand kuliner internal (total {menuCount} menu) untuk satu keranjang pemesanan.",
-      descEn: "Planned {brandCount} in-house culinary brands ({menuCount} menus) in a single order basket.",
-      descKo: "솥닭(SOTDAK), 성수닭, 주목, 펜트리12, 빙하 등 총 {menuCount}개 메뉴 라인업"
+      descId: "Rencana {brandCount} brand ({menuCount} menu) dalam 1 keranjang.",
+      descEn: "Planned {brandCount} brands ({menuCount} menus) in 1 basket.",
+      descKo: "솥닭·성수닭·펜트리12·빙하 등 {menuCount}개 메뉴"
     },
     {
       id: "m4",
@@ -59,9 +59,9 @@ window.DEFAULT_SITE_DATA = {
       badgeId: "Target R&D",
       badgeEn: "Target",
       badgeKo: "목표·예정",
-      descId: "Pengembangan resep terstandarisasi lintas masakan Korea, Tiongkok, Jepang, Indonesia, dan Barat.",
-      descEn: "Standardized recipe development across Korean, Chinese, Japanese, Indonesian, and Western cuisines.",
-      descKo: "한식, 중식, 일식, 인도네시아, 양식을 아우르는 표준 메뉴 R&D"
+      descId: "Resep standar Korea, Tiongkok, Jepang, Indonesia & Barat.",
+      descEn: "Standardized Korean, Chinese, Japanese, Local & Western R&D.",
+      descKo: "한식·중식·일식·인도네시아·양식 R&D"
     },
     {
       id: "m5",
@@ -69,14 +69,14 @@ window.DEFAULT_SITE_DATA = {
       numberEn: "100+ Branches",
       numberKo: "100개+ 지점",
       labelId: "Target Ekspansi Gerai",
-      labelEn: "Target Branch Expansion",
+      labelEn: "Branch Expansion Target",
       labelKo: "확장 목표 지점",
       badgeId: "Target Jangka Panjang",
       badgeEn: "Target",
       badgeKo: "목표",
-      descId: "Target rencana ekspansi bertahap di Jakarta dan kota-kota utama Indonesia.",
-      descEn: "Phased branch expansion target across Jakarta and major Indonesian cities.",
-      descKo: "자카르타 거점을 시작으로 인도네시아 주요 도시 100개 이상 지점 확장 목표"
+      descId: "Target ekspansi bertahap di Jakarta & kota utama Indonesia.",
+      descEn: "Phased expansion target across Jakarta & major cities.",
+      descKo: "자카르타 및 인도네시아 주요 도시 확장 목표"
     },
     {
       id: "m6",
@@ -89,9 +89,9 @@ window.DEFAULT_SITE_DATA = {
       badgeId: "Target Pra-Pembukaan",
       badgeEn: "Target",
       badgeKo: "오픈 목표",
-      descId: "Persiapan pembukaan dapur terpusat dan food court online pertama di Jakarta Selatan.",
-      descEn: "Preparation for our first central kitchen and online food court in South Jakarta.",
-      descKo: "자카르타 남부 1호 센트럴 키친 및 온라인 푸드코트 오픈 준비"
+      descId: "Persiapan dapur terpusat & food court online perdana.",
+      descEn: "First central kitchen & online food court hub preparation.",
+      descKo: "자카르타 남부 1호 센트럴 키친 오픈 준비"
     }
   ],
 
@@ -101,7 +101,7 @@ window.DEFAULT_SITE_DATA = {
     {
       id: "art-1",
       title: "Rekrutmen Terbuka {legalName} ({brandName}) untuk 11 Bidang Posisi",
-      summary: "Rekrutmen tim pendiri di Jakarta Selatan untuk persiapan peluncuran {brandName}.",
+      summary: "Rekrutmen resmi 11 posisi di Jakarta Selatan untuk persiapan {brandName}.",
       status: "upcoming",
       date: "",
       imageUrl: "",
@@ -114,9 +114,9 @@ window.DEFAULT_SITE_DATA = {
       titleId: "Rekrutmen Terbuka {legalName} ({brandName}) untuk 11 Bidang Posisi",
       titleEn: "{legalName} ({brandName}) Open Recruitment Across 11 Job Categories",
       titleKo: "{legalName} (브랜드 {brandName}) 11개 직군 공개 채용 안내",
-      summaryId: "Rekrutmen tim pendiri di Jakarta Selatan untuk persiapan peluncuran {brandName}.",
-      summaryEn: "Join {legalName}'s Jakarta team to prepare the {brandName} online food court.",
-      summaryKo: "자카르타 센트럴 키친 및 온라인 푸드코트 {brandName} 오픈을 준비할 11개 직군 채용 안내",
+      summaryId: "Rekrutmen resmi 11 posisi di Jakarta Selatan untuk persiapan {brandName}.",
+      summaryEn: "Official recruitment across 11 roles in South Jakarta for {brandName}.",
+      summaryKo: "자카르타 남부 {brandName} 오픈을 준비할 11개 직군 공식 채용",
       contentId: "{legalName} (merek usaha: {brandName}) membuka rekrutmen 11 bidang posisi untuk persiapan peluncuran gerai pertama di Jakarta Selatan.\n\nBidang yang dibuka meliputi Operasional Dapur, Food R&D, Operasional Gerai, QA / Hygiene Coordinator, Pembelian & Logistik, Pemasaran Digital, Desain Brand, Operasional Platform, HR & GA, serta Keuangan & Akuntansi.\n\nKami tidak memungut biaya apa pun dalam proses rekrutmen.",
       contentEn: "{legalName} (operating brand: {brandName}) is recruiting across 11 job categories ahead of our first launch in South Jakarta.\n\nOpen roles span Kitchen Operations, Food R&D, Store Operations, QA / Hygiene Coordinator, Procurement, Digital Marketing, Brand Design, Platform Operations, HR & GA, and Finance & Accounting.\n\nWe do not charge any fees during the recruitment process.",
       contentKo: "{legalName}(브랜드: {brandName})가 자카르타 남부 1호 거점 오픈을 앞두고 11개 직군에서 채용을 진행합니다.\n\n모집 분야는 주방 총괄, 조리사, 메뉴 R&D, 매장 운영, 품질·위생(QA / Hygiene Coordinator), 구매·물류, 디지털 마케팅, 브랜드 디자인, 플랫폼 운영, 인사·총무, 재무·회계입니다."
@@ -139,7 +139,7 @@ window.DEFAULT_SITE_DATA = {
       titleKo: "솥닭(SOTDAK)·성수닭·펜트리12·빙하 등 {brandCount}개 브랜드 {menuCount}개 메뉴 기획",
       summaryId: "Pesanan dari banyak brand dimasak bersamaan dan dikirim dalam satu pengiriman.",
       summaryEn: "Orders from multiple brands are cooked together and delivered in one shipment.",
-      summaryKo: "치킨, 한식, 양식, 샐러드, 음료·디저트 5대 카테고리 {brandCount}개 브랜드 준비",
+      summaryKo: "5대 카테고리 {brandCount}개 브랜드({menuCount}개 메뉴) 통합 주문 준비",
       contentId: "Melalui merek {brandName}, {legalName} mempersiapkan {brandCount} brand kuliner dengan masing-masing 10 menu (total {menuCount} menu) di dapur terpusat kami.\n\nSaat ini bisnis berada pada tahap pra-pembukaan dan belum ada produk yang dijual.",
       contentEn: "Under the {brandName} brand, {legalName} is preparing {brandCount} culinary brands with 10 menus each ({menuCount} planned menus) in our central kitchen.\n\nThe business is currently in the pre-opening phase and nothing is on sale yet.",
       contentKo: "{legalName}는 {brandName} 브랜드를 통해 치킨, 한식, 양식, 샐러드, 디저트·음료까지 총 {brandCount}개 브랜드 {menuCount}개 메뉴 라인업을 준비하고 있습니다."
@@ -162,7 +162,7 @@ window.DEFAULT_SITE_DATA = {
       titleKo: "센트럴 키친 및 {brandName} 주문 앱 오픈 준비",
       summaryId: "Pesanan dari banyak brand dimasak bersamaan dan dikirim dalam satu pengiriman.",
       summaryEn: "Orders from multiple brands are cooked together and delivered in one shipment.",
-      summaryKo: "여러 브랜드 메뉴를 함께 조리해 한 번에 배달하는 플랫폼 준비",
+      summaryKo: "다브랜드 동시 조리 및 1회 묶음 배달 플랫폼 준비",
       contentId: "Pesanan dari banyak brand dimasak bersamaan dan dikirim dalam satu pengiriman. Makanan hangat dan minuman dingin dikemas secara terpisah agar kualitasnya tetap terjaga saat tiba di tangan pelanggan.",
       contentEn: "Orders from multiple brands are cooked together and delivered in one shipment. Warm dishes and cold drinks are packed separately to maintain quality upon arrival.",
       contentKo: "{brandName}에서는 여러 브랜드의 메뉴를 동시에 조리해 한 번의 배달로 전달하며, 따뜻한 음식과 차가운 음료를 분리 포장합니다."
@@ -179,7 +179,7 @@ window.DEFAULT_SITE_DATA = {
       employmentType: "Penuh Waktu",
       experience: "Berpengalaman",
       location: "Jakarta Selatan",
-      description: "Memimpin operasional dapur terpusat ({brandCount} brand), menjaga standar resep, kualitas masakan, dan manajemen tim dapur.",
+      description: "Memimpin operasional Central Kitchen ({brandCount} brand), standar resep, mutu masakan & tim dapur.",
       requirements: "",
       visible: "TRUE",
       titleId: "1. Head of Kitchen Operations (Kepala Dapur Terpusat)",
@@ -191,9 +191,9 @@ window.DEFAULT_SITE_DATA = {
       typeId: "Penuh Waktu · Berpengalaman",
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
-      descId: "Memimpin operasional dapur terpusat ({brandCount} brand), menjaga standar resep, kualitas masakan, dan manajemen tim dapur.",
-      descEn: "Lead operations in our central kitchen ({brandCount} brands), ensuring recipe standards, food quality, and kitchen team coordination.",
-      descKo: "{brandCount}개 브랜드 센트럴 키친 운영 총괄, 표준 조리 준수 및 주방 팀 관리"
+      descId: "Memimpin operasional Central Kitchen ({brandCount} brand), standar resep, mutu masakan & tim dapur.",
+      descEn: "Lead Central Kitchen operations ({brandCount} brands), recipe standards, quality & kitchen team.",
+      descKo: "{brandCount}개 브랜드 센트럴 키친 운영 총괄, 표준 레시피 및 주방 팀 관리"
     },
     {
       id: "job-2",
@@ -202,7 +202,7 @@ window.DEFAULT_SITE_DATA = {
       employmentType: "Penuh Waktu",
       experience: "Lulusan Baru / Berpengalaman",
       location: "Jakarta Selatan",
-      description: "Memasak menu sesuai bagian dapur (penggorengan, panggangan, kuah, perakitan, atau roti) berdasarkan takaran dan waktu masak standar.",
+      description: "Memasak menu per stasiun (goreng, panggang, kuah, perakitan, bakery) sesuai takaran & waktu standar.",
       requirements: "",
       visible: "TRUE",
       titleId: "2. Multi-Brand Line Cook (Juru Masak Stasiun)",
@@ -214,9 +214,9 @@ window.DEFAULT_SITE_DATA = {
       typeId: "Penuh Waktu · Lulusan Baru / Berpengalaman",
       typeEn: "Full-time · Entry / Experienced",
       typeKo: "정규직 · 신입/경력",
-      descId: "Memasak menu sesuai bagian dapur (penggorengan, panggangan, kuah, perakitan, atau roti) berdasarkan takaran dan waktu masak standar.",
-      descEn: "Cook menus across kitchen sections (fryer, grill, soup, assembly, or bakery) following standard portions and cooking times.",
-      descKo: "튀김·그릴·탕/찌개·조립·베이커리 각 파트별 표준 레시피 조리 및 준비"
+      descId: "Memasak menu per stasiun (goreng, panggang, kuah, perakitan, bakery) sesuai takaran & waktu standar.",
+      descEn: "Cook across stations (fryer, grill, soup, assembly, bakery) following standard portions.",
+      descKo: "튀김·그릴·탕/찌개·조립·베이커리 파트별 표준 레시피 조리"
     },
     {
       id: "job-3",
@@ -225,7 +225,7 @@ window.DEFAULT_SITE_DATA = {
       employmentType: "Penuh Waktu",
       experience: "Berpengalaman",
       location: "Jakarta Selatan",
-      description: "Mengembangkan dan menguji resep di 5 genre masakan serta lokalisasi bahan baku dengan prinsip Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
+      description: "Riset resep 5 genre masakan & lokalisasi bahan Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
       requirements: "",
       visible: "TRUE",
       titleId: "3. Food R&D Specialist (Spesialis Pengembangan Menu)",
@@ -237,9 +237,9 @@ window.DEFAULT_SITE_DATA = {
       typeId: "Penuh Waktu · Berpengalaman",
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
-      descId: "Mengembangkan dan menguji resep di 5 genre masakan serta lokalisasi bahan baku dengan prinsip Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
-      descEn: "Develop and test recipes across 5 culinary genres and localize ingredients under the Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) standard.",
-      descKo: "5대 요리 장르 메뉴 개발 및 Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) 기준 식자재 현지화 테스트"
+      descId: "Riset resep 5 genre masakan & lokalisasi bahan Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
+      descEn: "Develop 5-genre recipes & localize ingredients under Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
+      descKo: "5대 장르 레시피 개발 및 Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) 식자재 현지화"
     },
     {
       id: "job-4",
@@ -248,7 +248,7 @@ window.DEFAULT_SITE_DATA = {
       employmentType: "Penuh Waktu",
       experience: "Berpengalaman",
       location: "Jakarta Selatan",
-      description: "Mengelola pengemasan pesanan gabungan, ketepatan waktu penyajian, area ambil sendiri (pickup), dan serah terima pesanan ke kurir.",
+      description: "Mengelola pengemasan gabungan, ketepatan waktu saji, area pickup & serah terima ke kurir.",
       requirements: "",
       visible: "TRUE",
       titleId: "4. Store & Hub Operations Manager (Manajer Operasional Hub)",
@@ -260,9 +260,9 @@ window.DEFAULT_SITE_DATA = {
       typeId: "Penuh Waktu · Berpengalaman",
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
-      descId: "Mengelola pengemasan pesanan gabungan, ketepatan waktu penyajian, area ambil sendiri (pickup), dan serah terima pesanan ke kurir.",
-      descEn: "Manage combined order packaging, timely order preparation, customer pickup areas, and courier handover.",
-      descKo: "다브랜드 주문 통합 포장, 조리·출고 시간 관리, 고객 픽업 및 배달 기사 인계 총괄"
+      descId: "Mengelola pengemasan gabungan, ketepatan waktu saji, area pickup & serah terima ke kurir.",
+      descEn: "Manage combined order packaging, dispatch timing, pickup area & courier handover.",
+      descKo: "다브랜드 주문 통합 포장, 출고 시간 관리, 픽업 및 배달 기사 인계"
     },
     {
       id: "job-5",
@@ -271,7 +271,7 @@ window.DEFAULT_SITE_DATA = {
       employmentType: "Penuh Waktu",
       experience: "Berpengalaman",
       location: "Jakarta Selatan",
-      description: "Memastikan standar keamanan pangan, pemeriksaan kebersihan harian dapur, dan mutu bahan baku sesuai prinsip Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
+      description: "Keamanan pangan, inspeksi kebersihan harian dapur & mutu bahan Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
       requirements: "",
       visible: "TRUE",
       titleId: "5. QA / Hygiene Coordinator",
@@ -283,9 +283,9 @@ window.DEFAULT_SITE_DATA = {
       typeId: "Penuh Waktu · Berpengalaman",
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
-      descId: "Memastikan standar keamanan pangan, pemeriksaan kebersihan harian dapur, dan mutu bahan baku sesuai prinsip Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
-      descEn: "Oversee food safety standards, daily kitchen hygiene checks, and ingredient quality under the Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) principle.",
-      descKo: "식자재 및 주방 일일 위생 점검, 식품 안전 관리 및 Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) 원료 검수"
+      descId: "Keamanan pangan, inspeksi kebersihan harian dapur & mutu bahan Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard).",
+      descEn: "Food safety, daily kitchen hygiene checks & Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) quality.",
+      descKo: "주방 일일 위생 점검, 식품 안전 및 Tanpa Babi · Tanpa Minyak Babi (No Pork · No Lard) 원료 검수"
     },
     {
       id: "job-6",
@@ -294,7 +294,7 @@ window.DEFAULT_SITE_DATA = {
       employmentType: "Penuh Waktu",
       experience: "Berpengalaman",
       location: "Jakarta Selatan",
-      description: "Mengelola pembelian bahan baku untuk {menuCount} menu, pemeriksaan stok harian, perhitungan kebutuhan bahan, dan pengadaan kemasan.",
+      description: "Pembelian bahan baku {menuCount} menu, cek stok harian, perencanaan bahan & pengadaan kemasan.",
       requirements: "",
       visible: "TRUE",
       titleId: "6. SCM & Procurement Specialist (Pembelian & Logistik)",
@@ -306,9 +306,9 @@ window.DEFAULT_SITE_DATA = {
       typeId: "Penuh Waktu · Berpengalaman",
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
-      descId: "Mengelola pembelian bahan baku untuk {menuCount} menu, pemeriksaan stok harian, perhitungan kebutuhan bahan, dan pengadaan kemasan.",
-      descEn: "Manage ingredient purchasing for {menuCount} menus, daily stock checks, ingredient planning, and food packaging procurement.",
-      descKo: "{brandCount}개 브랜드 {menuCount}개 메뉴 식자재 구매, 일일 재고 관리 및 포장재 조달"
+      descId: "Pembelian bahan baku {menuCount} menu, cek stok harian, perencanaan bahan & pengadaan kemasan.",
+      descEn: "Ingredient purchasing for {menuCount} menus, daily stock checks & packaging procurement.",
+      descKo: "{brandCount}개 브랜드 {menuCount}개 메뉴 식자재 구매, 일일 재고 및 포장재 조달"
     },
     {
       id: "job-7",
@@ -317,7 +317,7 @@ window.DEFAULT_SITE_DATA = {
       employmentType: "Penuh Waktu",
       experience: "Lulusan Baru / Berpengalaman",
       location: "Jakarta Selatan",
-      description: "Mengelola konten resmi Instagram ({instagramHandle}) dan TikTok ({tiktokHandle}), kolaborasi kreator lokal, serta kampanye promosi brand.",
+      description: "Konten resmi Instagram ({instagramHandle}) & TikTok ({tiktokHandle}), kolaborasi kreator & kampanye brand.",
       requirements: "",
       visible: "TRUE",
       titleId: "7. Digital & Social Media Marketer (Instagram & TikTok)",
@@ -329,9 +329,9 @@ window.DEFAULT_SITE_DATA = {
       typeId: "Penuh Waktu · Lulusan Baru / Berpengalaman",
       typeEn: "Full-time · Entry / Experienced",
       typeKo: "정규직 · 신입/경력",
-      descId: "Mengelola konten resmi Instagram ({instagramHandle}) dan TikTok ({tiktokHandle}), kolaborasi kreator lokal, serta kampanye promosi brand.",
-      descEn: "Manage official content for Instagram ({instagramHandle}) and TikTok ({tiktokHandle}), local creator collaborations, and brand campaigns.",
-      descKo: "공식 인스타그램({instagramHandle}) 및 틱톡({tiktokHandle}) 콘텐츠 기획, 현지 크리에이터 협업 및 프로모션 운영"
+      descId: "Konten resmi Instagram ({instagramHandle}) & TikTok ({tiktokHandle}), kolaborasi kreator & kampanye brand.",
+      descEn: "Official Instagram ({instagramHandle}) & TikTok ({tiktokHandle}) content, creator collabs & campaigns.",
+      descKo: "공식 인스타그램({instagramHandle})·틱톡({tiktokHandle}) 콘텐츠, 크리에이터 협업 및 캠페인"
     },
     {
       id: "job-8",
@@ -340,7 +340,7 @@ window.DEFAULT_SITE_DATA = {
       employmentType: "Penuh Waktu",
       experience: "Berpengalaman",
       location: "Jakarta Selatan",
-      description: "Merancang identitas visual untuk {brandCount} brand kuliner, tampilan foto menu, desain kemasan, dan materi promosi digital.",
+      description: "Desain identitas visual {brandCount} brand, visual menu, kemasan & materi promosi digital.",
       requirements: "",
       visible: "TRUE",
       titleId: "8. Brand & Visual Designer (Desainer Brand & Konten)",
@@ -352,9 +352,9 @@ window.DEFAULT_SITE_DATA = {
       typeId: "Penuh Waktu · Berpengalaman",
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
-      descId: "Merancang identitas visual untuk {brandCount} brand kuliner, tampilan foto menu, desain kemasan, dan materi promosi digital.",
-      descEn: "Design visual assets across {brandCount} culinary brands, menu visuals, packaging, and digital promotional materials.",
-      descKo: "{brandCount}개 자체 브랜드 비주얼 에셋, 패키지 그래픽 및 온라인 메뉴 콘텐츠 디자인"
+      descId: "Desain identitas visual {brandCount} brand, visual menu, kemasan & materi promosi digital.",
+      descEn: "Visual identity across {brandCount} brands, menu visuals, packaging & digital assets.",
+      descKo: "{brandCount}개 브랜드 비주얼 에셋, 패키지 및 온라인 메뉴 콘텐츠 디자인"
     },
     {
       id: "job-9",
@@ -363,7 +363,7 @@ window.DEFAULT_SITE_DATA = {
       employmentType: "Penuh Waktu",
       experience: "Berpengalaman",
       location: "Jakarta Selatan",
-      description: "Mengelola daftar {menuCount} menu di aplikasi {brandName}, pengaturan paket menu gabungan, promo pelanggan, dan koordinasi layanan pengantaran.",
+      description: "Katalog {menuCount} menu di aplikasi {brandName}, paket menu gabungan, promo & koordinasi kurir.",
       requirements: "",
       visible: "TRUE",
       titleId: "9. Platform & Delivery App Operations Specialist",
@@ -375,9 +375,9 @@ window.DEFAULT_SITE_DATA = {
       typeId: "Penuh Waktu · Berpengalaman",
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
-      descId: "Mengelola daftar {menuCount} menu di aplikasi {brandName}, pengaturan paket menu gabungan, promo pelanggan, dan koordinasi layanan pengantaran.",
-      descEn: "Manage the {menuCount}-menu catalog on the {brandName} app, bundle menus, customer promotions, and delivery coordination.",
-      descKo: "{brandName} 플랫폼 내 {menuCount}개 메뉴 카탈로그, 세트 구성, 프로모션 및 배달 서비스 연동 운영"
+      descId: "Katalog {menuCount} menu di aplikasi {brandName}, paket menu gabungan, promo & koordinasi kurir.",
+      descEn: "Manage {menuCount}-menu catalog on {brandName} app, bundle menus, promos & delivery ops.",
+      descKo: "{brandName} 앱 {menuCount}개 메뉴 카탈로그, 세트 구성, 프로모션 및 배달 연동 운영"
     },
     {
       id: "job-10",
@@ -386,7 +386,7 @@ window.DEFAULT_SITE_DATA = {
       employmentType: "Penuh Waktu",
       experience: "Berpengalaman",
       location: "Jakarta Selatan",
-      description: "Mengelola rekrutmen karyawan, kontrak kerja (PKWT/PKWTT), jadwal kerja, BPJS, dan administrasi kepegawaian.",
+      description: "Rekrutmen, kontrak kerja (PKWT/PKWTT), jadwal kerja, BPJS & administrasi kepegawaian.",
       requirements: "",
       visible: "TRUE",
       titleId: "10. HR & General Affairs Specialist (SDM & Umum)",
@@ -398,9 +398,9 @@ window.DEFAULT_SITE_DATA = {
       typeId: "Penuh Waktu · Berpengalaman",
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
-      descId: "Mengelola rekrutmen karyawan, kontrak kerja (PKWT/PKWTT), jadwal kerja, BPJS, dan administrasi kepegawaian.",
-      descEn: "Handle recruitment, employment contracts (PKWT/PKWTT), work schedules, BPJS registration, and general HR administration.",
-      descKo: "현지 인재 채용, 근로계약(PKWT/PKWTT)·근태·BPJS 관리 및 인사 총무"
+      descId: "Rekrutmen, kontrak kerja (PKWT/PKWTT), jadwal kerja, BPJS & administrasi kepegawaian.",
+      descEn: "Recruitment, contracts (PKWT/PKWTT), schedules, BPJS & HR administration.",
+      descKo: "인재 채용, 근로계약(PKWT/PKWTT)·근태·BPJS 및 인사 총무"
     },
     {
       id: "job-11",
@@ -409,7 +409,7 @@ window.DEFAULT_SITE_DATA = {
       employmentType: "Penuh Waktu",
       experience: "Berpengalaman",
       location: "Jakarta Selatan",
-      description: "Mengelola pembukuan perusahaan, pencatatan transaksi pembayaran, tagihan pemasok bahan baku, dan kepatuhan perpajakan.",
+      description: "Pembukuan perusahaan, rekonsiliasi pembayaran, tagihan pemasok & kepatuhan pajak.",
       requirements: "",
       visible: "TRUE",
       titleId: "11. Finance & Accounting Specialist (Keuangan & Akuntansi)",
@@ -421,9 +421,9 @@ window.DEFAULT_SITE_DATA = {
       typeId: "Penuh Waktu · Berpengalaman",
       typeEn: "Full-time · Experienced",
       typeKo: "정규직 · 경력",
-      descId: "Mengelola pembukuan perusahaan, pencatatan transaksi pembayaran, tagihan pemasok bahan baku, dan kepatuhan perpajakan.",
-      descEn: "Oversee corporate bookkeeping, payment reconciliation, supplier invoices, and Indonesian tax compliance.",
-      descKo: "법인 회계 결산, 결제 정산 내역 관리, 식자재 매입 정산 및 세무 관리"
+      descId: "Pembukuan perusahaan, rekonsiliasi pembayaran, tagihan pemasok & kepatuhan pajak.",
+      descEn: "Corporate bookkeeping, payment reconciliation, supplier invoices & tax compliance.",
+      descKo: "법인 회계 결산, 정산 내역 관리, 식자재 매입 정산 및 세무 관리"
     }
   ],
 
@@ -433,36 +433,36 @@ window.DEFAULT_SITE_DATA = {
       titleId: "1. Identitas Badan Hukum & Catatan Target Rencana Bisnis",
       titleEn: "1. Legal Entity Identity & Business Plan Target Notice",
       titleKo: "1. 공식 법인명 및 사업 계획 목표 수치 안내",
-      descId: "Situs ini dikelola oleh {legalName} (Brand: {brandName}). Saat ini bisnis berada pada tahap pra-pembukaan (belum berjualan). Seluruh angka yang tercantum adalah target rencana bisnis.",
-      descEn: "This website is operated by {legalName} (Brand: {brandName}). The business is currently in the pre-opening stage (nothing is on sale yet). All figures represent business plan targets.",
-      descKo: "본 사이트는 {legalName}(브랜드: {brandName})가 운영하며, 현재 오픈 전 단계로 기재된 수치는 사업 계획상 목표입니다."
+      descId: "Dikelola oleh {legalName} (Brand: {brandName}). Tahap pra-pembukaan (belum berjualan); seluruh angka adalah target rencana.",
+      descEn: "Operated by {legalName} (Brand: {brandName}). Pre-opening stage (nothing on sale yet); all figures are targets.",
+      descKo: "{legalName}(브랜드: {brandName})가 운영하며, 현재 오픈 전 단계로 기재된 수치는 목표 계획입니다."
     },
     {
       id: "fn-2",
       titleId: "2. Dasar Perhitungan Jumlah Brand & Cabang",
       titleEn: "2. Basis for Brand & Branch Counts",
       titleKo: "2. 자체 브랜드 수 및 확장 지점 수 기준",
-      descId: "Target {brandCount} brand internal ({menuCount} menu) dan rencana ekspansi 100+ cabang merupakan peta jalan bertahap.",
-      descEn: "The {brandCount} in-house brands ({menuCount} menus) and 100+ branch expansion figures reflect our phased business roadmap.",
-      descKo: "자체 브랜드 수({brandCount}개 브랜드 · {menuCount}개 메뉴)와 확장 목표 지점 수(100개 이상)는 단계별 런칭 계획 기준입니다."
+      descId: "Target {brandCount} brand ({menuCount} menu) dan ekspansi 100+ cabang merupakan peta jalan bertahap.",
+      descEn: "The {brandCount} brands ({menuCount} menus) and 100+ branches reflect our phased roadmap.",
+      descKo: "자체 브랜드({brandCount}개 · {menuCount}개 메뉴) 및 100개+ 지점은 단계별 런칭 목표입니다."
     },
     {
       id: "fn-3",
       titleId: "3. Informasi Rekrutmen & Pembukaan Gerai Pertama",
       titleEn: "3. Recruitment & First Opening Schedule",
       titleKo: "3. 채용 직군 및 1호점 오픈 일정 기준",
-      descId: "11 bidang rekrutmen adalah posisi yang sedang dibuka oleh {legalName} di Jakarta Selatan. Kami tidak memungut biaya apa pun dalam proses rekrutmen.",
-      descEn: "The 11 job categories reflect active hiring by {legalName} in South Jakarta. Recruitment is free of charge.",
-      descKo: "모집 직군 11개는 자카르타 남부 1호 거점 구성을 위해 채용 중인 분야이며, 채용 과정에서 어떠한 비용도 요구하지 않습니다."
+      descId: "11 bidang rekrutmen dibuka oleh {legalName} di Jakarta Selatan. Rekrutmen 100% bebas biaya.",
+      descEn: "11 job categories are actively recruited by {legalName} in South Jakarta, 100% free of charge.",
+      descKo: "11개 모집 직군은 자카르타 남부 1호 거점 채용 분야이며, 채용 비용을 일절 요구하지 않습니다."
     },
     {
       id: "fn-4",
       titleId: "4. Tujuan Informasi Umum",
       titleEn: "4. General Information Purpose",
       titleKo: "4. 일반 정보 제공 목적",
-      descId: "Situs ini menyajikan informasi resmi identitas {legalName}, rencana brand {brandName}, dan verifikasi rekrutmen.",
-      descEn: "This website provides official information regarding {legalName}'s identity, the {brandName} brand, and recruitment verification.",
-      descKo: "본 사이트는 구직자와 검증 기관에 {legalName}(브랜드 {brandName})의 법인 정보 및 공식 채용 정보를 제공합니다."
+      descId: "Menyajikan informasi resmi identitas {legalName}, rencana brand {brandName}, dan verifikasi rekrutmen.",
+      descEn: "Provides official identity verification for {legalName}, {brandName} plans, and official recruitment.",
+      descKo: "구직자와 검증 기관에 {legalName}(브랜드 {brandName}) 법인 및 공식 채용 정보를 제공합니다."
     }
   ]
 };
