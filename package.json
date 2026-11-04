@@ -1,0 +1,11 @@
+{
+  "name": "muggo-corporate-admin",
+  "private": true,
+  "version": "1.0.0",
+  "engines": { "node": ">=24 <25" },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test tests/*.test.cjs",
+    "check": "node --check server.js && node --check backend/server.cjs && node --check admin/admin.js"
+  }
+}

@@ -17,11 +17,12 @@ class Auth {
     const flow = this.flows.get(state); this.flows.delete(state);
     return !!flow && flow.ip === ip && flow.expires > this.now();
   }
-  create(user, token, ip) {
+  create(user, token, ip, tokenLifetimeSeconds = 8 * 3600) {
     this.attempts.delete(ip);
     if (this.rateStore) this.rateStore.save([...this.attempts]);
     const id = this.random();
-    this.sessions.set(id, { user, token, csrf: this.random(), idle: this.now() + 30 * 60000, absolute: this.now() + 8 * 3600000 });
+    const absolute = this.now() + Math.min(8 * 3600, tokenLifetimeSeconds) * 1000;
+    this.sessions.set(id, { user, token, csrf: this.random(), idle: Math.min(this.now() + 30 * 60000, absolute), absolute });
     return id;
   }
   get(id) {

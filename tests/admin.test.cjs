@@ -66,7 +66,7 @@ test('duplicate or unauthorized file rejects without API calls',async()=>{
   }
 });
 test('HTTP: static preview works, missing auth fails closed, server and metadata are not served',async()=>{
-  const {server}=require('../backend/server.cjs');await new Promise(r=>server.listen(0,'127.0.0.1',r));
+  const {server}=require('../backend/server.cjs').createApp({env:{}});await new Promise(r=>server.listen(0,'127.0.0.1',r));
   const origin='http://127.0.0.1:'+server.address().port;
   try {
     for(const [p,status] of [['/admin/',200],['/api/session',401],['/auth/github',503],['/server.js',404],['/backend/auth.cjs',404],['/.git/config',404]]) assert.equal((await fetch(origin+p)).status,status,p);
@@ -75,7 +75,7 @@ test('HTTP: static preview works, missing auth fails closed, server and metadata
 });
 function harness(storage={}) {
   const values=new Map(Object.entries(storage));const elements=new Map();
-  const elem=id=>{if(!elements.has(id)) elements.set(id,{id,hidden:false,textContent:'',innerHTML:'',value:'',style:{},classList:{toggle(){},add(){},remove(){}},addEventListener(){},getAttribute(){return null;}});return elements.get(id);};
+  const elem=id=>{if(!elements.has(id)) elements.set(id,{id,hidden:false,textContent:'',innerHTML:'',value:'',style:{},classList:{toggle(){},add(){},remove(){}},addEventListener(){},getAttribute(){return null;},removeAttribute(name){delete this[name];}});return elements.get(id);};
   const localStorage={getItem:k=>values.get(k)||null,setItem:(k,v)=>values.set(k,String(v)),removeItem:k=>values.delete(k)};
   const context={window:{},document:{documentElement:{},getElementById:elem,querySelectorAll:()=>[],addEventListener(){},querySelector:()=>null},localStorage,sessionStorage:{removeItem(){},getItem:()=>null},setInterval:()=>1,clearInterval(){},setTimeout:()=>1,clearTimeout(){},console,URL,Blob,AbortSignal,confirm:()=>true,alert(){},fetch:async()=>({ok:false,status:401,json:async()=>({error:'expired'})})};
   context.addEventListener=()=>{};context.window=context;vm.createContext(context);
@@ -99,7 +99,7 @@ test('unauthenticated publication creates no fake local publication success',asy
   assert.equal(h.values.has('muggo-cms-published'),false);assert.match(h.elem('publication-status').textContent,/미리보기 전용/);
 });
 test('GitHub HTTP authentication, permission, conflict, and network errors remain failures',async()=>{
-  const {github}=require('../backend/server.cjs');const original=global.fetch;
+  const {github}=require('../backend/server.cjs').createApp({env:{}});const original=global.fetch;
   try{
     for(const [status,expected] of [[401,401],[403,403],[409,409],[422,409],[500,500]]){
       global.fetch=async()=>({ok:false,status});await assert.rejects(github('FAKE_TEST_TOKEN','user'),e=>e.status===expected);
@@ -157,7 +157,7 @@ test('JSON restore backs up local state and only replaces content; preserved sna
 test('HTTP authorization: editor, spoofed role, missing CSRF, wrong origin, expired session all denied',async()=>{
   let now=1000;let apiCalls=0;
   const {createApp}=require('../backend/server.cjs');
-  const app=createApp({now:()=>now,rateStore:{load:()=>[],save(){}},env:{ADMIN_ORIGIN:'https://test.invalid',GITHUB_CLIENT_ID:'TEST_CLIENT',GITHUB_CLIENT_SECRET:'TEST_SECRET',CMS_PUBLISH_ENABLED:'true',CMS_GITHUB_USER_ROLES:'{"1":"super_admin","2":"editor"}'},fetchImpl:async()=>{apiCalls++;return {ok:true,json:async()=>({permissions:{push:false}})};}});
+  const app=createApp({now:()=>now,rateStore:{load:()=>[],save(){}},env:{ADMIN_ORIGIN:'https://test.invalid',GITHUB_CLIENT_ID:'TEST_CLIENT',GITHUB_CLIENT_SECRET:'TEST_SECRET',GITHUB_APP_INSTALLATION_ID:'100',CMS_PUBLISH_ENABLED:'true',CMS_GITHUB_USER_ROLES:'{"1":"super_admin","2":"editor"}'},fetchImpl:async()=>{apiCalls++;return {ok:true,json:async()=>({permissions:{push:false}})};}});
   await new Promise(r=>app.server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+app.server.address().port;
   const editor=app.auth.create({githubId:2,id:'test-editor',role:'editor'},'FAKE_TEST_TOKEN','ip');
   const admin=app.auth.create({githubId:1,id:'test-admin',role:'super_admin'},'FAKE_TEST_TOKEN','ip');
@@ -176,4 +176,72 @@ test('login rate limit persists across server restarts through the rate store',(
   let saved=[];const rateStore={load:()=>saved,save:rows=>{saved=JSON.parse(JSON.stringify(rows));}};
   const first=new Auth({rateStore});for(let i=0;i<5;i++)assert.ok(first.begin('ip'));
   const restarted=new Auth({rateStore});assert.equal(restarted.begin('ip'),null);
+});
+
+test('Pages exposes no dead login link when authentication server is unavailable',async()=>{
+  const html=fs.readFileSync(require('node:path').join(__dirname,'../admin/index.html'),'utf8');
+  assert.doesNotMatch(html,/<a[^>]+href="\/auth\/github"/);
+  assert.match(html,/id="server-login-link" hidden/);
+  const h=harness();await new Promise(r=>setImmediate(r));
+  assert.equal(h.elem('server-login-link').hidden,true);
+  assert.equal(h.elem('server-login-link').href,undefined);
+  assert.match(h.elem('server-login-help').textContent,/별도 관리자 서버 주소/);
+});
+
+async function loginFixture({allowed=true,installed=true}={}) {
+  const env={ADMIN_ORIGIN:'https://admin.test.invalid',GITHUB_CLIENT_ID:'TEST_CLIENT',GITHUB_CLIENT_SECRET:'TEST_SECRET',GITHUB_APP_INSTALLATION_ID:'100',CMS_GITHUB_USER_ROLES:allowed?'{}':'{}'};
+  if(allowed)env.CMS_GITHUB_USER_ROLES='{"1":"super_admin"}';
+  let calls=0;
+  const app=require('../backend/server.cjs').createApp({env,rateStore:{load:()=>[],save(){}},fetchImpl:async(url,options)=>{
+    calls++;
+    let data;
+    if(url==='https://github.com/login/oauth/access_token'){
+      assert.equal(JSON.parse(options.body).redirect_uri,env.ADMIN_ORIGIN+'/auth/callback');
+      data={access_token:'FAKE_TEST_TOKEN',expires_in:600};
+    }else if(url==='https://api.github.com/user')data={id:1,login:'test-admin'};
+    else if(url.startsWith('https://api.github.com/user/installations/100/repositories'))data={repositories:installed?[{full_name:'mfgkoreaceo-ops/muggo-corporate-site'}]:[]};
+    else throw Error('Unexpected fixture request');
+    return {ok:true,json:async()=>data};
+  }});
+  await new Promise(r=>app.server.listen(0,'127.0.0.1',r));
+  const origin='http://127.0.0.1:'+app.server.address().port;
+  return {...app,origin,apiCalls:()=>calls,close:()=>new Promise(r=>app.server.close(r))};
+}
+test('GitHub App login completes with verified state, allowlist and repository installation; no broad OAuth scope',async()=>{
+  const f=await loginFixture();
+  try{
+    const caps=await (await fetch(f.origin+'/api/capabilities')).json();assert.equal(caps.loginAvailable,true);assert.equal(caps.publishEnabled,false);
+    const start=await fetch(f.origin+'/auth/github',{redirect:'manual'});assert.equal(start.status,302);
+    const dest=new URL(start.headers.get('location'));assert.equal(dest.searchParams.has('scope'),false);
+    const state=dest.searchParams.get('state');const cookie=start.headers.getSetCookie()[0].split(';')[0];
+    const callback=await fetch(f.origin+'/auth/callback?state='+state+'&code=TEST_CODE',{headers:{Cookie:cookie},redirect:'manual'});
+    assert.equal(callback.status,302);assert.equal(callback.headers.get('location'),'/admin/');
+    const sessionCookie=callback.headers.getSetCookie().find(v=>v.startsWith('__Host-muggo-session='));
+    for(const flag of ['Secure','HttpOnly','SameSite=Lax','Path=/'])assert.ok(sessionCookie.includes(flag));
+    const session=await (await fetch(f.origin+'/api/session',{headers:{Cookie:sessionCookie.split(';')[0]}})).json();
+    assert.equal(session.user.role,'super_admin');assert.equal(session.canPublish,false);assert.equal(session.token,undefined);
+    assert.ok(session.absoluteExpiresAt-Date.now()<=600000);
+    const reused=await fetch(f.origin+'/auth/callback?state='+state+'&code=TEST_CODE',{headers:{Cookie:cookie},redirect:'manual'});assert.equal(reused.status,401);
+    const logout=await fetch(f.origin+'/api/logout',{method:'POST',headers:{Cookie:sessionCookie.split(';')[0],Origin:'https://admin.test.invalid','X-CSRF-Token':session.csrf}});assert.equal(logout.status,200);
+    assert.equal((await fetch(f.origin+'/api/session',{headers:{Cookie:sessionCookie.split(';')[0]}})).status,401);
+  }finally{await f.close();}
+});
+test('GitHub login rejects users without allowlist or installation access',async()=>{
+  for(const opts of [{allowed:false},{installed:false}]){
+    const f=await loginFixture(opts);
+    try{
+      const start=await fetch(f.origin+'/auth/github',{redirect:'manual'});const state=new URL(start.headers.get('location')).searchParams.get('state');
+      const result=await fetch(f.origin+'/auth/callback?state='+state+'&code=TEST_CODE',{headers:{Cookie:start.headers.getSetCookie()[0].split(';')[0]},redirect:'manual'});
+      assert.equal(result.status,403);assert.equal(result.headers.getSetCookie().length,0);
+    }finally{await f.close();}
+  }
+});
+test('Render runtime uses platform URL and commit without requiring .git in the image',async()=>{
+  const app=require('../backend/server.cjs').createApp({env:{RENDER_EXTERNAL_URL:'https://render.test.invalid',RENDER_GIT_COMMIT:head}});
+  await new Promise(r=>app.server.listen(0,'127.0.0.1',r));
+  try{
+    const base='http://127.0.0.1:'+app.server.address().port;
+    assert.equal((await fetch(base+'/healthz')).status,200);
+    const caps=await (await fetch(base+'/api/capabilities')).json();assert.equal(caps.loginAvailable,false);
+  }finally{await new Promise(r=>app.server.close(r));}
 });

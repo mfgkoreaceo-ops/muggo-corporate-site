@@ -2003,6 +2003,24 @@
   let serverSession = null;
   let expectedHead = null;
   let publishing = false;
+  async function checkServerLogin() {
+    const link = document.getElementById('server-login-link');
+    const help = document.getElementById('server-login-help');
+    if (!link || !help) return;
+    link.hidden = true;
+    link.removeAttribute('href');
+    try {
+      const response = await fetch('/api/capabilities', {cache:'no-store', credentials:'same-origin', signal:AbortSignal.timeout(10000)});
+      if (!response.ok) throw Error('Server unavailable');
+      const info = await response.json();
+      if (info.service !== 'muggo-admin' || info.loginAvailable !== true) throw Error('Server not configured');
+      link.href = '/auth/github';
+      link.hidden = false;
+      help.textContent = info.publishEnabled ? '인증 서버가 연결되었습니다. 승인된 계정으로 로그인하면 실제 게시 권한을 확인합니다.' : '인증 서버가 연결되었습니다. 로그인은 가능하며 실제 게시는 아직 비활성화되어 있습니다.';
+    } catch {
+      help.textContent = '현재 주소에는 로그인 서버가 연결되지 않았습니다. 실제 게시에는 별도 관리자 서버 주소가 필요합니다. 아래 버튼은 이 브라우저의 초안 편집·미리보기 전용입니다.';
+    }
+  }
   function updatePublicationStatus(message) {
     const el = document.getElementById('publication-status');
     if (el) el.textContent = message || (serverSession?.canPublish ? '서버 인증 완료 · 원격 게시 가능 · 서버 세션 만료: ' + new Date(serverSession.expiresAt).toLocaleString() + ' (GitHub Pages 배포는 별도 확인)' : '이 브라우저 미리보기 전용 · 서버 게시 불가');
@@ -2025,6 +2043,8 @@
       serverSession = await serverRequest('/api/session');
       if (!expectedHead) expectedHead = serverSession.head;
       cmsState.currentUser = serverSession.user;
+      const appScreen = document.getElementById('admin-app-screen');
+      if (appScreen && appScreen.hidden) enterAdminPortal();
       const badge = document.getElementById('admin-user-badge');
       if (badge) badge.textContent = serverSession.user.id + ' · ' + serverSession.user.role + ' (서버 검증)';
     } catch { serverSession = null; }
@@ -2187,6 +2207,7 @@
     }
 
     refreshServerSession();
+    checkServerLogin();
     setInterval(refreshServerSession, 30000);
 
   }

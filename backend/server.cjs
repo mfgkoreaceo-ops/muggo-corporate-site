@@ -9,13 +9,18 @@ const ROOT = path.resolve(__dirname, '..');
 function createApp({ env = process.env, fetchImpl = (...args) => fetch(...args), now = Date.now, rateStore } = {}) {
 const persistentRates = rateStore || (env.CMS_STATE_DIRECTORY ? createRateStore(env.CMS_STATE_DIRECTORY, ROOT) : null);
 const auth = new Auth({now,rateStore:persistentRates});
-const ORIGIN = env.ADMIN_ORIGIN || 'http://localhost:4173';
-const configured = !!(persistentRates && env.GITHUB_CLIENT_ID && env.GITHUB_CLIENT_SECRET && ORIGIN.startsWith('https://'));
+const ORIGIN = env.ADMIN_ORIGIN || env.RENDER_EXTERNAL_URL || 'http://localhost:4173';
+if (new URL(ORIGIN).origin !== ORIGIN) throw Error('ADMIN_ORIGIN must be an exact origin without a trailing slash');
+const mode = env.GITHUB_AUTH_MODE || 'github-app';
+if (!['github-app','oauth'].includes(mode)) throw Error('Unsupported GitHub authentication mode');
+const installation = env.GITHUB_APP_INSTALLATION_ID;
+const configured = !!(persistentRates && env.GITHUB_CLIENT_ID && env.GITHUB_CLIENT_SECRET && ORIGIN.startsWith('https://') && (mode === 'oauth' || /^\d+$/.test(installation || '')));
 const enabled = configured && env.CMS_PUBLISH_ENABLED === 'true';
 const roles = JSON.parse(env.CMS_GITHUB_USER_ROLES || '{}');
 const branch = env.CMS_BRANCH || 'main';
 const repo = 'mfgkoreaceo-ops/muggo-corporate-site';
-const sourceHead = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).trim();
+const sourceHead = env.CMS_SOURCE_COMMIT || env.RENDER_GIT_COMMIT || execFileSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).trim();
+if (!/^[a-f0-9]{40}$/.test(sourceHead)) throw Error('A valid source commit is required');
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'application/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg' };
 function cookie(req, name) { return (req.headers.cookie || '').split('; ').find(v => v.startsWith(name + '='))?.slice(name.length + 1); }
 function sessionCookie(id, maxAge = 28800) { return `__Host-muggo-session=${id}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAge}`; }
@@ -40,12 +45,19 @@ const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, ORIGIN), ip = req.socket.remoteAddress;
     const sid = cookie(req, '__Host-muggo-session'), s = auth.get(sid);
+    if (url.pathname === '/healthz' && req.method === 'GET') return json(200,{ok:true});
+    if (url.pathname === '/api/capabilities' && req.method === 'GET') return json(200,{service:'muggo-admin',loginAvailable:configured,publishEnabled:enabled});
     if (url.pathname === '/auth/github' && req.method === 'GET') {
       if (!configured) return json(503, { error:'서버 인증이 아직 설정되지 않았습니다.' });
       const state = auth.begin(ip);
       if (!state) return json(429, { error:'15분 동안 로그인 시도가 제한됩니다.' });
       res.setHeader('Set-Cookie', `__Host-muggo-oauth=${state}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=300`);
-      res.writeHead(302, { Location:`https://github.com/login/oauth/authorize?client_id=${encodeURIComponent(env.GITHUB_CLIENT_ID)}&redirect_uri=${encodeURIComponent(ORIGIN + '/auth/callback')}&scope=public_repo&state=${state}` }); return res.end();
+      const authorize = new URL('https://github.com/login/oauth/authorize');
+      authorize.searchParams.set('client_id',env.GITHUB_CLIENT_ID);
+      authorize.searchParams.set('redirect_uri',ORIGIN + '/auth/callback');
+      authorize.searchParams.set('state',state);
+      if (mode === 'oauth') authorize.searchParams.set('scope','public_repo');
+      res.writeHead(302, { Location:authorize.href, 'Referrer-Policy':'no-referrer', 'Cache-Control':'no-store' }); return res.end();
     }
     if (url.pathname === '/auth/callback' && req.method === 'GET') {
       const state = url.searchParams.get('state');
@@ -58,7 +70,19 @@ const server = http.createServer(async (req, res) => {
       if (!result.access_token) throw new ApiError(401, 'GitHub 로그인 거절');
       const profile = await github(result.access_token, 'user'), role = roles[String(profile.id)];
       if (!['editor','super_admin'].includes(role)) throw new ApiError(403, '서버에서 승인되지 않은 계정');
-      const id = auth.create({ id:profile.login, githubId:profile.id, role }, result.access_token, ip);
+      if (mode === 'github-app') {
+        let found = false;
+        for (let page=1;page<=100;page++) {
+          const accessible = await github(result.access_token,`user/installations/${installation}/repositories?per_page=100&page=${page}`);
+          const repositories = accessible.repositories || [];
+          if (repositories.some(r => r.full_name === repo)) { found = true; break; }
+          if (repositories.length < 100) break;
+        }
+        if (!found) throw new ApiError(403,'이 인증 앱의 설치에 MUGGO 저장소 접근 권한이 없습니다.');
+      }
+      const lifetime = result.expires_in === undefined ? 8*3600 : Number(result.expires_in);
+      if (!Number.isFinite(lifetime) || lifetime <= 0) throw new ApiError(401,'GitHub 인증 수명이 유효하지 않습니다.');
+      const id = auth.create({ id:profile.login, githubId:profile.id, role }, result.access_token, ip, lifetime);
       persistentRates?.audit?.({event:'login_success',actor:profile.id,role});
       res.setHeader('Set-Cookie', [sessionCookie(id), '__Host-muggo-oauth=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0']);
       res.writeHead(302, { Location:'/admin/', 'Referrer-Policy':'no-referrer' }); return res.end();
@@ -99,4 +123,4 @@ const server = http.createServer(async (req, res) => {
 });
 return { server, github, auth };
 }
-module.exports = { ...createApp(), createApp };
+module.exports = { createApp };
