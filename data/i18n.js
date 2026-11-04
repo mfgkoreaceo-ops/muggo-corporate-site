@@ -88,14 +88,34 @@ window.I18N_DICT = {
       ]
     },
     koreaHq: {
-      eyebrow: "KEAHLIAN F&B GLOBAL",
-      title: "Kantor Pusat Korea ({brandName} Korea HQ)",
-      desc: "{legalName} mengadaptasi sistem operasional dapur dari Kantor Pusat Korea ({brandName} Korea HQ) untuk pasar Indonesia:",
-      points: [
-        "01 · Perencanaan Multi-Brand ({brandCount} Brand)",
-        "02 · Standarisasi Prosedur Operasional Dapur Terpusat",
-        "03 · Pengembangan Resep 5 Genre Masakan"
+      eyebrow: "HUBUNGAN KANTOR PUSAT KOREA ({brandName} KOREA HQ) & REKAM JEJAK GLOBAL",
+      title: "Global Expertise Meets Indonesian Potential",
+      desc: "Sinergi strategis antara Kantor Pusat Korea ({brandName} Korea HQ) dan {legalName} yang dibangun di atas 3 pilar kapabilitas global:",
+      pillars: [
+        {
+          badge: "01 · KOREA F&B · 35+ GERAI",
+          title: "Multibrand F&B Innovation",
+          desc: "Kapabilitas perencanaan multibrand dan standarisasi Dapur Terpusat (Central Kitchen) yang terbangun melalui pengoperasian sekitar 35 gerai langsung maupun waralaba serta brand kuliner premium di Korea (seperti Agra dan noya).",
+          visualType: "korea-fnb",
+          caption1: "Agra · Premium Dining (Korea)",
+          caption2: "noya · Shabu Shabu (Korea)"
+        },
+        {
+          badge: "02 · JERMAN · RITEL GLOBAL",
+          title: "Global Retail & Market Expansion",
+          desc: "Keahlian ekspansi jaringan ritel global melalui investasi dan pengoperasian sukses supermarket khusus budaya kuliner Korea & Asia (\"THE GANGNAM\") di Jerman.",
+          visualType: "germany-retail",
+          caption1: "THE GANGNAM · Korean & Asian Mart (Jerman)"
+        },
+        {
+          badge: "03 · IT & TECH · SMART ERP",
+          title: "Tech-Driven Operations",
+          desc: "Sistem manajemen transparan berbasis data serta platform pemesanan dan Smart ERP yang memadukan pengalaman pengelolaan perusahaan IT dan investasi teknologi.",
+          visualType: "tech-ops",
+          caption1: "Smart ERP · Order Platform · Data Analytics"
+        }
       ],
+      summary: "Berlandaskan tiga pilar utama ini, {legalName} menghadirkan platform F&B dan gaya hidup terpadu yang dioptimalkan bagi pasar Jakarta, Indonesia, serta Asia Tenggara.",
       linkText: "Kantor Pusat Korea ({brandName} Korea HQ)"
     },
     ceo: {
@@ -420,14 +440,34 @@ window.I18N_DICT = {
       ]
     },
     koreaHq: {
-      eyebrow: "GLOBAL F&B KNOW-HOW",
-      title: "Kantor Pusat Korea ({brandName} Korea HQ)",
-      desc: "{legalName} adapts F&B operational systems from {brandName} Korea HQ for Indonesia:",
-      points: [
-        "01 · Multi-Brand Planning ({brandCount} Brands)",
-        "02 · Standardized Central Kitchen Operations",
-        "03 · 5-Genre Recipe R&D"
+      eyebrow: "KOREA HQ RELATIONSHIP ({brandName} KOREA HQ) & GLOBAL TRACK RECORD",
+      title: "Global Expertise Meets Indonesian Potential",
+      desc: "Strategic synergy between Korea Headquarters ({brandName} Korea HQ) and {legalName} built on 3 proven global pillars:",
+      pillars: [
+        {
+          badge: "01 · KOREA F&B · 35+ STORES",
+          title: "Multibrand F&B Innovation",
+          desc: "Proven multibrand planning and Central Kitchen standardization built through operating ~35 direct and franchise stores and premium dining brands in Korea (including Agra and noya).",
+          visualType: "korea-fnb",
+          caption1: "Agra · Premium Dining (Korea)",
+          caption2: "noya · Shabu Shabu (Korea)"
+        },
+        {
+          badge: "02 · GERMANY · GLOBAL RETAIL",
+          title: "Global Retail & Market Expansion",
+          desc: "Global retail chain expansion know-how built through successful investment and operation of the Korean & Asian culinary supermarket (\"THE GANGNAM\") in Germany.",
+          visualType: "germany-retail",
+          caption1: "THE GANGNAM · Korean & Asian Mart (Germany)"
+        },
+        {
+          badge: "03 · IT & TECH · SMART ERP",
+          title: "Tech-Driven Operations",
+          desc: "Smart ERP, ordering platform, and transparent data-driven management system combining IT company management and advanced tech investment experience.",
+          visualType: "tech-ops",
+          caption1: "Smart ERP · Order Platform · Data Analytics"
+        }
       ],
+      summary: "Built on these three core pillars, {legalName} deploys an advanced F&B and lifestyle platform optimized for Jakarta, Indonesia, and the broader Southeast Asian market.",
       linkText: "Kantor Pusat Korea ({brandName} Korea HQ)"
     },
     ceo: {
@@ -743,14 +783,34 @@ window.I18N_DICT = {
       ]
     },
     koreaHq: {
-      eyebrow: "글로벌 F&B 노하우",
-      title: "한국 본사 · Kantor Pusat Korea ({brandName} Korea HQ)",
-      desc: "{legalName}는 한국 본사({brandName} Korea HQ)의 F&B 운영 노하우를 현지화합니다:",
-      points: [
-        "01 · 다브랜드 기획 ({brandCount}개 브랜드)",
-        "02 · 센트럴 키친 표준 조리 운영 절차",
-        "03 · 5대 장르 레시피 R&D"
+      eyebrow: "한국 본사 관계 및 글로벌 핵심 역량 · KANTOR PUSAT KOREA ({brandName} KOREA HQ)",
+      title: "Global Expertise Meets Indonesian Potential",
+      desc: "한국 본사({brandName} Korea HQ)의 검증된 글로벌 비즈니스 역량과 인도네시아의 잠재력이 결합된 3대 핵심 축:",
+      pillars: [
+        {
+          badge: "01 · 한국 F&B · 35여 개 직·가맹점",
+          title: "Multibrand F&B Innovation",
+          desc: "한국 내 35여 개 직·가맹점 및 프리미엄 브랜드(아그라, 노야 등) 운영을 통해 다져진 탁월한 멀티 브랜드 기획 및 중앙 주방(Central Kitchen) 표준화 역량",
+          visualType: "korea-fnb",
+          caption1: "아그라 (Agra) · 한국 프리미엄 다이닝",
+          caption2: "노야 (noya) · 한국 샤브샤브 브랜드"
+        },
+        {
+          badge: "02 · 독일 리테일 · 글로벌 마트 체인",
+          title: "Global Retail & Market Expansion",
+          desc: "독일 내 한국 식문화 전문 슈퍼마켓('더 강남') 성공적 투자 및 운영을 통한 글로벌 리테일 체인 확장 노하우",
+          visualType: "germany-retail",
+          caption1: "더 강남 (THE GANGNAM) · 독일 아시안 슈퍼마켓"
+        },
+        {
+          badge: "03 · IT & 테크 · 스마트 ERP 경영",
+          title: "Tech-Driven Operations",
+          desc: "IT 기업 운영 및 고도화된 테크 투자 경험을 접목한 스마트 ERP·주문 플랫폼 및 데이터 기반의 투명한 경영 시스템",
+          visualType: "tech-ops",
+          caption1: "Smart ERP · 통합 주문 플랫폼 · 데이터 경영"
+        }
       ],
+      summary: "이 세 가지 핵심 축을 바탕으로, {legalName}는 인도네시아 자카르타를 비롯한 동남아 시장에 최적화된 고도화된 F&B 및 라이프스타일 플랫폼을 전개합니다.",
       linkText: "한국 본사 ({brandName} Korea HQ)"
     },
     ceo: {

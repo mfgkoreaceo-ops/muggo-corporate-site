@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" width="800" height="360">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D1F1D"/>
+      <stop offset="100%" stop-color="#163530"/>
+    </linearGradient>
+    <linearGradient id="mintGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4CDBBE"/>
+      <stop offset="100%" stop-color="#2BB598"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="360" rx="12" fill="url(#bgGrad)"/>
+  <!-- Subtle grid -->
+  <g stroke="#244B44" stroke-width="1" opacity="0.45">
+    <line x1="0" y1="72" x2="800" y2="72"/>
+    <line x1="0" y1="144" x2="800" y2="144"/>
+    <line x1="0" y1="216" x2="800" y2="216"/>
+    <line x1="0" y1="288" x2="800" y2="288"/>
+    <line x1="160" y1="0" x2="160" y2="360"/>
+    <line x1="320" y1="0" x2="320" y2="360"/>
+    <line x1="480" y1="0" x2="480" y2="360"/>
+    <line x1="640" y1="0" x2="640" y2="360"/>
+  </g>
+  <!-- Dashboard Frame -->
+  <rect x="48" y="36" width="704" height="288" rx="14" fill="#112825" stroke="#2D5F56" stroke-width="2"/>
+  <circle cx="76" cy="62" r="6" fill="#4CDBBE"/>
+  <circle cx="96" cy="62" r="6" fill="#3A7D71"/>
+  <circle cx="116" cy="62" r="6" fill="#26544C"/>
+  <text x="142" y="67" fill="#A9DDD3" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="1.2">SMART ERP · ORDER PLATFORM · DATA MANAGEMENT</text>
+  <line x1="48" y1="86" x2="752" y2="86" stroke="#244B44" stroke-width="1.5"/>
+
+  <!-- Left Module: Smart ERP -->
+  <rect x="74" y="108" width="204" height="190" rx="10" fill="#163430" stroke="#2E645A" stroke-width="1.5"/>
+  <text x="94" y="138" fill="#4CDBBE" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700">SMART ERP SYSTEM</text>
+  <text x="94" y="162" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Integrated Ops</text>
+  <rect x="94" y="182" width="164" height="10" rx="5" fill="#234B44"/>
+  <rect x="94" y="182" width="138" height="10" rx="5" fill="url(#mintGrad)"/>
+  <rect x="94" y="206" width="164" height="10" rx="5" fill="#234B44"/>
+  <rect x="94" y="206" width="118" height="10" rx="5" fill="url(#mintGrad)"/>
+  <rect x="94" y="230" width="164" height="10" rx="5" fill="#234B44"/>
+  <rect x="94" y="230" width="150" height="10" rx="5" fill="url(#mintGrad)"/>
+  <text x="94" y="274" fill="#9AC7BE" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="600">Real-Time Inventory &amp; Finance</text>
+
+  <!-- Center Module: Unified Order Platform -->
+  <rect x="298" y="108" width="204" height="190" rx="10" fill="#163430" stroke="#4CDBBE" stroke-width="1.8"/>
+  <text x="318" y="138" fill="#4CDBBE" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700">ORDER PLATFORM</text>
+  <text x="318" y="162" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Multi-Brand Sync</text>
+  <g fill="none" stroke="#4CDBBE" stroke-width="2.5">
+    <circle cx="400" cy="218" r="32" stroke-opacity="0.35"/>
+    <circle cx="400" cy="218" r="20"/>
+    <path d="M392 218 l6 6 l12 -12" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="318" y="274" fill="#9AC7BE" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="600">Central Kitchen Routing</text>
+
+  <!-- Right Module: Data-Driven Transparency -->
+  <rect x="522" y="108" width="204" height="190" rx="10" fill="#163430" stroke="#2E645A" stroke-width="1.5"/>
+  <text x="542" y="138" fill="#4CDBBE" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700">DATA ANALYTICS</text>
+  <text x="542" y="162" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Transparent Mgmt</text>
+  <!-- Bar chart -->
+  <rect x="548" y="222" width="22" height="30" rx="4" fill="#2D6A5E"/>
+  <rect x="580" y="206" width="22" height="46" rx="4" fill="#39897A"/>
+  <rect x="612" y="192" width="22" height="60" rx="4" fill="#4CDBBE"/>
+  <rect x="644" y="178" width="22" height="74" rx="4" fill="#4CDBBE"/>
+  <rect x="676" y="168" width="22" height="84" rx="4" fill="#7CEAD3"/>
+  <text x="542" y="274" fill="#9AC7BE" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="600">IT &amp; Tech Investment DNA</text>
+</svg>

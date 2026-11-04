@@ -1195,10 +1195,67 @@
       )
       .join("");
 
-    // Korea HQ Block (Controlled by SITE_CONFIG.showKoreaHqBlock; link hidden when koreaHqUrl is empty)
-    const koreaHqPointsHtml = Array.isArray(dict.koreaHq.points)
-      ? `<ul class="workflow" style="margin:12px 0 0;">${dict.koreaHq.points.map((pt) => `<li style="counter-increment:none;">${pt}</li>`).join("")}</ul>`
+    // Korea HQ Relationship Block (Controlled by SITE_CONFIG.showKoreaHqBlock; positioned after Four Pillars and before CEO Message)
+    const koreaHqPillarsHtml = Array.isArray(dict.koreaHq.pillars)
+      ? `<div class="hq-pillars-grid">
+          ${dict.koreaHq.pillars
+            .map((p) => {
+              let visualHtml = "";
+              if (p.visualType === "korea-fnb") {
+                visualHtml = `
+                  <div class="hq-visual-pair">
+                    <figure class="hq-logo-card hq-logo-light">
+                      <div class="hq-logo-img-wrap">
+                        <img src="assets/hq/logo-agra.png" alt="Logo Agra - Brand Restoran Premium di Korea" loading="lazy" />
+                      </div>
+                      <figcaption>${p.caption1}</figcaption>
+                    </figure>
+                    <figure class="hq-logo-card hq-logo-light">
+                      <div class="hq-logo-img-wrap">
+                        <img src="assets/hq/logo-noya.jpg" alt="Logo noya Shabu Shabu - Brand Kuliner di Korea" loading="lazy" />
+                      </div>
+                      <figcaption>${p.caption2}</figcaption>
+                    </figure>
+                  </div>
+                `;
+              } else if (p.visualType === "germany-retail") {
+                visualHtml = `
+                  <figure class="hq-logo-card hq-logo-dark">
+                    <div class="hq-logo-img-wrap">
+                      <img src="assets/hq/logo-the-gangnam.png" alt="Logo THE GANGNAM - Korean, Japanese & Asian Mart di Jerman" loading="lazy" />
+                    </div>
+                    <figcaption>${p.caption1}</figcaption>
+                  </figure>
+                `;
+              } else {
+                visualHtml = `
+                  <figure class="hq-logo-card hq-logo-tech">
+                    <div class="hq-logo-img-wrap">
+                      <img src="assets/hq/hq-smart-erp.svg" alt="Sistem Smart ERP dan Platform Pemesanan Terpadu" loading="lazy" />
+                    </div>
+                    <figcaption>${p.caption1}</figcaption>
+                  </figure>
+                `;
+              }
+              return `
+                <article class="hq-pillar-card">
+                  ${visualHtml}
+                  <div>
+                    <span class="roster-badge" style="margin-bottom:8px;">${p.badge}</span>
+                    <h3 style="font-size:18px; margin-bottom:8px;">${p.title}</h3>
+                    <p class="hint" style="margin:0; font-size:14.5px; line-height:1.65;">${p.desc}</p>
+                  </div>
+                </article>
+              `;
+            })
+            .join("")}
+        </div>`
       : "";
+
+    const koreaHqSummaryHtml = dict.koreaHq.summary
+      ? `<aside class="callout" style="margin:18px 0 0; font-weight:600;">${dict.koreaHq.summary}</aside>`
+      : "";
+
     const koreaHqActionHtml = hasValidKoreaHqUrl()
       ? `<a href="${c.koreaHqUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="margin-top:14px;">${dict.koreaHq.linkText} ↗</a>`
       : "";
@@ -1209,7 +1266,8 @@
           <p class="eyebrow">${dict.koreaHq.eyebrow}</p>
           <h2>${dict.koreaHq.title}</h2>
           <p class="intro">${dict.koreaHq.desc}</p>
-          ${koreaHqPointsHtml}
+          ${koreaHqPillarsHtml}
+          ${koreaHqSummaryHtml}
           ${koreaHqActionHtml}
         </section>
       `
@@ -1309,21 +1367,7 @@
         </div>
       </section>
 
-      <!-- (4) Single "Target & Roadmap" Section (All planned numbers visibly labeled as targets + roadmap) -->
-      <section class="section-block">
-        <div class="workspace-heading">
-          <div>
-            <p class="eyebrow">${dict.impact.eyebrow}</p>
-            <h2>${dict.impact.title}</h2>
-            <p class="hint">${dict.impact.notice}</p>
-          </div>
-        </div>
-        <div class="metrics-grid">
-          ${metricsHtml}
-        </div>
-        ${roadmapHtml}
-      </section>
-
+      <!-- Korea HQ Relationship Block (Positioned right after the 4 Pillars and right before CEO Message) -->
       ${koreaHqHtml}
 
       <!-- Leadership Message (ceoPortraitUrl 1:1 slot hidden when empty; ceoName hidden when empty) -->
@@ -1353,6 +1397,21 @@
           <span class="hint">${c.legalName} (Brand: ${c.brandName})</span>
           <strong>${dict.ceo.signRole}${c.ceoName ? ` · ${c.ceoName}` : ""}</strong>
         </div>
+      </section>
+
+      <!-- (4) Single "Target & Roadmap" Section (All planned numbers visibly labeled as targets + roadmap) -->
+      <section class="section-block">
+        <div class="workspace-heading">
+          <div>
+            <p class="eyebrow">${dict.impact.eyebrow}</p>
+            <h2>${dict.impact.title}</h2>
+            <p class="hint">${dict.impact.notice}</p>
+          </div>
+        </div>
+        <div class="metrics-grid">
+          ${metricsHtml}
+        </div>
+        ${roadmapHtml}
       </section>
 
       <!-- Our Culture -->
