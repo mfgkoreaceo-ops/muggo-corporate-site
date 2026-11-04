@@ -27,6 +27,7 @@ const SITE_CONFIG = {
   ceoPortraitUrl: "",            // TODO(owner): 1:1 (600x600) portrait image URL; empty => hide slot
   showEmployeeDiscountBenefit: false, // TODO(owner): Task 3.6 — false hides "Diskon Brand" employee-discount text until confirmed
   showCareerPathBenefit: false,       // TODO(owner): Task 3.6 — false hides "Part Leader hingga Branch Manager" career-path text until confirmed
+  showKoreaHqWorkOpportunity: true,   // Additional user request: shows "05 · Kesempatan Bekerja di Kantor Pusat Korea" benefit card on Careers page
   koreaHqUrl: "",                // TODO(owner): unknown; empty => hide external link if empty
   deliveryAppUrl: "",            // TODO(owner): unknown; empty => hide active download link
   deliveryAppMode: "coming_soon",

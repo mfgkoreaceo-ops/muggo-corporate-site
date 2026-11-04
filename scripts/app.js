@@ -932,8 +932,8 @@
     const upcomingLabel = (dictArticles && dictArticles.upcomingLabel) || "Akan Datang";
     if (!art) return upcomingLabel;
     const status = String(art.status || "upcoming").trim().toLowerCase();
-    if (status === "published" && art.date && String(art.date).trim() !== "") {
-      return formatLocalDate(art.date);
+    if (status === "published") {
+      return art.date && String(art.date).trim() !== "" ? formatLocalDate(art.date) : "";
     }
     return upcomingLabel;
   }
@@ -975,10 +975,13 @@
         badgeRow.appendChild(catBadge);
       }
 
-      const statusBadge = document.createElement("span");
-      statusBadge.className = "roster-badge";
-      statusBadge.textContent = getArticleStatusBadgeText(art, dict.articles);
-      badgeRow.appendChild(statusBadge);
+      const statusText = getArticleStatusBadgeText(art, dict.articles);
+      if (statusText) {
+        const statusBadge = document.createElement("span");
+        statusBadge.className = "roster-badge";
+        statusBadge.textContent = statusText;
+        badgeRow.appendChild(statusBadge);
+      }
       card.appendChild(badgeRow);
 
       const h3 = document.createElement("h3");
@@ -1127,10 +1130,13 @@
       badgeRow.appendChild(catBadge);
     }
 
-    const statusBadge = document.createElement("span");
-    statusBadge.className = "roster-badge";
-    statusBadge.textContent = getArticleStatusBadgeText(art, dict);
-    badgeRow.appendChild(statusBadge);
+    const statusText = getArticleStatusBadgeText(art, dict);
+    if (statusText) {
+      const statusBadge = document.createElement("span");
+      statusBadge.className = "roster-badge";
+      statusBadge.textContent = statusText;
+      badgeRow.appendChild(statusBadge);
+    }
     card.appendChild(badgeRow);
 
     const h1 = document.createElement("h1");
@@ -1169,7 +1175,7 @@
 
     let platformAppBtnHtml = "";
     if (c.deliveryAppMode === "coming_soon" || !c.deliveryAppUrl) {
-      platformAppBtnHtml = `<span class="btn btn-disabled" aria-disabled="true" style="min-height:36px; padding:7px 12px; font-size:14px; margin-top:10px;">${dict.hero.appComingSoon}</span>`;
+      platformAppBtnHtml = `<span class="btn btn-disabled" aria-disabled="true" onclick="event.stopPropagation(); return false;" style="pointer-events:auto; cursor:not-allowed; min-height:36px; padding:7px 12px; font-size:14px; margin-top:10px;">${dict.hero.appComingSoon}</span>`;
     } else if (c.deliveryAppMode === "active" && c.deliveryAppUrl) {
       platformAppBtnHtml = `<a href="${c.deliveryAppUrl}" target="_blank" rel="noopener" class="btn btn-secondary" style="min-height:36px; padding:7px 12px; font-size:14px; margin-top:10px;" onclick="event.stopPropagation()">${dict.hero.appDownload} ↗</a>`;
     }
@@ -1752,6 +1758,7 @@
         <h2>${dict.benefitsTitle}</h2>
         <div class="columns">
           ${dict.benefits
+            .filter((b) => !b.visibleFlag || c[b.visibleFlag] !== false)
             .map((b) => {
               const useExt = Boolean(b.flag && c[b.flag]);
               const bTitle = useExt && b.titleExtended ? b.titleExtended : b.title;

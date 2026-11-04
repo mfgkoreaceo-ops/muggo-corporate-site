@@ -159,8 +159,8 @@ window.I18N_DICT = {
       preOpeningTag: "Pra-Pembukaan",
       viewAllMenus: "Lihat semua 10 menu",
       hideMenus: "Tutup daftar menu",
-      showAllBrandsBtn: "Tampilkan semua brand",
-      showLessBrandsBtn: "Tampilkan brand pilihan saja",
+      showAllBrandsBtn: "Tampilkan semua brand ({brandCount} Brand)",
+      showLessBrandsBtn: "Tampilkan brand pilihan saja (6 Brand)",
       emptySearchTitle: "Tidak ada brand atau menu yang cocok",
       emptySearchDesc: "Tidak ditemukan hasil untuk kata kunci Anda. Coba kata kunci lain atau tampilkan kembali seluruh {brandCount} brand.",
       resetSearchBtn: "Reset Pencarian"
@@ -271,6 +271,7 @@ window.I18N_DICT = {
           descExtended: "Pelatihan operasional kuliner dan jenjang karir menuju Part Leader hingga Branch Manager."
         },
         {
+          visibleFlag: "showKoreaHqWorkOpportunity",
           title: "05 · Kesempatan Bekerja di Kantor Pusat Korea",
           desc: "Diberikan kesempatan untuk bekerja di Kantor Pusat Korea ({brandName} Korea HQ)."
         }
@@ -490,8 +491,8 @@ window.I18N_DICT = {
       preOpeningTag: "Pre-Opening",
       viewAllMenus: "View all 10 menus",
       hideMenus: "Hide menus",
-      showAllBrandsBtn: "Show all brands (Tampilkan semua brand)",
-      showLessBrandsBtn: "Show featured brands only",
+      showAllBrandsBtn: "Show all brands ({brandCount} Brands · Tampilkan semua brand)",
+      showLessBrandsBtn: "Show featured brands only (6 Brands)",
       emptySearchTitle: "No matching brands or menus found",
       emptySearchDesc: "No results matched your search query. Try another keyword or view all {brandCount} brands.",
       resetSearchBtn: "Reset Search"
@@ -593,6 +594,7 @@ window.I18N_DICT = {
           descExtended: "Structured training and career progression toward Part Leader hingga Branch Manager."
         },
         {
+          visibleFlag: "showKoreaHqWorkOpportunity",
           title: "05 · Opportunity to Work at Korea HQ",
           desc: "Opportunities are provided to work at our Korea Headquarters ({brandName} Korea HQ)."
         }
@@ -812,8 +814,8 @@ window.I18N_DICT = {
       preOpeningTag: "오픈 준비 중",
       viewAllMenus: "10개 메뉴 전체보기",
       hideMenus: "메뉴 접기",
-      showAllBrandsBtn: "전체 브랜드 보기 (Tampilkan semua brand)",
-      showLessBrandsBtn: "대표 브랜드만 보기",
+      showAllBrandsBtn: "전체 브랜드 보기 ({brandCount}개 · Tampilkan semua brand)",
+      showLessBrandsBtn: "대표 브랜드만 보기 (6개)",
       emptySearchTitle: "일치하는 브랜드 또는 메뉴가 없습니다",
       emptySearchDesc: "검색어에 해당하는 항목을 찾지 못했습니다. 다른 검색어를 입력하거나 전체 {brandCount}개 브랜드를 확인해 주세요.",
       resetSearchBtn: "검색 초기화"
@@ -915,6 +917,7 @@ window.I18N_DICT = {
           descExtended: "체계적인 조리·운영 교육 및 Part Leader hingga Branch Manager 승진 기회를 제공합니다."
         },
         {
+          visibleFlag: "showKoreaHqWorkOpportunity",
           title: "05 · 한국 본사 근무 기회 부여",
           desc: "한국 본사({brandName} Korea HQ)에서 일할 수 있는 기회가 주어집니다."
         }
