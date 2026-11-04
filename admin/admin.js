@@ -1368,7 +1368,12 @@
 
                 <div class="trilang-grid" style="margin-bottom:10px;">
                   <div>
-                    <span class="lang-col-label">고용형태·경력 (ID · typeId)</span>
+                    <span class="lang-col-label">고용형태 (employmentType) &amp; 경력 (experience)</span>
+                    <div style="display:flex; gap:6px; margin-bottom:5px;">
+                      <input type="text" value="${escHtml(j.employmentType || "Penuh Waktu (Full-Time)")}" placeholder="employmentType" oninput="AdminCMS.updateJobField(${idx}, 'employmentType', this.value)" />
+                      <input type="text" value="${escHtml(j.experience || "")}" placeholder="experience" oninput="AdminCMS.updateJobField(${idx}, 'experience', this.value)" />
+                    </div>
+                    <span class="lang-col-label">표시용 고용형태·경력 (ID · typeId)</span>
                     <input type="text" value="${escHtml(j.typeId || j.employmentType || "")}" oninput="AdminCMS.updateJobField(${idx}, 'typeId', this.value)" />
                   </div>
                   <div>
@@ -1643,19 +1648,21 @@
 
                   <div class="trilang-grid" style="margin-bottom:10px;">
                     <div>
-                      <span class="lang-col-label">게시 상태 (status: upcoming vs published)</span>
-                      <select onchange="AdminCMS.updateArticleField(${idx}, 'status', this.value)">
+                      <span class="lang-col-label">게시 상태 (status: upcoming vs published) &amp; 게시일 (date)</span>
+                      <select style="margin-bottom:5px;" onchange="AdminCMS.updateArticleField(${idx}, 'status', this.value)">
                         <option value="upcoming" ${art.status !== "published" ? "selected" : ""}>upcoming (Akan Datang 예정 배지 표시)</option>
                         <option value="published" ${art.status === "published" ? "selected" : ""}>published (실제 게시 날짜 표시)</option>
                       </select>
+                      <input type="text" value="${escHtml(art.date || "")}" placeholder="게시일 (YYYY-MM-DD, published일 때 표시)" oninput="AdminCMS.updateArticleField(${idx}, 'date', this.value)" />
                     </div>
                     <div>
-                      <span class="lang-col-label">게시일 (date: YYYY-MM-DD, published일 때 표시)</span>
-                      <input type="text" value="${escHtml(art.date || "")}" placeholder="예: 2026-11-15" oninput="AdminCMS.updateArticleField(${idx}, 'date', this.value)" />
+                      <span class="lang-col-label">내부 썸네일 경로 (image) &amp; 외부 이미지 URL (imageUrl)</span>
+                      <input type="text" value="${escHtml(art.image || "")}" placeholder="내부 경로 (예: assets/slots/news-1.jpg)" style="margin-bottom:5px;" oninput="AdminCMS.updateArticleField(${idx}, 'image', this.value)" />
+                      <input type="text" value="${escHtml(art.imageUrl || "")}" placeholder="외부 URL (예: https://...)" oninput="AdminCMS.updateArticleField(${idx}, 'imageUrl', this.value)" />
                     </div>
                     <div>
-                      <span class="lang-col-label">썸네일 경로 (image / imageUrl) &amp; 대체 텍스트 (altId)</span>
-                      <input type="text" value="${escHtml(art.imageUrl || art.image || "")}" placeholder="assets/slots/news-1.jpg 또는 https://..." oninput="AdminCMS.updateArticleField(${idx}, 'image', this.value); AdminCMS.updateArticleField(${idx}, 'imageUrl', this.value);" />
+                      <span class="lang-col-label">이미지 대체 텍스트 (altId — 인도네시아어 접근성 설명)</span>
+                      <input type="text" value="${escHtml(art.altId || "")}" placeholder="예: Ilustrasi pengumuman resmi MUGGO" oninput="AdminCMS.updateArticleField(${idx}, 'altId', this.value)" />
                     </div>
                   </div>
 
@@ -1952,6 +1959,13 @@
 
                 <div class="trilang-grid">
                   <div>
+                    <span class="lang-col-label">브랜드 번호 (no) &amp; 고유 ID (id)</span>
+                    <div style="display:flex; gap:6px;">
+                      <input type="text" value="${escHtml(b.no)}" placeholder="번호(no)" style="width:90px;" oninput="AdminCMS.updateBrandField(${realIdx}, 'no', this.value)" />
+                      <input type="text" value="${escHtml(b.id)}" placeholder="고유 ID(id)" oninput="AdminCMS.updateBrandField(${realIdx}, 'id', this.value)" />
+                    </div>
+                  </div>
+                  <div>
                     <span class="lang-col-label">카테고리 (category)</span>
                     <select onchange="AdminCMS.updateBrandField(${realIdx}, 'category', this.value)">
                       ${["Chicken", "Korean", "Western", "Salad", "Dessert"]
@@ -1959,7 +1973,7 @@
                         .join("")}
                     </select>
                   </div>
-                  <div style="grid-column: span 2;">
+                  <div>
                     <span class="lang-col-label">대표 로고/썸네일 이미지 경로 (logo)</span>
                     <input type="text" value="${escHtml(b.logo)}" oninput="AdminCMS.updateBrandField(${realIdx}, 'logo', this.value)" />
                   </div>
@@ -1974,14 +1988,32 @@
                             (m, mIdx) => `
                             <div style="background:var(--cms-surface-muted); border:1px solid var(--cms-border); border-radius:8px; padding:12px; margin-bottom:10px;">
                               <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-                                <strong>Menu #${mIdx + 1} (${escHtml(m.id)})</strong>
-                                <div style="display:flex; gap:8px; align-items:center;">
+                                <div style="display:flex; align-items:center; gap:8px;">
+                                  <strong>Menu #${mIdx + 1}</strong>
+                                  <input type="text" value="${escHtml(m.id || "")}" placeholder="메뉴 ID (id)" style="width:140px; padding:4px 8px; font-size:12px;" oninput="AdminCMS.updateMenuField(${realIdx}, ${mIdx}, 'id', this.value)" />
+                                </div>
+                                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
                                   <label style="font-size:12px; font-weight:700;">
                                     <input type="checkbox" ${m.popular ? "checked" : ""} onchange="AdminCMS.updateMenuField(${realIdx}, ${mIdx}, 'popular', this.checked)" />
                                     인기 메뉴 (popular)
                                   </label>
-                                  <input type="text" value="${escHtml(m.stationId || "")}" placeholder="STATION-GRILL" style="width:150px; padding:4px 8px; font-size:12px;" oninput="AdminCMS.updateMenuField(${realIdx}, ${mIdx}, 'stationId', this.value)" />
-                                  <input type="text" value="${escHtml(m.portion || "")}" placeholder="1인분 / 350g" style="width:120px; padding:4px 8px; font-size:12px;" oninput="AdminCMS.updateMenuField(${realIdx}, ${mIdx}, 'portion', this.value)" />
+                                  <select style="width:175px; padding:4px 8px; font-size:12px;" onchange="AdminCMS.updateMenuField(${realIdx}, ${mIdx}, 'stationId', this.value)">
+                                    ${[
+                                      "STATION-GRILL",
+                                      "STATION-FRYER",
+                                      "STATION-ASSEMBLY",
+                                      "STATION-BEVERAGE",
+                                      "STATION-WOK",
+                                      "STATION-SOUP",
+                                      "STATION-OVEN"
+                                    ]
+                                      .map(
+                                        (stId) =>
+                                          `<option value="${stId}" ${(m.stationId || "STATION-ASSEMBLY") === stId ? "selected" : ""}>${stId}</option>`
+                                      )
+                                      .join("")}
+                                  </select>
+                                  <input type="text" value="${escHtml(m.portion || "")}" placeholder="제공 중량/인분 (portion)" style="width:145px; padding:4px 8px; font-size:12px;" oninput="AdminCMS.updateMenuField(${realIdx}, ${mIdx}, 'portion', this.value)" />
                                 </div>
                               </div>
                               <div class="trilang-grid">
@@ -2476,6 +2508,34 @@
             message: `CMS Update: ${f.path} by ${cmsState.currentUser ? cmsState.currentUser.id : "admin"}`,
             content: b64,
             sha
+          })
+        });
+      }
+
+      // Automatically bump cache version (?v=YYYYMMDD-N) in index.html per Page 16 spec
+      const idxApiUrl = `https://api.github.com/repos/${repo}/contents/index.html`;
+      const idxGetRes = await fetch(idxApiUrl, {
+        headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+      });
+      if (idxGetRes.ok) {
+        const idxMeta = await idxGetRes.json();
+        const rawHtml = decodeURIComponent(escape(atob((idxMeta.content || "").replace(/\s/g, ""))));
+        const d = new Date();
+        const ymd = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`;
+        const nextVer = `${ymd}-${Math.floor((Date.now() / 1000) % 1000)}`;
+        const bumpedHtml = rawHtml.replace(/\?v=[0-9A-Za-z-]+/g, `?v=${nextVer}`);
+        const idxB64 = btoa(unescape(encodeURIComponent(bumpedHtml)));
+        await fetch(idxApiUrl, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/vnd.github+json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message: `CMS Cache Bump: ?v=${nextVer} in index.html`,
+            content: idxB64,
+            sha: idxMeta.sha
           })
         });
       }

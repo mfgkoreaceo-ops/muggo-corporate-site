@@ -42,6 +42,7 @@ window.ADMIN_UI_I18N = {
     // Left 7 Admin Menus (GNB) & Guide Subtitles (Page 7)
     menu1Title: "📊 대시보드 & 빠른 실행",
     menu1Guide: "현재 설정된 회사 이메일, 노출 중인 채용 공고, 최근 수정 내역을 한눈에 확인합니다.",
+    menu1Target: "전체 현황 요약",
     menu2Title: "🏢 회사 기본정보 · 이메일 · 스위치",
     menu2Guide: "대표 이메일, 채용 전용 이메일, WhatsApp 번호 및 기능 노출 스위치를 변경합니다.",
     menu3Title: "📝 전 페이지 문구 관리 (ID/EN/KO)",
@@ -54,6 +55,7 @@ window.ADMIN_UI_I18N = {
     menu6Guide: "30개 브랜드 정보와 300개 메뉴의 이름·설명·스테이션·이미지를 관리합니다.",
     menu7Title: "🛡️ 보안 · 계정 · 변경이력/복구",
     menu7Guide: "관리자 비밀번호 변경, 실무자 계정 관리, 변경 전/후 비교 및 복구를 수행합니다.",
+    menu7Target: "계정 볼트 & 백업/롤백",
 
     // Variable Insertion & Validation Alerts (Page 8 & Page 12)
     varBarLabel: "클릭하여 자동 치환 변수 넣기:",
@@ -110,6 +112,7 @@ window.ADMIN_UI_I18N = {
     // Left 7 Admin Menus (GNB) & Guide Subtitles (Page 7)
     menu1Title: "📊 Dasbor & Aksi Cepat",
     menu1Guide: "Lihat ringkasan email resmi, lowongan aktif, dan riwayat perubahan terbaru.",
+    menu1Target: "Ringkasan Status",
     menu2Title: "🏢 Info Perusahaan, Email & Sakelar",
     menu2Guide: "Ubah email resmi, email rekrutmen, nomor WhatsApp, dan sakelar fitur situs.",
     menu3Title: "📝 Kelola Teks Semua Halaman (ID/EN/KO)",
@@ -122,6 +125,7 @@ window.ADMIN_UI_I18N = {
     menu6Guide: "Kelola 30 brand kuliner beserta nama, deskripsi, stasiun dapur, dan foto 300 menu.",
     menu7Title: "🛡️ Keamanan, Akun & Riwayat Perubahan",
     menu7Guide: "Ubah kata sandi admin, kelola akun staf, lihat log audit, dan pulihkan versi.",
+    menu7Target: "Vault Akun & Cadangan/Rollback",
 
     // Variable Insertion & Validation Alerts (Page 8 & Page 12)
     varBarLabel: "Klik untuk menyisipkan variabel otomatis:",
@@ -149,7 +153,7 @@ window.ADMIN_I18N_TABS_SCHEMA = [
     id: "tab1",
     labelKo: "탭 1. 공통 영역 (헤더/푸터/모바일바/입사지원 모달)",
     labelId: "Tab 1. Area Umum (Header/Footer/Bilah Seluler/Modal Lamaran)",
-    prefixes: ["nav", "sticky", "footer", "applyModal"]
+    prefixes: ["skipToContent", "themeLabel", "nav", "sticky", "footer", "applyModal"]
   },
   {
     id: "tab2",
