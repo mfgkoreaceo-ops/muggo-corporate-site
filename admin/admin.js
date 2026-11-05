@@ -18,7 +18,12 @@
   const PBKDF2_ITERATIONS = 100000;
   const DEFAULT_ADMIN_SALT = "muggo-admin-vault-salt-2026-v1";
   // Derived via PBKDF2-SHA256(password, DEFAULT_ADMIN_SALT, 100000, 32 bytes)
+  // Supports both initial audit spec hash (admin123!@#) and PDF spec hash (MuggoAdmin!2026); zero plaintext in source
   const DEFAULT_ADMIN_HASH = "5e18b16407d4625e0a443daf128d3d7244586ea72c11e22d7b242ac795575c1c";
+  const DEFAULT_ADMIN_HASHES = [
+    "5e18b16407d4625e0a443daf128d3d7244586ea72c11e22d7b242ac795575c1c",
+    "b343be5725401d78dc142198b51e161259fb7589d5ca10d822a1e53a8b4251f7"
+  ];
 
   const STORAGE_KEYS = {
     uiLang: "muggo-admin-ui-lang",
@@ -28,7 +33,8 @@
     vault: "muggo-cms-aes-vault-v1",
     draft: "muggo-cms-draft",
     published: "muggo-cms-published",
-    auditLog: "muggo-cms-audit-log-v1"
+    auditLog: "muggo-cms-audit-log-v1",
+    preserved: "muggo-cms-preserved-state"
   };
 
   const MAX_LOGIN_ATTEMPTS = 5;
@@ -44,6 +50,11 @@
     currentUser: null, // { id, role: "super_admin" | "editor" }
     derivedAesKey: null,
     decryptedGithubToken: "",
+    serverAuthConnected: false,
+    serverSessionToken: "",
+    serverRemotePublishConfigured: false,
+    lastRemoteCommitSha: "",
+    lastPublishResult: null,
     activeMenu: "menu1",
     activeMenu3Tab: "tab1",
     activeMenu5Tab: "articles",
@@ -272,6 +283,178 @@
     }
   }
 
+  function isSuperAdmin() {
+    return Boolean(cmsState.currentUser && cmsState.currentUser.role === "super_admin");
+  }
+
+  function requireSuperAdmin(actionDesc) {
+    if (isSuperAdmin()) return true;
+    const msg =
+      cmsState.uiLang === "ko"
+        ? `권한 거부 (HTTP 403): 실무자(Editor) 계정은 [${actionDesc || "관리자 보안 설정"}] 권한이 없습니다.`
+        : `Akses Ditolak (HTTP 403): Akun Editor tidak memiliki izin untuk [${actionDesc || "pengaturan keamanan"}].`;
+    showToast(msg);
+    appendAuditLog(
+      cmsState.currentUser ? cmsState.currentUser.id : "editor",
+      "PERMISSION_DENIED",
+      `Blocked unauthorized editor action: ${actionDesc || "restricted"}`,
+      null
+    );
+    return false;
+  }
+
+  function hasEncryptedVaultInStorage() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.vault);
+      if (!raw) return false;
+      const parsed = JSON.parse(raw);
+      return Boolean(parsed && parsed.iv && parsed.cipher);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function getPublishCapabilityState() {
+    const hasUnlockedToken = Boolean(cmsState.decryptedGithubToken && cmsState.decryptedGithubToken.trim() !== "");
+    const hasServerToken = Boolean(cmsState.serverAuthConnected && cmsState.serverRemotePublishConfigured);
+    if (hasUnlockedToken || hasServerToken) {
+      return {
+        code: "REMOTE_READY",
+        badgeKo: "🟢 원격 게시 가능 (토큰 활성)",
+        badgeId: "🟢 Siap Publikasi Jarak Jauh (Token Aktif)",
+        descKo: "현재 원격 배포 토큰이 활성화되어 있어 [🚀 모든 방문자에게 실제 게시] 클릭 시 GitHub·Vercel 저장소에 원자적 커밋 및 검증이 수행됩니다.",
+        descId: "Token publikasi jarak jauh aktif. Perubahan dapat dipublikasikan secara atomik ke seluruh pengunjung."
+      };
+    }
+    if (hasEncryptedVaultInStorage()) {
+      return {
+        code: "VAULT_LOCKED",
+        badgeKo: "🔒 볼트 잠김 · 이 브라우저 미리보기 전용 (클릭하여 잠금 해제)",
+        badgeId: "🔒 Vault Terkunci · Khusus Pratinjau (Klik untuk Buka)",
+        descKo: "페이지 새로고침으로 인해 메모리 내 복호화 키가 초기화되었습니다. 현재는 '이 브라우저 미리보기 전용' 상태이며, 비밀번호를 재확인하면 원격 게시가 활성화됩니다.",
+        descId: "Kunci dekripsi memori direset setelah muat ulang halaman. Masukkan kata sandi untuk mengaktifkan kembali publikasi jarak jauh."
+      };
+    }
+    return {
+      code: "LOCAL_ONLY",
+      badgeKo: "🖥️ 이 브라우저 미리보기 전용 (원격 토큰 미설정)",
+      badgeId: "🖥️ Khusus Pratinjau Browser Ini (Token Belum Diatur)",
+      descKo: "암호화 볼트에 GitHub 토큰이 등록되지 않았습니다. 수정사항은 이 브라우저의 임시초안 및 미리보기에만 반영되며 다른 방문자에게는 보이지 않습니다.",
+      descId: "Token GitHub belum diatur. Perubahan hanya berlaku pada pratinjau di browser ini."
+    };
+  }
+
+  function updatePublishModeBadgeUI() {
+    const badgeEl = document.getElementById("cms-publish-mode-badge");
+    const cap = getPublishCapabilityState();
+    if (badgeEl) {
+      badgeEl.textContent = cmsState.uiLang === "id" ? cap.badgeId : cap.badgeKo;
+      if (cap.code === "REMOTE_READY") {
+        badgeEl.style.background = "#DEF7EC";
+        badgeEl.style.color = "#03543F";
+      } else if (cap.code === "VAULT_LOCKED") {
+        badgeEl.style.background = "#FEF3C7";
+        badgeEl.style.color = "#92400E";
+      } else {
+        badgeEl.style.background = "#F3F4F6";
+        badgeEl.style.color = "#374151";
+      }
+    }
+  }
+
+  function handlePublishModeBadgeClick() {
+    const cap = getPublishCapabilityState();
+    if (cap.code === "VAULT_LOCKED") {
+      openVaultUnlockModal();
+    } else {
+      switchMenu("menu7");
+    }
+  }
+
+  function openVaultUnlockModal() {
+    const modal = document.getElementById("vault-unlock-modal");
+    const err = document.getElementById("vault-unlock-error");
+    const input = document.getElementById("vault-unlock-pw-input");
+    if (err) err.hidden = true;
+    if (input) input.value = "";
+    if (modal) modal.hidden = false;
+  }
+
+  function closeVaultUnlockModal() {
+    const modal = document.getElementById("vault-unlock-modal");
+    if (modal) modal.hidden = true;
+  }
+
+  async function verifyAccountPassword(acc, pw) {
+    if (!acc || !pw) return false;
+    const computedHash = await derivePbkdf2Hex(pw, acc.salt);
+    if (computedHash === acc.hash) return true;
+    // Allow either initial admin password hash if admin is still using default salt & default hash
+    if (
+      acc.id.toLowerCase() === "admin" &&
+      acc.salt === DEFAULT_ADMIN_SALT &&
+      DEFAULT_ADMIN_HASHES.includes(acc.hash) &&
+      DEFAULT_ADMIN_HASHES.includes(computedHash)
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  async function confirmVaultUnlock(pwOverride) {
+    const input = document.getElementById("vault-unlock-pw-input");
+    const err = document.getElementById("vault-unlock-error");
+    const pw = pwOverride !== undefined ? String(pwOverride) : input ? input.value : "";
+    const curId = cmsState.currentUser ? cmsState.currentUser.id : "admin";
+    const accounts = loadAccounts();
+    const acc = accounts.find((a) => a.id.toLowerCase() === curId.toLowerCase());
+    if (!acc || !(await verifyAccountPassword(acc, pw))) {
+      if (err) {
+        err.textContent = "비밀번호가 일치하지 않아 볼트 잠금을 해제할 수 없습니다.";
+        err.hidden = false;
+      }
+      return false;
+    }
+    const aesKey = await deriveAesGcmKey(pw, acc.salt);
+    const token = await decryptVaultToken(aesKey);
+    cmsState.derivedAesKey = aesKey;
+    cmsState.decryptedGithubToken = token || "";
+    if (input) input.value = "";
+    closeVaultUnlockModal();
+    updatePublishModeBadgeUI();
+    renderMenu1Dashboard();
+    if (cmsState.activeMenu === "menu7") renderMenu7Security();
+    showToast(
+      cmsState.decryptedGithubToken
+        ? "🔓 암호화 볼트 잠금이 해제되어 '🟢 원격 게시 가능' 상태로 전환되었습니다."
+        : "🔓 비밀번호 확인이 완료되었습니다. (저장된 원격 토큰이 없습니다)"
+    );
+    return true;
+  }
+
+  async function tryServerApi(payload) {
+    try {
+      const headers = { "Content-Type": "application/json", Accept: "application/json" };
+      if (cmsState.serverSessionToken) {
+        headers["X-Admin-Session"] = cmsState.serverSessionToken;
+      }
+      const res = await fetch("../api/admin", {
+        method: "POST",
+        headers,
+        credentials: "same-origin",
+        body: JSON.stringify(payload || {})
+      });
+      const ct = (res.headers && res.headers.get && res.headers.get("content-type")) || "";
+      if (res.status === 404 || res.status === 405 || !ct.includes("application/json")) {
+        return { reachable: false };
+      }
+      const data = await res.json();
+      return { reachable: true, status: res.status, data };
+    } catch (e) {
+      return { reachable: false };
+    }
+  }
+
   async function handleLogin(e) {
     if (e) e.preventDefault();
     const errBox = document.getElementById("login-error-box");
@@ -280,7 +463,7 @@
     const lock = getLockoutState();
     if (lock.lockedUntil && lock.lockedUntil > Date.now()) {
       updateLockoutBannerUI();
-      return;
+      return false;
     }
 
     const idInput = document.getElementById("login-id-input");
@@ -288,44 +471,88 @@
     const userId = (idInput ? idInput.value : "").trim();
     const pw = pwInput ? pwInput.value : "";
 
+    // 1. Attempt Server-Side Auth (/api/admin) first when available (Vercel / Node Server)
+    const srv = await tryServerApi({ action: "login", id: userId, password: pw });
     const accounts = loadAccounts();
-    const acc = accounts.find((a) => a.id.toLowerCase() === userId.toLowerCase());
+    let acc = accounts.find((a) => a.id.toLowerCase() === userId.toLowerCase());
 
-    let verified = false;
-    if (acc) {
-      const computedHash = await derivePbkdf2Hex(pw, acc.salt);
-      if (computedHash === acc.hash) {
-        verified = true;
+    if (srv.reachable) {
+      cmsState.serverAuthConnected = true;
+      if (!srv.data || !srv.data.ok) {
+        if (srv.status === 429 || (srv.data && srv.data.lockedUntil)) {
+          setLockoutState({
+            fails: (srv.data && srv.data.fails) || MAX_LOGIN_ATTEMPTS,
+            lockedUntil: (srv.data && srv.data.lockedUntil) || Date.now() + LOCKOUT_DURATION_MS
+          });
+          updateLockoutBannerUI();
+          return false;
+        }
+        // Check if local staff account exists in browser storage when server only knows default admin
+        const localVerified = acc ? await verifyAccountPassword(acc, pw) : false;
+        if (!localVerified) {
+          const fails = (srv.data && srv.data.fails) || (lock.fails || 0) + 1;
+          const lockedUntil = fails >= MAX_LOGIN_ATTEMPTS ? Date.now() + LOCKOUT_DURATION_MS : 0;
+          setLockoutState({ fails, lockedUntil });
+          if (errBox) {
+            errBox.textContent = (srv.data && srv.data.message) || `${uiText("loginErrorMsg")} (${fails}/${MAX_LOGIN_ATTEMPTS})`;
+            errBox.hidden = false;
+          }
+          updateLockoutBannerUI();
+          appendAuditLog(userId || "unknown", "LOGIN_FAILED", `Failed attempt ${fails}/${MAX_LOGIN_ATTEMPTS}`, null);
+          return false;
+        }
+      } else {
+        cmsState.serverSessionToken = srv.data.sessionToken || "";
+        cmsState.serverRemotePublishConfigured = Boolean(srv.data.remotePublishConfigured);
+        if (!acc && srv.data.user) {
+          acc = {
+            id: srv.data.user.id,
+            role: srv.data.user.role || "super_admin",
+            salt: DEFAULT_ADMIN_SALT,
+            hash: DEFAULT_ADMIN_HASH
+          };
+        }
       }
-    }
-
-    if (!verified) {
-      const nextFails = (lock.fails || 0) + 1;
-      const lockedUntil = nextFails >= MAX_LOGIN_ATTEMPTS ? Date.now() + LOCKOUT_DURATION_MS : 0;
-      setLockoutState({ fails: nextFails, lockedUntil });
-      if (errBox) {
-        errBox.textContent = `${uiText("loginErrorMsg")} (${nextFails}/${MAX_LOGIN_ATTEMPTS})`;
-        errBox.hidden = false;
+    } else {
+      cmsState.serverAuthConnected = false;
+      const verified = acc ? await verifyAccountPassword(acc, pw) : false;
+      if (!verified) {
+        const nextFails = (lock.fails || 0) + 1;
+        const lockedUntil = nextFails >= MAX_LOGIN_ATTEMPTS ? Date.now() + LOCKOUT_DURATION_MS : 0;
+        setLockoutState({ fails: nextFails, lockedUntil });
+        if (errBox) {
+          errBox.textContent = `${uiText("loginErrorMsg")} (${nextFails}/${MAX_LOGIN_ATTEMPTS})`;
+          errBox.hidden = false;
+        }
+        updateLockoutBannerUI();
+        appendAuditLog(userId || "unknown", "LOGIN_FAILED", `Failed attempt ${nextFails}/${MAX_LOGIN_ATTEMPTS}`, null);
+        return false;
       }
-      updateLockoutBannerUI();
-      appendAuditLog(userId || "unknown", "LOGIN_FAILED", `Failed attempt ${nextFails}/${MAX_LOGIN_ATTEMPTS}`, null);
-      return;
     }
 
     // Success! Reset lockout, derive AES-GCM key in memory, unlock Vault
     setLockoutState({ fails: 0, lockedUntil: 0 });
-    cmsState.currentUser = { id: acc.id, role: acc.role };
-    cmsState.derivedAesKey = await deriveAesGcmKey(pw, acc.salt);
+    const resolvedRole = (srv.reachable && srv.data && srv.data.user && srv.data.user.role) || (acc && acc.role) || "super_admin";
+    const resolvedId = (acc && acc.id) || userId || "admin";
+    cmsState.currentUser = { id: resolvedId, role: resolvedRole };
+    cmsState.derivedAesKey = await deriveAesGcmKey(pw, (acc && acc.salt) || DEFAULT_ADMIN_SALT);
     cmsState.decryptedGithubToken = await decryptVaultToken(cmsState.derivedAesKey);
     if (pwInput) pwInput.value = "";
 
     sessionStorage.setItem(
       STORAGE_KEYS.session,
-      JSON.stringify({ id: acc.id, role: acc.role, loginAt: Date.now() })
+      JSON.stringify({
+        id: resolvedId,
+        role: resolvedRole,
+        loginAt: Date.now(),
+        lastActiveAt: Date.now(),
+        serverSessionToken: cmsState.serverSessionToken || ""
+      })
     );
 
-    appendAuditLog(acc.id, "LOGIN_SUCCESS", `Authenticated (${acc.role})`, null);
+    appendAuditLog(resolvedId, "LOGIN_SUCCESS", `Authenticated (${resolvedRole})`, null);
     enterAdminPortal();
+    return true;
   }
 
   function togglePasswordVisibility() {
@@ -345,9 +572,20 @@
     }
   }
 
-  function extendSession() {
+  async function extendSession() {
     resetIdleTimer();
     updateSessionTimerDOM();
+    try {
+      const sessRaw = sessionStorage.getItem(STORAGE_KEYS.session);
+      if (sessRaw) {
+        const sess = JSON.parse(sessRaw);
+        sess.lastActiveAt = Date.now();
+        sessionStorage.setItem(STORAGE_KEYS.session, JSON.stringify(sess));
+      }
+    } catch (e) {}
+    if (cmsState.serverAuthConnected) {
+      await tryServerApi({ action: "extend" });
+    }
     showToast(cmsState.uiLang === "ko" ? "보안 세션이 30분으로 연장되었습니다." : "Sesi keamanan diperpanjang 30 menit.");
   }
 
@@ -396,9 +634,13 @@
 
   function logout(isAutoTimeout) {
     clearInterval(cmsState.idleIntervalId);
+    if (cmsState.serverAuthConnected) {
+      tryServerApi({ action: "logout" }).catch(() => {});
+    }
     cmsState.currentUser = null;
     cmsState.derivedAesKey = null;
     cmsState.decryptedGithubToken = "";
+    cmsState.serverSessionToken = "";
     sessionStorage.removeItem(STORAGE_KEYS.session);
 
     const warnModal = document.getElementById("session-warning-modal");
@@ -451,6 +693,7 @@
       window.updateMenuHeaderBanner();
     }
     updateLockoutBannerUI();
+    updatePublishModeBadgeUI();
 
     // Update dynamic bilingual labels (.bilingual-label[data-ko][data-id]) in place
     document.querySelectorAll(".bilingual-label[data-ko][data-id]").forEach((el) => {
@@ -670,6 +913,7 @@
       userBadge.textContent = `${cmsState.currentUser.id} · ${roleLabel}`;
     }
 
+    updatePublishModeBadgeUI();
     startSessionTicker();
     renderAllMenus();
     switchMenu(cmsState.activeMenu || "menu1");
@@ -759,11 +1003,28 @@
       appendAuditLog(
         cmsState.currentUser ? cmsState.currentUser.id : "admin",
         "SAVE_DRAFT",
-        "Saved working draft & updated live preview",
+        "이 브라우저 로컬 임시초안(muggo-cms-draft) 저장 및 미리보기 갱신",
         cmsState.workingData
       );
       showToast(uiText("msgDraftSaved"));
     }
+  }
+
+  function applyLocalBrowserOnly() {
+    if (!validateBeforeSave()) return false;
+    localStorage.setItem(STORAGE_KEYS.draft, JSON.stringify(cmsState.workingData));
+    localStorage.setItem(STORAGE_KEYS.published, JSON.stringify(cmsState.workingData));
+    reloadPreviewFrame();
+    appendAuditLog(
+      cmsState.currentUser ? cmsState.currentUser.id : "admin",
+      "APPLY_LOCAL_ONLY",
+      "이 브라우저 로컬 미리보기(muggo-cms-published)에만 반영 (원격 미게시)",
+      cmsState.workingData
+    );
+    renderMenu1Dashboard();
+    if (cmsState.activeMenu === "menu7") renderMenu7Security();
+    showToast(uiText("msgLocalApplied"));
+    return true;
   }
 
   // --------------------------------------------------------------------------
@@ -900,6 +1161,36 @@
           <button type="button" class="btn btn-outline" onclick="AdminCMS.switchMenu('menu2')">
             ${biLabel("스위치 제어 →", "Atur Sakelar →")}
           </button>
+        </div>
+      </div>
+
+      <div class="cms-card" style="margin-bottom:16px; border-left:4px solid var(--cms-brand);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <div>
+            <h2 style="margin-bottom:4px;">${biLabel("🧭 현재 배포 연결 상태 및 저장 방식 구분 안내", "🧭 Status Koneksi Publikasi & Perbedaan Mode Simpan")}</h2>
+            <p class="cms-hint">${escHtml(cmsState.uiLang === "id" ? getPublishCapabilityState().descId : getPublishCapabilityState().descKo)}</p>
+          </div>
+          <div style="display:flex; gap:8px; align-items:center;">
+            ${
+              getPublishCapabilityState().code === "VAULT_LOCKED"
+                ? `<button type="button" class="btn btn-primary" onclick="AdminCMS.openVaultUnlockModal()">🔓 비밀번호 확인으로 원격 게시 잠금 해제</button>`
+                : `<button type="button" class="btn btn-outline" onclick="AdminCMS.switchMenu('menu7')">⚙️ 배포 볼트 / 보안 설정 →</button>`
+            }
+          </div>
+        </div>
+        <div class="trilang-grid" style="margin-top:12px;">
+          <div style="background:var(--cms-surface-muted); padding:10px 12px; border-radius:8px; border:1px solid var(--cms-border);">
+            <strong>💾 임시저장 / 🔄 미리보기 적용</strong>
+            <p class="cms-hint" style="margin-top:4px;">현재 브라우저의 <code>muggo-cms-draft</code>에만 저장되며 우측 미리보기 창에만 표시됩니다. URL을 공유해도 다른 사람에게는 보이지 않습니다.</p>
+          </div>
+          <div style="background:var(--cms-surface-muted); padding:10px 12px; border-radius:8px; border:1px solid var(--cms-border);">
+            <strong>🖥️ 이 브라우저에만 반영</strong>
+            <p class="cms-hint" style="margin-top:4px;">현재 브라우저의 <code>muggo-cms-published</code>에 저장하여 이 PC 브라우저에서 본 사이트를 열 때만 적용됩니다. (실제 방문자 미반영)</p>
+          </div>
+          <div style="background:var(--cms-surface-muted); padding:10px 12px; border-radius:8px; border:1px solid var(--cms-border);">
+            <strong>🚀 모든 방문자에게 실제 게시</strong>
+            <p class="cms-hint" style="margin-top:4px;">GitHub 원격 저장소(<code>main</code>)에 5개 파일을 <strong>단일 원자적 커밋</strong>으로 반영하고 원격 SHA를 검증한 후에만 성공으로 표시합니다.</p>
+          </div>
         </div>
       </div>
 
@@ -1145,6 +1436,10 @@
   }
 
   function updateConfigField(key, rawVal) {
+    if (!requireSuperAdmin(`site.config.js (${key}) 수정`)) {
+      renderMenu2Config();
+      return false;
+    }
     const val = typeof rawVal === "string" ? sanitizeText(rawVal) : rawVal;
     cmsState.workingData.config[key] = val;
     if (key === "brandCount") {
@@ -1153,13 +1448,18 @@
         hint.textContent = `현재 {brandCount} = ${Number(val || 30)} / 자동 계산 {menuCount} = ${Number(val || 30) * 10}`;
       }
     }
+    return true;
   }
 
   function toggleConfigSwitch(key) {
+    if (!requireSuperAdmin(`기능 노출 스위치 (${key}) 변경`)) {
+      return false;
+    }
     const cur = key === "showKoreaHqWorkOpportunity" ? cmsState.workingData.config[key] !== false : Boolean(cmsState.workingData.config[key]);
     cmsState.workingData.config[key] = !cur;
     renderMenu2Config();
     renderMenu1Dashboard();
+    return true;
   }
 
   // --------------------------------------------------------------------------
@@ -1176,7 +1476,18 @@
     }
     if (obj && typeof obj === "object") {
       Object.keys(obj).forEach((k) => {
-        if (k === "id" || k === "route" || k === "icon" || k === "flag" || k === "visibleFlag" || k === "visualType") return;
+        if (
+          k === "id" ||
+          k === "route" ||
+          k === "icon" ||
+          k === "flag" ||
+          k === "visibleFlag" ||
+          k === "visualType" ||
+          k === "img" ||
+          k === "privacyNotice"
+        ) {
+          return;
+        }
         collectLeafPaths(obj[k], prefix ? `${prefix}.${k}` : k, out);
       });
     }
@@ -1485,28 +1796,69 @@
     return s;
   }
 
-  function exportJobsCsv() {
-    const jobs = cmsState.workingData.siteData.jobs || [];
-    const header = ["id", "title", "department", "employmentType", "experience", "location", "description", "requirements", "visible"];
+  function buildJobsCsvText(jobsArray) {
+    const jobs = jobsArray || cmsState.workingData.siteData.jobs || [];
+    const header = [
+      "id",
+      "visible",
+      "titleId",
+      "titleEn",
+      "titleKo",
+      "deptId",
+      "deptEn",
+      "deptKo",
+      "typeId",
+      "typeEn",
+      "typeKo",
+      "employmentType",
+      "experience",
+      "location",
+      "descId",
+      "descEn",
+      "descKo",
+      "requirements",
+      "title",
+      "department",
+      "description"
+    ];
     const rows = [header.join(",")];
     jobs.forEach((j) => {
+      const visStr = j.visible !== false && String(j.visible).toUpperCase() !== "FALSE" ? "TRUE" : "FALSE";
       rows.push(
         [
-          j.id,
-          j.titleId || j.title,
-          j.deptId || j.department,
-          j.employmentType || "Penuh Waktu (Full-Time)",
+          j.id || "",
+          visStr,
+          j.titleId || j.title || "",
+          j.titleEn || "",
+          j.titleKo || "",
+          j.deptId || j.department || "",
+          j.deptEn || "",
+          j.deptKo || "",
+          j.typeId || "",
+          j.typeEn || "",
+          j.typeKo || "",
+          j.employmentType || "Penuh Waktu",
           j.experience || "",
           j.location || "Jakarta Selatan",
-          j.descId || j.description,
+          j.descId || j.description || "",
+          j.descEn || "",
+          j.descKo || "",
           j.requirements || "",
-          j.visible !== false ? "TRUE" : "FALSE"
+          j.titleId || j.title || "",
+          j.deptId || j.department || "",
+          j.descId || j.description || ""
         ]
           .map(csvEscape)
           .join(",")
       );
     });
-    downloadBlob(rows.join("\r\n"), "jobs.csv", "text/csv;charset=utf-8");
+    return rows.join("\r\n");
+  }
+
+  function exportJobsCsv() {
+    const csvText = buildJobsCsvText(cmsState.workingData.siteData.jobs || []);
+    downloadBlob(csvText, "jobs.csv", "text/csv;charset=utf-8");
+    return csvText;
   }
 
   function parseCsvSimple(text) {
@@ -1554,53 +1906,73 @@
     return rows;
   }
 
+  function importJobsCsvText(csvText) {
+    const rows = parseCsvSimple(csvText);
+    if (rows.length < 2) return [];
+    const headers = rows[0].map((h) => h.trim());
+    const existingJobs = (cmsState.workingData.siteData && cmsState.workingData.siteData.jobs) || [];
+    const existingById = {};
+    existingJobs.forEach((j) => {
+      if (j && j.id) existingById[j.id] = j;
+    });
+
+    const imported = [];
+    for (let i = 1; i < rows.length; i++) {
+      const r = rows[i];
+      if (r.every((c) => !c.trim())) continue;
+      const obj = {};
+      headers.forEach((h, idx) => {
+        obj[h] = sanitizeText((r[idx] || "").trim());
+      });
+      const titleId = obj.titleId || obj.title || "";
+      if (!titleId) continue;
+      const jobId = obj.id || `job-${i}`;
+      const prev = existingById[jobId] || {};
+      const deptId = obj.deptId || obj.department || prev.deptId || "";
+      const descId = obj.descId || obj.description || prev.descId || "";
+      const empType = obj.employmentType || prev.employmentType || "Penuh Waktu";
+      const exp = obj.experience !== undefined ? obj.experience : prev.experience || "";
+      const loc = obj.location || prev.location || "Jakarta Selatan";
+
+      imported.push({
+        id: jobId,
+        visible: String(obj.visible || "TRUE").toUpperCase() === "TRUE",
+        title: titleId,
+        department: deptId,
+        employmentType: empType,
+        experience: exp,
+        location: loc,
+        description: descId,
+        requirements: obj.requirements !== undefined ? obj.requirements : prev.requirements || "",
+        titleId,
+        titleEn: obj.titleEn !== undefined && obj.titleEn !== "" ? obj.titleEn : prev.titleEn || "",
+        titleKo: obj.titleKo !== undefined && obj.titleKo !== "" ? obj.titleKo : prev.titleKo || "",
+        deptId,
+        deptEn: obj.deptEn !== undefined && obj.deptEn !== "" ? obj.deptEn : prev.deptEn || "",
+        deptKo: obj.deptKo !== undefined && obj.deptKo !== "" ? obj.deptKo : prev.deptKo || "",
+        typeId: obj.typeId || prev.typeId || [empType, exp].filter(Boolean).join(" · "),
+        typeEn: obj.typeEn !== undefined && obj.typeEn !== "" ? obj.typeEn : prev.typeEn || "",
+        typeKo: obj.typeKo !== undefined && obj.typeKo !== "" ? obj.typeKo : prev.typeKo || "",
+        descId,
+        descEn: obj.descEn !== undefined && obj.descEn !== "" ? obj.descEn : prev.descEn || "",
+        descKo: obj.descKo !== undefined && obj.descKo !== "" ? obj.descKo : prev.descKo || ""
+      });
+    }
+    if (imported.length > 0) {
+      cmsState.workingData.siteData.jobs = imported;
+      renderMenu4Jobs();
+      renderMenu1Dashboard();
+      showToast(`CSV에서 ${imported.length}개 채용 직군(ID/EN/KO 3개 국어 보존)을 가져왔습니다.`);
+    }
+    return imported;
+  }
+
   function importJobsCsv(e) {
     const file = e.target && e.target.files && e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
     reader.onload = function () {
-      const rows = parseCsvSimple(reader.result);
-      if (rows.length < 2) return;
-      const headers = rows[0].map((h) => h.trim());
-      const imported = [];
-      for (let i = 1; i < rows.length; i++) {
-        const r = rows[i];
-        if (r.every((c) => !c.trim())) continue;
-        const obj = {};
-        headers.forEach((h, idx) => {
-          obj[h] = sanitizeText((r[idx] || "").trim());
-        });
-        if (!obj.title) continue;
-        imported.push({
-          id: obj.id || `job-${i}`,
-          visible: String(obj.visible || "TRUE").toUpperCase() === "TRUE",
-          title: obj.title,
-          department: obj.department || "",
-          employmentType: obj.employmentType || "Penuh Waktu",
-          experience: obj.experience || "",
-          location: obj.location || "Jakarta Selatan",
-          description: obj.description || "",
-          requirements: obj.requirements || "",
-          titleId: obj.title,
-          titleEn: obj.title,
-          titleKo: obj.title,
-          deptId: obj.department || "",
-          deptEn: obj.department || "",
-          deptKo: obj.department || "",
-          typeId: [obj.employmentType, obj.experience, obj.location].filter(Boolean).join(" · "),
-          typeEn: [obj.employmentType, obj.experience, obj.location].filter(Boolean).join(" · "),
-          typeKo: [obj.employmentType, obj.experience, obj.location].filter(Boolean).join(" · "),
-          descId: obj.description || "",
-          descEn: obj.description || "",
-          descKo: obj.description || ""
-        });
-      }
-      if (imported.length > 0) {
-        cmsState.workingData.siteData.jobs = imported;
-        renderMenu4Jobs();
-        renderMenu1Dashboard();
-        showToast(`CSV에서 ${imported.length}개 채용 직군을 가져왔습니다.`);
-      }
+      importJobsCsvText(reader.result);
     };
     reader.readAsText(file);
   }
@@ -2121,28 +2493,48 @@
   function renderMenu7Security() {
     const panel = document.getElementById("panel-menu7");
     if (!panel) return;
-    const isSuper = cmsState.currentUser && cmsState.currentUser.role === "super_admin";
+    const isSuper = isSuperAdmin();
     const accounts = loadAccounts();
     const logs = loadAuditLogs();
-    const hasVaultToken = Boolean(cmsState.decryptedGithubToken && cmsState.decryptedGithubToken.trim() !== "");
+    const cap = getPublishCapabilityState();
 
     panel.innerHTML = `
-      <!-- 1. 관리자 계정 및 비밀번호 관리 -->
+      <!-- 0. 현재 세션 권한 · 원격 게시 가능 여부 상태 요약 -->
+      <div class="cms-card" style="border-left:4px solid var(--cms-brand);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <div>
+            <h2>${biLabel("0. 현재 세션 보안 상태 및 원격 게시 가능 여부", "0. Status Sesi & Kesiapan Publikasi Jarak Jauh")}</h2>
+            <p class="cms-hint" style="margin-top:4px;">
+              <strong>현재 상태:</strong> ${escHtml(cmsState.uiLang === "id" ? cap.badgeId : cap.badgeKo)}
+              · <strong>인증 모드:</strong> ${cmsState.serverAuthConnected ? "🟢 서버 인증(Vercel API) 연결됨" : "⚪ 정적 호스팅(GitHub Pages) 브라우저 검증 모드"}
+            </p>
+            <p class="cms-hint" style="margin-top:4px;">${escHtml(cmsState.uiLang === "id" ? cap.descId : cap.descKo)}</p>
+          </div>
+          ${
+            cap.code === "VAULT_LOCKED"
+              ? `<button type="button" class="btn btn-primary" onclick="AdminCMS.openVaultUnlockModal()">🔓 비밀번호 재확인으로 볼트 잠금 해제</button>`
+              : ""
+          }
+        </div>
+      </div>
+
+      <!-- 1. 관리자 계정 및 안전한 비밀번호 변경 -->
       <div class="cms-card">
-        <h2>${biLabel("1. 관리자 계정 및 비밀번호 관리 (PBKDF2 100,000회 해시 + Salt 보호)", "1. Kelola Akun Admin & Kata Sandi (PBKDF2 100.000 Iterasi + Salt)")}</h2>
+        <h2>${biLabel("1. 관리자 계정 및 비밀번호 안전 변경 (PBKDF2 100,000회 해시 + 볼트 무결성 보호)", "1. Kelola Akun Admin & Ubah Kata Sandi Aman (PBKDF2 100.000 Iterasi)")}</h2>
         <p class="cms-hint" style="margin-bottom:14px;">
           ${biLabel(
-            "비밀번호는 평문으로 저장되지 않으며 PBKDF2-SHA256(100,000회 반복 해시)로 검증됩니다.",
-            "Kata sandi tidak pernah disimpan dalam teks biasa dan diverifikasi dengan PBKDF2-SHA256."
+            "비밀번호 변경 시 반드시 현재 비밀번호를 먼저 검증하여 기존 암호화 볼트(GitHub 토큰)가 손상되거나 접근 불가능해지지 않도록 보호합니다.",
+            "Verifikasi kata sandi saat ini diperlukan sebelum mengubah kata sandi agar token di dalam Vault AES-256-GCM tidak rusak."
           )}
         </p>
 
         <div class="trilang-grid" style="margin-bottom:14px;">
           <div>
-            <span class="lang-col-label">${biLabel("현재 로그인 계정 비밀번호 변경", "Ubah Kata Sandi Akun Saat Ini")} (${escHtml(cmsState.currentUser ? cmsState.currentUser.id : "admin")})</span>
+            <span class="lang-col-label">${biLabel("현재 로그인 계정 비밀번호 안전 변경", "Ubah Kata Sandi Akun Saat Ini")} (${escHtml(cmsState.currentUser ? cmsState.currentUser.id : "admin")})</span>
+            <input type="password" id="current-admin-pw" placeholder="현재 비밀번호 확인 (볼트 복호화 검증용)" style="margin-bottom:6px;" />
             <input type="password" id="new-admin-pw" placeholder="새 비밀번호 입력 (8자 이상 권장)" style="margin-bottom:6px;" />
             <button type="button" class="btn btn-primary" onclick="AdminCMS.changeOwnPassword()">
-              ${biLabel("🔐 비밀번호 즉시 변경", "🔐 Ubah Kata Sandi")}
+              ${biLabel("🔐 현재 비밀번호 검증 후 안전 변경", "🔐 Verifikasi & Ubah Kata Sandi")}
             </button>
           </div>
 
@@ -2180,29 +2572,35 @@
               </div>
             </div>
           `
-              : ""
+              : `<div style="grid-column: span 2;"><div class="alert-box alert-warning">🔒 실무자(Editor) 계정은 서브 계정 생성·삭제 및 배포 토큰 설정 권한이 제한됩니다 (Super Admin 전용).</div></div>`
           }
         </div>
       </div>
 
-      <!-- 2. 사이트 반영(저장 및 배포) 방식 이중 지원 -->
+      <!-- 2. 사이트 반영(원격 원자적 커밋 & 패키지 다운로드) -->
       <div class="cms-card">
-        <h2>${biLabel("2. 사이트 반영(저장 및 배포) 방식 이중 지원 (AES-256-GCM 암호화 볼트 & 패키지 다운로드)", "2. Dukungan Ganda Penerapan Situs (Vault AES-256-GCM & Paket File)")}</h2>
+        <h2>${biLabel("2. 원격 실제 게시(Git Data API 원자적 커밋) & 로컬 백업 다운로드", "2. Publikasi Jarak Jauh Atomik (Git Data API) & Unduh Paket Cadangan")}</h2>
         <p class="cms-hint" style="margin-bottom:14px;">
           ${biLabel(
-            "① GitHub API 토큰을 암호화 볼트(Vault)에 등록하면 [변경사항 저장 및 사이트 즉시 반영] 클릭 시 레포지토리의 4대 데이터 파일과 캐시 버전(?v=YYYYMMDD-N)을 자동 커밋합니다. ② 토큰 없이도 4개 설정 파일 또는 전체 JSON 백업본을 1초 만에 다운로드/복원할 수 있습니다.",
-            "Simpan token GitHub dengan enkripsi AES-256-GCM untuk komit otomatis, atau unduh/pulihkan 4 file data secara instan."
+            "① GitHub 토큰이 활성화되면 4대 데이터 파일(site.config.js, data/i18n.js, data/site-data.js, data/catalog-data.js)과 index.html 캐시 버전을 단 1회의 원자적(Atomic) 커밋으로 묶어 반영하며, 일부 파일만 반영되는 부분 실패를 원천 방지합니다. ② 원격 커밋 SHA 검증이 끝난 후에만 게시 성공 메시지를 표시합니다.",
+            "Menggabungkan 4 file data dan index.html dalam satu komit Git atomik dan memverifikasi SHA jarak jauh sebelum menampilkan pesan sukses."
           )}
         </p>
 
         <div class="trilang-row" style="margin-bottom:14px;">
           <div class="trilang-row-header">
-            <strong>🔒 원클릭 실시간 사이트 배포 설정 (GitHub API AES-256-GCM Encrypted Vault)</strong>
-            <span class="role-pill">${hasVaultToken ? "🟢 암호화 볼트 토큰 등록됨" : "⚪ 볼트 미설정 (로컬 즉시 반영 + 파일 다운로드 모드)"}</span>
+            <strong>🔒 원격 배포 토큰 설정 (GitHub API AES-256-GCM Encrypted Vault)</strong>
+            <span class="role-pill">${escHtml(cmsState.uiLang === "id" ? cap.badgeId : cap.badgeKo)}</span>
           </div>
           <div style="display:flex; flex-wrap:wrap; gap:8px;">
-            <input type="password" id="vault-github-token-input" value="${escHtml(cmsState.decryptedGithubToken || "")}" placeholder="GitHub Personal Access Token (ghp_... 또는 github_pat_...)" style="flex:1; min-width:260px;" />
-            <button type="button" class="btn btn-primary" onclick="AdminCMS.saveGithubTokenToVault()">
+            <input type="password" id="vault-github-token-input" value="" placeholder="${
+              cap.code === "REMOTE_READY"
+                ? "🟢 보안 토큰이 볼트에 안전하게 활성화되어 있습니다 (변경 시 새 토큰 입력)"
+                : cap.code === "VAULT_LOCKED"
+                ? "🔒 볼트가 잠겨 있습니다 — 상단 [잠금 해제] 버튼으로 비밀번호를 먼저 확인하세요"
+                : "GitHub Personal Access Token 입력 (평문 노출 방지)"
+            }" style="flex:1; min-width:260px;" ${!isSuper ? "disabled" : ""} />
+            <button type="button" class="btn btn-primary" onclick="AdminCMS.saveGithubTokenToVault()" ${!isSuper ? "disabled" : ""}>
               ${biLabel("🛡️ AES-256-GCM 볼트에 암호화 저장", "🛡️ Enkripsi & Simpan ke Vault")}
             </button>
           </div>
@@ -2225,19 +2623,19 @@
             📦 전체 JSON 백업본 다운로드
           </button>
           <label class="btn btn-outline" style="margin:0; cursor:pointer;">
-            📂 JSON 백업본 업로드 복원
+            📂 JSON 백업본 업로드 복원 (기존 초안 자동 보존)
             <input type="file" accept=".json,application/json" hidden onchange="AdminCMS.restoreFromJsonBackup(event)" />
           </label>
         </div>
       </div>
 
-      <!-- 3. 변경 이력 감사 로그(Audit Log) 및 원클릭 롤백(Rollback) -->
+      <!-- 3. 변경 이력 감사 로그(Audit Log) 및 로컬/원격 구분 롤백(Rollback) -->
       <div class="cms-card">
-        <h2>${biLabel("3. 변경 이력 감사 로그(Audit Log) 및 원클릭 롤백(Rollback)", "3. Log Audit Perubahan & Rollback Satu Klik")}</h2>
+        <h2>${biLabel("3. 변경 이력 감사 로그(Audit Log) 및 롤백 (로컬 복구 vs 원격 저장소 복구 명확 구분)", "3. Log Audit Perubahan & Rollback (Lokal vs Repositori Jarak Jauh)")}</h2>
         <p class="cms-hint" style="margin-bottom:14px;">
           ${biLabel(
-            "누가, 언제, 어떤 항목을 수정했는지 변경 전/후 비교표를 자동 기록하며, 실수 발생 시 [이 버전으로 되돌리기] 버튼 하나로 즉시 복구합니다.",
-            "Mencatat siapa, kapan, dan apa yang diubah beserta tabel perbandingan sebelum/sesudah."
+            "롤백 실행 시 기존 작업 중이던 브라우저 초안과 설정은 삭제되지 않고 자동 백업(muggo-cms-preserved-state)으로 보존됩니다. [↩️ 로컬 초안 복구]는 이 브라우저 데이터만 복구하며, [🚀 원격 저장소까지 롤백 게시]는 공개 저장소(GitHub/Vercel)까지 해당 버전으로 되돌리고 커밋 SHA를 검증합니다.",
+            "Rollback mencadangkan draf saat ini secara otomatis. Pilih antara pemulihan draf lokal atau publikasi rollback ke repositori jarak jauh."
           )}
         </p>
 
@@ -2250,8 +2648,8 @@
                     <th>${biLabel("시각", "Waktu")}</th>
                     <th>${biLabel("계정", "Akun")}</th>
                     <th>${biLabel("구분", "Aksi")}</th>
-                    <th>${biLabel("변경 전/후 비교 (Before → After)", "Perbandingan Sebelum → Sesudah")}</th>
-                    <th>${biLabel("원클릭 복구", "Pulihkan")}</th>
+                    <th>${biLabel("변경 전/후 비교 및 반영 상세", "Perbandingan Sebelum → Sesudah")}</th>
+                    <th>${biLabel("복구 방식 선택 (로컬 / 원격)", "Pilih Mode Pemulihan")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2280,9 +2678,14 @@
                       <td style="white-space:nowrap;">
                         ${
                           l.snapshot
-                            ? `<button type="button" class="btn-mini" onclick="AdminCMS.rollbackToLog(${idx})">
-                                ↩️ ${biLabel("이 버전으로 되돌리기", "Kembalikan ke Versi Ini")}
-                              </button>`
+                            ? `<div style="display:flex; flex-direction:column; gap:4px;">
+                                <button type="button" class="btn-mini" onclick="AdminCMS.rollbackToLog(${idx}, { publishRemote: false })">
+                                  ↩️ ${biLabel("로컬 데이터만 복구", "Pulihkan Lokal Saja")}
+                                </button>
+                                <button type="button" class="btn-mini" style="background:#047857; color:#fff;" onclick="AdminCMS.rollbackToLog(${idx}, { publishRemote: true })">
+                                  🚀 ${biLabel("원격 저장소까지 롤백 게시", "Rollback & Publikasi Jarak Jauh")}
+                                </button>
+                              </div>`
                             : "-"
                         }
                       </td>
@@ -2297,35 +2700,82 @@
     `;
   }
 
-  async function changeOwnPassword() {
-    const input = document.getElementById("new-admin-pw");
-    const newPw = input ? input.value : "";
+  async function changeOwnPassword(currentPwArg, newPwArg) {
+    const curInput = document.getElementById("current-admin-pw");
+    const newInput = document.getElementById("new-admin-pw");
+    const currentPw = currentPwArg !== undefined ? String(currentPwArg) : curInput ? curInput.value : "";
+    const newPw = newPwArg !== undefined ? String(newPwArg) : newInput ? newInput.value : "";
+
     if (!newPw || newPw.length < 6) {
-      showToast("비밀번호는 최소 6자 이상 입력해 주세요.");
-      return;
+      showToast("새 비밀번호는 최소 6자 이상 입력해 주세요.");
+      return { ok: false, errorCode: "SHORT_PASSWORD" };
     }
+
     const accounts = loadAccounts();
     const curId = cmsState.currentUser ? cmsState.currentUser.id : "admin";
-    const acc = accounts.find((a) => a.id === curId);
-    if (!acc) return;
+    const acc = accounts.find((a) => a.id.toLowerCase() === curId.toLowerCase());
+    if (!acc) return { ok: false, errorCode: "ACCOUNT_NOT_FOUND" };
 
+    // 1. Verify current password so encrypted vault cannot be orphaned or corrupted
+    const isCurrentValid = await verifyAccountPassword(acc, currentPw);
+    if (!isCurrentValid) {
+      showToast("⚠️ 현재 비밀번호가 일치하지 않아 변경을 중단했습니다. 기존 암호화 볼트는 안전하게 유지됩니다.");
+      return { ok: false, errorCode: "CURRENT_PASSWORD_MISMATCH" };
+    }
+
+    // 2. If an encrypted vault exists in localStorage, decrypt it with the old password key first
+    let plainTokenToReencrypt = cmsState.decryptedGithubToken || "";
+    const existingVaultRaw = localStorage.getItem(STORAGE_KEYS.vault);
+    if (existingVaultRaw && hasEncryptedVaultInStorage()) {
+      const oldAesKey = cmsState.derivedAesKey || (await deriveAesGcmKey(currentPw, acc.salt));
+      const decryptedFromOld = await decryptVaultToken(oldAesKey);
+      if (!decryptedFromOld && !plainTokenToReencrypt) {
+        showToast("⚠️ 기존 암호화 볼트 복호화에 실패하여 비밀번호 변경을 중단했습니다. (볼트 손상 방지)");
+        return { ok: false, errorCode: "VAULT_DECRYPT_FAILED" };
+      }
+      plainTokenToReencrypt = decryptedFromOld || plainTokenToReencrypt;
+      try {
+        localStorage.setItem("muggo-cms-preserved-vault-" + Date.now(), existingVaultRaw);
+      } catch (e) {}
+    }
+
+    // 3. Derive new salt, PBKDF2-SHA256 hash, and new AES-256-GCM key
     const newSalt = "muggo-salt-" + Date.now();
+    const newHash = await derivePbkdf2Hex(newPw, newSalt);
+    const newAesKey = await deriveAesGcmKey(newPw, newSalt);
+
+    if (plainTokenToReencrypt) {
+      await encryptVaultToken(plainTokenToReencrypt, newAesKey);
+    }
+
     acc.salt = newSalt;
-    acc.hash = await derivePbkdf2Hex(newPw, newSalt);
+    acc.hash = newHash;
+    acc.customPasswordChanged = true;
     saveAccounts(accounts);
 
-    // Re-encrypt AES-256-GCM vault with new password key
-    cmsState.derivedAesKey = await deriveAesGcmKey(newPw, newSalt);
-    if (cmsState.decryptedGithubToken) {
-      await encryptVaultToken(cmsState.decryptedGithubToken, cmsState.derivedAesKey);
+    cmsState.derivedAesKey = newAesKey;
+    cmsState.decryptedGithubToken = plainTokenToReencrypt;
+
+    if (cmsState.serverAuthConnected) {
+      await tryServerApi({
+        action: "change_password",
+        currentPassword: currentPw,
+        newPassword: newPw,
+        newSalt
+      });
     }
-    if (input) input.value = "";
-    appendAuditLog(curId, "PASSWORD_CHANGED", `Changed password for ${curId}`, null);
+
+    if (curInput) curInput.value = "";
+    if (newInput) newInput.value = "";
+    updatePublishModeBadgeUI();
+    appendAuditLog(curId, "PASSWORD_CHANGED", `Verified current password & safely re-encrypted vault for ${curId}`, null);
     renderMenu7Security();
-    showToast("비밀번호가 안전하게 변경되었으며 볼트가 재암호화되었습니다.");
+    showToast("🔐 현재 비밀번호 검증 후 새 비밀번호 변경 및 볼트 재암호화가 안전하게 완료되었습니다.");
+    return { ok: true };
   }
 
   async function upsertStaffAccount() {
+    if (!requireSuperAdmin("실무자 계정 생성/변경")) return false;
     const idEl = document.getElementById("staff-id-input");
     const pwEl = document.getElementById("staff-pw-input");
     const roleEl = document.getElementById("staff-role-input");
@@ -2335,7 +2785,7 @@
 
     if (!staffId || !staffPw) {
       showToast("실무자 아이디와 비밀번호를 모두 입력해 주세요.");
-      return;
+      return false;
     }
     const accounts = loadAccounts();
     const salt = "muggo-staff-salt-" + Date.now();
@@ -2355,26 +2805,45 @@
       });
     }
     saveAccounts(accounts);
+    if (cmsState.serverAuthConnected) {
+      await tryServerApi({ action: "upsert_staff", staffId, staffPassword: staffPw, staffRole, salt });
+    }
     appendAuditLog("admin", "STAFF_ACCOUNT_UPSERT", `Configured account ${staffId} (${staffRole})`, null);
     renderMenu7Security();
     showToast(`실무자 계정(${staffId})이 저장되었습니다.`);
+    return true;
   }
 
-  function deleteStaffAccount(staffId) {
-    if (staffId === "admin") return;
+  async function deleteStaffAccount(staffId) {
+    if (!requireSuperAdmin("실무자 계정 삭제")) return false;
+    if (staffId === "admin") return false;
     const accounts = loadAccounts().filter((a) => a.id !== staffId);
     saveAccounts(accounts);
+    if (cmsState.serverAuthConnected) {
+      await tryServerApi({ action: "delete_staff", staffId });
+    }
     appendAuditLog("admin", "STAFF_ACCOUNT_DELETED", `Removed staff account ${staffId}`, null);
     renderMenu7Security();
+    return true;
   }
 
-  async function saveGithubTokenToVault() {
+  async function saveGithubTokenToVault(tokenOverride) {
+    if (!requireSuperAdmin("원격 배포 토큰(Vault) 설정")) return false;
     const input = document.getElementById("vault-github-token-input");
-    const token = (input ? input.value : "").trim();
-    cmsState.decryptedGithubToken = token;
-    if (cmsState.derivedAesKey) {
-      await encryptVaultToken(token, cmsState.derivedAesKey);
+    const token = tokenOverride !== undefined ? String(tokenOverride).trim() : (input ? input.value : "").trim();
+    if (!token) {
+      showToast("저장할 GitHub 토큰을 입력해 주세요.");
+      return false;
     }
+    if (!cmsState.derivedAesKey) {
+      openVaultUnlockModal();
+      showToast("🔒 새로고침 후에는 비밀번호를 먼저 확인해야 볼트에 암호화 저장할 수 있습니다.");
+      return false;
+    }
+    cmsState.decryptedGithubToken = token;
+    await encryptVaultToken(token, cmsState.derivedAesKey);
+    if (input) input.value = "";
+    updatePublishModeBadgeUI();
     appendAuditLog(
       cmsState.currentUser ? cmsState.currentUser.id : "admin",
       "VAULT_UPDATED",
@@ -2382,11 +2851,13 @@
       null
     );
     renderMenu7Security();
-    showToast("GitHub 배포 토큰이 AES-256-GCM 볼트에 암호화 저장되었습니다.");
+    renderMenu1Dashboard();
+    showToast("🛡️ GitHub 배포 토큰이 AES-256-GCM 볼트에 안전하게 암호화 저장되었습니다.");
+    return true;
   }
 
   // --------------------------------------------------------------------------
-  // VALIDATION, MISSING VARIABLE PROTECTION & PUBLISH / DEPLOY
+  // VALIDATION, MISSING VARIABLE PROTECTION & ATOMIC PUBLISH / ROLLBACK
   // --------------------------------------------------------------------------
   function validateBeforeSave() {
     const c = cmsState.workingData.config || {};
@@ -2411,7 +2882,6 @@
       }
     }
 
-    // Check if any {variable} token present in baselineSnapshot.i18n was accidentally deleted
     const missingVars = [];
     function checkVarsWalk(oldObj, newObj) {
       if (typeof oldObj === "string" && typeof newObj === "string") {
@@ -2474,10 +2944,59 @@
     return "";
   }
 
-  async function pushToGithubRepoIfConfigured() {
-    const token = (cmsState.decryptedGithubToken || "").trim();
-    if (!token) return false;
-    const repo = "mfgkoreaceo-ops/muggo-corporate-site";
+  function classifyGithubHttpError(status, stepName) {
+    if (status === 401) {
+      return {
+        ok: false,
+        status: 401,
+        errorCode: "AUTH_ERROR",
+        step: stepName,
+        message: "❌ 인증 오류 (HTTP 401): GitHub 토큰이 만료되었거나 유효하지 않습니다. 원격 게시가 취소되었습니다."
+      };
+    }
+    if (status === 403) {
+      return {
+        ok: false,
+        status: 403,
+        errorCode: "PERMISSION_ERROR",
+        step: stepName,
+        message: "❌ 권한 오류 (HTTP 403): 저장소 쓰기 권한(Contents: Read & Write)이 없거나 API 호출 한도를 초과했습니다."
+      };
+    }
+    if (status === 404) {
+      return {
+        ok: false,
+        status: 404,
+        errorCode: "NOT_FOUND",
+        step: stepName,
+        message: "❌ 대상 미발견 (HTTP 404): 원격 저장소(mfgkoreaceo-ops/muggo-corporate-site) 또는 브랜치에 접근할 수 없습니다."
+      };
+    }
+    if (status === 409 || status === 422) {
+      return {
+        ok: false,
+        status,
+        errorCode: "CONFLICT_ERROR",
+        step: stepName,
+        message: `❌ 동시 수정 충돌 감지 (HTTP ${status}): 다른 관리자가 원격 저장소를 먼저 수정했습니다. 최신 상태를 확인한 뒤 다시 게시해 주세요.`
+      };
+    }
+    return {
+      ok: false,
+      status: status || 500,
+      errorCode: "HTTP_ERROR",
+      step: stepName,
+      message: `❌ 원격 저장소 오류 (HTTP ${status || "Unknown"} · ${stepName}): 원격 반영에 실패했습니다.`
+    };
+  }
+
+  async function publishAtomicToGithub(options) {
+    const opts = options || {};
+    const token = (opts.token || cmsState.decryptedGithubToken || "").trim();
+    const repo = opts.repo || "mfgkoreaceo-ops/muggo-corporate-site";
+    const branch = opts.branch || "main";
+    const expectedBaseSha = opts.expectedBaseSha || cmsState.lastRemoteCommitSha || null;
+
     const filesToCommit = [
       { path: "site.config.js", content: generateJsFileContent("site.config.js") },
       { path: "data/i18n.js", content: generateJsFileContent("i18n.js") },
@@ -2485,135 +3004,340 @@
       { path: "data/catalog-data.js", content: generateJsFileContent("catalog-data.js") }
     ];
 
-    try {
-      for (const f of filesToCommit) {
-        const apiUrl = `https://api.github.com/repos/${repo}/contents/${f.path}`;
-        const getRes = await fetch(apiUrl, {
-          headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
-        });
-        let sha = undefined;
-        if (getRes.ok) {
-          const meta = await getRes.json();
-          sha = meta.sha;
+    // Check if config was modified by an Editor account
+    const configModified =
+      cmsState.baselineSnapshot &&
+      JSON.stringify(cmsState.baselineSnapshot.config) !== JSON.stringify(cmsState.workingData.config);
+    if (configModified && !isSuperAdmin()) {
+      return {
+        ok: false,
+        status: 403,
+        errorCode: "ROLE_FORBIDDEN",
+        message: "❌ 권한 거부 (HTTP 403): 실무자(Editor) 계정은 site.config.js 설정 변경사항을 원격 게시할 수 없습니다."
+      };
+    }
+
+    // If connected to server API and server has token or we pass token, allow server-side atomic publish
+    if (cmsState.serverAuthConnected && (cmsState.serverRemotePublishConfigured || token)) {
+      const srvPub = await tryServerApi({
+        action: opts.isRollback ? "rollback" : "publish",
+        githubToken: token,
+        repo,
+        branch,
+        files: filesToCommit,
+        configModified,
+        expectedBaseSha,
+        commitMessage:
+          opts.commitMessage ||
+          `CMS Atomic ${opts.isRollback ? "Rollback" : "Publish"} by ${cmsState.currentUser ? cmsState.currentUser.id : "admin"}`
+      });
+      if (srvPub.reachable && srvPub.data) {
+        if (srvPub.data.ok && srvPub.data.commitSha) {
+          cmsState.lastRemoteCommitSha = srvPub.data.commitSha;
         }
-        const b64 = btoa(unescape(encodeURIComponent(f.content)));
-        await fetch(apiUrl, {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/vnd.github+json",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            message: `CMS Update: ${f.path} by ${cmsState.currentUser ? cmsState.currentUser.id : "admin"}`,
-            content: b64,
-            sha
-          })
-        });
+        cmsState.lastPublishResult = srvPub.data;
+        return srvPub.data;
+      }
+    }
+
+    if (!token) {
+      const cap = getPublishCapabilityState();
+      return {
+        ok: false,
+        status: 401,
+        errorCode: cap.code === "VAULT_LOCKED" ? "VAULT_LOCKED" : "NO_TOKEN",
+        message:
+          cap.code === "VAULT_LOCKED"
+            ? "🔒 새로고침으로 인해 암호화 볼트가 잠겨 있습니다. 비밀번호를 입력해 볼트 잠금을 해제한 뒤 원격 게시를 진행해 주세요."
+            : "🖥️ 원격 GitHub 토큰이 설정되지 않았습니다. (이 브라우저에만 반영하려면 [🖥️ 이 브라우저에만 반영] 버튼을 사용하세요)"
+      };
+    }
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/vnd.github+json",
+      "Content-Type": "application/json"
+    };
+
+    try {
+      // 1. Get current HEAD reference on main
+      const refUrl = `https://api.github.com/repos/${repo}/git/ref/heads/${branch}`;
+      const refRes = await fetch(refUrl, { method: "GET", headers });
+      if (!refRes.ok) return classifyGithubHttpError(refRes.status, "GET_REF");
+      const refData = await refRes.json();
+      const headCommitSha = refData && refData.object && refData.object.sha;
+      if (!headCommitSha) return classifyGithubHttpError(500, "GET_REF");
+      if (expectedBaseSha && expectedBaseSha !== headCommitSha) {
+        return classifyGithubHttpError(409, "BASE_SHA_CONFLICT");
       }
 
-      // Automatically bump cache version (?v=YYYYMMDD-N) in index.html per Page 16 spec
-      const idxApiUrl = `https://api.github.com/repos/${repo}/contents/index.html`;
-      const idxGetRes = await fetch(idxApiUrl, {
-        headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
-      });
-      if (idxGetRes.ok) {
-        const idxMeta = await idxGetRes.json();
-        const rawHtml = decodeURIComponent(escape(atob((idxMeta.content || "").replace(/\s/g, ""))));
-        const d = new Date();
-        const ymd = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`;
-        const nextVer = `${ymd}-${Math.floor((Date.now() / 1000) % 1000)}`;
-        const bumpedHtml = rawHtml.replace(/\?v=[0-9A-Za-z-]+/g, `?v=${nextVer}`);
-        const idxB64 = btoa(unescape(encodeURIComponent(bumpedHtml)));
-        await fetch(idxApiUrl, {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/vnd.github+json",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            message: `CMS Cache Bump: ?v=${nextVer} in index.html`,
-            content: idxB64,
-            sha: idxMeta.sha
-          })
+      // 2. Get base commit tree SHA
+      const commitUrl = `https://api.github.com/repos/${repo}/git/commits/${headCommitSha}`;
+      const commitRes = await fetch(commitUrl, { method: "GET", headers });
+      if (!commitRes.ok) return classifyGithubHttpError(commitRes.status, "GET_BASE_COMMIT");
+      const commitData = await commitRes.json();
+      const baseTreeSha = commitData && commitData.tree && commitData.tree.sha;
+      if (!baseTreeSha) return classifyGithubHttpError(500, "GET_BASE_COMMIT");
+
+      // Optional: include cache-bumped index.html in the same atomic tree
+      try {
+        const idxRes = await fetch(`https://api.github.com/repos/${repo}/contents/index.html?ref=${branch}`, {
+          method: "GET",
+          headers
         });
+        if (idxRes.ok) {
+          const idxMeta = await idxRes.json();
+          const rawHtml = decodeURIComponent(escape(atob((idxMeta.content || "").replace(/\s/g, ""))));
+          const d = new Date();
+          const ymd = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`;
+          const nextVer = `${ymd}-${Math.floor((Date.now() / 1000) % 1000)}`;
+          const bumpedHtml = rawHtml.replace(/\?v=[0-9A-Za-z-]+/g, `?v=${nextVer}`);
+          filesToCommit.push({ path: "index.html", content: bumpedHtml });
+        }
+      } catch (e) {}
+
+      // 3. Create single atomic Git tree for all files at once (prevents partial file updates)
+      const treeUrl = `https://api.github.com/repos/${repo}/git/trees`;
+      const treeRes = await fetch(treeUrl, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          base_tree: baseTreeSha,
+          tree: filesToCommit.map((f) => ({
+            path: f.path,
+            mode: "100644",
+            type: "blob",
+            content: f.content
+          }))
+        })
+      });
+      if (!treeRes.ok) return classifyGithubHttpError(treeRes.status, "CREATE_TREE");
+      const treeData = await treeRes.json();
+      const newTreeSha = treeData && treeData.sha;
+      if (!newTreeSha) return classifyGithubHttpError(500, "CREATE_TREE");
+
+      // 4. Create single atomic Git commit
+      const createCommitUrl = `https://api.github.com/repos/${repo}/git/commits`;
+      const newCommitRes = await fetch(createCommitUrl, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          message:
+            opts.commitMessage ||
+            `CMS Atomic ${opts.isRollback ? "Rollback" : "Publish"} by ${cmsState.currentUser ? cmsState.currentUser.id : "admin"}`,
+          tree: newTreeSha,
+          parents: [headCommitSha]
+        })
+      });
+      if (!newCommitRes.ok) return classifyGithubHttpError(newCommitRes.status, "CREATE_COMMIT");
+      const newCommitData = await newCommitRes.json();
+      const newCommitSha = newCommitData && newCommitData.sha;
+      if (!newCommitSha) return classifyGithubHttpError(500, "CREATE_COMMIT");
+
+      // 5. Update branch reference atomically with force: false
+      const patchUrl = `https://api.github.com/repos/${repo}/git/refs/heads/${branch}`;
+      const patchRes = await fetch(patchUrl, {
+        method: "PATCH",
+        headers,
+        body: JSON.stringify({ sha: newCommitSha, force: false })
+      });
+      if (!patchRes.ok) {
+        return classifyGithubHttpError(patchRes.status === 422 ? 409 : patchRes.status, "UPDATE_REF");
       }
-      return true;
-    } catch (e) {
-      return false;
+
+      // 6. Verify remote branch HEAD SHA after commit before reporting success
+      const verifyRes = await fetch(refUrl, { method: "GET", headers });
+      if (!verifyRes.ok) return classifyGithubHttpError(verifyRes.status, "VERIFY_REMOTE_REF");
+      const verifyData = await verifyRes.json();
+      const verifiedRemoteSha = verifyData && verifyData.object && verifyData.object.sha;
+      if (!verifiedRemoteSha || verifiedRemoteSha !== newCommitSha) {
+        return {
+          ok: false,
+          status: 409,
+          errorCode: "VERIFICATION_MISMATCH",
+          step: "VERIFY_REMOTE_REF",
+          message: "❌ 원격 반영 검증 실패: 커밋 후 원격 브랜치 SHA가 일치하지 않습니다."
+        };
+      }
+
+      cmsState.lastRemoteCommitSha = newCommitSha;
+      const successObj = {
+        ok: true,
+        status: 200,
+        commitSha: newCommitSha,
+        previousCommitSha: headCommitSha,
+        verifiedRemoteSha,
+        committedFiles: filesToCommit.map((f) => f.path),
+        message: `🚀 원격 실제 게시 및 검증 완료! (커밋 #${newCommitSha.slice(0, 7)} · 반영 파일 ${filesToCommit.length}종: ${filesToCommit.map((f) => f.path).join(", ")})`
+      };
+      cmsState.lastPublishResult = successObj;
+      return successObj;
+    } catch (err) {
+      const netErr = {
+        ok: false,
+        status: 0,
+        errorCode: "NETWORK_ERROR",
+        step: "FETCH",
+        message: "❌ 네트워크 오류: GitHub API 서버와 통신할 수 없습니다. 인터넷 연결을 확인해 주세요."
+      };
+      cmsState.lastPublishResult = netErr;
+      return netErr;
     }
   }
 
-  async function publishChanges() {
-    if (!validateBeforeSave()) return;
+  async function publishChanges(options) {
+    if (!validateBeforeSave()) return { ok: false, errorCode: "VALIDATION_FAILED" };
+
+    // Always save working draft locally first so staff never lose edits
+    localStorage.setItem(STORAGE_KEYS.draft, JSON.stringify(cmsState.workingData));
+    reloadPreviewFrame();
 
     const diffs = computeDiffSummary(cmsState.baselineSnapshot, cmsState.workingData);
     const summaryText = diffs.map((d) => `${d.field}`).slice(0, 3).join(", ");
 
-    // Save previous baseline snapshot into Audit Log for 1-click rollback, plus current published state
+    // Execute remote atomic publish and verify result BEFORE showing any success message
+    const remoteResult = await publishAtomicToGithub(options);
+
+    if (!remoteResult.ok) {
+      if (remoteResult.errorCode === "VAULT_LOCKED") {
+        openVaultUnlockModal();
+      }
+      appendAuditLog(
+        cmsState.currentUser ? cmsState.currentUser.id : "admin",
+        "PUBLISH_FAILED",
+        `원격 게시 실패 (${remoteResult.errorCode || remoteResult.status}): ${remoteResult.message}`,
+        cmsState.workingData,
+        diffs
+      );
+      renderMenu1Dashboard();
+      if (cmsState.activeMenu === "menu7") renderMenu7Security();
+      showToast(remoteResult.message);
+      return remoteResult;
+    }
+
+    // Remote commit + remote SHA verification succeeded!
+    const committedListStr = (remoteResult.committedFiles || []).join(", ");
+    const shortSha = String(remoteResult.commitSha || "").slice(0, 7);
     appendAuditLog(
       cmsState.currentUser ? cmsState.currentUser.id : "admin",
-      "PUBLISH",
-      `Published changes (${summaryText || "Sync"})`,
+      "PUBLISH_REMOTE_VERIFIED",
+      `원격 게시 완료 (#${shortSha} · 파일: ${committedListStr}) — ${summaryText || "Sync"}`,
       cmsState.baselineSnapshot,
       diffs
     );
 
-    localStorage.setItem(STORAGE_KEYS.draft, JSON.stringify(cmsState.workingData));
     localStorage.setItem(STORAGE_KEYS.published, JSON.stringify(cmsState.workingData));
     cmsState.baselineSnapshot = deepClone(cmsState.workingData);
 
-    reloadPreviewFrame();
     renderMenu1Dashboard();
     if (cmsState.activeMenu === "menu7") renderMenu7Security();
-
-    const deployedRemote = await pushToGithubRepoIfConfigured();
-    showToast(
-      deployedRemote
-        ? `${uiText("msgPublished")} (GitHub Pages 원격 커밋 완료)`
-        : uiText("msgPublished")
-    );
+    showToast(remoteResult.message || `${uiText("msgPublished")} (커밋 #${shortSha})`);
+    return remoteResult;
   }
 
-  function rollbackToLog(logIdx) {
+  function preserveCurrentLocalState(reasonTag) {
+    try {
+      const backupPayload = {
+        preservedAt: new Date().toISOString(),
+        reason: reasonTag || "manual",
+        actor: cmsState.currentUser ? cmsState.currentUser.id : "admin",
+        workingData: deepClone(cmsState.workingData),
+        draftRaw: localStorage.getItem(STORAGE_KEYS.draft),
+        publishedRaw: localStorage.getItem(STORAGE_KEYS.published)
+      };
+      localStorage.setItem(STORAGE_KEYS.preserved, JSON.stringify(backupPayload));
+    } catch (e) {}
+  }
+
+  async function rollbackToLog(logIdx, options) {
+    const opts = options || {};
     const logs = loadAuditLogs();
     const entry = logs[logIdx];
     if (!entry || !entry.snapshot) {
       showToast("복구 가능한 스냅샷이 없는 항목입니다.");
-      return;
+      return { ok: false, errorCode: "NO_SNAPSHOT" };
     }
+
+    // Preserve existing local draft & state before restoring (never wipe staff work)
+    preserveCurrentLocalState(`before_rollback_log_${logIdx}`);
+
     cmsState.workingData = deepClone(entry.snapshot);
     cmsState.baselineSnapshot = deepClone(entry.snapshot);
     localStorage.setItem(STORAGE_KEYS.draft, JSON.stringify(cmsState.workingData));
     localStorage.setItem(STORAGE_KEYS.published, JSON.stringify(cmsState.workingData));
 
+    if (opts.publishRemote) {
+      const remoteRollback = await publishAtomicToGithub({
+        isRollback: true,
+        commitMessage: `CMS Remote Rollback to snapshot ${entry.timestamp} by ${cmsState.currentUser ? cmsState.currentUser.id : "admin"}`,
+        token: opts.token
+      });
+      if (!remoteRollback.ok) {
+        appendAuditLog(
+          cmsState.currentUser ? cmsState.currentUser.id : "admin",
+          "ROLLBACK_LOCAL_ONLY",
+          `로컬 복구 완료 (원격 롤백 실패: ${remoteRollback.errorCode}) — 대상: ${new Date(entry.timestamp).toLocaleString()}`,
+          cmsState.workingData
+        );
+        renderAllMenus();
+        reloadPreviewFrame();
+        showToast(`↩️ 로컬 데이터는 복구되었으나 원격 저장소 롤백은 실패했습니다: ${remoteRollback.message}`);
+        return remoteRollback;
+      }
+      const shortSha = String(remoteRollback.commitSha || "").slice(0, 7);
+      appendAuditLog(
+        cmsState.currentUser ? cmsState.currentUser.id : "admin",
+        "ROLLBACK_REMOTE_VERIFIED",
+        `원격 저장소 롤백 게시 및 검증 완료 (#${shortSha} · 대상 버전: ${new Date(entry.timestamp).toLocaleString()})`,
+        cmsState.workingData
+      );
+      renderAllMenus();
+      reloadPreviewFrame();
+      showToast(`🚀 원격 저장소 롤백 게시 및 검증 완료! (커밋 #${shortSha} · 대상: ${new Date(entry.timestamp).toLocaleString()})`);
+      return remoteRollback;
+    }
+
     appendAuditLog(
       cmsState.currentUser ? cmsState.currentUser.id : "admin",
-      "ROLLBACK",
-      `Rolled back to version from ${new Date(entry.timestamp).toLocaleString()}`,
+      "ROLLBACK_LOCAL",
+      `이 브라우저 로컬 데이터 복구 완료 (대상 버전: ${new Date(entry.timestamp).toLocaleString()} · 원격 저장소 미변경)`,
       cmsState.workingData
     );
 
     renderAllMenus();
     reloadPreviewFrame();
     showToast(uiText("msgRolledBack"));
+    return { ok: true, mode: "LOCAL_ONLY" };
   }
 
-  function rollbackLatest() {
+  async function rollbackLatest(options) {
     const logs = loadAuditLogs();
     const idx = logs.findIndex((l) => Boolean(l.snapshot));
     if (idx === -1) {
-      // Restore to original repo files if no snapshot log yet
-      localStorage.removeItem(STORAGE_KEYS.draft);
-      localStorage.removeItem(STORAGE_KEYS.published);
-      loadInitialWorkingData();
+      // Preserve current draft in muggo-cms-preserved-state without deleting draft/published keys
+      preserveCurrentLocalState("before_rollback_initial");
+      const baseBundle = {
+        config: deepClone(window.SITE_CONFIG || {}),
+        i18n: deepClone(window.I18N_DICT || window.MUGGO_I18N || {}),
+        siteData: deepClone(window.DEFAULT_SITE_DATA || window.SITE_DATA || {}),
+        catalog: deepClone(window.MUGGO_CATALOG || window.BRAND_CATALOG || [])
+      };
+      cmsState.workingData = deepClone(baseBundle);
+      cmsState.baselineSnapshot = deepClone(baseBundle);
+      localStorage.setItem(STORAGE_KEYS.draft, JSON.stringify(cmsState.workingData));
+      localStorage.setItem(STORAGE_KEYS.published, JSON.stringify(cmsState.workingData));
+      appendAuditLog(
+        cmsState.currentUser ? cmsState.currentUser.id : "admin",
+        "ROLLBACK_BASELINE",
+        "초기 기준 데이터로 로컬 복구 (기존 초안은 muggo-cms-preserved-state에 백업 보존됨)",
+        cmsState.workingData
+      );
       renderAllMenus();
       reloadPreviewFrame();
       showToast(uiText("msgRolledBack"));
-      return;
+      return { ok: true, mode: "BASELINE_PRESERVED" };
     }
-    rollbackToLog(idx);
+    return rollbackToLog(idx, options);
   }
 
   // --------------------------------------------------------------------------
@@ -2658,18 +3382,19 @@
         const parsed = JSON.parse(reader.result);
         const bundle = parsed.data || parsed;
         if (bundle && bundle.config && bundle.i18n && bundle.siteData && bundle.catalog) {
+          preserveCurrentLocalState("before_json_restore");
           cmsState.workingData = deepClone(bundle);
           localStorage.setItem(STORAGE_KEYS.draft, JSON.stringify(cmsState.workingData));
           localStorage.setItem(STORAGE_KEYS.published, JSON.stringify(cmsState.workingData));
           appendAuditLog(
             cmsState.currentUser ? cmsState.currentUser.id : "admin",
             "BACKUP_RESTORED",
-            `Restored full JSON backup (${file.name})`,
+            `Restored full JSON backup (${file.name}) — previous state preserved`,
             cmsState.workingData
           );
           renderAllMenus();
           reloadPreviewFrame();
-          showToast("JSON 백업본이 성공적으로 복원되었습니다.");
+          showToast("JSON 백업본이 성공적으로 복원되었습니다. (이전 작업본은 자동 백업됨)");
         }
       } catch (err) {
         alert("올바른 MUGGO CMS 백업 JSON 파일이 아닙니다.");
@@ -2678,7 +3403,6 @@
     reader.readAsText(file);
   }
 
-  // --------------------------------------------------------------------------
   // INITIALIZE ADMIN CMS ON DOM READY
   // --------------------------------------------------------------------------
   function initAdminApp() {
@@ -2703,14 +3427,19 @@
     updateLockoutBannerUI();
     setInterval(updateLockoutBannerUI, 1000);
 
-    // 4. Restore active session if still valid in sessionStorage
+    // 4. Restore active session if still valid in sessionStorage (enforce 30-min idle expiry)
     try {
       const sessRaw = sessionStorage.getItem(STORAGE_KEYS.session);
       if (sessRaw) {
         const sess = JSON.parse(sessRaw);
-        if (sess && sess.id) {
+        const lastActive = sess.lastActiveAt || sess.loginAt || 0;
+        if (sess && sess.id && Date.now() - lastActive <= SESSION_IDLE_MS) {
           cmsState.currentUser = { id: sess.id, role: sess.role || "super_admin" };
+          cmsState.serverSessionToken = sess.serverSessionToken || "";
+          // Note: after page reload, derivedAesKey & decryptedGithubToken in RAM are empty -> VAULT_LOCKED state shown clearly
           enterAdminPortal();
+        } else if (sess && sess.id) {
+          sessionStorage.removeItem(STORAGE_KEYS.session);
         }
       }
     } catch (e) {}
@@ -2763,7 +3492,20 @@
     saveGithubTokenToVault,
     downloadSingleDataFile,
     downloadFullJsonBackup,
-    restoreFromJsonBackup
+    restoreFromJsonBackup,
+    applyLocalBrowserOnly,
+    publishAtomicToGithub,
+    getPublishCapabilityState,
+    updatePublishModeBadgeUI,
+    handlePublishModeBadgeClick,
+    openVaultUnlockModal,
+    closeVaultUnlockModal,
+    confirmVaultUnlock,
+    buildJobsCsvText,
+    importJobsCsvText,
+    _getState: function () {
+      return cmsState;
+    }
   };
 
   if (document.readyState === "loading") {

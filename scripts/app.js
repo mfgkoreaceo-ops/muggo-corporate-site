@@ -80,7 +80,7 @@
   const NEWS_CACHE_KEY = "muggo-sheet-news-cache-v1";
   const JOBS_CACHE_KEY = "muggo-sheet-jobs-cache-v1";
   const NEWS_ALLOWED_COLUMNS = ["id", "title", "summary", "status", "date", "imageUrl", "visible"];
-  const JOBS_ALLOWED_COLUMNS = ["id", "title", "department", "employmentType", "experience", "location", "description", "requirements", "visible"];
+  const JOBS_ALLOWED_COLUMNS = ["id", "title", "department", "employmentType", "experience", "location", "description", "requirements", "visible", "titleId", "titleEn", "titleKo", "deptId", "deptEn", "deptKo", "typeId", "typeEn", "typeKo", "descId", "descEn", "descKo"];
 
   function capLen(val, maxLen) {
     if (val === null || val === undefined) return "";
@@ -295,17 +295,35 @@
     if (!Array.isArray(rawRows)) return [];
     return rawRows
       .filter(isRowVisible)
-      .map((item, idx) => ({
-        id: capLen(item.id, 60) || `job-${idx + 1}`,
-        title: capLen(item.title, 120),
-        department: capLen(item.department, 120),
-        employmentType: capLen(item.employmentType, 120),
-        experience: capLen(item.experience, 120),
-        location: capLen(item.location, 120) || "Jakarta Selatan",
-        description: capLen(item.description, 600),
-        requirements: capLen(item.requirements, 600),
-        visible: "TRUE"
-      }))
+      .map((item, idx) => {
+        const titleBase = capLen(item.title || item.titleId, 120);
+        const deptBase = capLen(item.department || item.deptId, 120);
+        const descBase = capLen(item.description || item.descId, 600);
+        const out = {
+          id: capLen(item.id, 60) || `job-${idx + 1}`,
+          title: titleBase,
+          department: deptBase,
+          employmentType: capLen(item.employmentType, 120),
+          experience: capLen(item.experience, 120),
+          location: capLen(item.location, 120) || "Jakarta Selatan",
+          description: descBase,
+          requirements: capLen(item.requirements, 600),
+          visible: "TRUE"
+        };
+        if (item.titleId) out.titleId = capLen(item.titleId, 120);
+        if (item.titleEn) out.titleEn = capLen(item.titleEn, 120);
+        if (item.titleKo) out.titleKo = capLen(item.titleKo, 120);
+        if (item.deptId) out.deptId = capLen(item.deptId, 120);
+        if (item.deptEn) out.deptEn = capLen(item.deptEn, 120);
+        if (item.deptKo) out.deptKo = capLen(item.deptKo, 120);
+        if (item.typeId) out.typeId = capLen(item.typeId, 240);
+        if (item.typeEn) out.typeEn = capLen(item.typeEn, 240);
+        if (item.typeKo) out.typeKo = capLen(item.typeKo, 240);
+        if (item.descId) out.descId = capLen(item.descId, 600);
+        if (item.descEn) out.descEn = capLen(item.descEn, 600);
+        if (item.descKo) out.descKo = capLen(item.descKo, 600);
+        return out;
+      })
       .filter((item) => Boolean(item.title));
   }
 

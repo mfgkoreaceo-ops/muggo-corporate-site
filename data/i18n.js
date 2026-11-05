@@ -89,30 +89,30 @@ window.I18N_DICT = {
     },
     koreaHq: {
       eyebrow: "HUBUNGAN KANTOR PUSAT KOREA ({brandName} KOREA HQ) & REKAM JEJAK GLOBAL",
-      title: "Global Expertise Meets Indonesian Potential",
+      title: "Keahlian Global Bertemu Potensi Indonesia",
       desc: "Sinergi Kantor Pusat Korea ({brandName} Korea HQ) dan {legalName} melalui 3 pilar utama:",
       pillars: [
         {
           badge: "01 · KOREA F&B · 35+ GERAI",
-          title: "Multibrand F&B Innovation",
+          title: "Inovasi F&B Multibrand",
           desc: "Standarisasi Central Kitchen & multibrand melalui ~35 gerai serta brand premium di Korea (Agra, noya, dll.).",
           visualType: "korea-fnb",
-          caption1: "Agra · Premium Dining (Korea)",
+          caption1: "Agra · Restoran Premium (Korea)",
           caption2: "noya · Shabu Shabu (Korea)"
         },
         {
           badge: "02 · JERMAN · RITEL GLOBAL",
-          title: "Global Retail & Market Expansion",
+          title: "Ekspansi Ritel & Pasar Global",
           desc: "Ekspansi ritel global melalui investasi & operasional supermarket kuliner Korea di Jerman ('THE GANGNAM').",
           visualType: "germany-retail",
           caption1: "THE GANGNAM · Korean & Asian Mart (Jerman)"
         },
         {
-          badge: "03 · IT & TECH · SMART ERP",
-          title: "Tech-Driven Operations",
+          badge: "03 · IT & TEKNOLOGI · SMART ERP",
+          title: "Operasional Berbasis Teknologi",
           desc: "Smart ERP, platform pesanan & manajemen transparan berbasis data dari pengalaman bisnis & investasi IT.",
           visualType: "tech-ops",
-          caption1: "Smart ERP · Order Platform · Data Analytics"
+          caption1: "Smart ERP · Platform Pesanan · Analitik Data"
         }
       ],
       summary: "Berlandaskan 3 pilar utama ini, {legalName} menghadirkan platform F&B & gaya hidup yang dioptimalkan bagi Jakarta dan Asia Tenggara.",
@@ -625,16 +625,16 @@ window.I18N_DICT = {
         {
           flag: "showEmployeeDiscountBenefit",
           title: "03 · Staff Meals",
-          titleExtended: "03 · Staff Meals & Diskon Brand",
+          titleExtended: "03 · Staff Meals & Brand Discounts",
           desc: "Duty meals provided during operational shifts.",
-          descExtended: "Duty meals during shifts plus Diskon Brand employee benefits."
+          descExtended: "Duty meals during shifts plus employee brand discount benefits."
         },
         {
           flag: "showCareerPathBenefit",
           title: "04 · Culinary & Hygiene Training",
           titleExtended: "04 · Culinary Training & Career Path",
           desc: "Structured training on kitchen operations and food hygiene.",
-          descExtended: "Structured training and career progression toward Part Leader hingga Branch Manager."
+          descExtended: "Structured training and career progression from Part Leader to Branch Manager."
         },
         {
           visibleFlag: "showKoreaHqWorkOpportunity",
@@ -789,13 +789,13 @@ window.I18N_DICT = {
       ]
     },
     koreaHq: {
-      eyebrow: "한국 본사 관계 및 글로벌 핵심 역량 · KANTOR PUSAT KOREA ({brandName} KOREA HQ)",
-      title: "Global Expertise Meets Indonesian Potential",
+      eyebrow: "한국 본사 관계 및 글로벌 핵심 역량 ({brandName} KOREA HQ)",
+      title: "한국 본사의 글로벌 역량과 인도네시아 잠재력의 결합",
       desc: "한국 본사({brandName} Korea HQ)의 글로벌 역량과 인도네시아 잠재력이 결합된 3대 핵심 축:",
       pillars: [
         {
           badge: "01 · 한국 F&B · 35여 개 직·가맹점",
-          title: "Multibrand F&B Innovation",
+          title: "멀티 브랜드 F&B 혁신",
           desc: "한국 35여 개 직·가맹점 및 프리미엄 브랜드(아그라, 노야 등) 기반 멀티 브랜드 기획·중앙 주방(Central Kitchen) 표준화 역량",
           visualType: "korea-fnb",
           caption1: "아그라 (Agra) · 한국 프리미엄 다이닝",
@@ -803,14 +803,14 @@ window.I18N_DICT = {
         },
         {
           badge: "02 · 독일 리테일 · 글로벌 마트 체인",
-          title: "Global Retail & Market Expansion",
+          title: "글로벌 리테일 및 시장 확장",
           desc: "독일 내 한국 식문화 전문 슈퍼마켓('더 강남') 성공적 투자·운영을 통한 글로벌 리테일 확장 노하우",
           visualType: "germany-retail",
           caption1: "더 강남 (THE GANGNAM) · 독일 아시안 슈퍼마켓"
         },
         {
           badge: "03 · IT & 테크 · 스마트 ERP 경영",
-          title: "Tech-Driven Operations",
+          title: "IT·데이터 기반 스마트 운영",
           desc: "IT 기업 운영 및 테크 투자 경험을 접목한 스마트 ERP·주문 플랫폼 및 데이터 기반 투명 경영 시스템",
           visualType: "tech-ops",
           caption1: "Smart ERP · 통합 주문 플랫폼 · 데이터 경영"
@@ -971,16 +971,16 @@ window.I18N_DICT = {
         {
           flag: "showEmployeeDiscountBenefit",
           title: "03 · 근무 중 식사 제공",
-          titleExtended: "03 · 근무 식사 및 Diskon Brand",
+          titleExtended: "03 · 근무 식사 및 브랜드 할인 혜택",
           desc: "근무 시간 중 직원 식사를 제공합니다.",
-          descExtended: "근무 식사 제공 및 Diskon Brand 임직원 할인 혜택을 제공합니다."
+          descExtended: "근무 식사 제공 및 임직원 브랜드 할인 혜택을 제공합니다."
         },
         {
           flag: "showCareerPathBenefit",
           title: "04 · 주방 운영 및 위생 교육",
           titleExtended: "04 · 주방 교육 및 커리어 성장",
           desc: "표준 조리 절차 및 식품 위생 교육을 제공합니다.",
-          descExtended: "체계적인 조리 교육 및 Part Leader hingga Branch Manager 성장 기회를 제공합니다."
+          descExtended: "체계적인 조리 교육 및 파트장(Part Leader)에서 지점장(Branch Manager)까지의 성장 기회를 제공합니다."
         },
         {
           visibleFlag: "showKoreaHqWorkOpportunity",
