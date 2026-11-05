@@ -12,8 +12,7 @@
     try {
       const params = new URLSearchParams(window.location.search || "");
       const isPreview = params.get("cms_preview") === "1";
-      if (!isPreview) return; // Public pages always use repository data. Legacy local overrides are retained, not applied.
-      const raw = localStorage.getItem("muggo-cms-draft");
+      const raw = localStorage.getItem(isPreview ? "muggo-cms-draft" : "muggo-cms-published");
       if (!raw) return;
       const bundle = JSON.parse(raw);
       if (bundle && typeof bundle === "object") {
