@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "server.js": {
+      "includeFiles": "{index.html,site.config.js,admin/**,scripts/**,styles/**,data/**,assets/**,templates/**}"
+    }
+  }
+}

@@ -19,7 +19,7 @@ const enabled = configured && env.CMS_PUBLISH_ENABLED === 'true';
 const roles = JSON.parse(env.CMS_GITHUB_USER_ROLES || '{}');
 const branch = env.CMS_BRANCH || 'main';
 const repo = 'mfgkoreaceo-ops/muggo-corporate-site';
-const sourceHead = env.CMS_SOURCE_COMMIT || env.RENDER_GIT_COMMIT || execFileSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).trim();
+const sourceHead = env.CMS_SOURCE_COMMIT || env.RENDER_GIT_COMMIT || env.VERCEL_GIT_COMMIT_SHA || (() => { try { return execFileSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).trim(); } catch { return '0'.repeat(40); } })();
 if (!/^[a-f0-9]{40}$/.test(sourceHead)) throw Error('A valid source commit is required');
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'application/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg' };
 function cookie(req, name) { return (req.headers.cookie || '').split('; ').find(v => v.startsWith(name + '='))?.slice(name.length + 1); }
