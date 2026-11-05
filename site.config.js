@@ -19,7 +19,7 @@ const SITE_CONFIG = {
   tiktokUrl: "https://www.tiktok.com/@muggo1",
   brandCount: 30,                // owner will confirm 30 or 32; changing this number updates every mention
   showKoreaHqBlock: true,        // owner decides later; one flag shows/hides the home "Kantor Pusat Korea (MUGGO Korea HQ)" block and any footer HQ link
-  languageSwitchVisible: false,  // hide ID/EN/KO switcher at launch; keep the i18n structure
+  languageSwitchVisible: true,   // show ID/EN/KO switcher in header while keeping Indonesian ("id") as default launch language
 
   // Additional optional placeholders & feature flags (hidden when empty/false per Section 1 & Section 3.6–3.8)
   defaultLanguage: "id",
