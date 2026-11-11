@@ -32,6 +32,13 @@
     } catch (e) {}
   })();
 
+
+  function orderEntry(cssClass = "btn btn-secondary") {
+    const l = lang();
+    const label = {id:"Pesan · Segera Hadir",en:"Order · Coming Soon",ko:"주문 · 준비 중"}[l] || "Pesan · Segera Hadir";
+    return `<a class="${cssClass}" href="https://order.muggo.co.id/?lang=${l}" onclick="event.stopPropagation()">${label} ↗</a>`;
+  }
+
   function cfg() {
     return window.SITE_CONFIG || {};
   }
@@ -775,6 +782,7 @@
 
           <nav class="desktop-nav" aria-label="${dict.nav.mainNavLabel || "Navigasi Utama"}">
             ${navButtonsHtml}
+          ${orderEntry("nav-btn")}
           </nav>
 
           <div class="header-tools">
@@ -792,6 +800,7 @@
 
         <nav id="mobile-drawer" class="mobile-drawer" aria-label="${dict.nav.mobileNavLabel || "Navigasi Seluler"}">
           ${navButtonsHtml}
+          ${orderEntry("nav-btn")}
         </nav>
       `;
     }
@@ -1221,7 +1230,7 @@
 
     let platformAppBtnHtml = "";
     if (c.deliveryAppMode === "coming_soon" || !c.deliveryAppUrl) {
-      platformAppBtnHtml = `<span class="btn btn-disabled" aria-disabled="true" onclick="event.stopPropagation(); return false;" style="pointer-events:auto; cursor:not-allowed; min-height:36px; padding:7px 12px; font-size:14px; margin-top:10px;">${dict.hero.appComingSoon}</span>`;
+      platformAppBtnHtml = orderEntry();
     } else if (c.deliveryAppMode === "active" && c.deliveryAppUrl) {
       platformAppBtnHtml = `<a href="${c.deliveryAppUrl}" target="_blank" rel="noopener" class="btn btn-secondary" style="min-height:36px; padding:7px 12px; font-size:14px; margin-top:10px;" onclick="event.stopPropagation()">${dict.hero.appDownload} ↗</a>`;
     }
@@ -1383,6 +1392,7 @@
           <h1>${headline}</h1>
           <p class="intro" style="margin-bottom:22px;">${subcopy}</p>
           <div style="display:flex; flex-wrap:wrap; gap:10px;">
+            ${orderEntry("btn btn-primary")}
             <button type="button" class="btn btn-primary" onclick="navigateTo('careers')">
               ${dict.hero.careerBtn}
             </button>
@@ -1724,7 +1734,7 @@
 
     let appAction = "";
     if (c.deliveryAppMode === "coming_soon" || !c.deliveryAppUrl) {
-      appAction = `<button type="button" class="btn btn-disabled" disabled aria-disabled="true">${heroDict.appComingSoon}</button>`;
+      appAction = orderEntry("btn btn-primary");
     } else if (c.deliveryAppMode === "active" && c.deliveryAppUrl) {
       appAction = `<a href="${c.deliveryAppUrl}" target="_blank" rel="noopener" class="btn btn-primary">${heroDict.appDownload} ↗</a>`;
     }
