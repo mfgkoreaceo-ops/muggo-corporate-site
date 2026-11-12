@@ -1709,9 +1709,7 @@
             .map(
               (g, idx) => `
             <article class="card" style="margin:0;">
-              <picture class="slot-frame ratio-4-3" style="margin-bottom:14px;">
-                <img src="${g.img || `assets/slots/genre-${idx + 1}-korean.jpg`}" width="800" height="600" loading="lazy" alt="${g.alt || g.title}" />
-              </picture>
+              ${cfg().showGenreImages ? `<picture class="slot-frame ratio-4-3" style="margin-bottom:14px;"><img src="${g.img || ["assets/slots/genre-1-korean.jpg","assets/slots/genre-2-chinese.jpg","assets/slots/genre-3-japanese.jpg","assets/slots/genre-4-indonesian.jpg","assets/slots/genre-5-western.jpg"][idx]}" width="800" height="600" loading="lazy" alt="${g.alt || g.title}" /></picture>` : ""}
               <h3>${g.title}</h3>
               <p class="hint" style="margin-top:8px;">${g.desc}</p>
             </article>
