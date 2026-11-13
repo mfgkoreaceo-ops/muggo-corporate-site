@@ -977,7 +977,7 @@
     if (art && art.image && /^assets\//.test(art.image)) {
       return art.image;
     }
-    return `assets/slots/news-${(idx % 3) + 1}.jpg`;
+    return `assets/slots/news-${(idx % 3) + 1}.jpg?v=5`;
   }
 
   function getArticleStatusBadgeText(art, dictArticles) {
@@ -1267,7 +1267,7 @@
                     </figure>
                     <figure class="hq-logo-card hq-logo-light">
                       <div class="hq-logo-img-wrap">
-                        <img src="assets/hq/logo-noya.jpg" alt="Logo noya Shabu Shabu - Brand Kuliner di Korea" loading="lazy" />
+                        <img src="assets/hq/logo-noya.jpg?v=5" alt="Logo noya Shabu Shabu - Brand Kuliner di Korea" loading="lazy" />
                       </div>
                       <figcaption>${p.caption2}</figcaption>
                     </figure>
@@ -1402,7 +1402,7 @@
           </div>
         </div>
         <div class="hero-visual">
-          <img src="assets/muggo-brand-hero.jpg" alt="${c.legalName} - ${c.brandName}" />
+          <img src="assets/muggo-brand-hero.jpg?v=5" alt="${c.legalName} - ${c.brandName}" />
         </div>
       </section>
 
@@ -1710,7 +1710,7 @@
               (g, idx) => `
             <article class="card" style="margin:0;">
               <picture class="slot-frame ratio-4-3" style="margin-bottom:14px;">
-                <img src="${g.img || `assets/slots/genre-${idx + 1}-korean.jpg`}" width="800" height="600" loading="lazy" alt="${g.alt || g.title}" />
+                <img src="${g.img || `assets/slots/genre-${idx + 1}-korean.jpg?v=5`}" width="800" height="600" loading="lazy" alt="${g.alt || g.title}" />
               </picture>
               <h3>${g.title}</h3>
               <p class="hint" style="margin-top:8px;">${g.desc}</p>
@@ -1774,7 +1774,7 @@
             </div>
           </div>
           <picture class="slot-frame ratio-4-5 platform-mockup-frame">
-            <img src="assets/slots/platform-app-mockup.jpg" width="1080" height="1350" loading="lazy" alt="Pratinjau tampilan layar aplikasi pemesanan dan keranjang gabungan MUGGO" />
+            <img src="assets/slots/platform-app-mockup.jpg?v=5" width="1080" height="1350" loading="lazy" alt="Pratinjau tampilan layar aplikasi pemesanan dan keranjang gabungan MUGGO" />
           </picture>
         </div>
       </section>
@@ -1796,7 +1796,7 @@
       </div>
 
       <picture class="slot-frame ratio-3-2" style="margin-bottom:20px;">
-        <img src="assets/slots/people-team-kitchen.jpg" width="1440" height="960" loading="lazy" alt="Suasana kerja tim dan kolaborasi operasional dapur terpusat di Jakarta Selatan" />
+        <img src="assets/slots/people-team-kitchen.jpg?v=5" width="1440" height="960" loading="lazy" alt="Suasana kerja tim dan kolaborasi operasional dapur terpusat di Jakarta Selatan" />
       </picture>
 
       <aside class="callout">
@@ -1864,9 +1864,9 @@
       ${renderIdentityVerificationCard(false, "careers")}
 
       <picture class="slot-frame careers-banner-slot">
-        <source media="(max-width: 767px)" srcset="assets/slots/careers-banner-mobile.jpg" width="1080" height="1350" />
-        <source media="(min-width: 768px)" srcset="assets/slots/careers-banner-desktop.jpg" width="1920" height="1080" />
-        <img src="assets/slots/careers-banner-desktop.jpg" width="1920" height="1080" loading="lazy" alt="Banner rekrutmen resmi 11 bidang posisi operasional dan manajemen di Jakarta Selatan" />
+        <source media="(max-width: 767px)" srcset="assets/slots/careers-banner-mobile.jpg?v=5" width="1080" height="1350" />
+        <source media="(min-width: 768px)" srcset="assets/slots/careers-banner-desktop.jpg?v=5" width="1920" height="1080" />
+        <img src="assets/slots/careers-banner-desktop.jpg?v=5" width="1920" height="1080" loading="lazy" alt="Banner rekrutmen resmi 11 bidang posisi operasional dan manajemen di Jakarta Selatan" />
       </picture>
 
       <section class="section-block">
@@ -1948,7 +1948,7 @@
             </a>
           </div>
           <picture class="slot-frame ratio-16-9">
-            <img src="assets/slots/contact-map.jpg" width="1200" height="675" loading="lazy" alt="Peta lokasi alamat terdaftar perusahaan di Jakarta Selatan" />
+            <img src="assets/slots/contact-map.jpg?v=5" width="1200" height="675" loading="lazy" alt="Peta lokasi alamat terdaftar perusahaan di Jakarta Selatan" />
           </picture>
         </div>
 

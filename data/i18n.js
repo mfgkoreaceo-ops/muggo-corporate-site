@@ -195,31 +195,31 @@ window.I18N_DICT = {
         {
           title: "1. Masakan Korea",
           desc: "Ayam nurungji (SOTDAK), ayam bakar arang (SEONGSU DAK), rice bowl, bibimbap, jjigae, sup sapi, gimbap & mandu.",
-          img: "assets/slots/genre-1-korean.jpg",
+          img: "assets/slots/genre-1-korean.jpg?v=5",
           alt: "Ilustrasi pengembangan menu masakan Korea di dapur R&D MUGGO"
         },
         {
           title: "2. Masakan Tiongkok & Mala Fusion",
           desc: "Rempah Mala Sichuan dengan tumis sapi, ayam, dan seafood (MIGAK).",
-          img: "assets/slots/genre-2-chinese.jpg",
+          img: "assets/slots/genre-2-chinese.jpg?v=5",
           alt: "Ilustrasi pengembangan menu masakan Tiongkok dan Mala Fusion"
         },
         {
           title: "3. Masakan Jepang & Bakery Artisan",
           desc: "Shio Pan roti garam mentega Prancis (SALT ROOM), gorengan renyah & saus Jepang.",
-          img: "assets/slots/genre-3-japanese.jpg",
+          img: "assets/slots/genre-3-japanese.jpg?v=5",
           alt: "Ilustrasi pengembangan menu masakan Jepang dan bakery Shio Pan"
         },
         {
           title: "4. Cita Rasa Lokal Indonesia",
           desc: "Kopi & minuman buah tropis (NASI BOSS), sambal lokal & bahan segar Nusantara.",
-          img: "assets/slots/genre-4-indonesian.jpg",
+          img: "assets/slots/genre-4-indonesian.jpg?v=5",
           alt: "Ilustrasi pengembangan menu dan minuman cita rasa lokal Indonesia"
         },
         {
           title: "5. Masakan Barat & Deli Eropa",
           desc: "Sandwich (PANTRY 12), burger sapi (SMOKY SALOON & BURNOUT), pizza (WOOD&BRICK), kebab (KEBAVA) & salad.",
-          img: "assets/slots/genre-5-western.jpg",
+          img: "assets/slots/genre-5-western.jpg?v=5",
           alt: "Ilustrasi pengembangan menu burger, pizza, dan sandwich Barat"
         }
       ]
@@ -550,31 +550,31 @@ window.I18N_DICT = {
         {
           title: "1. Korean Cuisine",
           desc: "Nurungji chicken (SOTDAK), charcoal BBQ chicken (SEONGSU DAK), rice bowls, bibimbap, stews, beef soups, gimbap & dumplings.",
-          img: "assets/slots/genre-1-korean.jpg",
+          img: "assets/slots/genre-1-korean.jpg?v=5",
           alt: "Illustration of Korean menu development in the MUGGO R&D kitchen"
         },
         {
           title: "2. Chinese & Mala Fusion",
           desc: "Sichuan Mala spices paired with beef, chicken & seafood stir-fry (MIGAK).",
-          img: "assets/slots/genre-2-chinese.jpg",
+          img: "assets/slots/genre-2-chinese.jpg?v=5",
           alt: "Illustration of Chinese and Mala Fusion menu development"
         },
         {
           title: "3. Japanese & Artisan Bakery",
           desc: "French-butter Shio Pan (SALT ROOM), crispy frying & house sauces.",
-          img: "assets/slots/genre-3-japanese.jpg",
+          img: "assets/slots/genre-3-japanese.jpg?v=5",
           alt: "Illustration of Japanese menu and Shio Pan bakery development"
         },
         {
           title: "4. Indonesian Local Flavors",
           desc: "Specialty coffee & tropical fruit drinks (NASI BOSS), local sambal & Nusantara produce.",
-          img: "assets/slots/genre-4-indonesian.jpg",
+          img: "assets/slots/genre-4-indonesian.jpg?v=5",
           alt: "Illustration of local Indonesian menu and beverage development"
         },
         {
           title: "5. Western & European Deli",
           desc: "Sandwiches (PANTRY 12), beef burgers (SMOKY SALOON & BURNOUT), pizza (WOOD&BRICK), kebabs (KEBAVA) & salads.",
-          img: "assets/slots/genre-5-western.jpg",
+          img: "assets/slots/genre-5-western.jpg?v=5",
           alt: "Illustration of Western burger, pizza and sandwich menu development"
         }
       ]
@@ -896,31 +896,31 @@ window.I18N_DICT = {
         {
           title: "1. 한식 (Korean Cuisine)",
           desc: "누룽지 통닭(솥닭), 숯불 치킨(성수닭), 덮밥, 비빔밥, 소고기 탕·찌개, 김밥, 만두",
-          img: "assets/slots/genre-1-korean.jpg",
+          img: "assets/slots/genre-1-korean.jpg?v=5",
           alt: "MUGGO R&D 주방의 한식 메뉴 개발 이미지"
         },
         {
           title: "2. 중식 및 마라 퓨전 (Chinese & Mala)",
           desc: "사천 마라 풍미를 소고기·닭고기·해산물에 접목한 중화 요리(미각)",
-          img: "assets/slots/genre-2-chinese.jpg",
+          img: "assets/slots/genre-2-chinese.jpg?v=5",
           alt: "중식 및 마라 퓨전 메뉴 개발 이미지"
         },
         {
           title: "3. 일식 및 아티산 베이커리 (Japanese)",
           desc: "프랑스산 버터 소금빵(솔트룸) 및 바삭한 튀김·특제 소스",
-          img: "assets/slots/genre-3-japanese.jpg",
+          img: "assets/slots/genre-3-japanese.jpg?v=5",
           alt: "일식 및 시오빵 베이커리 개발 이미지"
         },
         {
           title: "4. 인도네시아 현지화 메뉴 (Indonesian)",
           desc: "스페셜티 커피·열대과일 음료(나씨보스), 현지 삼발 및 로컬 식자재",
-          img: "assets/slots/genre-4-indonesian.jpg",
+          img: "assets/slots/genre-4-indonesian.jpg?v=5",
           alt: "인도네시아 현지 메뉴와 음료 개발 이미지"
         },
         {
           title: "5. 양식 및 유러피안 델리 (Western)",
           desc: "샌드위치(펜트리12), 비프 버거(스모키살루온·번아웃), 피자(우드앤브릭), 케밥(케바바), 포케",
-          img: "assets/slots/genre-5-western.jpg",
+          img: "assets/slots/genre-5-western.jpg?v=5",
           alt: "서양식 버거·피자·샌드위치 메뉴 개발 이미지"
         }
       ]
