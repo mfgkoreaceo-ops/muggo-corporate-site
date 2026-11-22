@@ -39,6 +39,8 @@
     loaded = true;
     window["ga-disable-" + id] = false;
     window.dataLayer = window.dataLayer || [];
+    // Apply before Google initializes destinations, including remotely configured tags.
+    gtag("set", { send_page_view: false, page_location: pageUrl(), page_referrer: safeReferrer() });
     gtag("consent", "default", { analytics_storage: "denied", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
     gtag("consent", "update", { analytics_storage: "granted" });
     gtag("js", new Date());
