@@ -1,0 +1,11 @@
+.analytics-consent { position: fixed; z-index: 1000; inset: auto 16px 16px; max-width: 760px; margin: auto; padding: 20px; border: 1px solid var(--portal-line, #cbd5e1); border-radius: 16px; background: var(--ui-surface, #fff); color: var(--ui-text, #17232a); box-shadow: 0 8px 32px #0003; max-height: 70vh; overflow: auto; font-size: 1rem; }
+.analytics-consent[hidden] { display: none; }
+.analytics-consent h2 { font-size: 1.125rem; margin: 0 0 8px; }
+.analytics-consent p { margin: 0 0 16px; line-height: 1.6; }
+.analytics-consent-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.analytics-consent button { font: inherit; padding: 10px 16px; border: 1px solid #166858; border-radius: 8px; background: #fff; color: #124c42; cursor: pointer; }
+.analytics-consent button:focus-visible { outline: 3px solid #148575; outline-offset: 3px; }
+.analytics-consent a { color: inherit; text-decoration: underline; }
+#analytics-settings { margin: 12px 0; }
+#analytics-disclosure { margin-top: 16px; }
+[data-theme="dark"] .analytics-consent { background: #14211f; color: #f1f7f5; }

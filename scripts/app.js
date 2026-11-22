@@ -455,6 +455,7 @@
 
   window.setSiteLang = function (newLang) {
     if (!["id", "en", "ko"].includes(newLang)) return;
+    if (newLang !== lang() && window.MuggoAnalytics) window.MuggoAnalytics.language(newLang);
     if (window.SITE_CONFIG) window.SITE_CONFIG.languageSwitchVisible = true;
     state.currentLang = newLang;
     document.documentElement.lang = newLang;
@@ -2223,6 +2224,7 @@
   function renderAll() {
     renderChrome();
     renderMain();
+    if (window.MuggoAnalytics) window.MuggoAnalytics.page(currentRoute, lang());
   }
 
   window.renderAll = renderAll;

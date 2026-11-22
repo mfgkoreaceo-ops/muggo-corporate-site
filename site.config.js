@@ -5,6 +5,7 @@
 // ==========================================================================
 
 const SITE_CONFIG = {
+  ga4MeasurementId: "G-2D6S7WSZ03", // GA4 standard web stream; empty disables analytics and consent UI.
   legalName: "PT BARA SUSTAINABLE INDONESIA",
   brandName: "MUGGO",
   address: "Jl. Gatot Subroto No. Kav. 71-73, Menteng Dalam, Kec. Tebet, Jakarta Selatan 12870",
